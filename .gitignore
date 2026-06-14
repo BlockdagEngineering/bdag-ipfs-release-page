@@ -1,0 +1,4 @@
+*.zip
+*.zip.sha256
+publish-root/
+.DS_Store

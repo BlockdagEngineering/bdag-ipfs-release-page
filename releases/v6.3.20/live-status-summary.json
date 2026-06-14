@@ -1,0 +1,24 @@
+{
+  "captured_at": "2026-06-14T10:13:28+0000",
+  "overall": "ok",
+  "mode": "mining",
+  "can_mine": true,
+  "can_accept_shares": true,
+  "can_submit_blocks": true,
+  "sync_status": "synced",
+  "sync_percent": 100.0,
+  "sync_remaining_blocks": 0,
+  "chain_main_height": 8697024,
+  "highest_block": 11267264,
+  "connected_miners": 2,
+  "managed_miners": 2,
+  "managed_ok": 2,
+  "pool_endpoint": "192.168.1.102:3334",
+  "pool_port": "3334",
+  "warnings": [
+    "pool efficiency loss ledger: template conversion loss is 20.00% with 2 active miner lanes"
+  ],
+  "degraded_reasons": [
+    "pool efficiency loss ledger: template conversion loss is 20.00% with 2 active miner lanes"
+  ]
+}

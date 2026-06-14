@@ -1,0 +1,137 @@
+{
+  "generated_at": "2026-06-14T09:57:31Z",
+  "source_host": "pi5-jeremy",
+  "probe_timeout_seconds": 3,
+  "peers": [
+    {
+      "multiaddr": "/ip4/102.182.77.21/tcp/8151/p2p/16Uiu2HAm2uPLqM1dfd3ddbzg3FDAmvuvyo3vbBSXpVHurqAsUxWQ",
+      "ip": "102.182.77.21",
+      "tcp": 8151,
+      "peer_id": "16Uiu2HAm2uPLqM1dfd3ddbzg3FDAmvuvyo3vbBSXpVHurqAsUxWQ",
+      "tier": "recommended",
+      "tcp_open": true,
+      "probe_ms": 8,
+      "error": ""
+    },
+    {
+      "multiaddr": "/ip4/16.28.133.168/tcp/8150/p2p/16Uiu2HAm9UcTayJDSajjJYsWwVaN2qqGeczcs9kXse3dMdvGDRjz",
+      "ip": "16.28.133.168",
+      "tcp": 8150,
+      "peer_id": "16Uiu2HAm9UcTayJDSajjJYsWwVaN2qqGeczcs9kXse3dMdvGDRjz",
+      "tier": "recommended",
+      "tcp_open": true,
+      "probe_ms": 2,
+      "error": ""
+    },
+    {
+      "multiaddr": "/ip4/121.91.173.235/tcp/8150/p2p/16Uiu2HAkvH1U2kQqQFh6fSVQPGgABaKNHRMT7DceGe6kRtYr6ndY",
+      "ip": "121.91.173.235",
+      "tcp": 8150,
+      "peer_id": "16Uiu2HAkvH1U2kQqQFh6fSVQPGgABaKNHRMT7DceGe6kRtYr6ndY",
+      "tier": "recommended",
+      "tcp_open": true,
+      "probe_ms": 330,
+      "error": ""
+    },
+    {
+      "multiaddr": "/ip4/13.57.132.47/tcp/8150/p2p/16Uiu2HAmDynYpWjWmgVGf9qVWvDdLnJ3ybVgDmFexizR4zMereus",
+      "ip": "13.57.132.47",
+      "tcp": 8150,
+      "peer_id": "16Uiu2HAmDynYpWjWmgVGf9qVWvDdLnJ3ybVgDmFexizR4zMereus",
+      "tier": "recommended",
+      "tcp_open": true,
+      "probe_ms": 285,
+      "error": ""
+    },
+    {
+      "multiaddr": "/ip4/3.218.54.171/tcp/8150/p2p/16Uiu2HAmUZBdpuutiLPuru1UQnX8hf6GyvG7yU2B832sYjvNhmQG",
+      "ip": "3.218.54.171",
+      "tcp": 8150,
+      "peer_id": "16Uiu2HAmUZBdpuutiLPuru1UQnX8hf6GyvG7yU2B832sYjvNhmQG",
+      "tier": "recommended",
+      "tcp_open": true,
+      "probe_ms": 217,
+      "error": ""
+    },
+    {
+      "multiaddr": "/ip4/102.182.77.16/tcp/8152/p2p/16Uiu2HAm99a8KYuUkL5LGEQbpRNhz5nzScrwYpEh47BfSaVMCg5G",
+      "ip": "102.182.77.16",
+      "tcp": 8152,
+      "peer_id": "16Uiu2HAm99a8KYuUkL5LGEQbpRNhz5nzScrwYpEh47BfSaVMCg5G",
+      "tier": "recommended",
+      "tcp_open": true,
+      "probe_ms": 4,
+      "error": ""
+    },
+    {
+      "multiaddr": "/ip4/63.182.36.180/tcp/8150/p2p/16Uiu2HAmP8HsTF9ks8JjFamzT9JBZb3ymSiCJ8rkzXBZqYj4yKtP",
+      "ip": "63.182.36.180",
+      "tcp": 8150,
+      "peer_id": "16Uiu2HAmP8HsTF9ks8JjFamzT9JBZb3ymSiCJ8rkzXBZqYj4yKtP",
+      "tier": "recommended",
+      "tcp_open": true,
+      "probe_ms": 151,
+      "error": ""
+    },
+    {
+      "multiaddr": "/ip4/52.8.54.60/tcp/8150/p2p/16Uiu2HAkzUWr4YUM7mAhLdCVZgFoV9He6aQzKTyWWrJ7SWQKRTN7",
+      "ip": "52.8.54.60",
+      "tcp": 8150,
+      "peer_id": "16Uiu2HAkzUWr4YUM7mAhLdCVZgFoV9He6aQzKTyWWrJ7SWQKRTN7",
+      "tier": "recommended",
+      "tcp_open": true,
+      "probe_ms": 293,
+      "error": ""
+    },
+    {
+      "multiaddr": "/ip4/204.236.141.121/tcp/8150/p2p/16Uiu2HAm5qppgbBCjVpTN5nKtjEU5KsSbs2gz4S9uPiSWVSGfNh1",
+      "ip": "204.236.141.121",
+      "tcp": 8150,
+      "peer_id": "16Uiu2HAm5qppgbBCjVpTN5nKtjEU5KsSbs2gz4S9uPiSWVSGfNh1",
+      "tier": "extended",
+      "tcp_open": true,
+      "probe_ms": 286,
+      "error": ""
+    },
+    {
+      "multiaddr": "/ip4/54.151.18.92/tcp/8150/p2p/16Uiu2HAmVm91o1JXS2C7P6uTVuVX5empgnRtzuK4UaC8fHmePbKP",
+      "ip": "54.151.18.92",
+      "tcp": 8150,
+      "peer_id": "16Uiu2HAmVm91o1JXS2C7P6uTVuVX5empgnRtzuK4UaC8fHmePbKP",
+      "tier": "extended",
+      "tcp_open": true,
+      "probe_ms": 278,
+      "error": ""
+    },
+    {
+      "multiaddr": "/ip4/18.142.70.83/tcp/8150/p2p/16Uiu2HAmBSdn2taoteYwLZJZkDm2iCwL6eQ4UaXYNBBtAwaBU18X",
+      "ip": "18.142.70.83",
+      "tcp": 8150,
+      "peer_id": "16Uiu2HAmBSdn2taoteYwLZJZkDm2iCwL6eQ4UaXYNBBtAwaBU18X",
+      "tier": "extended",
+      "tcp_open": true,
+      "probe_ms": 366,
+      "error": ""
+    },
+    {
+      "multiaddr": "/ip4/54.214.229.250/tcp/8154/p2p/16Uiu2HAm1vZgJXKhUfWWC7nz9wzNpUDiYAid7zCZSKb1hhU7QBNB",
+      "ip": "54.214.229.250",
+      "tcp": 8154,
+      "peer_id": "16Uiu2HAm1vZgJXKhUfWWC7nz9wzNpUDiYAid7zCZSKb1hhU7QBNB",
+      "tier": "extended",
+      "tcp_open": true,
+      "probe_ms": 536,
+      "error": ""
+    },
+    {
+      "multiaddr": "/ip4/16.28.133.168/tcp/8150/p2p/16Uiu2HAkvWqB4Hw3qVwNU8MuBqLeAvRWzMhfLsQ5LDQbZdR9hUSK",
+      "ip": "16.28.133.168",
+      "tcp": 8150,
+      "peer_id": "16Uiu2HAkvWqB4Hw3qVwNU8MuBqLeAvRWzMhfLsQ5LDQbZdR9hUSK",
+      "tier": "verify-before-canonical",
+      "tcp_open": true,
+      "probe_ms": 2,
+      "error": ""
+    }
+  ]
+}
