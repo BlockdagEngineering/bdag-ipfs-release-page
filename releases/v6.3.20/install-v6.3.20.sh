@@ -3,11 +3,11 @@ set -eu
 
 VERSION="v6.3.20"
 ARM64_NAME="pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64"
-ARM64_CID="bafybeif4zj4nyz7ykag3ttohkq3sirmo4ceacyz6whbpvc56ui6jhwt4uy"
-ARM64_SHA256="287e78efe1ad4b718186b8745d57cfb223c25f29abc96469a10f544fcebe78f2"
+ARM64_CID="bafybeieyrnaw7regerrt3z4x3hrgwb5tp34iehfuvv2pbvn5kuxo6u6244"
+ARM64_SHA256="3c9313586ddec179214983a41a1f8621e48f20a0ff6c1326890247c82254bdde"
 AMD64_NAME="pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-amd64"
-AMD64_CID="bafybeiafmnd5admxhhwdg6qjkhrpzwsc5lkvnr2mu7c45p3reqov5thkim"
-AMD64_SHA256="b3ebac71da5e3019339d3a93d163cbb5965e1adad628631a5173d851f77320ce"
+AMD64_CID="bafybeiga7llbde6jh2pzfdp2pvg3woqqxzy4aetmdijigaop67tu5ycffi"
+AMD64_SHA256="11363f5e91cea12a541ad39ee8df5fd02b7e479d60e7c1203b1d5c9803b4b553"
 GATEWAYS="${BDAG_IPFS_GATEWAYS:-https://ipfs.io https://dweb.link https://gateway.pinata.cloud http://127.0.0.1:8081}"
 
 need() {

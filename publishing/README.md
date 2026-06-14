@@ -30,6 +30,6 @@ Do not use DNSLink or a registered domain as the canonical release pointer. The 
 
 Current payload CIDs:
 
-- linux-arm64: `bafybeif4zj4nyz7ykag3ttohkq3sirmo4ceacyz6whbpvc56ui6jhwt4uy`
-- linux-amd64: `bafybeiafmnd5admxhhwdg6qjkhrpzwsc5lkvnr2mu7c45p3reqov5thkim`
-- bootstrap: `bafkreidvo6thfpmzxgm7rvzr3cyrywuhyczt7chzqdcbnwhbcl5spynu34`
+- linux-arm64: `bafybeieyrnaw7regerrt3z4x3hrgwb5tp34iehfuvv2pbvn5kuxo6u6244`
+- linux-amd64: `bafybeiga7llbde6jh2pzfdp2pvg3woqqxzy4aetmdijigaop67tu5ycffi`
+- bootstrap: `bafkreigtyo4a37blqw5wqeryzaxs547u7zar3o7b2jophzqw627hewypva`

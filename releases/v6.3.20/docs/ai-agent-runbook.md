@@ -21,7 +21,7 @@ Treat the IPNS name as the canonical mutable release pointer. Treat all payloads
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl unzip zstd tar python3 iproute2 arp-scan nmap
 mkdir -p ~/bdag-v6.3.20 && cd ~/bdag-v6.3.20
-curl -fL https://ipfs.io/ipfs/bafkreidvo6thfpmzxgm7rvzr3cyrywuhyczt7chzqdcbnwhbcl5spynu34 -o install-v6.3.20.sh
+curl -fL https://ipfs.io/ipfs/bafkreigtyo4a37blqw5wqeryzaxs547u7zar3o7b2jophzqw627hewypva -o install-v6.3.20.sh
 chmod +x install-v6.3.20.sh
 ./install-v6.3.20.sh
 cd pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')

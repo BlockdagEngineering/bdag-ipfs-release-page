@@ -1,24 +1,26 @@
 {
-  "captured_at": "2026-06-14T10:13:28+0000",
-  "overall": "ok",
-  "mode": "mining",
-  "can_mine": true,
+  "block_submit_success_count": 9,
   "can_accept_shares": true,
+  "can_mine": true,
   "can_submit_blocks": true,
-  "sync_status": "synced",
-  "sync_percent": 100.0,
-  "sync_remaining_blocks": 0,
-  "chain_main_height": 8697024,
-  "highest_block": 11267264,
+  "captured_at": "2026-06-14T18:26:56+0000",
+  "chain_main_height": 8726573,
   "connected_miners": 2,
+  "degraded_reasons": [],
+  "highest_block": 11312629,
+  "last_block_submit_age_seconds": 3,
+  "loss_ratio_percent": 19.91,
+  "main_order": 11312628,
   "managed_miners": 2,
   "managed_ok": 2,
+  "mode": "mining",
+  "overall": "ok",
+  "p2p_consensus_peer_count": 14,
+  "p2p_fresh_consensus_peer_count": 12,
   "pool_endpoint": "192.168.1.102:3334",
   "pool_port": "3334",
-  "warnings": [
-    "pool efficiency loss ledger: template conversion loss is 20.00% with 2 active miner lanes"
-  ],
-  "degraded_reasons": [
-    "pool efficiency loss ledger: template conversion loss is 20.00% with 2 active miner lanes"
-  ]
+  "sync_percent": 100.0,
+  "sync_remaining_blocks": 0,
+  "sync_status": "synced",
+  "warnings": []
 }
