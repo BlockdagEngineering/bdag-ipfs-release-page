@@ -1,35 +1,53 @@
 {
   "name": "BDAG Community Pool Stack",
   "version": "v6.3.20",
-  "release": "pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64",
-  "published_at": "2026-06-14T12:13:00+02:00",
-  "target": "linux-arm64",
-  "architecture": "arm64/aarch64",
-  "zip": {
-    "file": "pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip",
-    "cid": "bafybeigpe7s3yd4vk6u6fba56stusoxqalob6oi2rm5tbbpc5aqzu7mn2i",
-    "sha256": "ecbf300959402815f8c3dd1d5334af927385766dae5c527ec202040e2a49f39c",
-    "size_bytes": 74689639,
-    "gateway": "https://ipfs.io/ipfs/bafybeigpe7s3yd4vk6u6fba56stusoxqalob6oi2rm5tbbpc5aqzu7mn2i"
-  },
-  "checksum": {
-    "file": "pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip.sha256",
-    "cid": "bafkreifcyzfcs7snkdngormhz6sl7wx26dxqe2wg7pi4qledexkyltx6tq",
-    "gateway": "https://ipfs.io/ipfs/bafkreifcyzfcs7snkdngormhz6sl7wx26dxqe2wg7pi4qledexkyltx6tq"
+  "published_at": "2026-06-14T14:55:00+02:00",
+  "branch": "jeremy-dev-release",
+  "targets": [
+    "linux-arm64",
+    "linux-amd64"
+  ],
+  "payloads": {
+    "linux-arm64": {
+      "arch_label": "ARM64 / aarch64",
+      "host_match": "aarch64 or arm64",
+      "file": "pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip",
+      "cid": "bafybeif4zj4nyz7ykag3ttohkq3sirmo4ceacyz6whbpvc56ui6jhwt4uy",
+      "sha256": "287e78efe1ad4b718186b8745d57cfb223c25f29abc96469a10f544fcebe78f2",
+      "sha_cid": "bafkreif3rmgjpkyk2djalnzxkwrngeak3iqsubx7o5oqpluhrydretmr6y",
+      "size_bytes": 74689965,
+      "size_label": "72 MB",
+      "gateway": "https://ipfs.io/ipfs/bafybeif4zj4nyz7ykag3ttohkq3sirmo4ceacyz6whbpvc56ui6jhwt4uy",
+      "checksum_gateway": "https://ipfs.io/ipfs/bafkreif3rmgjpkyk2djalnzxkwrngeak3iqsubx7o5oqpluhrydretmr6y"
+    },
+    "linux-amd64": {
+      "arch_label": "AMD64 / x86_64",
+      "host_match": "x86_64 or amd64",
+      "file": "pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-amd64.zip",
+      "cid": "bafybeiafmnd5admxhhwdg6qjkhrpzwsc5lkvnr2mu7c45p3reqov5thkim",
+      "sha256": "b3ebac71da5e3019339d3a93d163cbb5965e1adad628631a5173d851f77320ce",
+      "sha_cid": "bafkreibzqddx7udui6j3prefutsclxwjstq54jahfybmnuir63rcn75hua",
+      "size_bytes": 81383118,
+      "size_label": "78 MB",
+      "gateway": "https://ipfs.io/ipfs/bafybeiafmnd5admxhhwdg6qjkhrpzwsc5lkvnr2mu7c45p3reqov5thkim",
+      "checksum_gateway": "https://ipfs.io/ipfs/bafkreibzqddx7udui6j3prefutsclxwjstq54jahfybmnuir63rcn75hua"
+    }
   },
   "bootstrap": {
     "file": "install-v6.3.20.sh",
-    "cid": "bafkreihatnjexyshvvbv44vvbuoyusu6nrbivtzdypivuxlungowtpyroa",
-    "gateway": "https://ipfs.io/ipfs/bafkreihatnjexyshvvbv44vvbuoyusu6nrbivtzdypivuxlungowtpyroa"
+    "cid": "bafkreidvo6thfpmzxgm7rvzr3cyrywuhyczt7chzqdcbnwhbcl5spynu34",
+    "gateway": "https://ipfs.io/ipfs/bafkreidvo6thfpmzxgm7rvzr3cyrywuhyczt7chzqdcbnwhbcl5spynu34",
+    "behavior": "detects host architecture, downloads matching payload, verifies SHA256, extracts, then stops so chain data can be restored before install"
   },
   "chain_data": {
     "ipns": "k51qzi5uqu5dky5euzcduak3t08egbx2duts9z3y0jfq4e6iavjld43ojkk1bi",
-    "resolved_root_cid": "bafybeidyu6r3ylrd6rnliggtauocfepuqnsd3g3qzpdbz4sfcpr43qw3xm",
-    "latest_json_cid": "bafkreihsxroiysvfb2dhbjq3dggqiorqil22r6vryywuo3plh3hp6uubnm",
+    "root": "bafybeidyu6r3ylrd6rnliggtauocfepuqnsd3g3qzpdbz4sfcpr43qw3xm",
+    "latest_json": "bafkreihsxroiysvfb2dhbjq3dggqiorqil22r6vryywuo3plh3hp6uubnm",
     "archive": "blockdag-mainnet-20260614-100022Z.tar.zst",
     "archive_cid": "bafybeieyhcnszf7ksylee5dsdktkdgm5q45fiuaqjrqxmfsbksafs3crny",
     "sha256": "074d1cba6ae7ad3384157befe9527e38daa048348fdd6e3a22d05024e5e8d8b5",
     "size_bytes": 9521312599,
+    "size_label": "9.52 GB",
     "created_at": "2026-06-14T10:05:46Z",
     "block_progress": "11,266,057 of 11,358,981 at snapshot creation"
   },
@@ -74,5 +92,11 @@
   "verify_before_canonical_peers": [
     "/ip4/16.28.133.168/tcp/8150/p2p/16Uiu2HAkvWqB4Hw3qVwNU8MuBqLeAvRWzMhfLsQ5LDQbZdR9hUSK"
   ],
-  "trust_note": "TCP-open peer probes prove reachability only. Nodes must still perform BlockDAG P2P handshakes and validate chain data through consensus."
+  "trust_note": "TCP-open peer probes prove reachability only. Nodes must still perform BlockDAG P2P handshakes and validate chain data through consensus.",
+  "feedback_addressed": [
+    "Added linux-amd64 payload",
+    "Bootstrap checks architecture before download",
+    "Installer rejects host/payload mismatches unless BDAG_ALLOW_CROSS_ARCH_PAYLOAD=1",
+    "Removed sync-only install shortcut; restore-first Intermediate flow is now the default"
+  ]
 }

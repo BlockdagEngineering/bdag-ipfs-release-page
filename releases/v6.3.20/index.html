@@ -1,78 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BDAG Community Pool Stack v6.3.20</title>
-<style>
-:root {
-  color-scheme: dark;
-  --bg:#07110f; --panel:#0d1916; --panel-2:#101f1c; --line:#20352f;
-  --text:#edf6f0; --muted:#9fb5ad; --green:#a3ff12; --green-2:#4bd37b;
-  --gold:#f4c95d; --cyan:#6ec8ff; --red:#ff6b6b; --ink:#050807;
-}
-* { box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body { margin:0; background:var(--bg); color:var(--text); font:15px/1.58 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-a { color:var(--green); text-decoration:none; } a:hover { text-decoration:underline; }
-code, pre { font-family:"SFMono-Regular", Consolas, "Liberation Mono", monospace; }
-pre { background:#06100e; border:1px solid var(--line); border-radius:8px; padding:16px; overflow:auto; color:#dfffea; }
-code { color:#dfffea; }
-.page { min-height:100vh; }
-.topbar { position:sticky; top:0; z-index:20; background:rgba(7,17,15,.94); border-bottom:1px solid var(--line); backdrop-filter:blur(14px); }
-.nav { max-width:1180px; margin:0 auto; padding:12px 20px; display:flex; align-items:center; gap:18px; }
-.logo { display:flex; align-items:center; gap:12px; min-width:240px; }
-.logo svg { width:150px; max-height:38px; display:block; }
-.navlinks { display:flex; gap:12px; flex-wrap:wrap; margin-left:auto; }
-.navlinks a { color:var(--muted); font-size:13px; }
-.hero { border-bottom:1px solid var(--line); background:linear-gradient(180deg,#0a1714 0%,#07110f 100%); }
-.hero-inner { max-width:1180px; margin:0 auto; padding:54px 20px 36px; display:grid; grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr); gap:28px; align-items:start; }
-.eyebrow { color:var(--green); text-transform:uppercase; font-weight:800; letter-spacing:.08em; font-size:12px; }
-h1 { margin:10px 0 14px; font-size:clamp(34px,5vw,64px); line-height:1.02; letter-spacing:0; }
-.lede { color:#cfe0d8; max-width:820px; font-size:18px; }
-.actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
-.btn { display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:10px 14px; border-radius:8px; border:1px solid var(--line); background:#13231f; color:var(--text); font-weight:750; }
-.btn.primary { background:var(--green); color:var(--ink); border-color:var(--green); }
-.btn.warn { background:#241d0b; color:#ffe5a3; border-color:#5d4b1d; }
-.side { border:1px solid var(--line); border-radius:8px; background:var(--panel); padding:18px; }
-.metric-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-.metric { border:1px solid var(--line); border-radius:8px; padding:12px; background:#0a1512; min-width:0; }
-.metric strong { display:block; font-size:22px; color:var(--green); overflow-wrap:anywhere; }
-.metric span { color:var(--muted); font-size:12px; }
-main { max-width:1180px; margin:0 auto; padding:30px 20px 70px; }
-section { margin:0 0 34px; scroll-margin-top:82px; }
-h2 { font-size:26px; margin:0 0 14px; letter-spacing:0; }
-h3 { font-size:19px; margin:24px 0 10px; }
-p { margin:0 0 12px; }
-.grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
-.two { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-.card { border:1px solid var(--line); border-radius:8px; background:var(--panel); padding:18px; }
-.card h3 { margin-top:0; }
-.notice { border-left:4px solid var(--green); background:#0c1914; padding:14px 16px; border-radius:8px; }
-.notice.warn { border-left-color:var(--gold); }
-.notice.danger { border-left-color:var(--red); }
-.flow-tabs { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 16px; }
-.tab { border:1px solid var(--line); background:#0b1714; color:var(--text); padding:9px 12px; border-radius:8px; cursor:pointer; font-weight:750; }
-.tab.active { background:var(--green); color:var(--ink); border-color:var(--green); }
-.flow { display:none; } .flow.active { display:block; }
-.copy-row { position:relative; }
-.copy { position:absolute; top:8px; right:8px; border:1px solid var(--line); border-radius:7px; background:#14231f; color:var(--text); padding:6px 9px; cursor:pointer; font-size:12px; }
-table { width:100%; border-collapse:collapse; border:1px solid var(--line); border-radius:8px; overflow:hidden; display:table; }
-th, td { border-bottom:1px solid var(--line); padding:9px 10px; text-align:left; vertical-align:top; }
-th { color:#cde9db; background:#10201c; font-size:12px; text-transform:uppercase; letter-spacing:.06em; }
-td { color:#dbeae2; }
-.pill { display:inline-flex; align-items:center; border-radius:999px; padding:3px 8px; font-size:12px; background:#172620; color:#cfe0d8; border:1px solid var(--line); white-space:nowrap; }
-.pill.recommended { color:#0a130d; background:var(--green); border-color:var(--green); } .pill.extended { color:#061019; background:var(--cyan); border-color:var(--cyan); } .pill.verify-before-canonical { color:#211400; background:var(--gold); border-color:var(--gold); }
-details { border:1px solid var(--line); border-radius:8px; background:var(--panel); padding:12px 14px; margin:10px 0; }
-summary { cursor:pointer; font-weight:800; color:#eef8f1; }
-ul, ol { margin-top:8px; padding-left:22px; }
-.footer { color:var(--muted); border-top:1px solid var(--line); padding-top:18px; }
-@media (max-width:900px) { .hero-inner, .grid, .two { grid-template-columns:1fr; } .nav { align-items:flex-start; flex-direction:column; } .navlinks { margin-left:0; } .metric-grid { grid-template-columns:1fr; } }
-</style>
-</head>
-<body>
-<div class="page">
-<header class="topbar"><nav class="nav"><div class="logo"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BDAG Community Pool Stack v6.3.20</title><style>
+:root{color-scheme:dark;--bg:#07110f;--panel:#0d1916;--line:#20352f;--text:#edf6f0;--muted:#9fb5ad;--green:#a3ff12;--cyan:#6ec8ff;--gold:#f4c95d;--red:#ff6b6b;--ink:#050807}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.58 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--green);text-decoration:none}a:hover{text-decoration:underline}code,pre{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}pre{background:#06100e;border:1px solid var(--line);border-radius:8px;padding:16px;overflow:auto;color:#dfffea}code{color:#dfffea}.topbar{position:sticky;top:0;z-index:20;background:rgba(7,17,15,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}.nav{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:18px}.logo{display:flex;align-items:center;gap:12px;min-width:240px}.logo svg{width:150px;max-height:38px;display:block}.navlinks{display:flex;gap:12px;flex-wrap:wrap;margin-left:auto}.navlinks a{color:var(--muted);font-size:13px}.hero{border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0a1714 0%,#07110f 100%)}.hero-inner{max-width:1180px;margin:0 auto;padding:54px 20px 36px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr);gap:28px;align-items:start}.eyebrow{color:var(--green);text-transform:uppercase;font-weight:800;letter-spacing:.08em;font-size:12px}h1{margin:10px 0 14px;font-size:clamp(34px,5vw,64px);line-height:1.02;letter-spacing:0}.lede{color:#cfe0d8;max-width:820px;font-size:18px}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border-radius:8px;border:1px solid var(--line);background:#13231f;color:var(--text);font-weight:750}.btn.primary{background:var(--green);color:var(--ink);border-color:var(--green)}.btn.warn{background:#241d0b;color:#ffe5a3;border-color:#5d4b1d}main{max-width:1180px;margin:0 auto;padding:30px 20px 70px}section{margin:0 0 34px;scroll-margin-top:82px}h2{font-size:26px;margin:0 0 14px;letter-spacing:0}h3{font-size:19px;margin:24px 0 10px}p{margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card,.side,details{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:18px}.card h3{margin-top:0}.notice{border-left:4px solid var(--green);background:#0c1914;padding:14px 16px;border-radius:8px}.notice.warn{border-left-color:var(--gold)}.notice.danger{border-left-color:var(--red)}.metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{border:1px solid var(--line);border-radius:8px;padding:12px;background:#0a1512;min-width:0}.metric strong{display:block;font-size:22px;color:var(--green);overflow-wrap:anywhere}.metric span{color:var(--muted);font-size:12px}.copy-row{position:relative}.copy{position:absolute;top:8px;right:8px;border:1px solid var(--line);border-radius:7px;background:#14231f;color:var(--text);padding:6px 9px;cursor:pointer;font-size:12px}table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:8px;overflow:hidden;display:table}th,td{border-bottom:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}th{color:#cde9db;background:#10201c;font-size:12px;text-transform:uppercase;letter-spacing:.06em}.pill{display:inline-flex;align-items:center;border-radius:999px;padding:3px 8px;font-size:12px;background:#172620;color:#cfe0d8;border:1px solid var(--line);white-space:nowrap}.pill.recommended{color:#0a130d;background:var(--green);border-color:var(--green)}.pill.extended{color:#061019;background:var(--cyan);border-color:var(--cyan)}.pill.verify-before-canonical{color:#211400;background:var(--gold);border-color:var(--gold)}details{margin:10px 0}summary{cursor:pointer;font-weight:800;color:#eef8f1}ul,ol{margin-top:8px;padding-left:22px}.footer{color:var(--muted);border-top:1px solid var(--line);padding-top:18px}@media(max-width:900px){.hero-inner,.grid,.two{grid-template-columns:1fr}.nav{align-items:flex-start;flex-direction:column}.navlinks{margin-left:0}.metric-grid{grid-template-columns:1fr}}</style></head><body><header class="topbar"><nav class="nav"><div class="logo"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 1024 768" style="enable-background:new 0 0 1024 768;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#FFFFFF;}
@@ -135,76 +62,50 @@ ul, ol { margin-top:8px; padding-left:22px; }
 		L364.9,430L364.9,430L364.9,430z"/>
 </g>
 </svg>
-<span class="pill">v6.3.20</span></div><div class="navlinks"><a href="#downloads">Downloads</a><a href="#flows">Install Flows</a><a href="#chain-data">Chain Data</a><a href="#asic">ASICs</a><a href="#peers">Peers</a><a href="#faq">Help</a><a href="#ai">AI Agent</a></div></nav></header>
-<section class="hero"><div class="hero-inner"><div><div class="eyebrow">BDAG Community Release</div><h1>BlockDAG Pool Stack v6.3.20</h1><p class="lede">Install a BlockDAG mainnet node or a full ASIC mining pool stack from IPFS. This release packages the current running ARM64 stack, the dashboard2 operator UI, MAC-aware miner lane reporting, live peer seeds, and a clear path to restore chain data first so the node only catches up the final range.</p><div class="actions"><a class="btn primary" href="#flows">Start install</a><a class="btn" href="https://ipfs.io/ipfs/bafybeigpe7s3yd4vk6u6fba56stusoxqalob6oi2rm5tbbpc5aqzu7mn2i">Download stack zip</a><a class="btn" href="https://ipfs.io/ipfs/bafybeieyhcnszf7ksylee5dsdktkdgm5q45fiuaqjrqxmfsbksafs3crny">Download chain data</a><a class="btn warn" href="#secrets">Read key warning</a></div></div><aside class="side"><h2>Validated Running Stack</h2><div class="metric-grid">
-<div class="metric"><strong>ok</strong><span>collector overall</span></div>
-<div class="metric"><strong>mining</strong><span>runtime mode</span></div>
-<div class="metric"><strong>100.0%</strong><span>sync complete</span></div>
-<div class="metric"><strong>2</strong><span>connected miners</span></div>
-<div class="metric"><strong>2/2</strong><span>managed miner lanes OK</span></div>
-<div class="metric"><strong>0</strong><span>blocks remaining</span></div>
-</div><p style="margin-top:12px;color:var(--muted)">Captured from the local collector at 2026-06-14T10:13:28+0000. Peer reachability is from a separate TCP probe; consensus validation still happens inside your node.</p></aside></div></section>
-<main>
-<section id="downloads"><h2>Downloads</h2><div class="grid"><div class="card"><h3>Stack Payload</h3><p>Linux ARM64/aarch64 Docker release zip.</p><p><a href="https://ipfs.io/ipfs/bafybeigpe7s3yd4vk6u6fba56stusoxqalob6oi2rm5tbbpc5aqzu7mn2i"><code>pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip</code></a></p><p><strong>SHA256</strong><br><code>ecbf300959402815f8c3dd1d5334af927385766dae5c527ec202040e2a49f39c</code></p><p><a href="https://ipfs.io/ipfs/bafkreifcyzfcs7snkdngormhz6sl7wx26dxqe2wg7pi4qledexkyltx6tq">Checksum file CID</a></p></div><div class="card"><h3>Bootstrap Script</h3><p>Downloads the zip by CID, verifies it, extracts it, and runs the packaged installer.</p><p><a href="https://ipfs.io/ipfs/bafkreihatnjexyshvvbv44vvbuoyusu6nrbivtzdypivuxlungowtpyroa"><code>install-v6.3.20.sh</code></a></p><div class="copy-row"><button class="copy" data-copy="curl -fL https://ipfs.io/ipfs/bafkreihatnjexyshvvbv44vvbuoyusu6nrbivtzdypivuxlungowtpyroa -o install-v6.3.20.sh && chmod +x install-v6.3.20.sh">Copy</button><pre><code>curl -fL https://ipfs.io/ipfs/bafkreihatnjexyshvvbv44vvbuoyusu6nrbivtzdypivuxlungowtpyroa -o install-v6.3.20.sh
-chmod +x install-v6.3.20.sh</code></pre></div></div><div class="card"><h3>Chain Data</h3><p>Same data link family as the prior IPFS release, resolved on 2026-06-14.</p><p><a href="https://ipfs.io/ipns/k51qzi5uqu5dky5euzcduak3t08egbx2duts9z3y0jfq4e6iavjld43ojkk1bi">IPNS latest data directory</a></p><p><a href="https://ipfs.io/ipfs/bafybeieyhcnszf7ksylee5dsdktkdgm5q45fiuaqjrqxmfsbksafs3crny"><code>blockdag-mainnet-20260614-100022Z.tar.zst</code></a></p><p>9.52 GB, zstd tar, snapshot blocks 11,266,057 of 11,358,981 at snapshot creation.</p></div></div><div class="notice warn" style="margin-top:14px"><strong>Architecture:</strong> this payload was built and validated for Linux ARM64. Use it on Raspberry Pi 5, ARM servers, or equivalent aarch64 hosts. For x86_64/amd64, build from source or wait for an amd64 payload.</div></section>
-
-<section id="secrets"><h2>Public Address And Private Key</h2><div class="two"><div class="card"><h3>Node-only</h3><p>A standalone node does not need a mining wallet or private key. It can sync, serve peers, and expose local dashboard status.</p></div><div class="card"><h3>Pool mode</h3><p>The pool needs your public payout/mining address. Production block submission/payout operation also needs the matching pool operator private key.</p><p>Never paste a private key into public chat, screenshots, Git commits, shell history, or dashboard fields. Prefer the installer hidden prompt, a local secret manager, or an environment variable set only in the current terminal.</p></div></div></section>
-
-<section id="flows"><h2>Choose Your Install Flow</h2><div class="flow-tabs"><button class="tab active" data-flow="basic">Basic</button><button class="tab" data-flow="intermediate">Intermediate</button><button class="tab" data-flow="advanced">Advanced</button></div>
-<div class="flow active" id="flow-basic"><div class="card"><h3>Basic: node or pool from the bootstrap script</h3><p>Use this when you want the quickest start and are comfortable letting the node sync from network peers. The dashboard opens at <code>http://localhost:8088</code> on the host or <code>http://&lt;host-lan-ip&gt;:8088</code> from another machine on the LAN.</p><div class="copy-row"><button class="copy" data-copy="sudo apt-get update && sudo apt-get install -y ca-certificates curl unzip zstd tar python3 iproute2
-mkdir -p ~/bdag-v6.3.20 && cd ~/bdag-v6.3.20
-curl -fL https://ipfs.io/ipfs/bafkreihatnjexyshvvbv44vvbuoyusu6nrbivtzdypivuxlungowtpyroa -o install-v6.3.20.sh
+<span class="pill">v6.3.20</span></div><div class="navlinks"><a href="#downloads">Downloads</a><a href="#intermediate">Intermediate</a><a href="#advanced">Advanced</a><a href="#chain-data">Chain Data</a><a href="#asic">ASICs</a><a href="#peers">Peers</a><a href="#faq">Help</a></div></nav></header><section class="hero"><div class="hero-inner"><div><div class="eyebrow">BDAG Community Release</div><h1>BlockDAG Pool Stack v6.3.20</h1><p class="lede">Install a BlockDAG mainnet node or ASIC mining pool from IPFS with matching ARM64 and AMD64 payloads. This page now uses a restore-first flow: download the correct payload, restore the chain data archive, then start node-only or pool mode.</p><div class="actions"><a class="btn primary" href="#intermediate">Start restore-first install</a><a class="btn" href="https://ipfs.io/ipfs/bafkreidvo6thfpmzxgm7rvzr3cyrywuhyczt7chzqdcbnwhbcl5spynu34">Download arch-select helper</a><a class="btn" href="#downloads">Payload CIDs</a><a class="btn warn" href="#secrets">Key warning</a></div></div><aside class="side"><h2>Validated Stack</h2><div class="metric-grid"><div class='metric'><strong>ok</strong><span>collector overall</span></div><div class='metric'><strong>mining</strong><span>runtime mode</span></div><div class='metric'><strong>100.0%</strong><span>sync complete</span></div><div class='metric'><strong>2</strong><span>connected miners</span></div></div><p style="margin-top:12px;color:var(--muted)">Captured from the local collector at 2026-06-14T10:13:28+0000. AMD64 binaries were cross-built from the same release branches and validated with binary architecture checks.</p></aside></div></section><main>
+<section id="downloads"><h2>Downloads</h2><div class="notice warn"><strong>Check architecture before download:</strong> run <code>uname -m</code>. Use AMD64 for <code>x86_64</code>/<code>amd64</code>, ARM64 for <code>aarch64</code>/<code>arm64</code>. The installer now rejects mismatched host/payload pairs unless emulation is explicitly enabled.</div><div class="grid" style="margin-top:14px"><div class='card'><h3>linux-arm64</h3><p>ARM64 / aarch64; continue when <code>uname -m</code> is aarch64 or arm64.</p><p><a href='https://ipfs.io/ipfs/bafybeif4zj4nyz7ykag3ttohkq3sirmo4ceacyz6whbpvc56ui6jhwt4uy'><code>pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip</code></a></p><p>72 MB</p><p><strong>SHA256</strong><br><code>287e78efe1ad4b718186b8745d57cfb223c25f29abc96469a10f544fcebe78f2</code></p><p><a href='https://ipfs.io/ipfs/bafkreif3rmgjpkyk2djalnzxkwrngeak3iqsubx7o5oqpluhrydretmr6y'>checksum file</a></p></div><div class='card'><h3>linux-amd64</h3><p>AMD64 / x86_64; continue when <code>uname -m</code> is x86_64 or amd64.</p><p><a href='https://ipfs.io/ipfs/bafybeiafmnd5admxhhwdg6qjkhrpzwsc5lkvnr2mu7c45p3reqov5thkim'><code>pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-amd64.zip</code></a></p><p>78 MB</p><p><strong>SHA256</strong><br><code>b3ebac71da5e3019339d3a93d163cbb5965e1adad628631a5173d851f77320ce</code></p><p><a href='https://ipfs.io/ipfs/bafkreibzqddx7udui6j3prefutsclxwjstq54jahfybmnuir63rcn75hua'>checksum file</a></p></div><div class="card"><h3>Architecture helper</h3><p>Selects the matching payload, verifies SHA256, extracts it, and stops so you can restore chain data before install.</p><p><a href="https://ipfs.io/ipfs/bafkreidvo6thfpmzxgm7rvzr3cyrywuhyczt7chzqdcbnwhbcl5spynu34"><code>install-v6.3.20.sh</code></a></p><div class="copy-row"><button class="copy" data-copy="curl -fL https://ipfs.io/ipfs/bafkreidvo6thfpmzxgm7rvzr3cyrywuhyczt7chzqdcbnwhbcl5spynu34 -o install-v6.3.20.sh && chmod +x install-v6.3.20.sh && ./install-v6.3.20.sh">Copy</button><pre><code>curl -fL https://ipfs.io/ipfs/bafkreidvo6thfpmzxgm7rvzr3cyrywuhyczt7chzqdcbnwhbcl5spynu34 -o install-v6.3.20.sh
 chmod +x install-v6.3.20.sh
-BDAG_DEPLOY_KIND=node BDAG_CHAIN_MODE=non-archive ./install-v6.3.20.sh">Copy</button><pre><code>sudo apt-get update
-sudo apt-get install -y ca-certificates curl unzip zstd tar python3 iproute2
+./install-v6.3.20.sh</code></pre></div></div></div></section>
+<section id="secrets"><h2>Public Address And Private Key</h2><div class="two"><div class="card"><h3>Node-only</h3><p>No wallet or private key is required. Restore chain data, start the node, and use the dashboard for sync status.</p></div><div class="card"><h3>Pool mode</h3><p>Requires your public payout/mining address. Production block submission/payout operation also needs the matching private key. Enter private keys only through the hidden prompt or a secure local environment; never paste them into public chat or commit them.</p></div></div></section>
+<section id="intermediate"><h2>Intermediate: Restore Chain Data First</h2><div class="card"><p>This is now the default install path. It avoids wasting time on a long fresh sync and makes architecture mismatch obvious before large downloads.</p><div class="copy-row"><button class="copy" data-copy="sudo apt-get update && sudo apt-get install -y ca-certificates curl unzip zstd tar python3 iproute2 arp-scan nmap
 mkdir -p ~/bdag-v6.3.20 && cd ~/bdag-v6.3.20
-curl -fL https://ipfs.io/ipfs/bafkreihatnjexyshvvbv44vvbuoyusu6nrbivtzdypivuxlungowtpyroa -o install-v6.3.20.sh
+curl -fL https://ipfs.io/ipfs/bafkreidvo6thfpmzxgm7rvzr3cyrywuhyczt7chzqdcbnwhbcl5spynu34 -o install-v6.3.20.sh
 chmod +x install-v6.3.20.sh
-BDAG_DEPLOY_KIND=node BDAG_CHAIN_MODE=non-archive ./install-v6.3.20.sh</code></pre></div><p>For a pool install, run the script without preselecting node mode and type your wallet/private key when prompted, or export your own values before starting.</p></div></div>
-<div class="flow" id="flow-intermediate"><div class="card"><h3>Intermediate: restore chain data first, then catch up</h3><p>This is the recommended path for a new mining pool. You download the current rawdatadir archive from IPFS, verify it, extract it into the release folder, and only then start the stack. The node starts close to the current chain and catches up the last part from peers.</p><div class="copy-row"><button class="copy" data-copy="mkdir -p ~/bdag-v6.3.20 && cd ~/bdag-v6.3.20
-curl -fL https://ipfs.io/ipfs/bafybeigpe7s3yd4vk6u6fba56stusoxqalob6oi2rm5tbbpc5aqzu7mn2i -o pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip
-echo 'ecbf300959402815f8c3dd1d5334af927385766dae5c527ec202040e2a49f39c  pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip' | sha256sum -c -
-unzip pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip
-cd pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64
+./install-v6.3.20.sh
+cd pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
 mkdir -p chain-download data/node/mainnet
 curl -fL https://ipfs.io/ipfs/bafkreihsxroiysvfb2dhbjq3dggqiorqil22r6vryywuo3plh3hp6uubnm -o chain-download/latest.json
 curl -fL https://ipfs.io/ipfs/bafybeieyhcnszf7ksylee5dsdktkdgm5q45fiuaqjrqxmfsbksafs3crny -o chain-download/blockdag-mainnet-20260614-100022Z.tar.zst
 echo '074d1cba6ae7ad3384157befe9527e38daa048348fdd6e3a22d05024e5e8d8b5  chain-download/blockdag-mainnet-20260614-100022Z.tar.zst' | sha256sum -c -
 tar --zstd -xf chain-download/blockdag-mainnet-20260614-100022Z.tar.zst -C data/node/mainnet
-BDAG_DEPLOY_KIND=node BDAG_CHAIN_MODE=non-archive bash ./install.sh">Copy</button><pre><code>mkdir -p ~/bdag-v6.3.20 && cd ~/bdag-v6.3.20
-curl -fL https://ipfs.io/ipfs/bafybeigpe7s3yd4vk6u6fba56stusoxqalob6oi2rm5tbbpc5aqzu7mn2i -o pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip
-echo "ecbf300959402815f8c3dd1d5334af927385766dae5c527ec202040e2a49f39c  pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip" | sha256sum -c -
-unzip pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip
-cd pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64
-
+BDAG_DEPLOY_KIND=node BDAG_CHAIN_MODE=non-archive bash ./install.sh">Copy</button><pre><code>sudo apt-get update
+sudo apt-get install -y ca-certificates curl unzip zstd tar python3 iproute2 arp-scan nmap
+mkdir -p ~/bdag-v6.3.20 && cd ~/bdag-v6.3.20
+curl -fL https://ipfs.io/ipfs/bafkreidvo6thfpmzxgm7rvzr3cyrywuhyczt7chzqdcbnwhbcl5spynu34 -o install-v6.3.20.sh
+chmod +x install-v6.3.20.sh
+./install-v6.3.20.sh
+cd pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
 mkdir -p chain-download data/node/mainnet
 curl -fL https://ipfs.io/ipfs/bafkreihsxroiysvfb2dhbjq3dggqiorqil22r6vryywuo3plh3hp6uubnm -o chain-download/latest.json
 curl -fL https://ipfs.io/ipfs/bafybeieyhcnszf7ksylee5dsdktkdgm5q45fiuaqjrqxmfsbksafs3crny -o chain-download/blockdag-mainnet-20260614-100022Z.tar.zst
 echo "074d1cba6ae7ad3384157befe9527e38daa048348fdd6e3a22d05024e5e8d8b5  chain-download/blockdag-mainnet-20260614-100022Z.tar.zst" | sha256sum -c -
 tar --zstd -xf chain-download/blockdag-mainnet-20260614-100022Z.tar.zst -C data/node/mainnet
-
-BDAG_DEPLOY_KIND=node BDAG_CHAIN_MODE=non-archive bash ./install.sh</code></pre></div><p>The archive top level contains <code>BdagChain/</code>, so extracting with <code>-C data/node/mainnet</code> places it where the node expects it. If you use a different data package later, inspect it first with <code>tar --zstd -tf file.tar.zst | head</code>.</p></div></div>
-<div class="flow" id="flow-advanced"><div class="card"><h3>Advanced: source build and local release maintenance</h3><p>Use this when you need to change code or produce another architecture. Keep release source branches separate from the public IPFS page repo. For this host, the release payload was assembled from the local <code>jeremy-dev-release</code> source set and validated against the running ARM64 stack.</p><pre><code># Build prerequisite idea, not a one-size-fits-all command:
-# 1. Check out the BlockdagEngineering release repos.
-# 2. Keep stack/core/pool/collector/dashboard2 on the intended release branch.
-# 3. Build the Docker targets locally.
-# 4. Run release_install_smoke.py, check-release-archive.py, and verify-release-architecture.py.
-# 5. Publish the zip, manifest, help files, and page to IPFS.</code></pre></div></div></section>
-
-<section id="chain-data"><h2>Blockchain Data Restore</h2><div class="two"><div class="card"><h3>Data resources</h3><p><strong>Latest IPNS:</strong> <a href="https://ipfs.io/ipns/k51qzi5uqu5dky5euzcduak3t08egbx2duts9z3y0jfq4e6iavjld43ojkk1bi"><code>k51qzi5uqu5dky5euzcduak3t08egbx2duts9z3y0jfq4e6iavjld43ojkk1bi</code></a></p><p><strong>Resolved root:</strong> <a href="https://ipfs.io/ipfs/bafybeidyu6r3ylrd6rnliggtauocfepuqnsd3g3qzpdbz4sfcpr43qw3xm"><code>bafybeidyu6r3ylrd6rnliggtauocfepuqnsd3g3qzpdbz4sfcpr43qw3xm</code></a></p><p><strong>Latest JSON:</strong> <a href="https://ipfs.io/ipfs/bafkreihsxroiysvfb2dhbjq3dggqiorqil22r6vryywuo3plh3hp6uubnm"><code>bafkreihsxroiysvfb2dhbjq3dggqiorqil22r6vryywuo3plh3hp6uubnm</code></a></p><p><strong>Archive CID:</strong> <a href="https://ipfs.io/ipfs/bafybeieyhcnszf7ksylee5dsdktkdgm5q45fiuaqjrqxmfsbksafs3crny"><code>bafybeieyhcnszf7ksylee5dsdktkdgm5q45fiuaqjrqxmfsbksafs3crny</code></a></p><p><strong>Archive SHA256:</strong><br><code>074d1cba6ae7ad3384157befe9527e38daa048348fdd6e3a22d05024e5e8d8b5</code></p></div><div class="card"><h3>Why restore first?</h3><p>A fresh node can sync from peers, but restoring the rawdatadir archive first avoids reprocessing most of the chain. After extraction, the node still performs normal BlockDAG consensus validation and P2P handshakes while catching up recent blocks.</p><p>Do not copy private node identity files between machines. This release data archive is intended as public chain data, not a wallet or node identity backup.</p></div></div></section>
-
-<section id="dashboard"><h2>Dashboard And Ports</h2><div class="grid"><div class="card"><h3>Dashboard</h3><p>Open <code>http://localhost:8088</code> on the host or <code>http://&lt;pool-host-lan-ip&gt;:8088</code> from the LAN. Use it to watch sync status, miner lanes, earnings, warnings, and live operational state.</p></div><div class="card"><h3>Local APIs</h3><p>Collector status is on <code>http://localhost:9280/api/status</code>. Chain RPC is <code>38131</code>, EVM HTTP is <code>18545</code>, and Stratum is <code>3334</code>.</p></div><div class="card"><h3>Security</h3><p>Expose only P2P TCP <code>8150</code> to the internet. Keep dashboard, Stratum, collector, chain RPC, EVM RPC, and database ports on localhost or trusted LAN/VPN.</p></div></div></section>
-
-<section id="asic"><h2>ASIC Miner Setup</h2><div class="two"><div class="card"><h3>Find the ASIC IP on Ubuntu</h3><pre><code>ip -4 addr
+BDAG_DEPLOY_KIND=node BDAG_CHAIN_MODE=non-archive bash ./install.sh</code></pre></div><p>For pool mode, export <code>MINING_POOL_ADDRESS</code>, <code>BDAG_POOL_HOST</code>, and <code>BDAG_MINER_SCAN_TARGET</code>, then run <code>BDAG_DEPLOY_KIND=pool BDAG_CHAIN_MODE=non-archive bash ./install.sh</code>. The installer can prompt for the private key without echoing it.</p></div></section>
+<section id="advanced"><h2>Advanced: Source Build / Maintainer Flow</h2><div class="card"><p>Use this only if you need to rebuild a payload instead of using the published ARM64/AMD64 zips. All repos for this release use the same branch name: <code>jeremy-dev-release</code>.</p><pre><code>mkdir -p ~/bdag-release-src && cd ~/bdag-release-src
+gh repo clone BlockdagEngineering/blockdag-corechain && (cd blockdag-corechain && git checkout jeremy-dev-release)
+gh repo clone BlockdagEngineering/pool && (cd pool && git checkout jeremy-dev-release)
+gh repo clone BlockdagEngineering/collector && (cd collector && git checkout jeremy-dev-release)
+gh repo clone BlockdagEngineering/dashboard2 && (cd dashboard2 && git checkout jeremy-dev-release)
+gh repo clone BlockdagEngineering/stack && (cd stack && git checkout jeremy-dev-release)
+gh repo clone BlockdagEngineering/bdag-ipfs-release-page && (cd bdag-ipfs-release-page && git checkout jeremy-dev-release)</code></pre><p>Build native binaries on the target architecture or cross-build with the correct CGO compiler. Validate with <code>verify-release-architecture.py</code>, <code>release_install_smoke.py</code>, and <code>check-release-archive.py</code> before publishing new CIDs.</p></div></section>
+<section id="chain-data"><h2>Blockchain Data Restore</h2><div class="two"><div class="card"><h3>Data resources</h3><p><strong>Latest IPNS:</strong> <a href="https://ipfs.io/ipns/k51qzi5uqu5dky5euzcduak3t08egbx2duts9z3y0jfq4e6iavjld43ojkk1bi"><code>k51qzi5uqu5dky5euzcduak3t08egbx2duts9z3y0jfq4e6iavjld43ojkk1bi</code></a></p><p><strong>Resolved root:</strong> <a href="https://ipfs.io/ipfs/bafybeidyu6r3ylrd6rnliggtauocfepuqnsd3g3qzpdbz4sfcpr43qw3xm"><code>bafybeidyu6r3ylrd6rnliggtauocfepuqnsd3g3qzpdbz4sfcpr43qw3xm</code></a></p><p><strong>Archive:</strong> <a href="https://ipfs.io/ipfs/bafybeieyhcnszf7ksylee5dsdktkdgm5q45fiuaqjrqxmfsbksafs3crny"><code>blockdag-mainnet-20260614-100022Z.tar.zst</code></a></p><p><strong>SHA256:</strong><br><code>074d1cba6ae7ad3384157befe9527e38daa048348fdd6e3a22d05024e5e8d8b5</code></p></div><div class="card"><h3>Restore behavior</h3><p>The archive is a zstd tar containing public mainnet raw chain data. Extract it into <code>data/node/mainnet</code>, then the node catches up recent blocks from peers and validates normally through consensus.</p><p>Do not copy private node identity, wallets, keystores, or generated <code>.env</code> files between machines.</p></div></div></section>
+<section id="dashboard"><h2>Dashboard And Ports</h2><div class="grid"><div class="card"><h3>Dashboard</h3><p>Open <code>http://localhost:8088</code> on the host or <code>http://&lt;pool-host-lan-ip&gt;:8088</code> from the LAN.</p></div><div class="card"><h3>Local APIs</h3><p>Collector status: <code>http://localhost:9280/api/status</code>. Chain RPC: <code>38131</code>. EVM HTTP: <code>18545</code>. Stratum: <code>3334</code>.</p></div><div class="card"><h3>Public exposure</h3><p>Expose only BlockDAG P2P TCP <code>8150</code> to the internet. Keep dashboard, Stratum, collector, and RPC ports private.</p></div></div></section>
+<section id="asic"><h2>ASIC Miner Setup</h2><div class="two"><div class="card"><h3>Find ASIC IPs</h3><pre><code>ip -4 addr
 ip neigh
 sudo apt-get install -y arp-scan nmap avahi-utils
 sudo arp-scan --localnet
-sudo nmap -sn 192.168.1.0/24
-avahi-browse -art | less</code></pre><p>Also check your router DHCP leases. Match the device by MAC address, vendor string, hostname, or by unplugging/replugging one miner and watching which lease changes.</p></div><div class="card"><h3>Configure X30 / BlockDAG ASIC style firmware</h3><ol><li>Open the miner IP in a browser and log in.</li><li>Go to Mining, Pool, or Miner Configuration.</li><li>Set Pool 1 URL to <code>stratum+tcp://&lt;pool-host-lan-ip&gt;:3334</code>.</li><li>Set Worker/User to your public payout wallet. If worker suffixes are supported, use <code>0xYOUR_PUBLIC_ADDRESS.worker1</code>.</li><li>Set Password to <code>x</code> unless your firmware requires something else.</li><li>Save/apply and reboot only if the firmware asks.</li><li>Watch the dashboard Miners/Earnings views for the ASIC MAC address and accepted shares.</li></ol></div></div><div class="notice warn"><strong>Do not expose Stratum to the internet by default.</strong> Keep ASICs and the pool on the same LAN or a private routed network.</div></section>
-
-<section id="router"><h2>Router P2P Port Forward</h2><div class="card"><ol><li>Give the node/pool host a reserved DHCP address, for example <code>192.168.1.50</code>.</li><li>In the router, forward external TCP <code>8150</code> to that LAN IP on TCP <code>8150</code>.</li><li>On Ubuntu, allow the port if UFW is enabled: <code>sudo ufw allow 8150/tcp</code>.</li><li>Restart the stack or node after changing public IP/router configuration.</li><li>Verify from outside the LAN, not from the same Wi-Fi: <code>nc -vz YOUR_PUBLIC_IP 8150</code> or a port-check website.</li></ol><p>If your ISP uses CGNAT, inbound P2P forwarding will not work until you get a public IPv4, IPv6 path, VPN relay, or hosting provider with forwarded ports. Outbound sync can still work without public inbound discovery.</p></div></section>
-
-<section id="peers"><h2>Live Reachable Peers</h2><p>Generated from TCP reachability probes on 2026-06-14T09:57:31Z. These are public BlockDAG P2P multiaddrs, not IPFS/Kubo peers. TCP-open proves reachability only; your node must still handshake and validate chain data normally.</p><div class="copy-row"><button class="copy" data-copy="BOOTSTRAP_PEER_ADDRESSES=/ip4/102.182.77.21/tcp/8151/p2p/16Uiu2HAm2uPLqM1dfd3ddbzg3FDAmvuvyo3vbBSXpVHurqAsUxWQ,/ip4/16.28.133.168/tcp/8150/p2p/16Uiu2HAm9UcTayJDSajjJYsWwVaN2qqGeczcs9kXse3dMdvGDRjz,/ip4/121.91.173.235/tcp/8150/p2p/16Uiu2HAkvH1U2kQqQFh6fSVQPGgABaKNHRMT7DceGe6kRtYr6ndY,/ip4/13.57.132.47/tcp/8150/p2p/16Uiu2HAmDynYpWjWmgVGf9qVWvDdLnJ3ybVgDmFexizR4zMereus,/ip4/3.218.54.171/tcp/8150/p2p/16Uiu2HAmUZBdpuutiLPuru1UQnX8hf6GyvG7yU2B832sYjvNhmQG,/ip4/102.182.77.16/tcp/8152/p2p/16Uiu2HAm99a8KYuUkL5LGEQbpRNhz5nzScrwYpEh47BfSaVMCg5G,/ip4/63.182.36.180/tcp/8150/p2p/16Uiu2HAmP8HsTF9ks8JjFamzT9JBZb3ymSiCJ8rkzXBZqYj4yKtP,/ip4/52.8.54.60/tcp/8150/p2p/16Uiu2HAkzUWr4YUM7mAhLdCVZgFoV9He6aQzKTyWWrJ7SWQKRTN7,/ip4/204.236.141.121/tcp/8150/p2p/16Uiu2HAm5qppgbBCjVpTN5nKtjEU5KsSbs2gz4S9uPiSWVSGfNh1,/ip4/54.151.18.92/tcp/8150/p2p/16Uiu2HAmVm91o1JXS2C7P6uTVuVX5empgnRtzuK4UaC8fHmePbKP,/ip4/18.142.70.83/tcp/8150/p2p/16Uiu2HAmBSdn2taoteYwLZJZkDm2iCwL6eQ4UaXYNBBtAwaBU18X,/ip4/54.214.229.250/tcp/8154/p2p/16Uiu2HAm1vZgJXKhUfWWC7nz9wzNpUDiYAid7zCZSKb1hhU7QBNB">Copy</button><pre><code>BOOTSTRAP_PEER_ADDRESSES=/ip4/102.182.77.21/tcp/8151/p2p/16Uiu2HAm2uPLqM1dfd3ddbzg3FDAmvuvyo3vbBSXpVHurqAsUxWQ,/ip4/16.28.133.168/tcp/8150/p2p/16Uiu2HAm9UcTayJDSajjJYsWwVaN2qqGeczcs9kXse3dMdvGDRjz,/ip4/121.91.173.235/tcp/8150/p2p/16Uiu2HAkvH1U2kQqQFh6fSVQPGgABaKNHRMT7DceGe6kRtYr6ndY,/ip4/13.57.132.47/tcp/8150/p2p/16Uiu2HAmDynYpWjWmgVGf9qVWvDdLnJ3ybVgDmFexizR4zMereus,/ip4/3.218.54.171/tcp/8150/p2p/16Uiu2HAmUZBdpuutiLPuru1UQnX8hf6GyvG7yU2B832sYjvNhmQG,/ip4/102.182.77.16/tcp/8152/p2p/16Uiu2HAm99a8KYuUkL5LGEQbpRNhz5nzScrwYpEh47BfSaVMCg5G,/ip4/63.182.36.180/tcp/8150/p2p/16Uiu2HAmP8HsTF9ks8JjFamzT9JBZb3ymSiCJ8rkzXBZqYj4yKtP,/ip4/52.8.54.60/tcp/8150/p2p/16Uiu2HAkzUWr4YUM7mAhLdCVZgFoV9He6aQzKTyWWrJ7SWQKRTN7,/ip4/204.236.141.121/tcp/8150/p2p/16Uiu2HAm5qppgbBCjVpTN5nKtjEU5KsSbs2gz4S9uPiSWVSGfNh1,/ip4/54.151.18.92/tcp/8150/p2p/16Uiu2HAmVm91o1JXS2C7P6uTVuVX5empgnRtzuK4UaC8fHmePbKP,/ip4/18.142.70.83/tcp/8150/p2p/16Uiu2HAmBSdn2taoteYwLZJZkDm2iCwL6eQ4UaXYNBBtAwaBU18X,/ip4/54.214.229.250/tcp/8154/p2p/16Uiu2HAm1vZgJXKhUfWWC7nz9wzNpUDiYAid7zCZSKb1hhU7QBNB</code></pre></div><table><thead><tr><th>Tier</th><th>IP</th><th>TCP</th><th>Peer ID</th><th>Probe</th></tr></thead><tbody><tr><td><span class='pill recommended'>recommended</span></td><td>102.182.77.21</td><td>8151</td><td><code>16Uiu2HAm2uPLqM1dfd3ddbzg3FDAmvuvyo3vbBSXpVHurqAsUxWQ</code></td><td>8 ms</td></tr>
+sudo nmap -sn 192.168.1.0/24</code></pre></div><div class="card"><h3>Configure miner</h3><ol><li>Open the ASIC web UI.</li><li>Set pool URL to <code>stratum+tcp://&lt;pool-host-lan-ip&gt;:3334</code>.</li><li>Set user/worker to your public payout address, optionally with a worker suffix.</li><li>Set password to <code>x</code> unless firmware requires another value.</li><li>Save and watch the dashboard Miners/Earnings views.</li></ol></div></div></section>
+<section id="peers"><h2>Live Reachable Peers</h2><p>Generated from TCP reachability probes on 2026-06-14T09:57:31Z. These are BlockDAG P2P multiaddrs, not IPFS peers. TCP-open proves reachability only.</p><div class="copy-row"><button class="copy" data-copy="BOOTSTRAP_PEER_ADDRESSES=/ip4/102.182.77.21/tcp/8151/p2p/16Uiu2HAm2uPLqM1dfd3ddbzg3FDAmvuvyo3vbBSXpVHurqAsUxWQ,/ip4/16.28.133.168/tcp/8150/p2p/16Uiu2HAm9UcTayJDSajjJYsWwVaN2qqGeczcs9kXse3dMdvGDRjz,/ip4/121.91.173.235/tcp/8150/p2p/16Uiu2HAkvH1U2kQqQFh6fSVQPGgABaKNHRMT7DceGe6kRtYr6ndY,/ip4/13.57.132.47/tcp/8150/p2p/16Uiu2HAmDynYpWjWmgVGf9qVWvDdLnJ3ybVgDmFexizR4zMereus,/ip4/3.218.54.171/tcp/8150/p2p/16Uiu2HAmUZBdpuutiLPuru1UQnX8hf6GyvG7yU2B832sYjvNhmQG,/ip4/102.182.77.16/tcp/8152/p2p/16Uiu2HAm99a8KYuUkL5LGEQbpRNhz5nzScrwYpEh47BfSaVMCg5G,/ip4/63.182.36.180/tcp/8150/p2p/16Uiu2HAmP8HsTF9ks8JjFamzT9JBZb3ymSiCJ8rkzXBZqYj4yKtP,/ip4/52.8.54.60/tcp/8150/p2p/16Uiu2HAkzUWr4YUM7mAhLdCVZgFoV9He6aQzKTyWWrJ7SWQKRTN7,/ip4/204.236.141.121/tcp/8150/p2p/16Uiu2HAm5qppgbBCjVpTN5nKtjEU5KsSbs2gz4S9uPiSWVSGfNh1,/ip4/54.151.18.92/tcp/8150/p2p/16Uiu2HAmVm91o1JXS2C7P6uTVuVX5empgnRtzuK4UaC8fHmePbKP,/ip4/18.142.70.83/tcp/8150/p2p/16Uiu2HAmBSdn2taoteYwLZJZkDm2iCwL6eQ4UaXYNBBtAwaBU18X,/ip4/54.214.229.250/tcp/8154/p2p/16Uiu2HAm1vZgJXKhUfWWC7nz9wzNpUDiYAid7zCZSKb1hhU7QBNB">Copy</button><pre><code>BOOTSTRAP_PEER_ADDRESSES=/ip4/102.182.77.21/tcp/8151/p2p/16Uiu2HAm2uPLqM1dfd3ddbzg3FDAmvuvyo3vbBSXpVHurqAsUxWQ,/ip4/16.28.133.168/tcp/8150/p2p/16Uiu2HAm9UcTayJDSajjJYsWwVaN2qqGeczcs9kXse3dMdvGDRjz,/ip4/121.91.173.235/tcp/8150/p2p/16Uiu2HAkvH1U2kQqQFh6fSVQPGgABaKNHRMT7DceGe6kRtYr6ndY,/ip4/13.57.132.47/tcp/8150/p2p/16Uiu2HAmDynYpWjWmgVGf9qVWvDdLnJ3ybVgDmFexizR4zMereus,/ip4/3.218.54.171/tcp/8150/p2p/16Uiu2HAmUZBdpuutiLPuru1UQnX8hf6GyvG7yU2B832sYjvNhmQG,/ip4/102.182.77.16/tcp/8152/p2p/16Uiu2HAm99a8KYuUkL5LGEQbpRNhz5nzScrwYpEh47BfSaVMCg5G,/ip4/63.182.36.180/tcp/8150/p2p/16Uiu2HAmP8HsTF9ks8JjFamzT9JBZb3ymSiCJ8rkzXBZqYj4yKtP,/ip4/52.8.54.60/tcp/8150/p2p/16Uiu2HAkzUWr4YUM7mAhLdCVZgFoV9He6aQzKTyWWrJ7SWQKRTN7,/ip4/204.236.141.121/tcp/8150/p2p/16Uiu2HAm5qppgbBCjVpTN5nKtjEU5KsSbs2gz4S9uPiSWVSGfNh1,/ip4/54.151.18.92/tcp/8150/p2p/16Uiu2HAmVm91o1JXS2C7P6uTVuVX5empgnRtzuK4UaC8fHmePbKP,/ip4/18.142.70.83/tcp/8150/p2p/16Uiu2HAmBSdn2taoteYwLZJZkDm2iCwL6eQ4UaXYNBBtAwaBU18X,/ip4/54.214.229.250/tcp/8154/p2p/16Uiu2HAm1vZgJXKhUfWWC7nz9wzNpUDiYAid7zCZSKb1hhU7QBNB</code></pre></div><table><thead><tr><th>Tier</th><th>IP</th><th>TCP</th><th>Peer ID</th><th>Probe</th></tr></thead><tbody><tr><td><span class='pill recommended'>recommended</span></td><td>102.182.77.21</td><td>8151</td><td><code>16Uiu2HAm2uPLqM1dfd3ddbzg3FDAmvuvyo3vbBSXpVHurqAsUxWQ</code></td><td>8 ms</td></tr>
 <tr><td><span class='pill recommended'>recommended</span></td><td>16.28.133.168</td><td>8150</td><td><code>16Uiu2HAm9UcTayJDSajjJYsWwVaN2qqGeczcs9kXse3dMdvGDRjz</code></td><td>2 ms</td></tr>
 <tr><td><span class='pill recommended'>recommended</span></td><td>121.91.173.235</td><td>8150</td><td><code>16Uiu2HAkvH1U2kQqQFh6fSVQPGgABaKNHRMT7DceGe6kRtYr6ndY</code></td><td>330 ms</td></tr>
 <tr><td><span class='pill recommended'>recommended</span></td><td>13.57.132.47</td><td>8150</td><td><code>16Uiu2HAmDynYpWjWmgVGf9qVWvDdLnJ3ybVgDmFexizR4zMereus</code></td><td>285 ms</td></tr>
@@ -216,89 +117,5 @@ avahi-browse -art | less</code></pre><p>Also check your router DHCP leases. Matc
 <tr><td><span class='pill extended'>extended</span></td><td>54.151.18.92</td><td>8150</td><td><code>16Uiu2HAmVm91o1JXS2C7P6uTVuVX5empgnRtzuK4UaC8fHmePbKP</code></td><td>278 ms</td></tr>
 <tr><td><span class='pill extended'>extended</span></td><td>18.142.70.83</td><td>8150</td><td><code>16Uiu2HAmBSdn2taoteYwLZJZkDm2iCwL6eQ4UaXYNBBtAwaBU18X</code></td><td>366 ms</td></tr>
 <tr><td><span class='pill extended'>extended</span></td><td>54.214.229.250</td><td>8154</td><td><code>16Uiu2HAm1vZgJXKhUfWWC7nz9wzNpUDiYAid7zCZSKb1hhU7QBNB</code></td><td>536 ms</td></tr></tbody></table><h3>Observed But Verify Before Canonical Use</h3><table><thead><tr><th>Tier</th><th>IP</th><th>TCP</th><th>Peer ID</th><th>Probe</th></tr></thead><tbody><tr><td><span class='pill verify-before-canonical'>verify-before-canonical</span></td><td>16.28.133.168</td><td>8150</td><td><code>16Uiu2HAkvWqB4Hw3qVwNU8MuBqLeAvRWzMhfLsQ5LDQbZdR9hUSK</code></td><td>2 ms</td></tr></tbody></table></section>
-
-<section id="ai"><h2>AI Agent Instructions</h2><div class="card"><p>This section is written for an AI agent operating a host terminal. The agent should gather missing inputs from the human before pool mode, never print private keys, and prefer the restored-chain flow.</p><pre><code># AI Agent Runbook: BlockDAG Community Pool Stack v6.3.20
-
-Goal: install node-only or full pool stack from the IPFS release, preferably after restoring the chain-data archive so the node only catches up the final blocks.
-
-Rules:
-
-- Never reveal, log, commit, or echo private keys. If a user supplies `POOL_PRIVATE_KEY`, treat it as secret.
-- Do not configure ASIC miners unless the user explicitly asks and provides credentials. Read-only LAN discovery is acceptable.
-- Use this ARM64 payload only on `aarch64`/`arm64` Linux hosts.
-- Download and verify the stack zip and chain-data archive before extraction.
-- Extract the chain archive into `&lt;release-root&gt;/data/node/mainnet` before starting the node when the user wants fast catch-up.
-
-Procedure:
-
-```bash
-uname -m
-sudo apt-get update
-sudo apt-get install -y ca-certificates curl unzip zstd tar python3 iproute2 net-tools arp-scan nmap
-mkdir -p ~/bdag-v6.3.20 &amp;&amp; cd ~/bdag-v6.3.20
-curl -fL https://ipfs.io/ipfs/bafybeigpe7s3yd4vk6u6fba56stusoxqalob6oi2rm5tbbpc5aqzu7mn2i -o pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip
-echo "ecbf300959402815f8c3dd1d5334af927385766dae5c527ec202040e2a49f39c  pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip" | sha256sum -c -
-unzip pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64.zip
-cd pool-stack-docker-v6.3.20-jeremy-dev-release.20260614-linux-arm64
-mkdir -p chain-download data/node/mainnet
-curl -fL https://ipfs.io/ipfs/bafybeieyhcnszf7ksylee5dsdktkdgm5q45fiuaqjrqxmfsbksafs3crny -o chain-download/blockdag-mainnet-20260614-100022Z.tar.zst
-echo "074d1cba6ae7ad3384157befe9527e38daa048348fdd6e3a22d05024e5e8d8b5  chain-download/blockdag-mainnet-20260614-100022Z.tar.zst" | sha256sum -c -
-tar --zstd -xf chain-download/blockdag-mainnet-20260614-100022Z.tar.zst -C data/node/mainnet
-```
-
-For node-only:
-
-```bash
-BDAG_DEPLOY_KIND=node BDAG_CHAIN_MODE=non-archive bash ./install.sh
-```
-
-For pool mode, collect from the human first:
-
-- Public payout/mining address: `MINING_POOL_ADDRESS`.
-- Whether they want to provide `POOL_PRIVATE_KEY` now. Prefer hidden prompt over command history.
-- Pool host LAN IP for ASICs, usually the wired IP shown by `ip -4 route get 1.1.1.1`.
-- ASIC scan CIDR, usually `&lt;first-three-octets&gt;.0/24`.
-
-Then run:
-
-```bash
-export MINING_POOL_ADDRESS='0xREPLACE_WITH_USER_PUBLIC_ADDRESS'
-export BDAG_POOL_HOST='192.168.1.REPLACE'
-export BDAG_MINER_SCAN_TARGET='192.168.1.0/24'
-BDAG_DEPLOY_KIND=pool BDAG_CHAIN_MODE=non-archive bash ./install.sh
-```
-
-Validation:
-
-```bash
-curl -s http://127.0.0.1:9280/api/status | python3 -m json.tool
-curl -s http://127.0.0.1:8088/ &gt;/dev/null &amp;&amp; echo dashboard-ok
-ss -ltnp | grep -E '(:8150|:3334|:8088|:9280|:38131|:18545)'
-```
-
-Expected successful states: `overall=ok`, `sync_progress.status=synced`, `can_accept_shares=true`, and miners appear once ASICs point to `stratum+tcp://&lt;pool-host-ip&gt;:3334`.
-</code></pre><p><a href="docs/ai-agent-runbook.md">Download AI runbook markdown</a></p></div></section>
-
-<section id="faq"><h2>Help And Troubleshooting</h2>
-<details open><summary>What should I install first?</summary><p>Install node-only if you only want to sync and support the network. Install pool mode if ASIC miners will point at this host. For a real pool, restore the chain data before first start.</p></details>
-<details><summary>How do I know sync is working?</summary><p>Open the dashboard on port <code>8088</code> or check <code>curl -s http://127.0.0.1:9280/api/status | python3 -m json.tool</code>. Look for sync status, percent, remaining blocks, warnings, and whether mining gates are open.</p></details>
-<details><summary>The dashboard says syncing or catch-up pause. Is that bad?</summary><p>No. It means the stack is preventing unsafe mining while the node catches up. Pool mining should only accept/submit once sync and peer freshness gates pass.</p></details>
-<details><summary>No peers or very slow sync.</summary><p>Check outbound internet, DNS, system time, and that TCP <code>8150</code> is not blocked. Add the <code>BOOTSTRAP_PEER_ADDRESSES</code> value from this page to <code>.env</code>, restart the node, and watch logs with <code>docker compose logs -f node</code>.</p></details>
-<details><summary>ASIC is not visible on the dashboard.</summary><p>Verify the ASIC pool URL is exactly <code>stratum+tcp://&lt;pool-host-lan-ip&gt;:3334</code>, not a Docker <code>172.*</code> address. Confirm the ASIC and pool are on a routed LAN, and run <code>sudo arp-scan --localnet</code> or <code>sudo nmap -sn &lt;lan-cidr&gt;</code> to find the miner.</p></details>
-<details><summary>Docker permission denied.</summary><p>Log out/in after adding your user to the docker group, or run the installer from a terminal where passwordless sudo can run Docker. Check <code>docker compose version</code> and <code>docker info</code>.</p></details>
-<details><summary>Port already in use.</summary><p>Another stack may already be running. Check <code>ss -ltnp | grep -E '(:3334|:8088|:9280|:8150|:38131|:18545)'</code>. Stop the old stack or change the corresponding host port in <code>.env</code>.</p></details>
-<details><summary>IPFS gateway is slow.</summary><p>Try another gateway, use local Kubo, or run <code>ipfs get /ipfs/bafybeieyhcnszf7ksylee5dsdktkdgm5q45fiuaqjrqxmfsbksafs3crny</code>. Always verify the SHA256 after download.</p></details>
-<details><summary>Where are logs?</summary><p>Use <code>docker compose logs -f node</code>, <code>docker compose logs -f pool</code>, and <code>docker compose logs -f dashboard</code> from the extracted release folder. Runtime files are under <code>ops/runtime</code>.</p></details>
-<details><summary>Can I delete the downloaded archive after extraction?</summary><p>Yes, after the stack has started and you have verified the hash/extraction. Keeping it is useful if you expect to reinstall soon.</p></details>
-<details><summary>What should I never publish?</summary><p>Private keys, generated <code>.env</code>, <code>node.conf</code> if it contains secrets, node identity keys, keystores, database dumps with private data, and ASIC admin credentials.</p></details>
-</section>
-
-<section class="footer"><p>Previous reference release: <a href="https://ipfs.io/ipfs/bafybeier427vi656ndgtrmo6avxkmeapzdjqf6pdlpxonyc56euegj5jaa">https://ipfs.io/ipfs/bafybeier427vi656ndgtrmo6avxkmeapzdjqf6pdlpxonyc56euegj5jaa</a>. This page follows the same BDAG Community visual language but publishes v6.3.20 artifacts and updated runbooks.</p><p>Manifest: <a href="release-manifest.json">release-manifest.json</a> · Peer probe: <a href="peer-probe.json">peer-probe.json</a> · Human guide: <a href="docs/human-install.md">docs/human-install.md</a></p></section>
-</main>
-</div>
-<script>
-document.querySelectorAll('.tab').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.tab').forEach(b => b.classList.remove('active')); document.querySelectorAll('.flow').forEach(f => f.classList.remove('active')); btn.classList.add('active'); document.getElementById('flow-' + btn.dataset.flow).classList.add('active'); }); });
-document.querySelectorAll('.copy').forEach(btn => { btn.addEventListener('click', async () => { const text = btn.dataset.copy || btn.nextElementSibling?.innerText || ''; try { await navigator.clipboard.writeText(text); const old = btn.textContent; btn.textContent = 'Copied'; setTimeout(() => btn.textContent = old, 1200); } catch (e) { btn.textContent = 'Select'; } }); });
-</script>
-</body>
-</html>
+<section id="faq"><h2>Help</h2><details open><summary>Why is there no sync-only shortcut?</summary><p>The previous shortcut let users download the stack without restoring chain data first. The recommended path is now restore-first because it is faster and catches architecture issues before startup.</p></details><details><summary>What if I am on x86_64?</summary><p>Use the <code>linux-amd64</code> payload. The architecture helper now selects it automatically.</p></details><details><summary>What if the installer says payload mismatch?</summary><p>You downloaded the wrong architecture for the host. Download the matching payload. Use <code>BDAG_ALLOW_CROSS_ARCH_PAYLOAD=1</code> only when you intentionally configured Docker CPU emulation.</p></details><details><summary>How do I know it worked?</summary><p>Check <code>curl -s http://127.0.0.1:9280/api/status | python3 -m json.tool</code>, dashboard port <code>8088</code>, sync status <code>synced</code>, remaining blocks <code>0</code>, and ASIC accepted shares.</p></details></section>
+<section class="footer"><p>Manifest: <a href="release-manifest.json">release-manifest.json</a> · Human guide: <a href="docs/human-install.md">docs/human-install.md</a> · AI guide: <a href="docs/ai-agent-runbook.md">docs/ai-agent-runbook.md</a> · Peer probe: <a href="peer-probe.json">peer-probe.json</a></p></section></main><script>document.querySelectorAll('.copy').forEach(btn=>{btn.addEventListener('click',async()=>{const text=btn.dataset.copy||btn.nextElementSibling?.innerText||'';try{await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent='Copied';setTimeout(()=>btn.textContent=old,1200)}catch(e){btn.textContent='Select'}})});</script></body></html>
