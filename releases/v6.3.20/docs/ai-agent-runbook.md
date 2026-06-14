@@ -2,6 +2,12 @@
 
 Use the restore-first flow. Do not run a sync-only shortcut unless the human explicitly asks.
 
+Permanent latest release page:
+
+`https://ipfs.io/ipns/k51qzi5uqu5di0diurqi5rquevlgj4fv4ykm67tgovktd8vtnlimcvqywk1jhg/index.html`
+
+Treat the IPNS name as the canonical mutable release pointer. Treat all payloads, checksums, helper scripts, docs, manifests, and chain-data archives as immutable IPFS CIDs that must be verified before use.
+
 ## Rules
 
 - Never print, store, commit, or echo private keys.

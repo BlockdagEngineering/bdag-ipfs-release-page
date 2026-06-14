@@ -2,6 +2,12 @@
 
 This release publishes two payloads: `linux-arm64` for Raspberry Pi/ARM servers and `linux-amd64` for ordinary x86_64 Ubuntu hosts. Start by checking the host architecture:
 
+Permanent latest release page:
+
+`https://ipfs.io/ipns/k51qzi5uqu5di0diurqi5rquevlgj4fv4ykm67tgovktd8vtnlimcvqywk1jhg/index.html`
+
+This is an IPNS name, not a registered domain. It can be updated to point at newer release CIDs while exact payloads, checksums, docs, and blockchain data remain immutable IPFS CIDs.
+
 ```bash
 uname -m
 ```

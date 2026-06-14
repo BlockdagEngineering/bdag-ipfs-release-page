@@ -3,6 +3,12 @@
   "version": "v6.3.20",
   "published_at": "2026-06-14T14:55:00+02:00",
   "branch": "jeremy-dev-release",
+  "release_ipns": {
+    "name": "k51qzi5uqu5di0diurqi5rquevlgj4fv4ykm67tgovktd8vtnlimcvqywk1jhg",
+    "gateway": "https://ipfs.io/ipns/k51qzi5uqu5di0diurqi5rquevlgj4fv4ykm67tgovktd8vtnlimcvqywk1jhg/index.html",
+    "inbrowser_gateway": "https://k51qzi5uqu5di0diurqi5rquevlgj4fv4ykm67tgovktd8vtnlimcvqywk1jhg.ipns.inbrowser.link/index.html",
+    "purpose": "permanent mutable latest-release pointer; exact release files remain immutable IPFS CIDs"
+  },
   "targets": [
     "linux-arm64",
     "linux-amd64"
