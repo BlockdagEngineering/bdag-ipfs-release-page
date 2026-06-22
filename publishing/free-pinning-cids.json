@@ -5,12 +5,22 @@
   "cids": [
     {
       "name": "release-page-root",
-      "cid": "bafybeidykr7ca7fyikmkoftremsum7sekjjd4txhjysokdim6cuaxoyou4",
+      "cid": "bafybeid6h3jhux7vm4xr4kny53yzix7zhylha7twrea7hwwpaakwpzyui4",
       "recursive": true
+    },
+    {
+      "name": "install-helper",
+      "cid": "bafkreiakqiye3p2gttxyolqxrakzxebcl3cxbwbdsv32rqsn6hhnoift6e",
+      "recursive": false
     },
     {
       "name": "install-helper-filebase-mirror",
       "cid": "QmZpCSyhG8e15UqNhjaKyUGyFTrNhPsFqauSC3bBjDpXaS",
+      "recursive": false
+    },
+    {
+      "name": "release-manifest-filebase-mirror",
+      "cid": "Qmcer6ab8EYvFsmniwUBjDQTB9tH5ZWBpqywCrtFEKy275",
       "recursive": false
     },
     {

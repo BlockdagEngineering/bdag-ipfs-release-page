@@ -12,7 +12,7 @@ Release source:
 
 Pinned release-page root CID:
 
-`bafybeidykr7ca7fyikmkoftremsum7sekjjd4txhjysokdim6cuaxoyou4`
+`bafybeid6h3jhux7vm4xr4kny53yzix7zhylha7twrea7hwwpaakwpzyui4`
 
 Published IPNS page:
 

@@ -18,8 +18,9 @@
   },
   "bootstrap": {
     "verified_local_helper": "install-v6.5.7.sh",
-    "verified_local_helper_cid": "QmZpCSyhG8e15UqNhjaKyUGyFTrNhPsFqauSC3bBjDpXaS",
-    "verified_local_helper_url": "https://ipfs.filebase.io/ipfs/QmZpCSyhG8e15UqNhjaKyUGyFTrNhPsFqauSC3bBjDpXaS",
+    "verified_local_helper_cid": "bafkreiakqiye3p2gttxyolqxrakzxebcl3cxbwbdsv32rqsn6hhnoift6e",
+    "verified_filebase_helper_cid": "QmZpCSyhG8e15UqNhjaKyUGyFTrNhPsFqauSC3bBjDpXaS",
+    "verified_filebase_helper_url": "https://ipfs.filebase.io/ipfs/QmZpCSyhG8e15UqNhjaKyUGyFTrNhPsFqauSC3bBjDpXaS",
     "behavior": "detects Linux host architecture, downloads the matching IPFS-pinned payload with Filebase gateway fallback, verifies SHA256, patches the packaged Dockerfile/startup/raw-datadir snapshot restore paths, installs operator seeds plus live stable public service-port peers, preserves the packaged bootstrap peers, writes the deduplicated merged peers into node.conf.example and BOOTSTRAP_PEER_ADDRESSES, uses S3 latest snapshot metadata and archive download for optional restore-first installs, disables host IPv6 by default to avoid Docker Hub IPv6 route timeouts, pre-pulls Docker base images with retry, extracts the payload, and runs the payload install.sh"
   },
   "peer_seeds": {

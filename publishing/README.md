@@ -36,7 +36,7 @@ Do not use DNSLink or a registered domain as the canonical release pointer. The 
 Current release asset records:
 
 - release: `pool-v6.5.7` from `C:\Users\Work\Downloads\stack-v6.5.7`
-- pinned release-page root: `bafybeidykr7ca7fyikmkoftremsum7sekjjd4txhjysokdim6cuaxoyou4`
+- pinned release-page root: `bafybeid6h3jhux7vm4xr4kny53yzix7zhylha7twrea7hwwpaakwpzyui4`
 - published IPNS: `k51qzi5uqu5djmbejujmyth6ge34vgo4q06dq7m1e2m74szri274yv7fttdusn`
 - linux-arm64 CID: `bafybeibobaofgsdlingiday5ea3hf62rludb4u5n6lgxaj3mgjbv35goqe`
 - linux-arm64 Filebase mirror CID: `QmfXXCaWfxGjfRSaxG4cBYU43H61XHafeFxGZmMhtSTbX4`
@@ -44,6 +44,7 @@ Current release asset records:
 - linux-amd64 CID: `bafybeibc562phfnizztpulf76p57dvhw3xl7kv6zwmhjwu37iglk4sizua`
 - linux-amd64 Filebase mirror CID: `QmVYwag8QduE1JTJV7U6Y2m23C3GGhfHMQEzzxhsUuedAy`
 - linux-amd64 SHA256: `8d292703d77b656d85bfabf16df7b4ce4f86454a5c075a3c292a5b00f08bd852`
+- helper CID: `bafkreiakqiye3p2gttxyolqxrakzxebcl3cxbwbdsv32rqsn6hhnoift6e`
 - helper Filebase mirror CID: `QmZpCSyhG8e15UqNhjaKyUGyFTrNhPsFqauSC3bBjDpXaS`
 
 Free external pinning list:
