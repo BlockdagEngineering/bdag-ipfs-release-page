@@ -1,0 +1,99 @@
+{
+  "name": "BDAG Community Pool Stack",
+  "version": "pool-v6.5.7",
+  "release_url": null,
+  "repository": "BlockdagEngineering/stack",
+  "tag": "pool-v6.5.7",
+  "target_commitish": null,
+  "commit": null,
+  "created_at": "2026-06-18T08:41:16Z",
+  "published_at": "2026-06-18T08:41:16Z",
+  "release_author": "local bundle",
+  "latest": true,
+  "distribution": {
+    "primary": "IPFS-pinned local release payloads with Filebase-pinned mirrors",
+    "source_path": "C:\\Users\\Work\\Downloads\\stack-v6.5.7",
+    "ipfs_status": "payloads, helper, release page, docs, and manifest pinned to IPFS; helper and payloads also uploaded to Filebase for gateway fallback",
+    "note": "This manifest records immutable IPFS CIDs, Filebase mirror CIDs, and SHA256 digests for the locally supplied pool-v6.5.7 payloads."
+  },
+  "bootstrap": {
+    "verified_local_helper": "install-v6.5.7.sh",
+    "verified_local_helper_cid": "QmZpCSyhG8e15UqNhjaKyUGyFTrNhPsFqauSC3bBjDpXaS",
+    "verified_local_helper_url": "https://ipfs.filebase.io/ipfs/QmZpCSyhG8e15UqNhjaKyUGyFTrNhPsFqauSC3bBjDpXaS",
+    "behavior": "detects Linux host architecture, downloads the matching IPFS-pinned payload with Filebase gateway fallback, verifies SHA256, patches the packaged Dockerfile/startup/raw-datadir snapshot restore paths, installs operator seeds plus live stable public service-port peers, preserves the packaged bootstrap peers, writes the deduplicated merged peers into node.conf.example and BOOTSTRAP_PEER_ADDRESSES, uses S3 latest snapshot metadata and archive download for optional restore-first installs, disables host IPv6 by default to avoid Docker Hub IPv6 route timeouts, pre-pulls Docker base images with retry, extracts the payload, and runs the payload install.sh"
+  },
+  "peer_seeds": {
+    "file": "peer-seeds.json",
+    "generated_at": "2026-06-18T12:54:34Z",
+    "operator_aws_nodes": 3,
+    "packaged_seed_count": 12,
+    "merged_seed_count": 21,
+    "validated_on_ec2": false,
+    "validation_result": "Peer overlay pruned after snapshot-node feedback: SSM getPeerInfo on the Cape Town host found 9 live stable service-port candidates from the pool node and 1 from the snapshot node; temporary/high NAT ports were removed from the release overlay.",
+    "next_requirement": "Before each release, query operator nodes with authenticated getPeerInfo, keep only active public service-port peers with matching peer IDs, preserve packaged seeds, then validate a fresh install or restore until peers connect and chain segments import.",
+    "installed_into": [
+      "node.conf.example addpeer lines",
+      ".env.example BOOTSTRAP_PEER_ADDRESSES"
+    ],
+    "harvested_active_peers": 9,
+    "selection_policy": "operator seeds plus active public TCP 8150/8151/8152 Full|CF peers only; high observed NAT ports excluded"
+  },
+  "targets": [
+    "linux-amd64",
+    "linux-arm64"
+  ],
+  "payloads": {
+    "linux-amd64": {
+      "arch_label": "AMD64 / x86_64",
+      "host_match": "x86_64 or amd64",
+      "file": "pool-stack-docker-pool-v6.5.7-linux-amd64.zip",
+      "cid": "bafybeibc562phfnizztpulf76p57dvhw3xl7kv6zwmhjwu37iglk4sizua",
+      "download_url": "https://ipfs.io/ipfs/bafybeibc562phfnizztpulf76p57dvhw3xl7kv6zwmhjwu37iglk4sizua",
+      "filebase_cid": "QmVYwag8QduE1JTJV7U6Y2m23C3GGhfHMQEzzxhsUuedAy",
+      "filebase_url": "https://ipfs.filebase.io/ipfs/QmVYwag8QduE1JTJV7U6Y2m23C3GGhfHMQEzzxhsUuedAy",
+      "checksum_file": "pool-stack-docker-pool-v6.5.7-linux-amd64.zip.sha256",
+      "checksum_cid": "bafkreifsfgqnppsvbdjpvm2wusvlxawmzl4sohghvmll4wgbeag262vzuu",
+      "checksum_url": "https://ipfs.io/ipfs/bafkreifsfgqnppsvbdjpvm2wusvlxawmzl4sohghvmll4wgbeag262vzuu",
+      "sha256": "8d292703d77b656d85bfabf16df7b4ce4f86454a5c075a3c292a5b00f08bd852",
+      "checksum_asset_sha256": "b229a0d7be5508d2fab356a4aabb82cccaf9271cc7ab16be58c1200daf6ab9a5",
+      "size_bytes": 81151213,
+      "size_label": "81 MB"
+    },
+    "linux-arm64": {
+      "arch_label": "ARM64 / aarch64",
+      "host_match": "aarch64 or arm64",
+      "file": "pool-stack-docker-pool-v6.5.7-linux-arm64.zip",
+      "cid": "bafybeibobaofgsdlingiday5ea3hf62rludb4u5n6lgxaj3mgjbv35goqe",
+      "download_url": "https://ipfs.io/ipfs/bafybeibobaofgsdlingiday5ea3hf62rludb4u5n6lgxaj3mgjbv35goqe",
+      "filebase_cid": "QmfXXCaWfxGjfRSaxG4cBYU43H61XHafeFxGZmMhtSTbX4",
+      "filebase_url": "https://ipfs.filebase.io/ipfs/QmfXXCaWfxGjfRSaxG4cBYU43H61XHafeFxGZmMhtSTbX4",
+      "checksum_file": "pool-stack-docker-pool-v6.5.7-linux-arm64.zip.sha256",
+      "checksum_cid": "bafkreiecin6g457sovjf5e2oelirxhsr6rcamcruft5p7tgycjn577jv6i",
+      "checksum_url": "https://ipfs.io/ipfs/bafkreiecin6g457sovjf5e2oelirxhsr6rcamcruft5p7tgycjn577jv6i",
+      "sha256": "53ac85c8f6337fd1d0cebbc17c3cf17804f371dcaf2270515e196c4223e50c6c",
+      "checksum_asset_sha256": "82437c6e77f275525e934e22d11b9e51f444060a342cfaffccd8125bdffd35f2",
+      "size_bytes": 74092547,
+      "size_label": "74 MB"
+    }
+  },
+  "release_ipns": {
+    "published_name": "k51qzi5uqu5djmbejujmyth6ge34vgo4q06dq7m1e2m74szri274yv7fttdusn",
+    "published_key": "bdag-community-preview",
+    "published_value": "see current IPNS resolution",
+    "gateway": "https://ipfs.io/ipns/k51qzi5uqu5djmbejujmyth6ge34vgo4q06dq7m1e2m74szri274yv7fttdusn/index.html",
+    "inbrowser_gateway_note": "Do not use ipns.inbrowser.link for the mutable IPNS page; its browser-side IPNS resolver can reject otherwise valid Kubo-published records. Use ipfs.io for IPNS and immutable .ipfs.inbrowser.link URLs for exact CIDs.",
+    "purpose": "mutable latest pointer for the tested IPFS release setup page"
+  },
+  "chain_data": {
+    "status": "S3 latest raw datadir snapshot used for restore-first installs; helper reads SHA256 and size from S3 metadata at install time",
+    "source": "s3",
+    "url": "https://blockchain-state-backup.s3.us-west-1.amazonaws.com/blockdag-miner-backups/ipfs-snapshots/latest/bdag-latest-snapshot.tar.gz",
+    "archive": "bdag-latest-snapshot.tar.gz",
+    "compression": "zstd tar archive despite the .tar.gz object key",
+    "sha256": "40bce74b03d08f68dd97c466b174cbcb65f96500a48b9a028743007f48d66595",
+    "created_at": "2026-06-18T00:04:13Z",
+    "last_modified": "2026-06-18T00:15:26Z",
+    "size_bytes": 9977967053,
+    "size_label": "9.98 GB"
+  }
+}
