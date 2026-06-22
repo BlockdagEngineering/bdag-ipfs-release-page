@@ -1,8 +1,8 @@
 # AI Agent Runbook: BlockDAG Community Pool Stack pool-v6.5.7
 
-Use the IPFS-pinned local payload CIDs for this release. The helper and payloads also have Filebase-pinned IPFS mirrors for gateway fallback. Do not assume GitHub assets exist for `pool-v6.5.7`.
+Use the IPFS-pinned payload CIDs for this release. The helper and payloads also have Filebase-pinned IPFS mirrors for gateway fallback. Do not assume GitHub assets exist for `pool-v6.5.7`.
 
-Release metadata is in `release-manifest.json` on the IPFS setup page.
+Release metadata is in `release-manifest.json` on the setup page.
 The bootstrap peer list is recorded in `peer-seeds.json`; the helper installs operator seeds plus live public service-port peers, preserves packaged seeds, excludes temporary high-port observed peers, and writes the deduplicated list into `node.conf` plus `BOOTSTRAP_PEER_ADDRESSES`.
 
 ## Rules
@@ -11,7 +11,7 @@ The bootstrap peer list is recorded in `peer-seeds.json`; the helper installs op
 - First run `uname -s` and `uname -m`.
 - Continue only on Linux.
 - Use `linux-amd64` for `x86_64/amd64` and `linux-arm64` for `aarch64/arm64`.
-- Prefer the local helper when digest verification is required before extraction.
+- Prefer the release helper when digest verification is required before extraction.
 - Do not replace packaged bootstrap peers; prepend only operator seeds and live public TCP 8150/8151/8152 Full|CF peers with matching peer IDs unless the operator explicitly supplies a different peer set.
 - Ask directly for missing pool inputs; do not rely on a popup/modal tool being available.
 
@@ -69,4 +69,4 @@ BDAG_DEPLOY_KIND=pool BDAG_CHAIN_MODE=non-archive bash ./install.sh
 ```
 
 Validate with collector status and dashboard reachability. If `sync_progress.status` is not `synced`, keep pool mining paused until gates pass.
-For this helper revision, the peer overlay was pruned after snapshot-node feedback: high-port observed peers were removed, 11 release overlay seeds remain, and the v6.5.7 payload contributes 12 unique packaged seeds for 21 expected merged peers after dedupe.
+For this helper revision, the peer overlay was pruned to remove high-port observed peers. Eleven release overlay seeds remain, and the v6.5.7 payload contributes 12 unique packaged seeds for 21 expected merged peers after dedupe.

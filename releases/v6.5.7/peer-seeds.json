@@ -23,7 +23,7 @@
     }
   ],
   "validation": {
-    "method": "SSM to Cape Town host i-0bcfeb280d060473b; authenticated getPeerInfo on snapshot-node and pool-node, then filter state=true, active=true, Full|CF service, public /ip4, TCP 8150/8151/8152, and matching peer ID in multiaddr.",
+    "method": "Operator peer refresh using getPeerInfo, then filter state=true, active=true, Full|CF service, public /ip4, TCP 8150/8151/8152, and matching peer ID in multiaddr.",
     "pool_node_total_peers": 31,
     "pool_node_stable_candidates": 9,
     "snapshot_node_total_peers": 1,

@@ -3,6 +3,8 @@ name: Deploy release page
 on:
   push:
     branches:
+      - main
+      - master
       - jeremy-dev-release
   workflow_dispatch:
 

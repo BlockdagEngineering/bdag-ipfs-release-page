@@ -1,11 +1,11 @@
 # BlockDAG Community Pool Stack pool-v6.5.7 Human Install Guide
 
-This release publishes two Linux payloads pinned to immutable IPFS CIDs from the local `stack-v6.5.7` bundle. The helper and payloads also have Filebase-pinned IPFS mirrors for gateway fallback.
+This release publishes two Linux payloads pinned to immutable IPFS CIDs. The helper and payloads also have Filebase-pinned IPFS mirrors for gateway fallback.
 
 - `linux-amd64` for `x86_64` or `amd64` hosts.
 - `linux-arm64` for `aarch64` or `arm64` hosts.
 
-Release metadata is in `release-manifest.json` on the IPFS setup page.
+Release metadata is in `release-manifest.json` on the setup page.
 The bootstrap peer list is in `peer-seeds.json`; the helper installs operator seeds plus live public service-port peers, preserves packaged seeds, excludes temporary high-port observed peers, and writes the deduplicated list into `node.conf` and `BOOTSTRAP_PEER_ADDRESSES`.
 
 Run this first:
@@ -55,7 +55,7 @@ For pool mode, prepare these before running the payload installer:
 The helper below selects the matching pinned payload CID, verifies the published SHA256 digest, extracts it, and runs the payload installer.
 It also installs the pruned stable-port peer overlay before starting Docker. The v6.5.7 payload contributes 12 unique packaged seeds, and the helper adds 11 overlay seeds for 21 expected merged peers after dedupe.
 
-## Verified Local Helper
+## Verified Helper
 
 This repository also includes a helper that verifies the published SHA256 digest before extraction:
 

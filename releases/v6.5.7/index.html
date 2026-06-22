@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="topbar-actions">
-          <div class="network-badge"><span class="status-dot"></span><span>IPFS release page</span></div>
+          <div class="network-badge"><span class="status-dot"></span><span>Release setup page</span></div>
           <a class="brand-download" href="release-manifest.json">Manifest</a>
         </div>
       </header>
@@ -45,7 +45,7 @@
           <p>BlockDAG pool stack release bundle from <code>stack-v6.5.7</code>. The Linux AMD64 and ARM64 payloads, checksum files, helper script, docs, and setup page are pinned to immutable IPFS CIDs, with Filebase-pinned mirrors for the helper and payloads.</p>
           <div class="grid-3">
             <div class="small-card"><h3>Version</h3><p><code>pool-v6.5.7</code></p></div>
-            <div class="small-card"><h3>Source</h3><p><code>local bundle</code></p></div>
+            <div class="small-card"><h3>Source</h3><p><code>pool-v6.5.7</code> release bundle</p></div>
             <div class="small-card"><h3>Targets</h3><p><code>linux-amd64</code> and <code>linux-arm64</code></p></div>
             <div class="small-card"><h3>Bootstrap Peers</h3><p><code>21</code> expected merged seed peers are installed: packaged seeds plus a pruned stable-port overlay.</p></div>
           </div>
@@ -130,9 +130,9 @@
         </section>
 
         <details class="advanced-panel" open>
-          <summary>IPFS/IPNS, docs, and operator references</summary>
+          <summary>Release records, docs, and operator references</summary>
           <div class="grid-2">
-            <div class="small-card"><h3>Published IPNS</h3><p><a href="https://ipfs.io/ipns/k51qzi5uqu5djmbejujmyth6ge34vgo4q06dq7m1e2m74szri274yv7fttdusn/index.html"><code>k51qzi5uqu5djmbejujmyth6ge34vgo4q06dq7m1e2m74szri274yv7fttdusn</code></a></p><p>Use this mutable IPNS page for the latest tested setup instructions. Use immutable CIDs and SHA256 values below when you need exact release verification.</p></div>
+            <div class="small-card"><h3>Immutable Records</h3><p>Use the manifest for exact payload CIDs, Filebase mirror CIDs, SHA256 values, peer seeds, and S3 snapshot metadata.</p><p><a href="release-manifest.json">View release-manifest.json</a></p></div>
             <div class="small-card"><h3>Dashboard And Ports</h3><p>Dashboard: <code>8088</code>. Collector status: <code>9280</code>. Chain RPC: <code>38131</code>. EVM HTTP: <code>18545</code>. Stratum: <code>3334</code>. Expose only BlockDAG P2P TCP <code>8150</code> publicly.</p></div>
             <div class="small-card"><h3>Release Peer Seeds</h3><p>The helper installs 11 release overlay peers: operator seeds plus live public TCP <code>8150</code>/<code>8151</code>/<code>8152</code> Full|CF peers. Temporary high-port observed peers are excluded.</p><p>The v6.5.7 payload contributes 12 unique packaged seeds, giving 21 expected merged peers after dedupe.</p><p><a href="peer-seeds.json">View peer-seeds.json</a></p></div>
           </div>
@@ -144,7 +144,7 @@
           </div>
         </details>
 
-        <section class="footer"><p>Release metadata sourced from the local <code>stack-v6.5.7</code> bundle. Large payload zips are pinned to IPFS and not stored in this repository.</p></section>
+        <section class="footer"><p>Release metadata sourced from the <code>pool-v6.5.7</code> bundle. Large payload zips are pinned to IPFS/Filebase and not stored in this repository.</p></section>
       </main>
     </div>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
