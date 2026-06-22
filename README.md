@@ -18,7 +18,7 @@ Published IPNS page:
 
 `https://ipfs.io/ipns/k51qzi5uqu5djmbejujmyth6ge34vgo4q06dq7m1e2m74szri274yv7fttdusn/index.html`
 
-GitHub Pages fallback:
+GitHub Pages fallback, once the repository plan or visibility supports Pages:
 
 `https://blockdagengineering.github.io/bdag-ipfs-release-page/`
 

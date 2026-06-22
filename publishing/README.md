@@ -23,7 +23,7 @@ Primary latest-page gateway:
 
 `https://ipfs.io/ipns/k51qzi5uqu5di0diurqi5rquevlgj4fv4ykm67tgovktd8vtnlimcvqywk1jhg/index.html`
 
-GitHub Pages fallback:
+GitHub Pages fallback, once the repository plan or visibility supports Pages:
 
 `https://blockdagengineering.github.io/bdag-ipfs-release-page/`
 
@@ -52,6 +52,8 @@ Free external pinning list:
 
 Pin only those CIDs on Filebase, 4EVERLAND, or another pinning service. Do not pin the old IPFS chain-data snapshot; restore uses the S3 snapshot URL in `releases/v6.5.7/release-manifest.json`.
 
-Filebase free-tier note: the Pinning Service API and HTML uploads are not available on this account. Use Filebase S3 uploads for helper and payload mirror CIDs, and use GitHub Pages or IPNS for the styled HTML setup page.
+Filebase free-tier note: the Pinning Service API and HTML uploads are not available on this account. Use Filebase S3 uploads for helper and payload mirror CIDs. For the styled HTML setup page, use IPNS, make this repository public for free GitHub Pages, or use a Pages-capable GitHub plan.
+
+GitHub Pages status: the workflow and `gh-pages` branch are present, but GitHub returned `Your current plan does not support GitHub Pages for this repository` on 2026-06-22.
 
 Payload IPFS CIDs for `pool-v6.5.7` are recorded in `releases/v6.5.7/release-manifest.json`.
