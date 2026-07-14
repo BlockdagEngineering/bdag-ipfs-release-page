@@ -1,0 +1,32 @@
+{
+  "schema": "bdag.community-ipfs-pins.v1",
+  "release": "2.0.0-community-rescue-rc.24",
+  "ipns": "k51qzi5uqu5dgijozv3dne65cp7iqv96tpsa8dflmwmqvdw9oxx4w3gsvt0ctl",
+  "pins": [
+    {
+      "name": "release-page-root",
+      "cid": "bafybeicrryxoxeg3kn4zuopoc7vwzf3ovytjhuidijbfoumad3xum2zany",
+      "recursive": true
+    },
+    {
+      "name": "verified-installer",
+      "cid": "bafkreiakbtrjskuchga5nx5gwamdhnh7gkouuqn63s33hoxfv424ywjhzi",
+      "recursive": false
+    },
+    {
+      "name": "linux-amd64-software",
+      "cid": "bafybeigpo7hyqw66hpsdlm7jvwibvtn5cepieeeg6ukoo2dxtpbd57g73a",
+      "recursive": true
+    },
+    {
+      "name": "linux-arm64-software",
+      "cid": "bafybeia5hwjuaiubcyz6i5ncrqakgbwzi6o3sw2nx4waybtscgchlhqn3a",
+      "recursive": true
+    },
+    {
+      "name": "canonical-dataset-v26",
+      "cid": "bafybeicl52ju56z4gx4ph5b7lyw4stkuvsukmeykqfufw7w5nwvgrb6gru",
+      "recursive": true
+    }
+  ]
+}

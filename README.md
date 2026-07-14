@@ -1,17 +1,22 @@
-# BDAG Community Pool Stack Release Page
+# BlockDAG Community Rescue Release Page
 
-Static setup page and install assets for the current BDAG Community Pool Stack release.
+Static setup page, verification records, and install guidance for the current
+community rescue release.
 
-Current release: `pool-v6.5.7`
+Current release: `2.0.0-community-rescue-rc.24`
 
 Public setup page:
 
 `https://blockdagengineering.github.io/bdag-ipfs-release-page/`
 
-Current release page:
+Current release directory:
 
-`releases/v6.5.7/index.html`
+`releases/2.0.0-community-rescue-rc.24/`
 
-Large payload zips are not stored in this repository. The v6.5.7 page and manifest record immutable IPFS CIDs, Filebase mirror CIDs, and SHA256 values for the helper and payloads.
+Large software and dataset artifacts are not stored in Git. The release page
+and manifest record immutable IPFS CIDs, GitHub software fallbacks, exact byte
+sizes, SHA-256 values, signing-key fingerprints, and canonical chain
+checkpoints.
 
-Snapshot restore uses the public S3 latest snapshot URL recorded in `releases/v6.5.7/release-manifest.json`.
+All documented `curl` downloads force HTTP/1.1. Software and canonical dataset
+v26 are independent artifacts and can be used separately.

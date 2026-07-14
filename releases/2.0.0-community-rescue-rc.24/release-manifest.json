@@ -1,0 +1,79 @@
+{
+  "schema": "bdag.community-release-index.v1",
+  "release": {
+    "version": "2.0.0-community-rescue-rc.24",
+    "sequence": 24,
+    "channel": "community-rescue",
+    "status": "prerelease",
+    "published_at": "2026-07-14T19:31:00+02:00"
+  },
+  "source": {
+    "repository": "https://github.com/BlockdagEngineering/stack",
+    "release_url": "https://github.com/BlockdagEngineering/stack/releases/tag/2.0.0-community-rescue-rc.24",
+    "tag": "2.0.0-community-rescue-rc.24",
+    "stack_commit": "d6e0784d924c0e74760074f822af1283deb89d6e",
+    "corechain_commit": "ca18c9836cabc411b45022bf12344b50c0f83bc9",
+    "pool_commit": "80774b865b60e695b6e91a817013d9aeffc03271",
+    "dashboard_commit": "0662d56f66a78f8856f1f49c29d128519312a358"
+  },
+  "trust": {
+    "release_key_sha256": "26f0051185d9c1abada3b5adcd3d11c88f522e09b3850211a04773250c267ffb",
+    "dataset_key_sha256": "f9f2f7df88d43c8d51df8bdc2a369601ff0b4b9de224e8ab9b609b423b203d24"
+  },
+  "installer": {
+    "filename": "install-community-rescue-rc24.sh",
+    "cid": "bafkreiakbtrjskuchga5nx5gwamdhnh7gkouuqn63s33hoxfv424ywjhzi",
+    "sha256": "0a0ce2992a823981d6dfa6b01833b4ff329d4a41bedcb7b3bae5af35cc5927ca",
+    "size_bytes": 2186,
+    "requires_http_version": "HTTP/1.1"
+  },
+  "software": {
+    "independent_from_dataset": true,
+    "targets": {
+      "linux-amd64": {
+        "filename": "pool-stack-docker-2.0.0-community-rescue-rc.24-linux-amd64.zip",
+        "cid": "bafybeigpo7hyqw66hpsdlm7jvwibvtn5cepieeeg6ukoo2dxtpbd57g73a",
+        "sha256": "98fd017437ee8e2285b34448d53919b6ce92e76e20c626ad316653af0d1bfaf7",
+        "size_bytes": 638555768
+      },
+      "linux-arm64": {
+        "filename": "pool-stack-docker-2.0.0-community-rescue-rc.24-linux-arm64.zip",
+        "cid": "bafybeia5hwjuaiubcyz6i5ncrqakgbwzi6o3sw2nx4waybtscgchlhqn3a",
+        "sha256": "74f6695d8954725907b75a0947c48385ae953f6f2973c08ed5e2e61c677fac7a",
+        "size_bytes": 459909154
+      }
+    }
+  },
+  "dataset": {
+    "version": "v26",
+    "independent_from_software": true,
+    "archive_node_equivalent": false,
+    "filename": "blockdag-evm-dataset-v26-20260714T115749Z.tar.zst",
+    "cid": "bafybeicl52ju56z4gx4ph5b7lyw4stkuvsukmeykqfufw7w5nwvgrb6gru",
+    "sha256": "90c86826ef59a300698a788ffc9555be1c2ca1adb7c8b02c0c230bda07738118",
+    "size_bytes": 10659644581,
+    "unpacked_size_bytes": 19321727635,
+    "manifest": "records/dataset/CANONICAL-DATA-MANIFEST.json",
+    "native_boundary": {
+      "order": 14636755,
+      "hash": "0x591ccfb990e05462d3777db14cc09f0e11b4ae7b961750603394469fbbb9ac99"
+    },
+    "evm_boundary": {
+      "number": 14258129,
+      "hash": "0x694ccdde6c5921f2b1b39a6c7d45e2dbde1e8fa897d73ef4294896811e7c28bb",
+      "state_root": "0x24578d2552f5cf1c5b4f266a00364589e25ab251dbad4a4868bdedae4156be80"
+    },
+    "fixed_checkpoint": {
+      "number": 13863411,
+      "hash": "0xbf9a0ccd88fa03eb3d7cbc0052b258b9b21132ae4ba3f0276f6e482a9d601738",
+      "state_root": "0xad51cb1e1357172afc5ca5dcebc477ff818661b64b8b5b64cdf9cd54a8450c00"
+    }
+  },
+  "qualification": {
+    "runtime_path_tested_on_multiple_linux_mining_hosts": true,
+    "signed_package_integrity_verified": true,
+    "dataset_manifest_and_archive_verified": true,
+    "mining_share_and_block_acceptance_observed": true,
+    "release_class": "best-effort community rescue candidate"
+  }
+}
