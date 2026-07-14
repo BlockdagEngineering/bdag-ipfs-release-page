@@ -1,0 +1,9 @@
+[Unit]
+Description=Refresh BlockDAG IPFS seeder UPnP mappings
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/upnpc -r 4001 TCP 4001 UDP
+Nice=10
