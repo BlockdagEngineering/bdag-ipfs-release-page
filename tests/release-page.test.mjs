@@ -15,9 +15,10 @@ import {
   isMacList,
   isSha256,
   isWallet,
+  normalizeMacList,
   publicationReady,
   shellQuote,
-} from "../releases/2.0.0-community-rescue-rc.30/assets/release-page.mjs";
+} from "../releases/2.0.0-community-rescue-rc.30-page-v2/assets/release-page.mjs";
 
 
 const syntheticHash = (character) => character.repeat(64);
@@ -141,6 +142,11 @@ function syntheticPublishedManifest({ portable = true, archive = true } = {}) {
       ],
       software_http_fallback_base: null,
     },
+    records_delivery: {
+      mode: "ipfs-directory",
+      cid: syntheticCid("g"),
+      path_prefix: "records/",
+    },
     installer: syntheticArtifact("c", "install-rc30.sh"),
     software: {
       independent_from_datasets: true,
@@ -171,21 +177,25 @@ function syntheticPublishedManifest({ portable = true, archive = true } = {}) {
 }
 
 test("published RC30 manifest unlocks a software-only installation", async () => {
-  const manifestUrl = new URL("../releases/2.0.0-community-rescue-rc.30/release-manifest.json", import.meta.url);
+  const manifestUrl = new URL("../releases/2.0.0-community-rescue-rc.30-page-v2/release-manifest.json", import.meta.url);
   const manifest = JSON.parse(await readFile(manifestUrl, "utf8"));
   assert.equal(publicationReady(manifest), true);
   const command = buildInstallCommand(manifest, {
     profile: "non-mining",
     dataset: "none",
+    retention: "current",
     dataDir: "/srv/blockdag/node-data",
-    architecture: "linux-amd64",
   });
   assert.doesNotMatch(command, /still a draft/);
   assert.match(command, /BDAG_RELEASE_SEQUENCE='30'/);
+  assert.match(command, /case "\$\(uname -m\)"/);
   assert.match(command, /download_ipfs "\$PACKAGE_CID"/);
   assert.match(command, /openssl pkeyutl -verify/);
   assert.match(command, /Signed software authorization/);
+  assert.match(command, /--profile non-mining/);
+  assert.match(command, /^  --no-archive$/m);
   assert.match(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
+  assert.doesNotMatch(command, /MINING_POOL_ADDRESS|POOL_ASIC_MAC_ALLOWLIST/);
   assert.doesNotMatch(command, /github\.com\/BlockdagEngineering/);
 });
 
@@ -198,6 +208,7 @@ test("identity and transport validators reject malformed values", () => {
   assert.equal(isWallet("0x1234"), false);
   assert.equal(isMacList("aa:bb:cc:dd:ee:ff,11:22:33:44:55:66"), true);
   assert.equal(isMacList("not-a-mac"), false);
+  assert.equal(normalizeMacList("AA:BB:CC:DD:EE:FF, 11:22:33:44:55:66"), "aa:bb:cc:dd:ee:ff,11:22:33:44:55:66");
   assert.equal(gatewayTemplatesReady(["https://one.invalid/ipfs/{cid}", "https://two.invalid/ipfs/{cid}"]), true);
   assert.equal(gatewayTemplatesReady(["http://one.invalid/ipfs/{cid}"]), false);
 });
@@ -267,16 +278,110 @@ test("generated full-archive command is resumable, verified, and shell-valid", (
   assert.match(command, /-C -/);
   assert.match(command, /sha256sum -c -/);
   assert.match(command, /cat 'archive\.part-001' 'archive\.part-002'/);
-  assert.match(command, /--archive/);
+  assert.match(command, /^  --full-archive \\$/m);
+  assert.doesNotMatch(command, /^  --archive(?: |$)/m);
   assert.match(command, /--dataset-trusted-key/);
   assert.match(command, /BDAG_RELEASE_VERSION='2\.0\.0-community-rescue-rc\.30'/);
   assert.match(command, /BDAG_RELEASE_SEQUENCE='30'/);
+  assert.match(command, /export POOL_ASIC_MAC_ALLOWLIST='aa:bb:cc:dd:ee:ff,11:22:33:44:55:66'/);
+  assert.match(command, /temporary\.replace\(path\)/);
+  assert.match(command, /docker compose --profile mining up -d --no-build --pull never pool/);
+  assert.match(command, /docker inspect/);
+  assert.match(command, /grep -Fqx/);
   assert.match(command, /openssl pkeyutl -verify/);
   assert.match(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
   assert.doesNotMatch(command, /YOUR_PUBLIC|CID_FROM|SHA256_FROM/);
 
   const syntax = spawnSync("bash", ["-n"], { input: command, encoding: "utf8" });
   assert.equal(syntax.status, 0, syntax.stderr);
+});
+
+test("every selectable role, dataset, and retention combination maps to the intended installer mode", () => {
+  const manifest = syntheticPublishedManifest();
+  const wallet = `0x${"1".repeat(40)}`;
+  const macs = "AA:BB:CC:DD:EE:FF";
+  const cases = [
+    {
+      label: "mining current-state software-only",
+      options: { profile: "mining", dataset: "none", retention: "current", wallet, macs },
+      expectedMode: "--no-archive",
+      expectsDataset: false,
+      expectsMining: true,
+    },
+    {
+      label: "public RPC retaining compatible archive history",
+      options: { profile: "public-rpc", dataset: "none", retention: "archive" },
+      expectedMode: "--archive",
+      expectsDataset: false,
+      expectsMining: false,
+    },
+    {
+      label: "node-only portable restore",
+      options: { profile: "non-mining", dataset: "portable", retention: "archive" },
+      expectedMode: "--no-archive",
+      expectsDataset: true,
+      expectsMining: false,
+    },
+    {
+      label: "mining full archive restore",
+      options: { profile: "mining", dataset: "full_archive", retention: "current", wallet, macs },
+      expectedMode: "--full-archive",
+      expectsDataset: true,
+      expectsMining: true,
+    },
+  ];
+
+  for (const entry of cases) {
+    const command = buildInstallCommand(manifest, {
+      ...entry.options,
+      dataDir: "/srv/blockdag/node-data",
+    }, "https://release.invalid/index.html");
+    const modeFlags = command
+      .split("\n")
+      .map((line) => line.trim().split(/\s+/)[0])
+      .filter((token) => ["--archive", "--no-archive", "--full-archive"].includes(token));
+
+    assert.deepEqual(modeFlags, [entry.expectedMode], entry.label);
+    assert.equal(command.includes("--dataset-archive"), entry.expectsDataset, entry.label);
+    assert.equal(command.includes("POOL_ASIC_MAC_ALLOWLIST"), entry.expectsMining, entry.label);
+    assert.match(command, new RegExp(`--profile ${entry.options.profile.replace("-", "\\-")}`), entry.label);
+    assert.match(command, /Host preflight passed/, entry.label);
+    assert.match(command, /Required command is unavailable/, entry.label);
+    const syntax = spawnSync("bash", ["-n"], { input: command, encoding: "utf8" });
+    assert.equal(syntax.status, 0, `${entry.label}: ${syntax.stderr}`);
+  }
+});
+
+test("a pending dataset cannot produce an install command", async () => {
+  const manifestUrl = new URL("../releases/2.0.0-community-rescue-rc.30-page-v2/release-manifest.json", import.meta.url);
+  const manifest = JSON.parse(await readFile(manifestUrl, "utf8"));
+  const command = buildInstallCommand(manifest, {
+    profile: "non-mining",
+    dataset: "full_archive",
+    retention: "archive",
+    dataDir: "/srv/blockdag/node-data",
+  });
+  assert.equal(command, "# The selected dataset is not published and cannot be installed.");
+});
+
+test("signed records always use their immutable IPFS root regardless of page origin", () => {
+  const manifest = syntheticPublishedManifest();
+  const options = {
+    profile: "non-mining",
+    dataset: "none",
+    retention: "current",
+    dataDir: "/srv/blockdag/node-data",
+  };
+  const command = buildInstallCommand(
+    manifest,
+    options,
+    "https://example.ipfs.inbrowser.link/index.html",
+  );
+  assert.match(command, /download_ipfs_path/);
+  assert.match(command, new RegExp(manifest.records_delivery.cid));
+  assert.match(command, /'software\/release-auth\.json'/);
+  assert.match(command, /RELEASE_AUTH_MANIFEST=/);
+  assert.doesNotMatch(command, /inbrowser\.link|release\.invalid/);
 });
 
 test("shell quoting and byte formatting remain stable", () => {

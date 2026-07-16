@@ -14,9 +14,11 @@ from urllib.parse import urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RELEASE = ROOT / "releases" / "2.0.0-community-rescue-rc.30"
+RELEASE = ROOT / "releases" / "2.0.0-community-rescue-rc.30-page-v2"
 MANIFEST_PATH = RELEASE / "release-manifest.json"
 RC24 = "releases/2.0.0-community-rescue-rc.24/"
+RC30 = "releases/2.0.0-community-rescue-rc.30/"
+RC30_PAGE_V2 = "releases/2.0.0-community-rescue-rc.30-page-v2/"
 
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 CHAIN_HASH = re.compile(r"^0x[0-9a-f]{64}$")
@@ -246,6 +248,13 @@ def validate_common(validator: Validator, manifest: dict) -> None:
     validator.check(isinstance(gateways, list) and len(gateways) >= 2, "at least two IPFS gateway templates are required")
     if isinstance(gateways, list):
         validator.check(all(valid_gateway(gateway) for gateway in gateways), "gateway templates must be safe HTTPS URLs with one {cid}")
+    records_delivery = manifest.get("records_delivery", {})
+    validator.check(records_delivery.get("mode") == "ipfs-directory", "signed records must use immutable IPFS directory delivery")
+    validator.check(
+        isinstance(records_delivery.get("cid"), str) and bool(CID.fullmatch(records_delivery["cid"])),
+        "signed-record directory CID is invalid",
+    )
+    validator.check(records_delivery.get("path_prefix") == "records/", "signed-record path prefix is invalid")
 
 
 def validate_draft(validator: Validator, manifest: dict) -> None:
@@ -375,10 +384,19 @@ def validate_page_files(validator: Validator) -> tuple[str, str]:
     validator.check(len(parser.ids) == len(set(parser.ids)), "HTML contains duplicate IDs")
     validator.check(parser.inline_style_count == 0, "page must use the external stylesheet")
     validator.check('type="module" src="assets/release-page.mjs"' in html, "page does not load the release module")
+    validator.check('name="description"' in html, "page is missing a meta description")
+    validator.check('rel="icon"' in html, "page is missing a favicon")
     validator.check("release-manifest.json" in html and "release-manifest.json" in script, "page is not manifest-driven")
     validator.check("Portable dataset" in html and "Full archive dataset" in html, "both dataset options must be visible")
     validator.check("ASIC MAC addresses" in html and "Public payout wallet" in html, "mining prerequisites are incomplete")
     validator.check("peer-readiness" in html and "canonical checkpoint or boundary mismatch" in html, "page omits RC30 startup policy")
+    validator.check('"ARTIFACT.part" | sha256sum -c -' in html, "download example verifies the wrong filename")
+    validator.check("--full-archive" in script, "full archive selection does not use fail-closed full-archive mode")
+    validator.check("POOL_ASIC_MAC_ALLOWLIST" in script and "docker inspect" in script, "mining selection does not persist and verify the ASIC allowlist")
+    validator.check("data-retention" in html and 'retention === "archive"' in script, "software-only retention selection is incomplete")
+    validator.check("grep" in script and "Required command is unavailable" in script, "generated command preflight is incomplete")
+    validator.check('id="installCommand" tabindex="0"' in html, "generated command is not keyboard-scrollable")
+    validator.check("download_ipfs_path" in script and "records_delivery" in script, "generated command does not use immutable signed-record delivery")
 
     for _, reference in parser.references:
         if reference.startswith(("https://", "http://", "#")):
@@ -404,7 +422,10 @@ def validate_page_files(validator: Validator) -> tuple[str, str]:
         validator.check(not PRIVATE_PATH.search(text), f"public file contains a private filesystem path: {relative}")
 
     root_index = (ROOT / "index.html").read_text(encoding="utf-8")
-    validator.check(RC24 in root_index or "releases/2.0.0-community-rescue-rc.30/" in root_index, "root redirect must name a published release")
+    validator.check(
+        RC24 in root_index or RC30 in root_index or RC30_PAGE_V2 in root_index,
+        "root redirect must name a published release",
+    )
     return html, human_guide
 
 
@@ -412,13 +433,17 @@ def validate_git_scope(validator: Validator) -> None:
     if not (ROOT / ".git").exists():
         return
     result = subprocess.run(
-        ["git", "status", "--porcelain", "--", "releases/2.0.0-community-rescue-rc.24"],
+        [
+            "git", "status", "--porcelain", "--",
+            "releases/2.0.0-community-rescue-rc.24",
+            "releases/2.0.0-community-rescue-rc.30",
+        ],
         cwd=ROOT,
         check=False,
         capture_output=True,
         text=True,
     )
-    validator.check(result.returncode == 0 and not result.stdout.strip(), "immutable RC24 content contains working-tree changes")
+    validator.check(result.returncode == 0 and not result.stdout.strip(), "immutable published release content contains working-tree changes")
 
 
 def main() -> None:

@@ -4,7 +4,7 @@ Current release: `2.0.0-community-rescue-rc.30`
 
 Immutable setup page:
 
-`https://dweb.link/ipfs/bafybeifvrq65tqmspjbatjcqompglgazqmbtsa432mnxhepbeob2pos3v4/index.html`
+`https://dweb.link/ipfs/bafybeidomor34x6utpuhbhyok7a42abnxkaw4fs2oxphcmqopx63gciyvq/index.html`
 
 Mutable latest-release IPNS name:
 
@@ -13,6 +13,11 @@ Mutable latest-release IPNS name:
 The immutable CID is the authoritative page identity. IPNS is a convenience
 pointer and can take longer to resolve through public gateways.
 
+Generated install commands fetch signed records from a separate immutable
+`release-records-root`. This avoids depending on the HTML gateway origin,
+including service-worker gateways that do not return IPFS file bytes to shell
+clients.
+
 ## Reproduce The Page CID
 
 From the repository root:
@@ -20,12 +25,24 @@ From the repository root:
 ```bash
 ipfs add -r --cid-version=1 --raw-leaves=true --chunker=size-262144 \
   --hash=sha2-256 --pin=true -Q \
-  releases/2.0.0-community-rescue-rc.30
+  releases/2.0.0-community-rescue-rc.30-page-v2
 ```
 
 Expected CID:
 
-`bafybeifvrq65tqmspjbatjcqompglgazqmbtsa432mnxhepbeob2pos3v4`
+`bafybeidomor34x6utpuhbhyok7a42abnxkaw4fs2oxphcmqopx63gciyvq`
+
+The signed-record directory must independently reproduce as:
+
+```bash
+ipfs add -r --cid-version=1 --raw-leaves=true --chunker=size-262144 \
+  --hash=sha2-256 --pin=true -Q \
+  releases/2.0.0-community-rescue-rc.30-page-v2/records
+```
+
+Expected records CID:
+
+`bafybeidjnrortpzurwlkt7pfzxyjzyq6tadblvlehpywfiw4tqbfbw3eka`
 
 ## Community Mirroring
 
@@ -99,3 +116,25 @@ provider record, or a successful fetch through a caching HTTP gateway.
 Do not modify a published release directory after recording its CID. Create a
 new versioned directory, verify every link/hash/signature, add it to IPFS, then
 publish the new immutable root through IPNS and update the GitHub Pages root.
+
+## Mandatory Release Gate
+
+Before adding a new release-page directory to IPFS:
+
+```bash
+python3 tests/validate_rc30_release.py --publication-ready
+node --test tests/release-page.test.mjs
+```
+
+The command tests must cover every selectable role, dataset, and state-retention
+mode, reject unavailable datasets, and pass every generated command through
+`bash -n`.
+
+After computing and seeding the immutable CID, browse that exact CID at desktop
+and mobile sizes. Exercise every selector and the copy control, open every
+local document and record link, and inspect browser console, failed requests,
+layout overflow, and accessibility results. Fetch the HTML, manifest, module,
+stylesheet, and favicon through a cold public gateway. Run
+`check-public-availability.sh` and require the configured provider count and
+complete release-page DAG before updating IPNS or the stable web-page pointer.
+Repeat the browser checks against both mutable pointers after publication.

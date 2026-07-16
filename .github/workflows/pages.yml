@@ -26,6 +26,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Validate published release
+        run: python3 tests/validate_rc30_release.py --publication-ready
+      - name: Test generated install commands
+        run: node --test tests/release-page.test.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
