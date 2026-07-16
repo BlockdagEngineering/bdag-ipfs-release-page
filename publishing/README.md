@@ -1,10 +1,10 @@
 # Community Rescue IPFS Publishing
 
-Current release: `2.0.0-community-rescue-rc.24`
+Current release: `2.0.0-community-rescue-rc.30`
 
 Immutable setup page:
 
-`https://dweb.link/ipfs/bafybeicrryxoxeg3kn4zuopoc7vwzf3ovytjhuidijbfoumad3xum2zany/index.html`
+`https://dweb.link/ipfs/bafybeifvrq65tqmspjbatjcqompglgazqmbtsa432mnxhepbeob2pos3v4/index.html`
 
 Mutable latest-release IPNS name:
 
@@ -18,13 +18,14 @@ pointer and can take longer to resolve through public gateways.
 From the repository root:
 
 ```bash
-ipfs add -r --cid-version=1 --raw-leaves=true --pin=true -Q \
-  releases/2.0.0-community-rescue-rc.24
+ipfs add -r --cid-version=1 --raw-leaves=true --chunker=size-262144 \
+  --hash=sha2-256 --pin=true -Q \
+  releases/2.0.0-community-rescue-rc.30
 ```
 
 Expected CID:
 
-`bafybeicrryxoxeg3kn4zuopoc7vwzf3ovytjhuidijbfoumad3xum2zany`
+`bafybeifvrq65tqmspjbatjcqompglgazqmbtsa432mnxhepbeob2pos3v4`
 
 ## Community Mirroring
 
@@ -43,7 +44,7 @@ static TCP/UDP port forward for the Kubo swarm port.
 Each seeder needs:
 
 - Linux on `amd64` with the release Kubo binary available locally.
-- At least 40 GB free for RC24 plus operating headroom.
+- At least 40 GB free for RC30 portable data and operating headroom.
 - `jq`, `systemd`, passwordless administrative access, and outbound internet.
 - A public router mapping for TCP and UDP. Confirm `ipfs swarm addrs autonat`
   reports `Reachability: Public` before relying on the node.

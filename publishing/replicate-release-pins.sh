@@ -25,7 +25,7 @@ while IFS=$'\t' read -r name cid; do
   echo "pinning $name ($cid)"
   ipfs pin add --progress=false "$cid"
   ipfs block stat "$cid" >/dev/null
-  ipfs routing provide "$cid"
+  ipfs provide once --recursive "$cid"
   echo "ready $name ($cid)"
 done < <(jq -er '.pins[] | [.name, .cid] | @tsv' "$manifest")
 

@@ -1,31 +1,41 @@
 {
   "schema": "bdag.community-ipfs-pins.v1",
-  "release": "2.0.0-community-rescue-rc.24",
+  "release": "2.0.0-community-rescue-rc.30",
   "ipns": "k51qzi5uqu5dgijozv3dne65cp7iqv96tpsa8dflmwmqvdw9oxx4w3gsvt0ctl",
   "pins": [
     {
       "name": "release-page-root",
-      "cid": "bafybeicrryxoxeg3kn4zuopoc7vwzf3ovytjhuidijbfoumad3xum2zany",
+      "cid": "bafybeifvrq65tqmspjbatjcqompglgazqmbtsa432mnxhepbeob2pos3v4",
       "recursive": true
     },
     {
       "name": "verified-installer",
-      "cid": "bafkreiakbtrjskuchga5nx5gwamdhnh7gkouuqn63s33hoxfv424ywjhzi",
+      "cid": "bafkreibmhsg6jv7ewibvixpbrk5arfedltiio5aofrdlctbxyzjh4mfl6a",
       "recursive": false
     },
     {
       "name": "linux-amd64-software",
-      "cid": "bafybeigpo7hyqw66hpsdlm7jvwibvtn5cepieeeg6ukoo2dxtpbd57g73a",
+      "cid": "bafybeidrn6ppoxvp7sliura7wumuymybfufl3wwcynvkiu6mjxla2z3u6m",
       "recursive": true
     },
     {
       "name": "linux-arm64-software",
-      "cid": "bafybeia5hwjuaiubcyz6i5ncrqakgbwzi6o3sw2nx4waybtscgchlhqn3a",
+      "cid": "bafybeihse6kfw2nap4u23xw2bamecubtq5zan3ivajewlkeddnacsqvwdy",
       "recursive": true
     },
     {
-      "name": "canonical-dataset-v26",
-      "cid": "bafybeicl52ju56z4gx4ph5b7lyw4stkuvsukmeykqfufw7w5nwvgrb6gru",
+      "name": "portable-v27-part-001",
+      "cid": "bafybeiai4cxkgc3gjbtjtx6toy5qtme7mzgwzixsm62qk33eame42cudua",
+      "recursive": true
+    },
+    {
+      "name": "portable-v27-part-002",
+      "cid": "bafybeibw7yoqkcbdeffltpy525l3enazgncdux7dh552kqx6zrvlxnaa3u",
+      "recursive": true
+    },
+    {
+      "name": "portable-v27-part-003",
+      "cid": "bafybeidh63qc4zfh3tf45j4fltc6t4esbnopfibw7c22jfntcbwm5czgdu",
       "recursive": true
     }
   ]

@@ -29,7 +29,7 @@ while IFS=$'\t' read -r name cid; do
   [[ -n "$name" && -n "$cid" ]] || continue
 
   providers=$(
-    curl --http1.1 -fsS --max-time 30 \
+    curl -4 --http1.1 -fsS --max-time 30 \
       -H 'Accept: application/x-ndjson' \
       -H 'Cache-Control: no-cache' \
       "$delegated_router/routing/v1/providers/$cid?nocache=$nonce" |
@@ -41,7 +41,7 @@ while IFS=$'\t' read -r name cid; do
     exit 1
   fi
 
-  curl --http1.1 -fsS --max-time 60 \
+  curl -4 --http1.1 -fsS --max-time 60 \
     -H 'Accept: application/vnd.ipld.raw' \
     -H 'Cache-Control: no-cache' \
     "$trustless_gateway/ipfs/$cid?format=raw&nocache=$nonce" \
@@ -51,7 +51,7 @@ while IFS=$'\t' read -r name cid; do
 done < <(jq -er '.pins[] | [.name, .cid] | @tsv' "$manifest")
 
 page_cid=$(jq -er '.pins[] | select(.name == "release-page-root") | .cid' "$manifest")
-curl --http1.1 -fsS --max-time 60 \
+curl -4 --http1.1 -fsS --max-time 60 \
   -H 'Accept: application/vnd.ipld.car; version=1; order=dfs; dups=n' \
   -H 'Cache-Control: no-cache' \
   "$trustless_gateway/ipfs/$page_cid/index.html?format=car&nocache=$nonce" \

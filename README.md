@@ -1,9 +1,9 @@
 # BlockDAG Community Rescue Release Page
 
-Static setup page, verification records, and install guidance for the current
-community rescue release.
+Static setup page, signed verification records, and operator guidance for the
+BlockDAG community rescue releases.
 
-Current release: `2.0.0-community-rescue-rc.24`
+Current release: `2.0.0-community-rescue-rc.30`
 
 Public setup page:
 
@@ -11,12 +11,13 @@ Public setup page:
 
 Current release directory:
 
-`releases/2.0.0-community-rescue-rc.24/`
+`releases/2.0.0-community-rescue-rc.30/`
 
 Large software and dataset artifacts are not stored in Git. The release page
-and manifest record immutable IPFS CIDs, GitHub software fallbacks, exact byte
-sizes, SHA-256 values, signing-key fingerprints, and canonical chain
-checkpoints.
+records immutable IPFS CIDs, GitHub software fallbacks, byte sizes, SHA-256
+values, signing-key fingerprints, and canonical chain checkpoints.
 
-All documented `curl` downloads force HTTP/1.1. Software and canonical dataset
-v26 are independent artifacts and can be used separately.
+RC30 software and portable v27 data are independent artifacts. Portable data
+is published as three verified IPFS parts; the separately qualified full
+archive dataset remains pending. All documented `curl` downloads force IPv4
+and HTTP/1.1 for reliable public-gateway transfer.
