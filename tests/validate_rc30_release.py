@@ -426,6 +426,7 @@ def validate_page_files(validator: Validator) -> tuple[str, str]:
         RC24 in root_index or RC30 in root_index or RC30_PAGE_V2 in root_index,
         "root redirect must name a published release",
     )
+    validator.check('rel="icon"' in root_index, "root redirect is missing a favicon")
     return html, human_guide
 
 
