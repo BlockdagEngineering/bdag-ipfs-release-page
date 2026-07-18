@@ -418,6 +418,10 @@ input[type="text"] {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.segmented-four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .segmented-two {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -811,7 +815,8 @@ footer {
     border-left: 1px solid var(--line);
   }
 
-  .segmented-three {
+  .segmented-three,
+  .segmented-four {
     grid-template-columns: 1fr;
   }
 

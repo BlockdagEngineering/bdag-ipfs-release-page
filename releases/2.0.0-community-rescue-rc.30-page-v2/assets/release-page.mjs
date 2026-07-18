@@ -282,8 +282,8 @@ export function publicationReady(manifest) {
         manifest.trust?.dataset_key_id === null
       );
   return Boolean(
-    manifest.release.version === "2.0.0-community-rescue-rc.30" &&
-    manifest.release.sequence === 30 &&
+    isSafeFilename(manifest.release.version) &&
+    isPositiveInteger(manifest.release.sequence) &&
     manifest.release.chain_id === 1404 &&
     manifest.runtime_change?.transient_startup_canonical_boundary_rpc === "bounded-retry" &&
     manifest.runtime_change?.transient_startup_peer_readiness === "bounded-retry" &&
@@ -293,7 +293,6 @@ export function publicationReady(manifest) {
     isHttpsUrl(source.release_url) &&
     source.tag === manifest.release.version &&
     [source.stack_commit, source.corechain_commit, source.pool_commit, source.dashboard_commit].every((value) => COMMIT_PATTERN.test(value)) &&
-    source.stack_commit === "a0fb1ef7b979e5977728d6c6cb38f56d215fd719" &&
     isSha256(source.source_lock_sha256) &&
     manifest.software.independent_from_datasets === true &&
     datasets.independent_from_software === true &&
@@ -408,6 +407,7 @@ function directArtifactLines(artifact, variableName) {
 function softwareSelectionLines(manifest) {
   const amd64 = manifest.software.targets["linux-amd64"];
   const arm64 = manifest.software.targets["linux-arm64"];
+  const unsupportedMessage = `Unsupported CPU architecture; ${manifest.release.version} supports AMD64 and ARM64 Linux.`;
   return [
     'case "$(uname -m)" in',
     "  x86_64|amd64)",
@@ -422,7 +422,7 @@ function softwareSelectionLines(manifest) {
     "    PACKAGE_SHA256=" + shellQuote(arm64.sha256),
     "    PACKAGE_SIZE=" + shellQuote(String(arm64.size_bytes)),
     "    ;;",
-    "  *) echo 'Unsupported CPU architecture; RC30 supports AMD64 and ARM64 Linux.' >&2; exit 1 ;;",
+    `  *) echo ${shellQuote(unsupportedMessage)} >&2; exit 1 ;;`,
     "esac",
   ];
 }
@@ -480,42 +480,60 @@ function softwareDownloadLines(manifest) {
   ];
 }
 
-function preflightLines(selectedDataset) {
+function preflightLines(selectedDataset, releaseVersion) {
   const datasetDownloadBytes = selectedDataset?.size_bytes || 0;
   const datasetExpandedBytes = selectedDataset?.unpacked_size_bytes || 0;
+  const datasetAssemblyBytes = selectedDataset?.delivery?.mode === "multipart"
+    ? datasetDownloadBytes
+    : 0;
   return [
-    "for REQUIRED_COMMAND in bash curl unzip sha256sum openssl python3 awk basename uname docker df id dirname sudo tar zstd grep; do",
+    "for REQUIRED_COMMAND in bash curl unzip sha256sum openssl python3 awk basename uname docker df id dirname realpath install sudo tar zstd grep; do",
     '  command -v "$REQUIRED_COMMAND" >/dev/null 2>&1 || { echo "Required command is unavailable: $REQUIRED_COMMAND" >&2; exit 1; }',
     "done",
-    '[ "$(uname -s)" = Linux ] || { echo "RC30 supports Linux only." >&2; exit 1; }',
+    `[ "$(uname -s)" = Linux ] || { echo ${shellQuote(`${releaseVersion} supports Linux only.`)} >&2; exit 1; }`,
     '[ "$(id -u)" -ne 0 ] || { echo "Run this command as the non-root runtime user, not root." >&2; exit 1; }',
     "sudo -v",
     "docker compose version >/dev/null",
     'docker info >/dev/null || { echo "This user cannot access the Docker daemon." >&2; exit 1; }',
     "",
+    'DATA_DIR=$(realpath -m -- "$DATA_DIR")',
+    'DOWNLOAD_DIR=$(realpath -m -- "$DOWNLOAD_DIR")',
+    '[ "$DATA_DIR" != / ] || { echo "Node-data directory cannot be the filesystem root." >&2; exit 1; }',
+    '[ "$DOWNLOAD_DIR" != / ] || { echo "Download workspace cannot be the filesystem root." >&2; exit 1; }',
+    'case "$DOWNLOAD_DIR/" in "$DATA_DIR/"|"$DATA_DIR/"*) echo "Download workspace must be outside the node-data directory." >&2; exit 1 ;; esac',
+    'case "$DATA_DIR/" in "$DOWNLOAD_DIR/"|"$DOWNLOAD_DIR/"*) echo "Node-data directory must be outside the download workspace." >&2; exit 1 ;; esac',
+    "nearest_existing_parent() {",
+    "  _candidate=$1",
+    '  while [ ! -d "$_candidate" ]; do',
+    '    _next=$(dirname -- "$_candidate")',
+    '    [ "$_next" != "$_candidate" ] || break',
+    '    _candidate="$_next"',
+    "  done",
+    '  printf "%s\\n" "$_candidate"',
+    "}",
+    'DATA_PARENT=$(nearest_existing_parent "$DATA_DIR")',
+    'DOWNLOAD_PARENT=$(nearest_existing_parent "$DOWNLOAD_DIR")',
+    "",
     `DATASET_DOWNLOAD_BYTES=${datasetDownloadBytes}`,
+    `DATASET_ASSEMBLY_BYTES=${datasetAssemblyBytes}`,
     `DATASET_EXPANDED_BYTES=${datasetExpandedBytes}`,
-    "DOWNLOAD_REQUIRED_KIB=$(( (PACKAGE_SIZE + DATASET_DOWNLOAD_BYTES + 1073741824 + 1023) / 1024 ))",
+    "DOWNLOAD_REQUIRED_KIB=$(( (PACKAGE_SIZE + DATASET_DOWNLOAD_BYTES + DATASET_ASSEMBLY_BYTES + 1073741824 + 1023) / 1024 ))",
     "DATA_REQUIRED_KIB=$(( (DATASET_EXPANDED_BYTES + 5368709120 + 1023) / 1024 ))",
-    'DATA_PARENT="$DATA_DIR"',
-    'while [ ! -d "$DATA_PARENT" ]; do',
-    '  NEXT_PARENT=$(dirname -- "$DATA_PARENT")',
-    '  [ "$NEXT_PARENT" != "$DATA_PARENT" ] || break',
-    '  DATA_PARENT="$NEXT_PARENT"',
-    "done",
-    "DOWNLOAD_AVAILABLE_KIB=$(df -Pk . | awk 'NR == 2 {print $4}')",
+    "DOWNLOAD_AVAILABLE_KIB=$(df -Pk \"$DOWNLOAD_PARENT\" | awk 'NR == 2 {print $4}')",
     "DATA_AVAILABLE_KIB=$(df -Pk \"$DATA_PARENT\" | awk 'NR == 2 {print $4}')",
-    "DOWNLOAD_DEVICE=$(df -Pk . | awk 'NR == 2 {print $1}')",
+    "DOWNLOAD_DEVICE=$(df -Pk \"$DOWNLOAD_PARENT\" | awk 'NR == 2 {print $1}')",
     "DATA_DEVICE=$(df -Pk \"$DATA_PARENT\" | awk 'NR == 2 {print $1}')",
     'if [ "$DATASET_EXPANDED_BYTES" -gt 0 ] && [ "$DOWNLOAD_DEVICE" = "$DATA_DEVICE" ]; then',
     "  COMBINED_REQUIRED_KIB=$(( DOWNLOAD_REQUIRED_KIB + DATA_REQUIRED_KIB ))",
     '  [ "$DOWNLOAD_AVAILABLE_KIB" -ge "$COMBINED_REQUIRED_KIB" ] || { echo "Insufficient free space: downloads and restored data share one filesystem." >&2; exit 1; }',
     "else",
-    '  [ "$DOWNLOAD_AVAILABLE_KIB" -ge "$DOWNLOAD_REQUIRED_KIB" ] || { echo "Insufficient free space in the download directory." >&2; exit 1; }',
+    '  [ "$DOWNLOAD_AVAILABLE_KIB" -ge "$DOWNLOAD_REQUIRED_KIB" ] || { echo "Insufficient free space in the download workspace." >&2; exit 1; }',
     '  if [ "$DATASET_EXPANDED_BYTES" -gt 0 ]; then',
     '    [ "$DATA_AVAILABLE_KIB" -ge "$DATA_REQUIRED_KIB" ] || { echo "Insufficient free space on the node-data filesystem." >&2; exit 1; }',
     "  fi",
     "fi",
+    'sudo install -d -m 0750 -o "$(id -u)" -g "$(id -g)" "$DOWNLOAD_DIR"',
+    'cd "$DOWNLOAD_DIR"',
     'echo "Host preflight passed. Existing-data rollback space and future chain growth remain the operator\'s responsibility."',
   ];
 }
@@ -607,17 +625,38 @@ function recordDownloadLines(path, variableName, manifest) {
   ];
 }
 
-export function buildInstallCommand(manifest, options) {
+export function resolveInstallSelection(options = {}) {
+  if (options.preset === "full-archive-rpc") {
+    return {
+      preset: "full-archive-rpc",
+      profile: "public-rpc",
+      dataset: "full_archive",
+      retention: "archive",
+    };
+  }
+  return {
+    preset: null,
+    profile: ["mining", "public-rpc", "non-mining"].includes(options.profile) ? options.profile : "mining",
+    dataset: ["none", "portable", "full_archive"].includes(options.dataset) ? options.dataset : "none",
+    retention: options.retention === "archive" ? "archive" : "current",
+  };
+}
+
+export function buildInstallCommand(manifest, options = {}) {
   if (!publicationReady(manifest)) {
-    return "# RC30 is still a draft.\n# No command is available until signed artifact identities, immutable CIDs, and publication checks are complete.";
+    const version = manifest?.release?.version || "Selected release";
+    return `# ${version} is not publication-ready.\n# No command is available until signed artifact identities, immutable CIDs, and publication checks are complete.`;
   }
 
-  const profile = ["mining", "public-rpc", "non-mining"].includes(options.profile) ? options.profile : "mining";
-  const datasetChoice = ["none", "portable", "full_archive"].includes(options.dataset) ? options.dataset : "none";
-  const retention = options.retention === "archive" ? "archive" : "current";
+  const selection = resolveInstallSelection(options);
+  const { profile, dataset: datasetChoice, retention } = selection;
   const dataDir = String(options.dataDir || "").trim();
   if (!dataDir.startsWith("/") || /[\r\n]/.test(dataDir)) {
     return "# Enter an absolute Linux data directory before continuing.";
+  }
+  const downloadDir = String(options.downloadDir || "/srv/blockdag/downloads").trim();
+  if (!downloadDir.startsWith("/") || /[\r\n]/.test(downloadDir)) {
+    return "# Enter an absolute Linux download workspace before continuing.";
   }
 
   const selectedDataset = datasetChoice === "none" ? null : manifest.datasets[datasetChoice];
@@ -643,12 +682,13 @@ export function buildInstallCommand(manifest, options) {
   const lines = [
     "set -Eeuo pipefail",
     `DATA_DIR=${shellQuote(dataDir)}`,
+    `DOWNLOAD_DIR=${shellQuote(downloadDir)}`,
     "",
     ...downloadFunction(manifest.download_policy.ipfs_gateways),
     "",
     ...softwareSelectionLines(manifest),
     "",
-    ...preflightLines(selectedDataset),
+    ...preflightLines(selectedDataset, manifest.release.version),
     "",
   ];
   lines.push(...softwareDownloadLines(manifest));
@@ -793,11 +833,19 @@ function renderManifest(manifest) {
   document.getElementById("releaseBadge").textContent = active ? "Published" : "Draft";
   document.getElementById("releaseBadge").classList.toggle("published", active);
   document.getElementById("releaseStatus").textContent = active ? "Published release" : "Draft release";
-  document.getElementById("releaseStatusDetail").textContent = active ? "Sequence 30 publication checks passed" : "Sequence 30 is not yet published";
+  document.getElementById("releaseStatusDetail").textContent = active
+    ? `Sequence ${manifest.release.sequence} publication checks passed`
+    : `Sequence ${manifest.release.sequence} is not yet published`;
   document.getElementById("softwareStatus").textContent = softwareReady ? "Software published" : softwareIdentity ? "Signed software recorded" : "Software pending";
   document.getElementById("softwareStatusDetail").textContent = softwareReady ? "Two signed targets are publicly downloadable from IPFS" : softwareIdentity ? "Immutable download CIDs are pending" : "Signed package records are incomplete";
   document.getElementById("datasetStatus").textContent = portableReady ? "Portable dataset published" : portableIdentity ? "Portable dataset recorded" : "Datasets pending";
-  document.getElementById("datasetStatusDetail").textContent = archiveReady ? "Portable and full archive are available" : portableReady ? "Portable v27 is available; full archive is still pending" : portableIdentity ? "Portable delivery and full archive are pending" : "Portable and full-archive records are incomplete";
+  document.getElementById("datasetStatusDetail").textContent = archiveReady
+    ? "Portable and full archive are available"
+    : portableReady
+      ? `Portable ${manifest.datasets.portable.version} is available; full archive is still pending`
+      : portableIdentity
+        ? "Portable delivery and full archive are pending"
+        : "Portable and full-archive records are incomplete";
   setDot("releaseDot", active ? "ready" : "pending");
   setDot("softwareDot", softwareReady ? "ready" : "pending");
   setDot("datasetDot", portableReady ? "ready" : "pending");
@@ -805,7 +853,7 @@ function renderManifest(manifest) {
   const notice = document.getElementById("draftNotice");
   notice.classList.toggle("published", active);
   notice.innerHTML = active
-    ? "<strong>Published and qualified.</strong> Verify the displayed hashes and signed records before installation. Portable v27 is available; the independently versioned full archive remains pending."
+    ? "<strong>Published and qualified.</strong> Verify the displayed hashes and signed records before installation. Published datasets remain independently versioned from the software release."
     : "<strong>Draft preview.</strong> Artifact hashes, sizes, and immutable CIDs are pending. Download controls remain locked until signed records and publication checks are complete.";
 
   renderArtifactCard("linux-amd64", manifest.software.targets["linux-amd64"], manifest, active);
@@ -827,6 +875,9 @@ function renderManifest(manifest) {
   const archiveButton = document.querySelector('[data-dataset="full_archive"]');
   archiveButton.disabled = !archiveReady;
   archiveButton.setAttribute("aria-disabled", String(!archiveReady));
+  const archivePresetButton = document.querySelector('[data-preset="full-archive-rpc"]');
+  archivePresetButton.disabled = !active || !archiveReady;
+  archivePresetButton.setAttribute("aria-disabled", String(!active || !archiveReady));
   return active;
 }
 
@@ -837,12 +888,26 @@ function initPage() {
     profile: "mining",
     dataset: "none",
     retention: "current",
+    preset: null,
   };
   const element = (selector) => document.querySelector(selector);
 
   function setSegmentState(attribute, value) {
     document.querySelectorAll(`[${attribute}]`).forEach((button) => {
       const selected = button.dataset[attribute.replace("data-", "")] === value;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+  }
+
+  function setRoleState() {
+    document.querySelectorAll("[data-profile]").forEach((button) => {
+      const selected = state.preset === null && button.dataset.profile === state.profile;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+    document.querySelectorAll("[data-preset]").forEach((button) => {
+      const selected = button.dataset.preset === state.preset;
       button.classList.toggle("active", selected);
       button.setAttribute("aria-pressed", String(selected));
     });
@@ -856,7 +921,9 @@ function initPage() {
       profile: state.profile,
       dataset: state.dataset,
       retention: state.retention,
+      preset: state.preset,
       dataDir: element("#dataDir").value,
+      downloadDir: element("#downloadDir").value,
       wallet: element("#wallet").value,
       macs: element("#macs").value,
     }, window.location.href);
@@ -865,9 +932,13 @@ function initPage() {
     const mining = state.profile === "mining";
     element("#walletLabel").hidden = !mining;
     element("#macLabel").hidden = !mining;
-    element("#retentionField").hidden = state.dataset !== "none";
+    element("#datasetField").hidden = state.preset !== null;
+    element("#retentionField").hidden = state.preset !== null || state.dataset !== "none";
 
-    if (state.dataset === "portable") {
+    if (state.preset === "full-archive-rpc") {
+      const dataset = state.manifest.datasets.full_archive;
+      element("#selectionSummary").textContent = `Full archive RPC preset: public-rpc + signed ${dataset.version} + fail-closed --full-archive retention.`;
+    } else if (state.dataset === "portable") {
       const dataset = state.manifest.datasets.portable;
       element("#selectionSummary").textContent = `Portable ${dataset.version}: ${formatBytes(dataset.size_bytes)} download and ${formatBytes(dataset.unpacked_size_bytes)} expanded. Current-state retention is enforced.`;
     } else if (state.dataset === "full_archive") {
@@ -895,8 +966,23 @@ function initPage() {
     if (button.disabled) {
       return;
     }
+    state.preset = null;
     state.profile = button.dataset.profile;
-    setSegmentState("data-profile", state.profile);
+    setRoleState();
+    renderCommand();
+  }));
+  document.querySelectorAll("[data-preset]").forEach((button) => button.addEventListener("click", () => {
+    if (button.disabled) {
+      return;
+    }
+    const selection = resolveInstallSelection({ preset: button.dataset.preset });
+    state.preset = selection.preset;
+    state.profile = selection.profile;
+    state.dataset = selection.dataset;
+    state.retention = selection.retention;
+    setRoleState();
+    setSegmentState("data-dataset", state.dataset);
+    setSegmentState("data-retention", state.retention);
     renderCommand();
   }));
   document.querySelectorAll("[data-dataset]").forEach((button) => button.addEventListener("click", () => {
@@ -919,7 +1005,7 @@ function initPage() {
     setSegmentState("data-retention", state.retention);
     renderCommand();
   }));
-  ["#dataDir", "#wallet", "#macs"].forEach((selector) => element(selector).addEventListener("input", renderCommand));
+  ["#dataDir", "#downloadDir", "#wallet", "#macs"].forEach((selector) => element(selector).addEventListener("input", renderCommand));
   element("#copyCommand").addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(element("#installCommand").textContent);

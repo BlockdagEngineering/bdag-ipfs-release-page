@@ -87,13 +87,14 @@
           <div class="controls">
             <fieldset>
               <legend>Node role</legend>
-              <div class="segmented segmented-three" role="group" aria-label="Node role">
+              <div class="segmented segmented-four" role="group" aria-label="Node role">
                 <button type="button" class="active" data-profile="mining" aria-pressed="true">Mining pool</button>
                 <button type="button" data-profile="public-rpc" aria-pressed="false">Public RPC</button>
                 <button type="button" data-profile="non-mining" aria-pressed="false">Node only</button>
+                <button type="button" data-preset="full-archive-rpc" aria-pressed="false" aria-disabled="true" disabled title="The signed full archive dataset is not published yet">Full archive RPC</button>
               </div>
             </fieldset>
-            <fieldset>
+            <fieldset id="datasetField">
               <legend>Chain data</legend>
               <div class="segmented segmented-three" role="group" aria-label="Chain data choice">
                 <button type="button" class="active" data-dataset="none" aria-pressed="true">Keep / sync</button>
@@ -110,6 +111,7 @@
               <p class="field-help" id="retentionHelp">Current-state mode is appropriate for mining and ordinary RPC nodes. Select archive retention only when keeping compatible archive data.</p>
             </fieldset>
             <label>Node data directory<input id="dataDir" type="text" value="/srv/blockdag/node-data" spellcheck="false"></label>
+            <label>Download workspace<input id="downloadDir" type="text" value="/srv/blockdag/downloads" spellcheck="false"><span class="field-help">Keep resumable downloads and multipart assembly outside the live node-data tree.</span></label>
             <label id="walletLabel">Public payout wallet<input id="wallet" type="text" placeholder="0xYOUR_PUBLIC_PAYOUT_ADDRESS" autocomplete="off" spellcheck="false"></label>
             <label id="macLabel">ASIC MAC addresses<input id="macs" type="text" placeholder="aa:bb:cc:dd:ee:ff,11:22:33:44:55:66" autocomplete="off" spellcheck="false"></label>
             <div id="selectionSummary" class="selection-summary">Software only. Existing compatible data is retained or the node synchronizes normally.</div>
