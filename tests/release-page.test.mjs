@@ -4,12 +4,14 @@ import { spawnSync } from "node:child_process";
 import test from "node:test";
 
 import {
+  artifactIdentityReady,
   artifactReady,
   buildInstallCommand,
   datasetPending,
   datasetReady,
   deliveryReady,
   formatBytes,
+  fullArchivePending,
   gatewayTemplatesReady,
   isCid,
   isMacList,
@@ -469,4 +471,36 @@ test("shell quoting and byte formatting remain stable", () => {
   assert.equal(shellQuote("a'b"), `'a'"'"'b'`);
   assert.equal(formatBytes(null), "Pending");
   assert.match(formatBytes(4096), /4\.00 KiB/);
+});
+
+test("the RC32 signed draft records exact software identities while every install path stays locked", async () => {
+  const manifestUrl = new URL("../releases/2.0.0-community-rescue-rc.32/release-manifest.json", import.meta.url);
+  const pageUrl = new URL("../releases/2.0.0-community-rescue-rc.32/index.html", import.meta.url);
+  const manifest = JSON.parse(await readFile(manifestUrl, "utf8"));
+  const page = await readFile(pageUrl, "utf8");
+
+  assert.equal(manifest.release.version, "2.0.0-community-rescue-rc.32");
+  assert.equal(manifest.release.sequence, 32);
+  assert.equal(manifest.release.status, "draft");
+  assert.equal(manifest.records_delivery.cid, null);
+  assert.equal(publicationReady(manifest), false);
+  assert.equal(artifactIdentityReady(manifest.installer), true);
+  assert.equal(artifactReady(manifest.installer), false);
+  assert.equal(artifactIdentityReady(manifest.software.targets["linux-amd64"]), true);
+  assert.equal(artifactIdentityReady(manifest.software.targets["linux-arm64"]), true);
+  assert.equal(fullArchivePending(manifest.datasets.full_archive), true);
+  assert.equal(manifest.qualification.full_archive_dataset_verified, false);
+  assert.equal(manifest.qualification.runtime_path_verified, false);
+  assert.match(
+    page,
+    /data-preset="full-archive-rpc"[^>]*aria-disabled="true"[^>]*disabled/,
+  );
+
+  const command = buildInstallCommand(manifest, {
+    preset: "full-archive-rpc",
+    dataDir: "/srv/blockdag/node-data",
+    downloadDir: "/srv/blockdag/downloads",
+  });
+  assert.match(command, /is not publication-ready/);
+  assert.doesNotMatch(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
 });

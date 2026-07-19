@@ -13,6 +13,15 @@ Current release directory:
 
 `releases/2.0.0-community-rescue-rc.30-page-v2/`
 
+Next release draft:
+
+`releases/2.0.0-community-rescue-rc.32/`
+
+The RC32 draft records signed AMD64 and ARM64 software identities and exposes a
+fail-closed full-archive RPC preset. All RC32 installation controls remain
+locked until immutable software and records CIDs, exact-package runtime
+qualification, and a separately signed full-archive dataset are complete.
+
 Large software and dataset artifacts are not stored in Git. The release page
 records immutable IPFS CIDs, GitHub software fallbacks, byte sizes, SHA-256
 values, signing-key fingerprints, and canonical chain checkpoints.

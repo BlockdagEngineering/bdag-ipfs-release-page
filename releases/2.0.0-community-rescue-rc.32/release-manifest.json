@@ -1,0 +1,166 @@
+{
+  "schema": "bdag.community-release-index.v2",
+  "release": {
+    "version": "2.0.0-community-rescue-rc.32",
+    "sequence": 32,
+    "channel": "community-rescue",
+    "status": "draft",
+    "chain_id": 1404,
+    "published_at": null
+  },
+  "source": {
+    "repository": "https://github.com/BlockdagEngineering/stack",
+    "release_url": "https://github.com/BlockdagEngineering/stack/releases/tag/2.0.0-community-rescue-rc.32",
+    "tag": "2.0.0-community-rescue-rc.32",
+    "stack_commit": "e6619044501735f37096c661d9d6f176dc301f39",
+    "corechain_commit": "bb0f7a6fed918e56251aa602503c90f1e1f30cb8",
+    "pool_commit": "80774b865b60e695b6e91a817013d9aeffc03271",
+    "dashboard_commit": "f00b654f79e50346bf6e866348cf07bdcb3b44ec",
+    "source_lock_sha256": "0b05a22938ea205cad342a018e2914c210afab6d67b05530bc0e3260f0f3b294"
+  },
+  "runtime_change": {
+    "transient_startup_canonical_boundary_rpc": "bounded-retry",
+    "transient_startup_peer_readiness": "bounded-retry",
+    "canonical_mismatch": "fail-immediately"
+  },
+  "trust": {
+    "release_key_path": "records/software/release-key.pem",
+    "release_key_sha256": "26f0051185d9c1abada3b5adcd3d11c88f522e09b3850211a04773250c267ffb",
+    "dataset_key_path": "records/dataset/qualification-v2-20260711.pem",
+    "dataset_key_id": "qualification-v2-20260711",
+    "dataset_key_sha256": "f9f2f7df88d43c8d51df8bdc2a369601ff0b4b9de224e8ab9b609b423b203d24",
+    "dataset_verifier_path": "records/dataset/verify-canonical-manifest.py"
+  },
+  "download_policy": {
+    "requires_ipv4": true,
+    "requires_http_version": "HTTP/1.1",
+    "ipfs_gateways": [
+      "https://dweb.link/ipfs/{cid}",
+      "https://ipfs.io/ipfs/{cid}",
+      "https://w3s.link/ipfs/{cid}"
+    ],
+    "software_http_fallback_base": null
+  },
+  "records_delivery": {
+    "mode": "ipfs-directory",
+    "cid": null,
+    "path_prefix": "records/"
+  },
+  "installer": {
+    "status": "signed-pending-cid",
+    "filename": "bootstrap.sh",
+    "cid": null,
+    "sha256": "05b13a320199f81b725051effaa4287c404b634647f19fd7b3146a4c38d71205",
+    "size_bytes": 5213
+  },
+  "software": {
+    "independent_from_datasets": true,
+    "targets": {
+      "linux-amd64": {
+        "status": "signed-pending-cid",
+        "filename": "pool-stack-docker-2.0.0-community-rescue-rc.32-linux-amd64.zip",
+        "cid": null,
+        "sha256": "8eba5685085f837b4ca00f4c31ef5f7c246d06e05e1ff0068e36fe92738556ea",
+        "size_bytes": 638975814
+      },
+      "linux-arm64": {
+        "status": "signed-pending-cid",
+        "filename": "pool-stack-docker-2.0.0-community-rescue-rc.32-linux-arm64.zip",
+        "cid": null,
+        "sha256": "26a1c166b1dbbfa26323de75bf9981c61dddababfbefddbb935ba6e33e9cab4a",
+        "size_bytes": 460286548
+      }
+    },
+    "records": {
+      "release_auth_manifest_path": "records/software/release-auth-manifest.json",
+      "release_auth_signature_path": "records/software/release-auth-manifest.json.sig",
+      "release_notes_path": "records/software/release-notes.md"
+    }
+  },
+  "datasets": {
+    "independent_from_software": true,
+    "portable": {
+      "status": "published",
+      "label": "Portable current-state dataset",
+      "archive_node_equivalent": false,
+      "version": "v27",
+      "filename": "blockdag-mainnet-portable-v27-20260715T2000Z.tar.zst",
+      "sha256": "00441e50d58bc84263cf5ab40ab0f7bd7f21b758809630a66c5d7deab04fc972",
+      "size_bytes": 10855850960,
+      "unpacked_size_bytes": 19638403875,
+      "delivery": {
+        "mode": "multipart",
+        "cid": null,
+        "parts_manifest_path": "records/dataset/portable-v27-parts.json",
+        "parts": [
+          {
+            "filename": "blockdag-mainnet-portable-v27-20260715T2000Z.tar.zst.part-001",
+            "cid": "bafybeiai4cxkgc3gjbtjtx6toy5qtme7mzgwzixsm62qk33eame42cudua",
+            "sha256": "906fb187068e244b9144a4e41d199ce4673538cc4015cc2cb9315d8d20ff7bb6",
+            "size_bytes": 4294967296
+          },
+          {
+            "filename": "blockdag-mainnet-portable-v27-20260715T2000Z.tar.zst.part-002",
+            "cid": "bafybeibw7yoqkcbdeffltpy525l3enazgncdux7dh552kqx6zrvlxnaa3u",
+            "sha256": "d83467d3330cb2367f9cc0f466cd836d1d1a60246904bad443925f0b7a19122b",
+            "size_bytes": 4294967296
+          },
+          {
+            "filename": "blockdag-mainnet-portable-v27-20260715T2000Z.tar.zst.part-003",
+            "cid": "bafybeidh63qc4zfh3tf45j4fltc6t4esbnopfibw7c22jfntcbwm5czgdu",
+            "sha256": "7c5dd19b3097d20f52832700d9ed7cf46a6b03f969beb46c1d8563663d40f2e2",
+            "size_bytes": 2265916368
+          }
+        ]
+      },
+      "canonical_manifest_path": "records/dataset/portable-v27-canonical-manifest.json",
+      "canonical_manifest_sha256": "26fd69e2b63a1cd80bcfd51356e04aca219fa3fb0c8fa356518da3732a02dde6",
+      "validation_spec_path": "records/dataset/portable-v27-validation-spec.json",
+      "native_boundary": {
+        "order": 14793128,
+        "hash": "0x3c055101d11f2fdd74b79f20e7052475ba20580e5ad22abb39f0dea4b18b4d5b"
+      },
+      "evm_boundary": {
+        "number": 14412749,
+        "hash": "0x7660df8146ade0e120d2bb15f69a4ebb3761eb9c43590536c5a4023e43b6aff8",
+        "state_root": "0x2707fa32a6e4dbf5b2cab0a83ecca2764a889e889535fa65b21c5eb8a41195ab"
+      },
+      "fixed_checkpoint": {
+        "number": 13863411,
+        "hash": "0xbf9a0ccd88fa03eb3d7cbc0052b258b9b21132ae4ba3f0276f6e482a9d601738",
+        "state_root": "0xad51cb1e1357172afc5ca5dcebc477ff818661b64b8b5b64cdf9cd54a8450c00"
+      }
+    },
+    "full_archive": {
+      "status": "pending",
+      "label": "Full archive-node dataset",
+      "archive_node_equivalent": true,
+      "version": null,
+      "filename": null,
+      "sha256": null,
+      "size_bytes": null,
+      "unpacked_size_bytes": null,
+      "delivery": {
+        "mode": null,
+        "cid": null,
+        "parts_manifest_path": null,
+        "parts": []
+      },
+      "canonical_manifest_path": null,
+      "canonical_manifest_sha256": null,
+      "validation_spec_path": null,
+      "native_boundary": null,
+      "evm_boundary": null,
+      "fixed_checkpoint": null,
+      "archive_audit": null
+    }
+  },
+  "qualification": {
+    "status": "in-progress",
+    "signed_package_integrity_verified": true,
+    "portable_dataset_verified": true,
+    "full_archive_dataset_verified": false,
+    "restore_path_verified": false,
+    "runtime_path_verified": false
+  }
+}
