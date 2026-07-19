@@ -490,7 +490,8 @@ test("the RC32 signed draft records exact software identities while every instal
   assert.equal(artifactIdentityReady(manifest.software.targets["linux-arm64"]), true);
   assert.equal(fullArchivePending(manifest.datasets.full_archive), true);
   assert.equal(manifest.qualification.full_archive_dataset_verified, false);
-  assert.equal(manifest.qualification.runtime_path_verified, false);
+  assert.equal(manifest.qualification.runtime_path_verified, true);
+  assert.equal(manifest.qualification.restore_path_verified, false);
   assert.match(
     page,
     /data-preset="full-archive-rpc"[^>]*aria-disabled="true"[^>]*disabled/,

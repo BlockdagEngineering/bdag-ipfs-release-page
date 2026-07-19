@@ -2,8 +2,9 @@
 
 BlockDAG `2.0.0-community-rescue-rc.32`, release sequence `32`, is currently a
 draft qualification candidate for mainnet chain ID `1404`. Its software
-identities are signed, but public download CIDs and the final runtime gate are
-still pending. Do not install it until the page reports **Published release**.
+identities are signed and its exact-package runtime gate has passed, but public
+download CIDs and publication are still pending. Do not install it until the
+page reports **Published release**.
 
 RC32 uses bounded waits for temporary committed-EVM-head and peer-readiness
 conditions. A canonical checkpoint, boundary, state-root, or network mismatch

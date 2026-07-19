@@ -29,8 +29,10 @@ qualification, signing, pinning, and public readback complete.
 - The exact AMD64 package writes the bounded public-RPC and fail-closed
   full-archive configuration.
 - Full-archive proof, bootstrap, publication, and release-build tests pass.
-- Runtime source revisions are live-proven, but the RC32 package remains a
-  qualification candidate until the final exact-package runtime gate passes.
+- The exact AMD64 package passed an in-place RC31-to-RC32 upgrade on an
+  isolated non-mining node, retained its existing state, recovered from a
+  supervised restart, and remained canonically aligned with both public RPC
+  witnesses throughout a four-sample post-restart soak.
 - Portable v27 parts and assembled archive match recorded byte sizes and
   SHA-256 values.
 
@@ -58,8 +60,8 @@ downloads must use `records_delivery.cid` rather than the page origin.
 
 Before changing the draft to `published` or changing mutable pointers, record
 the software, records-directory, and full-archive CIDs, complete runtime
-qualification, and rerun the publication-ready validator. Then run a real
-browser against the exact
+qualification fields, and rerun the publication-ready validator. Then run a
+real browser against the exact
 immutable CID at desktop and mobile sizes. Exercise every selector, validate
 the copied command, open every local link, check for console and network
 errors, and confirm no layout overflow or accessibility violations. Then use a

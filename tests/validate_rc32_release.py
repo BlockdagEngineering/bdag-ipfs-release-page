@@ -334,17 +334,23 @@ def validate_publication_ready(validator: Validator, manifest: dict[str, Any]) -
     validator.check(valid_boundary(archive.get("native_boundary"), "order"), "full archive native boundary is invalid")
     validator.check(valid_boundary(archive.get("evm_boundary"), "number"), "full archive EVM boundary is invalid")
     validator.check(valid_boundary(archive.get("fixed_checkpoint"), "number"), "full archive checkpoint is invalid")
-    validator.check(archive.get("archive_audit", {}).get("status") == "passed", "full archive audit has not passed")
+    archive_audit = archive.get("archive_audit")
+    validator.check(
+        isinstance(archive_audit, dict) and archive_audit.get("status") == "passed",
+        "full archive audit has not passed",
+    )
     validator.check(safe_relative_path(archive.get("canonical_manifest_path")), "full archive signed manifest path is missing")
     validator.check(safe_relative_path(archive.get("validation_spec_path")), "full archive validation spec path is missing")
-    delivery = archive.get("delivery", {})
+    delivery = archive.get("delivery")
+    if not isinstance(delivery, dict):
+        delivery = {}
     direct = delivery.get("mode") == "direct" and valid_cid(delivery.get("cid"))
     multipart = (
         delivery.get("mode") == "multipart"
         and safe_relative_path(delivery.get("parts_manifest_path"))
         and isinstance(delivery.get("parts"), list)
         and len(delivery["parts"]) > 1
-        and all(valid_cid(part.get("cid")) for part in delivery["parts"])
+        and all(isinstance(part, dict) and valid_cid(part.get("cid")) for part in delivery["parts"])
     )
     validator.check(direct or multipart, "full archive delivery is not immutable")
     qualification = manifest["qualification"]
@@ -403,7 +409,8 @@ def main() -> None:
         validator.check(manifest["installer"].get("status") == "signed-pending-cid", "signed bootstrap identity is not recorded")
         validator.check(manifest["installer"].get("cid") is None, "draft must not invent a bootstrap CID")
         validator.check(manifest["qualification"].get("status") == "in-progress", "draft qualification status is wrong")
-        validator.check(manifest["qualification"].get("runtime_path_verified") is False, "draft overclaims runtime qualification")
+        validator.check(manifest["qualification"].get("runtime_path_verified") is True, "runtime qualification is not recorded")
+        validator.check(manifest["qualification"].get("restore_path_verified") is False, "draft overclaims restore qualification")
         validate_full_archive_pending(validator, manifest["datasets"]["full_archive"])
         mode = "draft"
     validator.finish(mode)
