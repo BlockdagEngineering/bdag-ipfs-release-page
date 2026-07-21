@@ -950,7 +950,7 @@ function initPage() {
     }
 
     if (state.profile === "public-rpc") {
-      element("#inputNotice").textContent = "Public RPC exposes the HTTP API on all interfaces. Apply firewall and access controls before making it internet-facing.";
+      element("#inputNotice").textContent = "Public RPC exposes the HTTP API on all interfaces. Put it behind an independently configured TLS edge proxy with firewalling, per-client abuse controls, health checks, monitoring, and restart recovery.";
     } else if (!mining) {
       element("#inputNotice").textContent = "This role does not require a payout wallet or ASIC MAC list.";
     } else if (!isWallet(element("#wallet").value.trim())) {

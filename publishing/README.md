@@ -1,10 +1,10 @@
 # Community Rescue IPFS Publishing
 
-Current release: `2.0.0-community-rescue-rc.30`
+Current release: `2.0.0-community-rescue-rc.44`
 
 Immutable setup page:
 
-`https://dweb.link/ipfs/bafybeidomor34x6utpuhbhyok7a42abnxkaw4fs2oxphcmqopx63gciyvq/index.html`
+`https://dweb.link/ipfs/bafybeiblqxf7d5cyqmapcpccpvaupatoydxsqceswm4taimqs247ux32ji/index.html`
 
 Mutable latest-release IPNS name:
 
@@ -25,24 +25,24 @@ From the repository root:
 ```bash
 ipfs add -r --cid-version=1 --raw-leaves=true --chunker=size-262144 \
   --hash=sha2-256 --pin=true -Q \
-  releases/2.0.0-community-rescue-rc.30-page-v2
+  releases/2.0.0-community-rescue-rc.44
 ```
 
 Expected CID:
 
-`bafybeidomor34x6utpuhbhyok7a42abnxkaw4fs2oxphcmqopx63gciyvq`
+`bafybeiblqxf7d5cyqmapcpccpvaupatoydxsqceswm4taimqs247ux32ji`
 
 The signed-record directory must independently reproduce as:
 
 ```bash
 ipfs add -r --cid-version=1 --raw-leaves=true --chunker=size-262144 \
   --hash=sha2-256 --pin=true -Q \
-  releases/2.0.0-community-rescue-rc.30-page-v2/records
+  releases/2.0.0-community-rescue-rc.44/records
 ```
 
 Expected records CID:
 
-`bafybeidjnrortpzurwlkt7pfzxyjzyq6tadblvlehpywfiw4tqbfbw3eka`
+`bafybeid5nsonb5cd6twji5s6nxjva3dpmlbrvfaxngtgey3n6zc7fgikju`
 
 ## Community Mirroring
 
@@ -61,7 +61,7 @@ static TCP/UDP port forward for the Kubo swarm port.
 Each seeder needs:
 
 - Linux on `amd64` with the release Kubo binary available locally.
-- At least 40 GB free for RC30 portable data and operating headroom.
+- At least 40 GB free for RC44 software, portable data, and operating headroom.
 - `jq`, `systemd`, passwordless administrative access, and outbound internet.
 - A public router mapping for TCP and UDP. Confirm `ipfs swarm addrs autonat`
   reports `Reachability: Public` before relying on the node.
@@ -122,7 +122,7 @@ publish the new immutable root through IPNS and update the GitHub Pages root.
 Before adding a new release-page directory to IPFS:
 
 ```bash
-python3 tests/validate_rc30_release.py --publication-ready
+    python3 tests/validate_rc44_release.py --publication-ready
 node --test tests/release-page.test.mjs
 ```
 

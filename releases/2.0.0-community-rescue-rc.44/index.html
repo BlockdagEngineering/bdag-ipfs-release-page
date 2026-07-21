@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="dark">
     <meta name="robots" content="index,follow">
-    <meta name="description" content="Verified BlockDAG Community Rescue RC30 software and portable dataset installer for mainnet chain ID 1404.">
-    <title>BlockDAG Community Rescue RC30</title>
-    <link rel="canonical" href="https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.0.0-community-rescue-rc.30-page-v2/index.html">
+    <meta name="description" content="Published BlockDAG Community Rescue RC44 installer for mainnet chain ID 1404; the separate full-archive dataset remains pending.">
+    <title>BlockDAG Community Rescue RC44</title>
+    <link rel="canonical" href="https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.0.0-community-rescue-rc.44/index.html">
     <link rel="icon" href="assets/bdag-community-logo.svg" type="image/svg+xml">
     <link rel="stylesheet" href="assets/release.css">
   </head>
@@ -17,7 +17,7 @@
       <div class="topbar-inner">
         <a class="brand" href="./">
           <img src="assets/bdag-community-logo.svg" alt="BDAG Community" width="180" height="62">
-          <span class="version">2.0.0-community-rescue-rc.30</span>
+          <span class="version">2.0.0-community-rescue-rc.44</span>
           <span class="draft-badge published" id="releaseBadge">Published</span>
         </a>
         <nav class="top-actions" aria-label="Release links">
@@ -32,7 +32,7 @@
       <div class="status-inner">
         <div class="status-item">
           <span class="status-dot" id="releaseDot"></span>
-          <div><strong id="releaseStatus">Published release</strong><span id="releaseStatusDetail">Sequence 30 publication checks passed</span></div>
+          <div><strong id="releaseStatus">Published release</strong><span id="releaseStatusDetail">Sequence 44 publication checks passed</span></div>
         </div>
         <div class="status-item">
           <span class="status-dot" id="softwareDot"></span>
@@ -48,22 +48,22 @@
     <main id="main-content">
       <div class="release-head">
         <div class="label">BlockDAG Community Rescue</div>
-        <h1>BlockDAG 2.0.0-community-rescue-rc.30</h1>
+        <h1>BlockDAG 2.0.0-community-rescue-rc.44</h1>
         <p class="lede">A community release candidate for mainnet chain ID 1404. Signed software and signed chain data remain independent, so either can be updated without forcing replacement of the other.</p>
         <div class="release-alert published" id="draftNotice" role="status">
           <strong>Published and qualified.</strong>
-          Verify the displayed hashes and signed records before installation. The portable dataset is available now; the independently versioned full archive remains pending.
+          Verify the displayed hashes and signed records before installation. The independently signed full-archive dataset remains pending.
         </div>
       </div>
 
       <section aria-labelledby="release-change-title">
         <div class="section-head">
-          <div><h2 id="release-change-title">What RC30 changes</h2><p>The installer distinguishes temporary startup readiness states from a canonical mismatch.</p></div>
+          <div><h2 id="release-change-title">What RC44 changes</h2><p>RC44 retains the live-proven consensus runtime and adds the transaction-safe public-RPC, full-archive, and cross-architecture release hardening qualified during recovery.</p></div>
         </div>
         <div class="prereq-grid">
-          <div class="prereq"><strong>Bounded readiness retry</strong><span>Temporary canonical-boundary RPC unavailability and temporary peer-readiness states are retried only within a fixed startup window.</span></div>
-          <div class="prereq"><strong>Immediate mismatch failure</strong><span>A canonical checkpoint or boundary mismatch fails immediately and is never hidden by retry.</span></div>
-          <div class="prereq"><strong>Mainnet identity</strong><span>RC30 remains for BlockDAG mainnet chain ID 1404. Software and datasets retain separate signed identities.</span></div>
+          <div class="prereq"><strong>Committed EVM state</strong><span>Transient gaps between canonical mutation and committed EVM head use a bounded wait; a canonical mismatch still fails immediately.</span></div>
+          <div class="prereq"><strong>Fail-closed full archive</strong><span>The full-archive preset requires a separately signed archive-equivalent dataset and live archive-status proof before activation.</span></div>
+          <div class="prereq"><strong>Bounded public RPC</strong><span>Node-side client, request, timeout, rate, body-size, and concurrency limits provide a safe backend baseline for an independently managed edge proxy.</span></div>
         </div>
       </section>
 
@@ -135,7 +135,7 @@
           <div class="prereq"><strong>Supported host</strong><span>Use 64-bit Linux on AMD64 or ARM64 with Docker Engine and Docker Compose v2.</span></div>
           <div class="prereq"><strong>Required tools</strong><span>Install <code>curl</code>, <code>unzip</code>, <code>sha256sum</code>, Python 3, <code>tar</code>, and <code>zstd</code>.</span></div>
           <div class="prereq"><strong>Storage</strong><span>Use the final manifest sizes to allow room for the download, extraction, chain growth, and a rollback copy.</span></div>
-          <div class="prereq"><strong>Network</strong><span>Allow outbound HTTPS and BlockDAG P2P. Open public service ports only when the node role requires them.</span></div>
+          <div class="prereq"><strong>Public RPC edge</strong><span>Use an independently configured TLS edge proxy with firewalling, per-client abuse controls, health checks, monitoring, and restart recovery.</span></div>
         </div>
       </section>
 
@@ -144,14 +144,14 @@
         <div class="artifact-grid">
           <article class="artifact" data-artifact="linux-amd64">
             <span class="kind">Linux AMD64 software</span>
-            <h3>RC30 offline stack</h3>
+            <h3>RC44 offline stack</h3>
             <dl><dt>Status</dt><dd data-field="status">Pending</dd><dt>Filename</dt><dd data-field="filename">Pending final metadata</dd><dt>Size</dt><dd data-field="size">Pending</dd><dt>SHA-256</dt><dd data-field="sha256">Pending</dd></dl>
             <code data-field="cid">CID pending</code>
             <div class="artifact-actions"><a class="button primary disabled" data-action="download" aria-disabled="true">Not yet published</a></div>
           </article>
           <article class="artifact" data-artifact="linux-arm64">
             <span class="kind">Linux ARM64 software</span>
-            <h3>RC30 offline stack</h3>
+            <h3>RC44 offline stack</h3>
             <dl><dt>Status</dt><dd data-field="status">Pending</dd><dt>Filename</dt><dd data-field="filename">Pending final metadata</dd><dt>Size</dt><dd data-field="size">Pending</dd><dt>SHA-256</dt><dd data-field="sha256">Pending</dd></dl>
             <code data-field="cid">CID pending</code>
             <div class="artifact-actions"><a class="button primary disabled" data-action="download" aria-disabled="true">Not yet published</a></div>

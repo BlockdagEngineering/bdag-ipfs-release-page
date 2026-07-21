@@ -4,12 +4,14 @@ import { spawnSync } from "node:child_process";
 import test from "node:test";
 
 import {
+  artifactIdentityReady,
   artifactReady,
   buildInstallCommand,
   datasetPending,
   datasetReady,
   deliveryReady,
   formatBytes,
+  fullArchivePending,
   gatewayTemplatesReady,
   isCid,
   isMacList,
@@ -17,6 +19,7 @@ import {
   isWallet,
   normalizeMacList,
   publicationReady,
+  resolveInstallSelection,
   shellQuote,
 } from "../releases/2.0.0-community-rescue-rc.30-page-v2/assets/release-page.mjs";
 
@@ -242,6 +245,24 @@ test("software publication does not require either dataset", () => {
   assert.equal(publicationReady(missingPeerReadinessPolicy), false);
 });
 
+test("publication checks generalize to a later signed release identity", () => {
+  const manifest = syntheticPublishedManifest();
+  manifest.release.version = "2.0.0-community-rescue-rc.31";
+  manifest.release.sequence = 31;
+  manifest.source.tag = manifest.release.version;
+  manifest.source.stack_commit = "f".repeat(40);
+
+  assert.equal(publicationReady(manifest), true);
+  const command = buildInstallCommand(manifest, {
+    profile: "non-mining",
+    dataset: "none",
+    dataDir: "/srv/blockdag/node-data",
+  });
+  assert.match(command, /BDAG_RELEASE_VERSION='2\.0\.0-community-rescue-rc\.31'/);
+  assert.match(command, /BDAG_RELEASE_SEQUENCE='31'/);
+  assert.match(command, /rc\.31 supports AMD64 and ARM64 Linux/);
+});
+
 test("a complete synthetic manifest unlocks only valid operator input", () => {
   const manifest = syntheticPublishedManifest();
   assert.equal(publicationReady(manifest), true);
@@ -261,6 +282,14 @@ test("a complete synthetic manifest unlocks only valid operator input", () => {
     dataDir: "relative/path",
   });
   assert.match(badPath, /absolute Linux data directory/);
+
+  const badDownloadPath = buildInstallCommand(manifest, {
+    profile: "non-mining",
+    dataset: "none",
+    dataDir: "/srv/blockdag/node-data",
+    downloadDir: "relative/downloads",
+  });
+  assert.match(badDownloadPath, /absolute Linux download workspace/);
 });
 
 test("generated full-archive command is resumable, verified, and shell-valid", () => {
@@ -278,6 +307,13 @@ test("generated full-archive command is resumable, verified, and shell-valid", (
   assert.match(command, /-C -/);
   assert.match(command, /sha256sum -c -/);
   assert.match(command, /cat 'archive\.part-001' 'archive\.part-002'/);
+  assert.match(command, /DOWNLOAD_DIR='\/srv\/blockdag\/downloads'/);
+  assert.match(command, /DATASET_ASSEMBLY_BYTES=4096/);
+  assert.match(command, /DATASET_DOWNLOAD_BYTES \+ DATASET_ASSEMBLY_BYTES/);
+  assert.match(command, /Download workspace must be outside the node-data directory/);
+  assert.match(command, /Download workspace cannot be the filesystem root/);
+  assert.match(command, /sudo install -d -m 0750/);
+  assert.match(command, /cd "\$DOWNLOAD_DIR"/);
   assert.match(command, /^  --full-archive \\$/m);
   assert.doesNotMatch(command, /^  --archive(?: |$)/m);
   assert.match(command, /--dataset-trusted-key/);
@@ -294,6 +330,52 @@ test("generated full-archive command is resumable, verified, and shell-valid", (
 
   const syntax = spawnSync("bash", ["-n"], { input: command, encoding: "utf8" });
   assert.equal(syntax.status, 0, syntax.stderr);
+});
+
+test("the full archive RPC preset is an exact fail-closed mapping", async () => {
+  assert.deepEqual(
+    resolveInstallSelection({
+      preset: "full-archive-rpc",
+      profile: "mining",
+      dataset: "none",
+      retention: "current",
+    }),
+    {
+      preset: "full-archive-rpc",
+      profile: "public-rpc",
+      dataset: "full_archive",
+      retention: "archive",
+    },
+  );
+
+  const command = buildInstallCommand(syntheticPublishedManifest(), {
+    preset: "full-archive-rpc",
+    profile: "mining",
+    dataset: "none",
+    retention: "current",
+    dataDir: "/srv/blockdag/node-data",
+    downloadDir: "/srv/blockdag/downloads",
+  });
+  assert.match(command, /--profile public-rpc/);
+  assert.match(command, /^  --full-archive \\$/m);
+  assert.match(command, /--dataset-archive/);
+  assert.doesNotMatch(command, /MINING_POOL_ADDRESS|POOL_ASIC_MAC_ALLOWLIST/);
+  const syntax = spawnSync("bash", ["-n"], { input: command, encoding: "utf8" });
+  assert.equal(syntax.status, 0, syntax.stderr);
+
+  const manifestUrl = new URL("../releases/2.0.0-community-rescue-rc.30-page-v2/release-manifest.json", import.meta.url);
+  const pendingManifest = JSON.parse(await readFile(manifestUrl, "utf8"));
+  const pageUrl = new URL("../releases/2.0.0-community-rescue-rc.30-page-v2/index.html", import.meta.url);
+  const page = await readFile(pageUrl, "utf8");
+  assert.match(
+    page,
+    /data-preset="full-archive-rpc"[^>]*aria-disabled="true"[^>]*disabled/,
+  );
+  const pendingCommand = buildInstallCommand(pendingManifest, {
+    preset: "full-archive-rpc",
+    dataDir: "/srv/blockdag/node-data",
+  });
+  assert.equal(pendingCommand, "# The selected dataset is not published and cannot be installed.");
 });
 
 test("every selectable role, dataset, and retention combination maps to the intended installer mode", () => {
@@ -389,4 +471,70 @@ test("shell quoting and byte formatting remain stable", () => {
   assert.equal(shellQuote("a'b"), `'a'"'"'b'`);
   assert.equal(formatBytes(null), "Pending");
   assert.match(formatBytes(4096), /4\.00 KiB/);
+});
+
+test("the RC32 signed draft records exact software identities while every install path stays locked", async () => {
+  const manifestUrl = new URL("../releases/2.0.0-community-rescue-rc.32/release-manifest.json", import.meta.url);
+  const pageUrl = new URL("../releases/2.0.0-community-rescue-rc.32/index.html", import.meta.url);
+  const manifest = JSON.parse(await readFile(manifestUrl, "utf8"));
+  const page = await readFile(pageUrl, "utf8");
+
+  assert.equal(manifest.release.version, "2.0.0-community-rescue-rc.32");
+  assert.equal(manifest.release.sequence, 32);
+  assert.equal(manifest.release.status, "draft");
+  assert.equal(manifest.records_delivery.cid, null);
+  assert.equal(publicationReady(manifest), false);
+  assert.equal(artifactIdentityReady(manifest.installer), true);
+  assert.equal(artifactReady(manifest.installer), false);
+  assert.equal(artifactIdentityReady(manifest.software.targets["linux-amd64"]), true);
+  assert.equal(artifactIdentityReady(manifest.software.targets["linux-arm64"]), true);
+  assert.equal(fullArchivePending(manifest.datasets.full_archive), true);
+  assert.equal(manifest.qualification.full_archive_dataset_verified, false);
+  assert.equal(manifest.qualification.runtime_path_verified, true);
+  assert.equal(manifest.qualification.restore_path_verified, false);
+  assert.match(
+    page,
+    /data-preset="full-archive-rpc"[^>]*aria-disabled="true"[^>]*disabled/,
+  );
+
+  const command = buildInstallCommand(manifest, {
+    preset: "full-archive-rpc",
+    dataDir: "/srv/blockdag/node-data",
+    downloadDir: "/srv/blockdag/downloads",
+  });
+  assert.match(command, /is not publication-ready/);
+  assert.doesNotMatch(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
+});
+
+test("the published RC44 software release keeps the pending full-archive preset locked", async () => {
+  const manifestUrl = new URL("../releases/2.0.0-community-rescue-rc.44/release-manifest.json", import.meta.url);
+  const pageUrl = new URL("../releases/2.0.0-community-rescue-rc.44/index.html", import.meta.url);
+  const manifest = JSON.parse(await readFile(manifestUrl, "utf8"));
+  const page = await readFile(pageUrl, "utf8");
+
+  assert.equal(manifest.release.version, "2.0.0-community-rescue-rc.44");
+  assert.equal(manifest.release.sequence, 44);
+  assert.equal(manifest.release.status, "published");
+  assert.equal(isCid(manifest.records_delivery.cid), true);
+  assert.equal(publicationReady(manifest), true);
+  assert.equal(artifactIdentityReady(manifest.installer), true);
+  assert.equal(artifactReady(manifest.installer), true);
+  assert.equal(artifactIdentityReady(manifest.software.targets["linux-amd64"]), true);
+  assert.equal(artifactIdentityReady(manifest.software.targets["linux-arm64"]), true);
+  assert.equal(fullArchivePending(manifest.datasets.full_archive), true);
+  assert.equal(manifest.qualification.full_archive_dataset_verified, false);
+  assert.equal(manifest.qualification.runtime_path_verified, true);
+  assert.equal(manifest.qualification.restore_path_verified, true);
+  assert.match(
+    page,
+    /data-preset="full-archive-rpc"[^>]*aria-disabled="true"[^>]*disabled/,
+  );
+
+  const command = buildInstallCommand(manifest, {
+    preset: "full-archive-rpc",
+    dataDir: "/srv/blockdag/node-data",
+    downloadDir: "/srv/blockdag/downloads",
+  });
+  assert.match(command, /selected dataset is not published/);
+  assert.doesNotMatch(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
 });
