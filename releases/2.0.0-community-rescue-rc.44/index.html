@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="description" content="Draft BlockDAG Community Rescue RC44 full-archive and public-RPC installer for mainnet chain ID 1404.">
+    <title>BlockDAG Community Rescue RC44</title>
+    <link rel="canonical" href="https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.0.0-community-rescue-rc.44/index.html">
+    <link rel="icon" href="assets/bdag-community-logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/release.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#install-title">Skip to installation</a>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="./">
+          <img src="assets/bdag-community-logo.svg" alt="BDAG Community" width="180" height="62">
+          <span class="version">2.0.0-community-rescue-rc.44</span>
+          <span class="draft-badge" id="releaseBadge">Draft</span>
+        </a>
+        <nav class="top-actions" aria-label="Release links">
+          <a class="button" href="#install-title">Install guide</a>
+          <a class="button" href="docs/ai-agent-runbook.md" download>AI runbook (.md)</a>
+          <a class="button" href="release-manifest.json">Technical manifest</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="status-band" aria-label="Publication status">
+      <div class="status-inner">
+        <div class="status-item">
+          <span class="status-dot" id="releaseDot"></span>
+          <div><strong id="releaseStatus">Draft release</strong><span id="releaseStatusDetail">Sequence 32 is not yet published</span></div>
+        </div>
+        <div class="status-item">
+          <span class="status-dot" id="softwareDot"></span>
+          <div><strong id="softwareStatus">Signed software recorded</strong><span id="softwareStatusDetail">Immutable download CIDs are pending</span></div>
+        </div>
+        <div class="status-item">
+          <span class="status-dot" id="datasetDot"></span>
+          <div><strong id="datasetStatus">Portable dataset published</strong><span id="datasetStatusDetail">Portable v27 is available; full archive is still pending</span></div>
+        </div>
+      </div>
+    </div>
+
+    <main id="main-content">
+      <div class="release-head">
+        <div class="label">BlockDAG Community Rescue</div>
+        <h1>BlockDAG 2.0.0-community-rescue-rc.44</h1>
+        <p class="lede">A community release candidate for mainnet chain ID 1404. Signed software and signed chain data remain independent, so either can be updated without forcing replacement of the other.</p>
+        <div class="release-alert" id="draftNotice" role="status">
+          <strong>Draft preview.</strong>
+          RC44 software is signed and its exact-package runtime gate has passed, but installation remains locked until publication finishes. The independently signed full-archive dataset remains pending.
+        </div>
+      </div>
+
+      <section aria-labelledby="release-change-title">
+        <div class="section-head">
+          <div><h2 id="release-change-title">What RC44 changes</h2><p>RC44 retains the live-proven consensus runtime and adds the transaction-safe public-RPC, full-archive, and cross-architecture release hardening qualified during recovery.</p></div>
+        </div>
+        <div class="prereq-grid">
+          <div class="prereq"><strong>Committed EVM state</strong><span>Transient gaps between canonical mutation and committed EVM head use a bounded wait; a canonical mismatch still fails immediately.</span></div>
+          <div class="prereq"><strong>Fail-closed full archive</strong><span>The full-archive preset requires a separately signed archive-equivalent dataset and live archive-status proof before activation.</span></div>
+          <div class="prereq"><strong>Bounded public RPC</strong><span>Node-side client, request, timeout, rate, body-size, and concurrency limits provide a safe backend baseline for an independently managed edge proxy.</span></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="start-title">
+        <div class="section-head">
+          <div><h2 id="start-title">Start here</h2><p>The release keeps software and chain data separate. Choose only what the node needs.</p></div>
+        </div>
+        <ol class="steps">
+          <li><span>1</span><div><strong>Prepare the host</strong><p>Confirm Linux architecture, Docker, free storage, payout wallet, and miner MAC addresses.</p></div></li>
+          <li><span>2</span><div><strong>Choose chain data</strong><p>Keep existing data, restore the smaller portable state, or use a signed full archive when one is published.</p></div></li>
+          <li><span>3</span><div><strong>Verify every file</strong><p>Check SHA-256, signed software records, and the signed dataset manifest before installation.</p></div></li>
+          <li><span>4</span><div><strong>Install and check</strong><p>Start the stack, confirm chain ID 1404 and service health, then attach mining hardware.</p></div></li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="install-title">
+        <div class="section-head">
+          <div><h2 id="install-title">Install command builder</h2><p>These fields stay in this browser. The page does not transmit or store them.</p></div>
+        </div>
+        <div class="workspace">
+          <div class="controls">
+            <fieldset>
+              <legend>Node role</legend>
+              <div class="segmented segmented-four" role="group" aria-label="Node role">
+                <button type="button" class="active" data-profile="mining" aria-pressed="true">Mining pool</button>
+                <button type="button" data-profile="public-rpc" aria-pressed="false">Public RPC</button>
+                <button type="button" data-profile="non-mining" aria-pressed="false">Node only</button>
+                <button type="button" data-preset="full-archive-rpc" aria-pressed="false" aria-disabled="true" disabled title="The signed full archive dataset is not published yet">Full archive RPC</button>
+              </div>
+            </fieldset>
+            <fieldset id="datasetField">
+              <legend>Chain data</legend>
+              <div class="segmented segmented-three" role="group" aria-label="Chain data choice">
+                <button type="button" class="active" data-dataset="none" aria-pressed="true">Keep / sync</button>
+                <button type="button" data-dataset="portable" aria-pressed="false">Portable restore</button>
+                <button type="button" data-dataset="full_archive" aria-pressed="false" aria-disabled="true" disabled title="The signed full archive dataset is not published yet">Full archive</button>
+              </div>
+            </fieldset>
+            <fieldset id="retentionField">
+              <legend>EVM state retention</legend>
+              <div class="segmented segmented-two" role="group" aria-label="EVM state retention">
+                <button type="button" class="active" data-retention="current" aria-pressed="true">Current state</button>
+                <button type="button" data-retention="archive" aria-pressed="false">Retain archive</button>
+              </div>
+              <p class="field-help" id="retentionHelp">Current-state mode is appropriate for mining and ordinary RPC nodes. Select archive retention only when keeping compatible archive data.</p>
+            </fieldset>
+            <label>Node data directory<input id="dataDir" type="text" value="/srv/blockdag/node-data" spellcheck="false"></label>
+            <label>Download workspace<input id="downloadDir" type="text" value="/srv/blockdag/downloads" spellcheck="false"><span class="field-help">Keep resumable downloads and multipart assembly outside the live node-data tree.</span></label>
+            <label id="walletLabel">Public payout wallet<input id="wallet" type="text" placeholder="0xYOUR_PUBLIC_PAYOUT_ADDRESS" autocomplete="off" spellcheck="false"></label>
+            <label id="macLabel">ASIC MAC addresses<input id="macs" type="text" placeholder="aa:bb:cc:dd:ee:ff,11:22:33:44:55:66" autocomplete="off" spellcheck="false"></label>
+            <div id="selectionSummary" class="selection-summary">Software only. Existing compatible data is retained or the node synchronizes normally.</div>
+            <div id="inputNotice" class="notice">Enter only a public payout address. A seed phrase or private key is never needed.</div>
+          </div>
+          <div>
+            <div class="terminal">
+              <div class="terminal-bar"><span>Generated Linux command</span><button id="copyCommand" type="button" disabled>Copy command</button></div>
+              <pre id="installCommand" tabindex="0" aria-label="Generated Linux installation command">Loading release manifest...</pre>
+            </div>
+            <div class="notice">The command checks Linux, required tools, Docker access, administrative access, and minimum free space before downloading. Downloads use IPv4 and HTTP/1.1 with retries.</div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="prepare-title">
+        <div class="section-head"><div><h2 id="prepare-title">Prepare the host</h2><p>Have these items ready before downloading large files.</p></div></div>
+        <div class="prereq-grid">
+          <div class="prereq"><strong>Public payout wallet</strong><span>Mining needs a public <code>0x...</code> address. Never provide a seed phrase or private key.</span></div>
+          <div class="prereq"><strong>ASIC MAC addresses</strong><span>Record the Ethernet MAC from each miner label or router before enabling the mining profile.</span></div>
+          <div class="prereq"><strong>Supported host</strong><span>Use 64-bit Linux on AMD64 or ARM64 with Docker Engine and Docker Compose v2.</span></div>
+          <div class="prereq"><strong>Required tools</strong><span>Install <code>curl</code>, <code>unzip</code>, <code>sha256sum</code>, Python 3, <code>tar</code>, and <code>zstd</code>.</span></div>
+          <div class="prereq"><strong>Storage</strong><span>Use the final manifest sizes to allow room for the download, extraction, chain growth, and a rollback copy.</span></div>
+          <div class="prereq"><strong>Public RPC edge</strong><span>Use an independently configured TLS edge proxy with firewalling, per-client abuse controls, health checks, monitoring, and restart recovery.</span></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="downloads-title">
+        <div class="section-head"><div><h2 id="downloads-title">Independent downloads</h2><p>A software update does not require a dataset restore, and a signed dataset can be restored without reinstalling the complete stack.</p></div></div>
+        <div class="artifact-grid">
+          <article class="artifact" data-artifact="linux-amd64">
+            <span class="kind">Linux AMD64 software</span>
+            <h3>RC44 offline stack</h3>
+            <dl><dt>Status</dt><dd data-field="status">Pending</dd><dt>Filename</dt><dd data-field="filename">Pending final metadata</dd><dt>Size</dt><dd data-field="size">Pending</dd><dt>SHA-256</dt><dd data-field="sha256">Pending</dd></dl>
+            <code data-field="cid">CID pending</code>
+            <div class="artifact-actions"><a class="button primary disabled" data-action="download" aria-disabled="true">Not yet published</a></div>
+          </article>
+          <article class="artifact" data-artifact="linux-arm64">
+            <span class="kind">Linux ARM64 software</span>
+            <h3>RC44 offline stack</h3>
+            <dl><dt>Status</dt><dd data-field="status">Pending</dd><dt>Filename</dt><dd data-field="filename">Pending final metadata</dd><dt>Size</dt><dd data-field="size">Pending</dd><dt>SHA-256</dt><dd data-field="sha256">Pending</dd></dl>
+            <code data-field="cid">CID pending</code>
+            <div class="artifact-actions"><a class="button primary disabled" data-action="download" aria-disabled="true">Not yet published</a></div>
+          </article>
+          <article class="artifact" data-artifact="portable">
+            <span class="kind">Portable dataset</span>
+            <h3>Current-state restore</h3>
+            <p>For mining pools, RPC nodes, and other nodes that do not need complete historical archive coverage. Delivered as three resumable, independently verified IPFS parts.</p>
+            <dl><dt>Status</dt><dd data-field="status">Pending</dd><dt>Filename</dt><dd data-field="filename">Pending final metadata</dd><dt>Download</dt><dd data-field="size">Pending</dd><dt>Expanded</dt><dd data-field="unpacked-size">Pending</dd><dt>SHA-256</dt><dd data-field="sha256">Pending</dd></dl>
+            <code data-field="cid">CID pending</code>
+            <div class="artifact-actions"><a class="button primary disabled" data-action="download" aria-disabled="true">Not yet published</a><a class="button disabled" data-action="manifest" aria-disabled="true">Signed manifest pending</a></div>
+          </article>
+          <article class="artifact" data-artifact="full_archive">
+            <span class="kind">Full archive dataset</span>
+            <h3>Archive-node restore</h3>
+            <p>Not yet available. No filename, size, hash, CID, checkpoint, or archive claim is published for this option.</p>
+            <dl><dt>Status</dt><dd data-field="status">Pending</dd><dt>Filename</dt><dd data-field="filename">Pending final metadata</dd><dt>Download</dt><dd data-field="size">Pending</dd><dt>Expanded</dt><dd data-field="unpacked-size">Pending</dd><dt>SHA-256</dt><dd data-field="sha256">Pending</dd></dl>
+            <code data-field="cid">Delivery metadata pending</code>
+            <div class="artifact-actions"><a class="button primary disabled" data-action="download" aria-disabled="true">Not yet published</a><a class="button disabled" data-action="manifest" aria-disabled="true">Signed manifest pending</a></div>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="verify-title">
+        <div class="section-head"><div><h2 id="verify-title">Verify before installing</h2><p>A successful download is not enough. Verify the exact bytes and the signed trust records.</p></div></div>
+        <div class="verify-grid">
+          <div>
+            <h3>Software</h3>
+            <ol class="check-list">
+              <li>Match the package SHA-256 to the release manifest.</li>
+              <li>Verify the release authorization signature with the published release key.</li>
+              <li>Confirm the release key fingerprint and signed release sequence.</li>
+              <li>Run the packaged installer, which verifies its signed release lock before activation.</li>
+            </ol>
+          </div>
+          <div>
+            <h3>Dataset</h3>
+            <ol class="check-list">
+              <li>Verify every downloaded part, then verify the assembled archive SHA-256.</li>
+              <li>Verify the canonical-data manifest with the published dataset key.</li>
+              <li>Confirm chain ID, native boundary, EVM boundary, and fixed checkpoint.</li>
+              <li>Never merge database or freezer directories from different histories by hand.</li>
+            </ol>
+          </div>
+        </div>
+        <pre class="command-sample">curl -4 --http1.1 -fL --retry 12 --retry-all-errors -C - \
+  "https://GATEWAY.example/ipfs/CID_FROM_RELEASE_MANIFEST" \
+  -o "ARTIFACT.part"
+printf '%s  %s\n' "SHA256_FROM_RELEASE_MANIFEST" "ARTIFACT.part" | sha256sum -c -</pre>
+      </section>
+
+      <section aria-labelledby="gateway-title">
+        <div class="section-head"><div><h2 id="gateway-title">When an IPFS gateway times out</h2><p>A gateway timeout does not change the CID or the file. Resume through another gateway and verify the final hash. If the IPFS page itself is unavailable, use the <a href="https://blockdagengineering.github.io/bdag-ipfs-release-page/">stable web copy</a>.</p></div></div>
+        <div class="gateway-grid">
+          <div class="gateway-step"><strong>1. Keep the partial file</strong><span>Do not delete <code>.part</code>. The documented command resumes it with <code>-C -</code>.</span></div>
+          <div class="gateway-step"><strong>2. Change the gateway</strong><span>Try each gateway listed in the release manifest while keeping the same CID and output filename.</span></div>
+          <div class="gateway-step"><strong>3. Force the stable transport</strong><span>Keep both <code>-4</code> and <code>--http1.1</code> on every large download.</span></div>
+          <div class="gateway-step"><strong>4. Verify after assembly</strong><span>Trust only the published SHA-256 and signature records, regardless of which gateway returned the bytes.</span></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="records-title">
+        <div class="section-head"><div><h2 id="records-title">Release records</h2><p>Software and datasets use separate signed records and can be retained independently.</p></div></div>
+        <div class="record-grid">
+          <div>
+            <h3>Software records</h3>
+            <ul class="record-list">
+              <li><a data-record="release-auth">Release authorization manifest</a><code>pending</code></li>
+              <li><a data-record="release-key">Release public key</a><code>pending</code></li>
+              <li><a data-record="release-notes">Release notes</a><code>pending</code></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Dataset records</h3>
+            <ul class="record-list">
+              <li><a data-record="dataset-key">Dataset public key</a><code>pending</code></li>
+              <li><a data-record="dataset-verifier">Dataset manifest verifier</a><code>pending</code></li>
+              <li><a data-record="portable-manifest">Portable signed manifest</a><code>pending</code></li>
+              <li><a data-record="archive-manifest" class="disabled-link" aria-disabled="true">Full archive signed manifest</a><code>pending</code></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <footer>Community-maintained prerelease for mainnet chain ID 1404. Page revision 2. Verify immutable CIDs, SHA-256 values, signatures, and canonical checkpoints before attaching hash power.</footer>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite">Command copied</div>
+    <noscript><div class="noscript">JavaScript is required to read the release manifest and unlock verified download controls.</div></noscript>
+    <script type="module" src="assets/release-page.mjs"></script>
+  </body>
+</html>

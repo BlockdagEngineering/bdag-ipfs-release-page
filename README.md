@@ -15,10 +15,10 @@ Current release directory:
 
 Next release draft:
 
-`releases/2.0.0-community-rescue-rc.32/`
+`releases/2.0.0-community-rescue-rc.44/`
 
-The RC32 draft records signed AMD64 and ARM64 software identities and exposes a
-fail-closed full-archive RPC preset. All RC32 installation controls remain
+The RC44 draft records signed AMD64 and ARM64 software identities and exposes a
+fail-closed full-archive RPC preset. All RC44 installation controls remain
 locked until immutable software and records CIDs, exact-package runtime
 qualification, and a separately signed full-archive dataset are complete.
 

@@ -505,3 +505,36 @@ test("the RC32 signed draft records exact software identities while every instal
   assert.match(command, /is not publication-ready/);
   assert.doesNotMatch(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
 });
+
+test("the RC44 signed draft exposes but locks the full-archive RPC preset", async () => {
+  const manifestUrl = new URL("../releases/2.0.0-community-rescue-rc.44/release-manifest.json", import.meta.url);
+  const pageUrl = new URL("../releases/2.0.0-community-rescue-rc.44/index.html", import.meta.url);
+  const manifest = JSON.parse(await readFile(manifestUrl, "utf8"));
+  const page = await readFile(pageUrl, "utf8");
+
+  assert.equal(manifest.release.version, "2.0.0-community-rescue-rc.44");
+  assert.equal(manifest.release.sequence, 44);
+  assert.equal(manifest.release.status, "draft");
+  assert.equal(manifest.records_delivery.cid, null);
+  assert.equal(publicationReady(manifest), false);
+  assert.equal(artifactIdentityReady(manifest.installer), true);
+  assert.equal(artifactReady(manifest.installer), false);
+  assert.equal(artifactIdentityReady(manifest.software.targets["linux-amd64"]), true);
+  assert.equal(artifactIdentityReady(manifest.software.targets["linux-arm64"]), true);
+  assert.equal(fullArchivePending(manifest.datasets.full_archive), true);
+  assert.equal(manifest.qualification.full_archive_dataset_verified, false);
+  assert.equal(manifest.qualification.runtime_path_verified, true);
+  assert.equal(manifest.qualification.restore_path_verified, false);
+  assert.match(
+    page,
+    /data-preset="full-archive-rpc"[^>]*aria-disabled="true"[^>]*disabled/,
+  );
+
+  const command = buildInstallCommand(manifest, {
+    preset: "full-archive-rpc",
+    dataDir: "/srv/blockdag/node-data",
+    downloadDir: "/srv/blockdag/downloads",
+  });
+  assert.match(command, /is not publication-ready/);
+  assert.doesNotMatch(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
+});
