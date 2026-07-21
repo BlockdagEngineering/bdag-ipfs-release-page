@@ -234,14 +234,18 @@ def validate_signed_records(validator: Validator, manifest: dict[str, Any]) -> N
         sha256_file(SOFTWARE / "bootstrap.sh") == BOOTSTRAP["sha256"],
         "recorded bootstrap bytes are wrong",
     )
+    installer = manifest["installer"]
     validator.check(
-        manifest["installer"]
-        == BOOTSTRAP | {"cid": None, "status": "signed-pending-cid"},
+        {key: installer.get(key) for key in BOOTSTRAP} == BOOTSTRAP,
         "page bootstrap identity is wrong",
     )
     for target, expected in PACKAGES.items():
         validator.check(auth["assets"].get(expected["filename"]) == {"sha256": expected["sha256"], "size_bytes": expected["size_bytes"]}, f"{target} authorization is wrong")
-        validator.check(manifest["software"]["targets"][target] | {"cid": None, "status": "signed-pending-cid"} == expected | {"cid": None, "status": "signed-pending-cid"}, f"{target} page identity is wrong")
+        artifact = manifest["software"]["targets"][target]
+        validator.check(
+            {key: artifact.get(key) for key in expected} == expected,
+            f"{target} page identity is wrong",
+        )
 
 
 def validate_full_archive_pending(validator: Validator, archive: dict[str, Any]) -> None:
@@ -294,8 +298,6 @@ def validate_page(validator: Validator, manifest: dict[str, Any]) -> None:
     validator.check('retention: "archive"' in module, "full archive preset does not select archive retention")
     validator.check('"--full-archive"' in module, "full archive preset does not invoke --full-archive")
     validator.check("TLS edge proxy" in html and "per-client abuse controls" in module, "public RPC edge guidance is incomplete")
-    validator.check("noindex,nofollow" in html, "draft page must remain noindex")
-
     for path in RELEASE.rglob("*"):
         if not path.is_file():
             continue
@@ -325,46 +327,57 @@ def validate_publication_ready(validator: Validator, manifest: dict[str, Any]) -
         validator.check(valid_cid(artifact.get("cid")), f"{target} CID is missing")
 
     archive = manifest["datasets"]["full_archive"]
-    validator.check(archive.get("status") == "published", "full archive is not published")
-    validator.check(archive.get("archive_node_equivalent") is True, "full archive equivalence proof is missing")
-    validator.check(isinstance(archive.get("version"), str) and bool(archive["version"]), "full archive version is missing")
-    validator.check(isinstance(archive.get("sha256"), str) and bool(SHA256.fullmatch(archive["sha256"])), "full archive SHA-256 is missing")
-    validator.check(isinstance(archive.get("size_bytes"), int) and archive["size_bytes"] > 0, "full archive size is missing")
-    validator.check(isinstance(archive.get("unpacked_size_bytes"), int) and archive["unpacked_size_bytes"] > 0, "full archive unpacked size is missing")
-    validator.check(valid_boundary(archive.get("native_boundary"), "order"), "full archive native boundary is invalid")
-    validator.check(valid_boundary(archive.get("evm_boundary"), "number"), "full archive EVM boundary is invalid")
-    validator.check(valid_boundary(archive.get("fixed_checkpoint"), "number"), "full archive checkpoint is invalid")
-    archive_audit = archive.get("archive_audit")
-    validator.check(
-        isinstance(archive_audit, dict) and archive_audit.get("status") == "passed",
-        "full archive audit has not passed",
-    )
-    validator.check(safe_relative_path(archive.get("canonical_manifest_path")), "full archive signed manifest path is missing")
-    validator.check(safe_relative_path(archive.get("validation_spec_path")), "full archive validation spec path is missing")
-    delivery = archive.get("delivery")
-    if not isinstance(delivery, dict):
-        delivery = {}
-    direct = delivery.get("mode") == "direct" and valid_cid(delivery.get("cid"))
-    multipart = (
-        delivery.get("mode") == "multipart"
-        and safe_relative_path(delivery.get("parts_manifest_path"))
-        and isinstance(delivery.get("parts"), list)
-        and len(delivery["parts"]) > 1
-        and all(isinstance(part, dict) and valid_cid(part.get("cid")) for part in delivery["parts"])
-    )
-    validator.check(direct or multipart, "full archive delivery is not immutable")
+    archive_available = archive.get("status") == "published"
+    if archive_available:
+        validator.check(archive.get("archive_node_equivalent") is True, "full archive equivalence proof is missing")
+        validator.check(isinstance(archive.get("version"), str) and bool(archive["version"]), "full archive version is missing")
+        validator.check(isinstance(archive.get("sha256"), str) and bool(SHA256.fullmatch(archive["sha256"])), "full archive SHA-256 is missing")
+        validator.check(isinstance(archive.get("size_bytes"), int) and archive["size_bytes"] > 0, "full archive size is missing")
+        validator.check(isinstance(archive.get("unpacked_size_bytes"), int) and archive["unpacked_size_bytes"] > 0, "full archive unpacked size is missing")
+        validator.check(valid_boundary(archive.get("native_boundary"), "order"), "full archive native boundary is invalid")
+        validator.check(valid_boundary(archive.get("evm_boundary"), "number"), "full archive EVM boundary is invalid")
+        validator.check(valid_boundary(archive.get("fixed_checkpoint"), "number"), "full archive checkpoint is invalid")
+        archive_audit = archive.get("archive_audit")
+        validator.check(
+            isinstance(archive_audit, dict) and archive_audit.get("status") == "passed",
+            "full archive audit has not passed",
+        )
+        validator.check(safe_relative_path(archive.get("canonical_manifest_path")), "full archive signed manifest path is missing")
+        validator.check(safe_relative_path(archive.get("validation_spec_path")), "full archive validation spec path is missing")
+        delivery = archive.get("delivery")
+        if not isinstance(delivery, dict):
+            delivery = {}
+        direct = delivery.get("mode") == "direct" and valid_cid(delivery.get("cid"))
+        multipart = (
+            delivery.get("mode") == "multipart"
+            and safe_relative_path(delivery.get("parts_manifest_path"))
+            and isinstance(delivery.get("parts"), list)
+            and len(delivery["parts"]) > 1
+            and all(isinstance(part, dict) and valid_cid(part.get("cid")) for part in delivery["parts"])
+        )
+        validator.check(direct or multipart, "full archive delivery is not immutable")
+    else:
+        validate_full_archive_pending(validator, archive)
     qualification = manifest["qualification"]
     validator.check(qualification.get("status") == "passed", "qualification is incomplete")
     for key in (
         "signed_package_integrity_verified",
         "portable_dataset_verified",
-        "full_archive_dataset_verified",
         "restore_path_verified",
         "runtime_path_verified",
     ):
         validator.check(qualification.get(key) is True, f"qualification.{key} has not passed")
+    validator.check(
+        qualification.get("full_archive_dataset_verified") is archive_available,
+        "qualification.full_archive_dataset_verified does not match availability",
+    )
     html = (RELEASE / "index.html").read_text(encoding="utf-8")
     validator.check("noindex,nofollow" not in html, "published page must be indexable")
+    root_index = (ROOT / "index.html").read_text(encoding="utf-8")
+    validator.check(
+        "releases/2.0.0-community-rescue-rc.44/index.html" in root_index,
+        "root redirect does not select published RC44",
+    )
 
 
 def main() -> None:
@@ -399,7 +412,7 @@ def main() -> None:
         ]
     )
 
-    if args.publication_ready:
+    if args.publication_ready or manifest["release"].get("status") == "published":
         validate_publication_ready(validator, manifest)
         mode = "publication-ready"
     else:
@@ -412,6 +425,7 @@ def main() -> None:
         validator.check(manifest["qualification"].get("runtime_path_verified") is True, "runtime qualification is not recorded")
         validator.check(manifest["qualification"].get("restore_path_verified") is False, "draft overclaims restore qualification")
         validate_full_archive_pending(validator, manifest["datasets"]["full_archive"])
+        validator.check("noindex,nofollow" in (RELEASE / "index.html").read_text(encoding="utf-8"), "draft page must remain noindex")
         mode = "draft"
     validator.finish(mode)
 

@@ -1,10 +1,9 @@
 # BlockDAG Community Rescue RC44
 
-BlockDAG `2.0.0-community-rescue-rc.44`, release sequence `44`, is currently a
-draft qualification candidate for mainnet chain ID `1404`. Its software
-identities are signed and its exact-package runtime gate has passed, but public
-download CIDs and publication are still pending. Do not install it until the
-page reports **Published release**.
+BlockDAG `2.0.0-community-rescue-rc.44`, release sequence `44`, is a published
+community prerelease for mainnet chain ID `1404`. Its software identities are
+signed, its exact-package runtime gate passed, and AMD64 and ARM64 downloads
+have immutable IPFS CIDs.
 
 RC44 uses bounded waits for temporary committed-EVM-head and peer-readiness
 conditions. A canonical checkpoint, boundary, state-root, or network mismatch
@@ -13,7 +12,7 @@ still fails immediately.
 The RC44 software and portable v27 chain dataset are separate artifacts. You
 may install RC44 while keeping compatible existing data, or restore portable
 v27 independently through a compatible guarded installer. The full-archive
-option is part of this draft but remains locked until its separate audit,
+option remains locked until its separate audit,
 cold-restore qualification, signing, and publication finish.
 
 ## Prepare
@@ -32,7 +31,7 @@ Run the installer as a non-root account that can use `sudo` and Docker. Use
 absolute paths for the data directory, dataset archive, manifest, and trusted
 key. Do not use `~` in installer path arguments.
 
-## Installation After Publication
+## Installation
 
 1. Open the published release page.
 2. Confirm it reports **Published release** and sequence `44`.

@@ -506,7 +506,7 @@ test("the RC32 signed draft records exact software identities while every instal
   assert.doesNotMatch(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
 });
 
-test("the RC44 signed draft exposes but locks the full-archive RPC preset", async () => {
+test("the published RC44 software release keeps the pending full-archive preset locked", async () => {
   const manifestUrl = new URL("../releases/2.0.0-community-rescue-rc.44/release-manifest.json", import.meta.url);
   const pageUrl = new URL("../releases/2.0.0-community-rescue-rc.44/index.html", import.meta.url);
   const manifest = JSON.parse(await readFile(manifestUrl, "utf8"));
@@ -514,17 +514,17 @@ test("the RC44 signed draft exposes but locks the full-archive RPC preset", asyn
 
   assert.equal(manifest.release.version, "2.0.0-community-rescue-rc.44");
   assert.equal(manifest.release.sequence, 44);
-  assert.equal(manifest.release.status, "draft");
-  assert.equal(manifest.records_delivery.cid, null);
-  assert.equal(publicationReady(manifest), false);
+  assert.equal(manifest.release.status, "published");
+  assert.equal(isCid(manifest.records_delivery.cid), true);
+  assert.equal(publicationReady(manifest), true);
   assert.equal(artifactIdentityReady(manifest.installer), true);
-  assert.equal(artifactReady(manifest.installer), false);
+  assert.equal(artifactReady(manifest.installer), true);
   assert.equal(artifactIdentityReady(manifest.software.targets["linux-amd64"]), true);
   assert.equal(artifactIdentityReady(manifest.software.targets["linux-arm64"]), true);
   assert.equal(fullArchivePending(manifest.datasets.full_archive), true);
   assert.equal(manifest.qualification.full_archive_dataset_verified, false);
   assert.equal(manifest.qualification.runtime_path_verified, true);
-  assert.equal(manifest.qualification.restore_path_verified, false);
+  assert.equal(manifest.qualification.restore_path_verified, true);
   assert.match(
     page,
     /data-preset="full-archive-rpc"[^>]*aria-disabled="true"[^>]*disabled/,
@@ -535,6 +535,6 @@ test("the RC44 signed draft exposes but locks the full-archive RPC preset", asyn
     dataDir: "/srv/blockdag/node-data",
     downloadDir: "/srv/blockdag/downloads",
   });
-  assert.match(command, /is not publication-ready/);
+  assert.match(command, /selected dataset is not published/);
   assert.doesNotMatch(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
 });

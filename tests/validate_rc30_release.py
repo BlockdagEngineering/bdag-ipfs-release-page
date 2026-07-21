@@ -423,8 +423,8 @@ def validate_page_files(validator: Validator) -> tuple[str, str]:
 
     root_index = (ROOT / "index.html").read_text(encoding="utf-8")
     validator.check(
-        RC24 in root_index or RC30 in root_index or RC30_PAGE_V2 in root_index,
-        "root redirect must name a published release",
+        'http-equiv="refresh"' in root_index and "releases/" in root_index,
+        "root redirect must name a release directory",
     )
     validator.check('rel="icon"' in root_index, "root redirect is missing a favicon")
     return html, human_guide

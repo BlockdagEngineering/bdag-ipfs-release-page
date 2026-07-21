@@ -1,15 +1,14 @@
-# RC44 Publication Candidate
+# RC44 Published Software Release
 
-`release-manifest.json` is the machine-readable draft index for RC44. Exact
+`release-manifest.json` is the machine-readable published index for RC44. Exact
 software identities come from the signed qualification build. Portable v27
 remains an independently signed dataset. Software and data are not made
 equivalent by appearing on the same page.
 
-Prepared components:
+Published components:
 
-- Signed RC44 AMD64 and ARM64 software identities; immutable CIDs are pending.
-- Signed bootstrap and release records; immutable records-directory delivery is
-  pending.
+- Signed RC44 AMD64 and ARM64 software with immutable CIDs.
+- Signed bootstrap and release records with immutable records-directory delivery.
 - Portable v27 current-state dataset in three immutable IPFS parts.
 - Human and AI-assisted installation guidance.
 - A locked command builder with exact `public-rpc + full archive +
@@ -58,20 +57,14 @@ full archive selections. Every generated command must pass `bash -n`; the
 pending full archive must remain unselectable. Signed-record
 downloads must use `records_delivery.cid` rather than the page origin.
 
-Before changing the draft to `published` or changing mutable pointers, record
-the software, records-directory, and full-archive CIDs, complete runtime
-qualification fields, and rerun the publication-ready validator. Then run a
-real browser against the exact
-immutable CID at desktop and mobile sizes. Exercise every selector, validate
-the copied command, open every local link, check for console and network
-errors, and confirm no layout overflow or accessibility violations. Then use a
-cold public-gateway request to fetch the HTML, manifest, module, stylesheet,
-and favicon, and run the provider and complete-DAG availability check. Repeat
-the browser check after updating IPNS and the stable web page.
+The software and portable-v27 release is published while the independently
+versioned full archive remains unavailable. A later additive page update may
+enable that option only after recording its signed manifest and immutable
+delivery CIDs and passing the archive-specific validation path.
 
 Publication is additive: prior immutable release directories remain available.
-The mutable root page must continue to point to RC30 until every RC44
-publication and public-retrieval check passes.
+The mutable root page points to RC44; prior immutable release directories remain
+available for audit and rollback.
 
 Runtime policy remains fail closed: transient peer-readiness may use only the
 bounded startup window, while any canonical checkpoint or boundary mismatch

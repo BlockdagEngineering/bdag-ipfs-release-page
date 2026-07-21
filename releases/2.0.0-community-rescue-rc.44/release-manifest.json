@@ -4,9 +4,9 @@
     "version": "2.0.0-community-rescue-rc.44",
     "sequence": 44,
     "channel": "community-rescue",
-    "status": "draft",
+    "status": "published",
     "chain_id": 1404,
-    "published_at": null
+    "published_at": "2026-07-21T21:52:47Z"
   },
   "source": {
     "repository": "https://github.com/BlockdagEngineering/stack",
@@ -43,13 +43,13 @@
   },
   "records_delivery": {
     "mode": "ipfs-directory",
-    "cid": null,
+    "cid": "bafybeid5nsonb5cd6twji5s6nxjva3dpmlbrvfaxngtgey3n6zc7fgikju",
     "path_prefix": "records/"
   },
   "installer": {
-    "status": "signed-pending-cid",
+    "status": "published",
     "filename": "bootstrap.sh",
-    "cid": null,
+    "cid": "bafkreidldsaxlsi5ouarqupzohvn7jbw5qizgw6ebgg2ywhqztibxe7x4q",
     "sha256": "6b1c8175c91d75011851f971eadfa436ec11935bc4098dac58f0ccd01b93f7e4",
     "size_bytes": 5419
   },
@@ -57,16 +57,16 @@
     "independent_from_datasets": true,
     "targets": {
       "linux-amd64": {
-        "status": "signed-pending-cid",
+        "status": "published",
         "filename": "pool-stack-docker-2.0.0-community-rescue-rc.44-linux-amd64.zip",
-        "cid": null,
+        "cid": "bafybeic4eeogmrr2yhi3lmnppczzf5swypkcydomrtog6tgdtwan6bhnxe",
         "sha256": "8713bf3035ecabe2867492a60214fcabfe16c257c9575d939da2b35984e445bd",
         "size_bytes": 638991557
       },
       "linux-arm64": {
-        "status": "signed-pending-cid",
+        "status": "published",
         "filename": "pool-stack-docker-2.0.0-community-rescue-rc.44-linux-arm64.zip",
-        "cid": null,
+        "cid": "bafybeidvfkpiriiczu3dpwyjtl4delqn6sw2gm2vsf22pfefek3tnoc2sy",
         "sha256": "f96fd9f4e35b83e2fe052914dbe5f85626c672d9caf7d8886aecb1458e39388c",
         "size_bytes": 460314761
       }
@@ -156,11 +156,11 @@
     }
   },
   "qualification": {
-    "status": "in-progress",
+    "status": "passed",
     "signed_package_integrity_verified": true,
     "portable_dataset_verified": true,
     "full_archive_dataset_verified": false,
-    "restore_path_verified": false,
+    "restore_path_verified": true,
     "runtime_path_verified": true
   }
 }

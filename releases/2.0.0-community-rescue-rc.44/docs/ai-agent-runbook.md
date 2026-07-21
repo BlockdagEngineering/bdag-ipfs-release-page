@@ -8,7 +8,7 @@ authorization record, and the signed canonical-data manifest are authoritative.
 
 - Version: `2.0.0-community-rescue-rc.44`
 - Release sequence: `44`
-- Publication state: draft; do not install until the manifest is published
+- Publication state: published; software and portable v27 installs are enabled
 - Stack revision: `bda8cf1e5c73a8e0316ce302650310feb0538939`
 - Corechain revision: `bb0f7a6fed918e56251aa602503c90f1e1f30cb8`
 - Pool revision: `80774b865b60e695b6e91a817013d9aeffc03271`
@@ -47,7 +47,7 @@ retried or overridden.
 - **Software only:** retain compatible healthy data and install RC44.
 - **Portable v27:** for mining pools and current-state RPC nodes; require
   `archive_node_equivalent=false` and use `--no-archive`.
-- **Full archive:** pending and locked in this draft. Do not improvise an
+- **Full archive:** pending and locked. Do not improvise an
   archive restore from portable data or enable it before publication gates pass.
 
 For software-only installs, select `--no-archive` for current-state retention
