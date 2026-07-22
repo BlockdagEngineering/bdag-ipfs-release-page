@@ -21,7 +21,7 @@ import {
   publicationReady,
   resolveInstallSelection,
   shellQuote,
-} from "../releases/2.0.0-community-rescue-rc.30-page-v2/assets/release-page.mjs";
+} from "../releases/2.0.0-community-rescue-rc.44/assets/release-page.mjs";
 
 
 const syntheticHash = (character) => character.repeat(64);
@@ -506,7 +506,7 @@ test("the RC32 signed draft records exact software identities while every instal
   assert.doesNotMatch(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
 });
 
-test("the published RC44 software release keeps the pending full-archive preset locked", async () => {
+test("the published RC44 release enables the verified full-archive preset", async () => {
   const manifestUrl = new URL("../releases/2.0.0-community-rescue-rc.44/release-manifest.json", import.meta.url);
   const pageUrl = new URL("../releases/2.0.0-community-rescue-rc.44/index.html", import.meta.url);
   const manifest = JSON.parse(await readFile(manifestUrl, "utf8"));
@@ -521,13 +521,15 @@ test("the published RC44 software release keeps the pending full-archive preset 
   assert.equal(artifactReady(manifest.installer), true);
   assert.equal(artifactIdentityReady(manifest.software.targets["linux-amd64"]), true);
   assert.equal(artifactIdentityReady(manifest.software.targets["linux-arm64"]), true);
-  assert.equal(fullArchivePending(manifest.datasets.full_archive), true);
-  assert.equal(manifest.qualification.full_archive_dataset_verified, false);
+  assert.equal(datasetReady(manifest.datasets.full_archive), true);
+  assert.equal(fullArchivePending(manifest.datasets.full_archive), false);
+  assert.equal(manifest.datasets.full_archive.delivery.parts.length, 40);
+  assert.equal(manifest.qualification.full_archive_dataset_verified, true);
   assert.equal(manifest.qualification.runtime_path_verified, true);
   assert.equal(manifest.qualification.restore_path_verified, true);
   assert.match(
     page,
-    /data-preset="full-archive-rpc"[^>]*aria-disabled="true"[^>]*disabled/,
+    /data-preset="full-archive-rpc"[^>]*aria-disabled="false"/,
   );
 
   const command = buildInstallCommand(manifest, {
@@ -535,6 +537,9 @@ test("the published RC44 software release keeps the pending full-archive preset 
     dataDir: "/srv/blockdag/node-data",
     downloadDir: "/srv/blockdag/downloads",
   });
-  assert.match(command, /selected dataset is not published/);
-  assert.doesNotMatch(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
+  assert.match(command, /blockdag-full-archive-v28/);
+  assert.match(command, /--full-archive/);
+  assert.match(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
+  const syntax = spawnSync("bash", ["-n"], { input: command, encoding: "utf8" });
+  assert.equal(syntax.status, 0, syntax.stderr);
 });

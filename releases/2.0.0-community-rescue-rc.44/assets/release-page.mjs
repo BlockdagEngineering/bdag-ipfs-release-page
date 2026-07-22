@@ -838,7 +838,7 @@ function renderManifest(manifest) {
     : `Sequence ${manifest.release.sequence} is not yet published`;
   document.getElementById("softwareStatus").textContent = softwareReady ? "Software published" : softwareIdentity ? "Signed software recorded" : "Software pending";
   document.getElementById("softwareStatusDetail").textContent = softwareReady ? "Two signed targets are publicly downloadable from IPFS" : softwareIdentity ? "Immutable download CIDs are pending" : "Signed package records are incomplete";
-  document.getElementById("datasetStatus").textContent = portableReady ? "Portable dataset published" : portableIdentity ? "Portable dataset recorded" : "Datasets pending";
+  document.getElementById("datasetStatus").textContent = archiveReady ? "Portable and full archive published" : portableReady ? "Portable dataset published" : portableIdentity ? "Portable dataset recorded" : "Datasets pending";
   document.getElementById("datasetStatusDetail").textContent = archiveReady
     ? "Portable and full archive are available"
     : portableReady
@@ -942,7 +942,8 @@ function initPage() {
       const dataset = state.manifest.datasets.portable;
       element("#selectionSummary").textContent = `Portable ${dataset.version}: ${formatBytes(dataset.size_bytes)} download and ${formatBytes(dataset.unpacked_size_bytes)} expanded. Current-state retention is enforced.`;
     } else if (state.dataset === "full_archive") {
-      element("#selectionSummary").textContent = "Full archive restore requires a separately published, signed archive-equivalent dataset and fail-closed full-archive mode.";
+      const dataset = state.manifest.datasets.full_archive;
+      element("#selectionSummary").textContent = `Full archive ${dataset.version}: ${formatBytes(dataset.size_bytes)} multipart download, ${formatBytes(dataset.unpacked_size_bytes)} expanded, and fail-closed --full-archive mode.`;
     } else if (state.retention === "archive") {
       element("#selectionSummary").textContent = "Software only: keep or synchronize node data while retaining EVM states from the current history forward.";
     } else {

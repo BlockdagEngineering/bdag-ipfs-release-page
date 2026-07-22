@@ -5,12 +5,12 @@
   "pins": [
     {
       "name": "release-page-root",
-      "cid": "bafybeiblqxf7d5cyqmapcpccpvaupatoydxsqceswm4taimqs247ux32ji",
+      "cid": "bafybeib6bd5qc7vyhsgztap2b6kf6ews3ad3kzjbehre7c2364yjwp5g2u",
       "recursive": true
     },
     {
       "name": "release-records-root",
-      "cid": "bafybeid5nsonb5cd6twji5s6nxjva3dpmlbrvfaxngtgey3n6zc7fgikju",
+      "cid": "bafybeic23qgiivnhnod2tgzeqqu6xnhmf6cay7e6gjr67gr5v6xqsfae5q",
       "recursive": true
     },
     {

@@ -291,7 +291,19 @@ def validate_page(validator: Validator, manifest: dict[str, Any]) -> None:
     html = (RELEASE / "index.html").read_text(encoding="utf-8")
     module = (RELEASE / "assets" / "release-page.mjs").read_text(encoding="utf-8")
     validator.check('data-preset="full-archive-rpc"' in html, "full archive RPC preset is missing")
-    validator.check('aria-disabled="true" disabled' in html, "pending full archive preset is not disabled")
+    preset = re.search(r'<button[^>]*data-preset="full-archive-rpc"[^>]*>', html)
+    archive_button = re.search(r'<button[^>]*data-dataset="full_archive"[^>]*>', html)
+    archive_available = manifest["datasets"]["full_archive"].get("status") == "published"
+    validator.check(preset is not None and archive_button is not None, "full archive controls are missing")
+    if preset is not None and archive_button is not None:
+        preset_disabled = re.search(r"\sdisabled(?:\s|>)", preset.group()) is not None
+        archive_disabled = re.search(r"\sdisabled(?:\s|>)", archive_button.group()) is not None
+        if archive_available:
+            validator.check(not preset_disabled, "published full archive preset remains disabled")
+            validator.check(not archive_disabled, "published full archive dataset remains disabled")
+        else:
+            validator.check(preset_disabled, "pending full archive preset is not disabled")
+            validator.check(archive_disabled, "pending full archive dataset is not disabled")
     validator.check('preset: "full-archive-rpc"' in module, "full archive preset resolver is missing")
     validator.check('profile: "public-rpc"' in module, "full archive preset does not select public-rpc")
     validator.check('dataset: "full_archive"' in module, "full archive preset does not select full archive data")
@@ -344,6 +356,70 @@ def validate_publication_ready(validator: Validator, manifest: dict[str, Any]) -
         )
         validator.check(safe_relative_path(archive.get("canonical_manifest_path")), "full archive signed manifest path is missing")
         validator.check(safe_relative_path(archive.get("validation_spec_path")), "full archive validation spec path is missing")
+        canonical_path = RELEASE / str(archive.get("canonical_manifest_path"))
+        validation_path = RELEASE / str(archive.get("validation_spec_path"))
+        validator.check(canonical_path.is_file(), "full archive signed manifest is missing")
+        validator.check(validation_path.is_file(), "full archive validation spec is missing")
+        if canonical_path.is_file():
+            validator.check(
+                sha256_file(canonical_path) == archive.get("canonical_manifest_sha256"),
+                "full archive signed manifest hash differs",
+            )
+            envelope = json.loads(canonical_path.read_text(encoding="utf-8"))
+            signed = envelope.get("signed", {})
+            validator.check(signed.get("archive_node_equivalent") is True, "signed full archive equivalence is missing")
+            validator.check(
+                signed.get("artifact") == {
+                    "format": "tar.zst",
+                    "name": archive.get("filename"),
+                    "sha256": archive.get("sha256"),
+                    "size_bytes": archive.get("size_bytes"),
+                    "unpacked_size_bytes": archive.get("unpacked_size_bytes"),
+                },
+                "full archive identity differs from its signed manifest",
+            )
+            validator.check(
+                archive.get("native_boundary") == {
+                    "order": signed.get("native", {}).get("order"),
+                    "hash": signed.get("native", {}).get("hash"),
+                },
+                "full archive native boundary differs from its signed manifest",
+            )
+            validator.check(
+                archive.get("evm_boundary") == signed.get("evm"),
+                "full archive EVM boundary differs from its signed manifest",
+            )
+            validator.check(
+                archive.get("fixed_checkpoint") == signed.get("fixed_checkpoint"),
+                "full archive checkpoint differs from its signed manifest",
+            )
+            signed_audit = signed.get("archive_validation", {})
+            validator.check(
+                archive_audit == {
+                    "status": "passed",
+                    "coverage": signed_audit.get("coverage"),
+                    "complete": signed_audit.get("complete"),
+                    "low": signed_audit.get("low"),
+                    "high": signed_audit.get("high"),
+                    "canonical_blocks_checked": signed_audit.get("canonical_blocks_checked"),
+                    "state_roots_checked": signed_audit.get("state_roots_checked"),
+                    "missing_canonical_hashes": signed_audit.get("missing_canonical_hashes"),
+                    "missing_headers": signed_audit.get("missing_headers"),
+                    "missing_state_roots": signed_audit.get("missing_state_roots"),
+                },
+                "full archive audit summary differs from its signed manifest",
+            )
+            run_checked(
+                [
+                    "python3",
+                    str(DATASET / "verify-canonical-manifest.py"),
+                    "verify",
+                    "--envelope",
+                    str(canonical_path),
+                    "--trusted-key-dir",
+                    str(DATASET),
+                ]
+            )
         delivery = archive.get("delivery")
         if not isinstance(delivery, dict):
             delivery = {}
@@ -353,9 +429,55 @@ def validate_publication_ready(validator: Validator, manifest: dict[str, Any]) -
             and safe_relative_path(delivery.get("parts_manifest_path"))
             and isinstance(delivery.get("parts"), list)
             and len(delivery["parts"]) > 1
-            and all(isinstance(part, dict) and valid_cid(part.get("cid")) for part in delivery["parts"])
+            and all(
+                isinstance(part, dict)
+                and set(part) == {"filename", "cid", "sha256", "size_bytes"}
+                and safe_relative_path(part.get("filename"))
+                and "/" not in part["filename"]
+                and valid_cid(part.get("cid"))
+                and isinstance(part.get("sha256"), str)
+                and bool(SHA256.fullmatch(part["sha256"]))
+                and isinstance(part.get("size_bytes"), int)
+                and part["size_bytes"] > 0
+                for part in delivery["parts"]
+            )
+            and sum(part["size_bytes"] for part in delivery["parts"]) == archive.get("size_bytes")
         )
         validator.check(direct or multipart, "full archive delivery is not immutable")
+        if multipart:
+            parts_path = RELEASE / delivery["parts_manifest_path"]
+            validator.check(parts_path.is_file(), "full archive parts manifest is missing")
+            if parts_path.is_file():
+                parts_manifest = json.loads(parts_path.read_text(encoding="utf-8"))
+                validator.check(parts_manifest.get("schema") == "bdag.multipart-dataset.v1", "full archive parts schema is invalid")
+                validator.check(parts_manifest.get("parts") == delivery["parts"], "full archive part records differ")
+                validator.check(
+                    parts_manifest.get("dataset") == {
+                        "filename": archive.get("filename"),
+                        "sha256": archive.get("sha256"),
+                        "size_bytes": archive.get("size_bytes"),
+                        "assembly": "concatenate parts in ascending filename order",
+                    },
+                    "full archive multipart identity differs",
+                )
+        if validation_path.is_file():
+            validation_spec = json.loads(validation_path.read_text(encoding="utf-8"))
+            validator.check(validation_spec.get("version") == archive.get("version"), "full archive validation version differs")
+            validator.check(
+                validation_spec.get("native") == {
+                    **archive.get("native_boundary", {}),
+                    "state_root": "0xb47f62354734bd82e9cb046f390d72d9d601d740cd8728f214fc16a4bcc44aff",
+                },
+                "full archive validation native boundary differs",
+            )
+            validator.check(
+                validation_spec.get("evm") == {
+                    "number": archive.get("evm_boundary", {}).get("number"),
+                    "hash": archive.get("evm_boundary", {}).get("hash"),
+                    "root": archive.get("evm_boundary", {}).get("state_root"),
+                },
+                "full archive validation EVM boundary differs",
+            )
     else:
         validate_full_archive_pending(validator, archive)
     qualification = manifest["qualification"]

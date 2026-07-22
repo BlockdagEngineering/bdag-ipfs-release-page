@@ -8,7 +8,7 @@ authorization record, and the signed canonical-data manifest are authoritative.
 
 - Version: `2.0.0-community-rescue-rc.44`
 - Release sequence: `44`
-- Publication state: published; software and portable v27 installs are enabled
+- Publication state: published; software, portable v27, and full-archive v28 installs are enabled
 - Stack revision: `bda8cf1e5c73a8e0316ce302650310feb0538939`
 - Corechain revision: `bb0f7a6fed918e56251aa602503c90f1e1f30cb8`
 - Pool revision: `80774b865b60e695b6e91a817013d9aeffc03271`
@@ -16,7 +16,7 @@ authorization record, and the signed canonical-data manifest are authoritative.
 - Network: BlockDAG mainnet, chain ID `1404`
 - Software targets: `linux-amd64`, `linux-arm64`
 - Published data: portable v27, not archive-node equivalent
-- Full archive data: pending and unavailable
+- Full archive data: archive-equivalent v28 in 40 immutable IPFS parts
 
 RC44 waits only for temporary committed-EVM-head and peer-readiness states
 within bounded windows. A canonical checkpoint or boundary mismatch, hash
@@ -47,8 +47,8 @@ retried or overridden.
 - **Software only:** retain compatible healthy data and install RC44.
 - **Portable v27:** for mining pools and current-state RPC nodes; require
   `archive_node_equivalent=false` and use `--no-archive`.
-- **Full archive:** pending and locked. Do not improvise an
-  archive restore from portable data or enable it before publication gates pass.
+- **Full archive v28:** use the signed archive-equivalent dataset and
+  `--full-archive`; never substitute portable data or combine database trees.
 
 For software-only installs, select `--no-archive` for current-state retention
 or `--archive` when deliberately retaining compatible archive history. A
@@ -82,13 +82,14 @@ curl -4 --http1.1 --fail --location --show-error \
 printf '%s  %s\n' '<EXPECTED_SHA256>' '<FILE>.part' | sha256sum -c -
 ```
 
-For portable v27, verify all three parts, concatenate them in manifest order,
-and verify the complete archive SHA-256 and size. Verify software authorization
-with `openssl pkeyutl`, and verify the dataset with:
+For portable v27, verify all three parts. For full-archive v28, verify all 40
+parts. Concatenate the selected dataset in manifest order and verify the
+complete archive SHA-256 and size. Verify software authorization with
+`openssl pkeyutl`, and verify the selected dataset envelope with:
 
 ```bash
 python3 records/dataset/verify-canonical-manifest.py verify \
-  --envelope records/dataset/portable-v27-canonical-manifest.json \
+  --envelope records/dataset/SELECTED-canonical-manifest.json \
   --trusted-key-dir records/dataset
 ```
 

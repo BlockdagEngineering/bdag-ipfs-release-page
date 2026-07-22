@@ -10,13 +10,11 @@ Published components:
 - Signed RC44 AMD64 and ARM64 software with immutable CIDs.
 - Signed bootstrap and release records with immutable records-directory delivery.
 - Portable v27 current-state dataset in three immutable IPFS parts.
+- Full-archive v28 in 40 immutable IPFS parts, with signed archive-equivalence
+  and all-canonical-state-roots audit evidence.
 - Human and AI-assisted installation guidance.
-- A locked command builder with exact `public-rpc + full archive +
+- A command builder with exact `public-rpc + full archive +
   --full-archive` preset mapping.
-
-The full archive dataset remains `pending`. Its unavailable fields and download
-control intentionally remain empty until the separate archive audit,
-qualification, signing, pinning, and public readback complete.
 
 ## Qualification Evidence
 
@@ -34,6 +32,9 @@ qualification, signing, pinning, and public readback complete.
   RPC plus both external public witnesses at all sampled heights.
 - Portable v27 parts and assembled archive match recorded byte sizes and
   SHA-256 values.
+- Full-archive v28 covers every canonical EVM state root from genesis through
+  block 14,977,965; its 40 parts, signed manifest, pins, and public readback
+  match the publication record.
 
 ## Reproduction Checks
 
@@ -49,18 +50,20 @@ openssl pkeyutl -verify -rawin -pubin \
 python3 releases/2.0.0-community-rescue-rc.44/records/dataset/verify-canonical-manifest.py verify \
   --envelope releases/2.0.0-community-rescue-rc.44/records/dataset/portable-v27-canonical-manifest.json \
   --trusted-key-dir releases/2.0.0-community-rescue-rc.44/records/dataset
+python3 releases/2.0.0-community-rescue-rc.44/records/dataset/verify-canonical-manifest.py verify \
+  --envelope releases/2.0.0-community-rescue-rc.44/records/dataset/full-archive-v28-canonical-manifest.json \
+  --trusted-key-dir releases/2.0.0-community-rescue-rc.44/records/dataset
 ```
 
 The command-builder test must cover mining, public RPC, node-only, portable,
 software-only current state, software-only archive retention, and synthetic
-full archive selections. Every generated command must pass `bash -n`; the
-pending full archive must remain unselectable. Signed-record
-downloads must use `records_delivery.cid` rather than the page origin.
+full archive selections. Every generated command must pass `bash -n`; published
+full archive must be selectable. Signed-record downloads must use
+`records_delivery.cid` rather than the page origin.
 
-The software and portable-v27 release is published while the independently
-versioned full archive remains unavailable. A later additive page update may
-enable that option only after recording its signed manifest and immutable
-delivery CIDs and passing the archive-specific validation path.
+The software, portable v27, and independently versioned full-archive v28
+dataset are published. The archive option is enabled only because its signed
+manifest, immutable delivery CIDs, archive audit, and public readback passed.
 
 Publication is additive: prior immutable release directories remain available.
 The mutable root page points to RC44; prior immutable release directories remain

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="dark">
     <meta name="robots" content="index,follow">
-    <meta name="description" content="Published BlockDAG Community Rescue RC44 installer for mainnet chain ID 1404; the separate full-archive dataset remains pending.">
+    <meta name="description" content="Published BlockDAG Community Rescue RC44 installer and signed full-archive v28 dataset for mainnet chain ID 1404.">
     <title>BlockDAG Community Rescue RC44</title>
     <link rel="canonical" href="https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.0.0-community-rescue-rc.44/index.html">
     <link rel="icon" href="assets/bdag-community-logo.svg" type="image/svg+xml">
@@ -40,7 +40,7 @@
         </div>
         <div class="status-item">
           <span class="status-dot" id="datasetDot"></span>
-          <div><strong id="datasetStatus">Portable dataset published</strong><span id="datasetStatusDetail">Portable v27 is available; full archive is still pending</span></div>
+          <div><strong id="datasetStatus">Portable and full archive published</strong><span id="datasetStatusDetail">Portable v27 and archive-equivalent v28 are available</span></div>
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@
         <p class="lede">A community release candidate for mainnet chain ID 1404. Signed software and signed chain data remain independent, so either can be updated without forcing replacement of the other.</p>
         <div class="release-alert published" id="draftNotice" role="status">
           <strong>Published and qualified.</strong>
-          Verify the displayed hashes and signed records before installation. The independently signed full-archive dataset remains pending.
+          Verify the displayed hashes and signed records before installation. Portable v27 and the independently signed full-archive v28 dataset are available.
         </div>
       </div>
 
@@ -73,7 +73,7 @@
         </div>
         <ol class="steps">
           <li><span>1</span><div><strong>Prepare the host</strong><p>Confirm Linux architecture, Docker, free storage, payout wallet, and miner MAC addresses.</p></div></li>
-          <li><span>2</span><div><strong>Choose chain data</strong><p>Keep existing data, restore the smaller portable state, or use a signed full archive when one is published.</p></div></li>
+          <li><span>2</span><div><strong>Choose chain data</strong><p>Keep existing data, restore the smaller portable state, or restore the signed archive-equivalent v28 dataset.</p></div></li>
           <li><span>3</span><div><strong>Verify every file</strong><p>Check SHA-256, signed software records, and the signed dataset manifest before installation.</p></div></li>
           <li><span>4</span><div><strong>Install and check</strong><p>Start the stack, confirm chain ID 1404 and service health, then attach mining hardware.</p></div></li>
         </ol>
@@ -91,7 +91,7 @@
                 <button type="button" class="active" data-profile="mining" aria-pressed="true">Mining pool</button>
                 <button type="button" data-profile="public-rpc" aria-pressed="false">Public RPC</button>
                 <button type="button" data-profile="non-mining" aria-pressed="false">Node only</button>
-                <button type="button" data-preset="full-archive-rpc" aria-pressed="false" aria-disabled="true" disabled title="The signed full archive dataset is not published yet">Full archive RPC</button>
+                <button type="button" data-preset="full-archive-rpc" aria-pressed="false" aria-disabled="false">Full archive RPC</button>
               </div>
             </fieldset>
             <fieldset id="datasetField">
@@ -99,7 +99,7 @@
               <div class="segmented segmented-three" role="group" aria-label="Chain data choice">
                 <button type="button" class="active" data-dataset="none" aria-pressed="true">Keep / sync</button>
                 <button type="button" data-dataset="portable" aria-pressed="false">Portable restore</button>
-                <button type="button" data-dataset="full_archive" aria-pressed="false" aria-disabled="true" disabled title="The signed full archive dataset is not published yet">Full archive</button>
+                <button type="button" data-dataset="full_archive" aria-pressed="false" aria-disabled="false">Full archive</button>
               </div>
             </fieldset>
             <fieldset id="retentionField">
@@ -167,7 +167,7 @@
           <article class="artifact" data-artifact="full_archive">
             <span class="kind">Full archive dataset</span>
             <h3>Archive-node restore</h3>
-            <p>Not yet available. No filename, size, hash, CID, checkpoint, or archive claim is published for this option.</p>
+            <p>Archive-equivalent v28 with every canonical EVM state root from genesis through block 14,977,965. Delivered as 40 resumable, independently verified IPFS parts.</p>
             <dl><dt>Status</dt><dd data-field="status">Pending</dd><dt>Filename</dt><dd data-field="filename">Pending final metadata</dd><dt>Download</dt><dd data-field="size">Pending</dd><dt>Expanded</dt><dd data-field="unpacked-size">Pending</dd><dt>SHA-256</dt><dd data-field="sha256">Pending</dd></dl>
             <code data-field="cid">Delivery metadata pending</code>
             <div class="artifact-actions"><a class="button primary disabled" data-action="download" aria-disabled="true">Not yet published</a><a class="button disabled" data-action="manifest" aria-disabled="true">Signed manifest pending</a></div>
@@ -230,13 +230,13 @@ printf '%s  %s\n' "SHA256_FROM_RELEASE_MANIFEST" "ARTIFACT.part" | sha256sum -c 
               <li><a data-record="dataset-key">Dataset public key</a><code>pending</code></li>
               <li><a data-record="dataset-verifier">Dataset manifest verifier</a><code>pending</code></li>
               <li><a data-record="portable-manifest">Portable signed manifest</a><code>pending</code></li>
-              <li><a data-record="archive-manifest" class="disabled-link" aria-disabled="true">Full archive signed manifest</a><code>pending</code></li>
+              <li><a data-record="archive-manifest">Full archive signed manifest</a><code>pending</code></li>
             </ul>
           </div>
         </div>
       </section>
 
-      <footer>Community-maintained prerelease for mainnet chain ID 1404. Page revision 2. Verify immutable CIDs, SHA-256 values, signatures, and canonical checkpoints before attaching hash power.</footer>
+      <footer>Community-maintained prerelease for mainnet chain ID 1404. Page revision 3. Verify immutable CIDs, SHA-256 values, signatures, and canonical checkpoints before attaching hash power.</footer>
     </main>
 
     <div id="toast" class="toast" role="status" aria-live="polite">Command copied</div>
