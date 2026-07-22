@@ -4,7 +4,7 @@ Current release: `2.0.0-community-rescue-rc.44`
 
 Immutable setup page:
 
-`https://dweb.link/ipfs/bafybeiblqxf7d5cyqmapcpccpvaupatoydxsqceswm4taimqs247ux32ji/index.html`
+`https://dweb.link/ipfs/bafybeib6bd5qc7vyhsgztap2b6kf6ews3ad3kzjbehre7c2364yjwp5g2u/index.html`
 
 Mutable latest-release IPNS name:
 
@@ -30,7 +30,7 @@ ipfs add -r --cid-version=1 --raw-leaves=true --chunker=size-262144 \
 
 Expected CID:
 
-`bafybeiblqxf7d5cyqmapcpccpvaupatoydxsqceswm4taimqs247ux32ji`
+`bafybeib6bd5qc7vyhsgztap2b6kf6ews3ad3kzjbehre7c2364yjwp5g2u`
 
 The signed-record directory must independently reproduce as:
 
@@ -42,13 +42,20 @@ ipfs add -r --cid-version=1 --raw-leaves=true --chunker=size-262144 \
 
 Expected records CID:
 
-`bafybeid5nsonb5cd6twji5s6nxjva3dpmlbrvfaxngtgey3n6zc7fgikju`
+`bafybeic23qgiivnhnod2tgzeqqu6xnhmf6cay7e6gjr67gr5v6xqsfae5q`
 
 ## Community Mirroring
 
 Pin the records in `free-pinning-cids.json`. The dataset and both software
 archives are independent roots, so mirrors can choose what they have capacity
 to serve. Keep at least the setup page and installer pinned together.
+
+Full-archive v28 is a separate 170,210,502,672-byte multipart publication.
+Mirror its 40 roots from
+`records/dataset/full-archive-v28-parts.json` only on a host with at least
+200 GB of usable IPFS capacity and additional operating headroom. The small
+seeder manifest above intentionally does not force every community mirror to
+replicate the full archive.
 
 ## Durable Public Seeders
 

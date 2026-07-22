@@ -9,11 +9,10 @@ RC44 uses bounded waits for temporary committed-EVM-head and peer-readiness
 conditions. A canonical checkpoint, boundary, state-root, or network mismatch
 still fails immediately.
 
-The RC44 software and portable v27 chain dataset are separate artifacts. You
-may install RC44 while keeping compatible existing data, or restore portable
-v27 independently through a compatible guarded installer. The full-archive
-option remains locked until its separate audit,
-cold-restore qualification, signing, and publication finish.
+The RC44 software, portable v27 chain dataset, and full-archive v28 dataset are
+separate artifacts. You may install RC44 while keeping compatible existing
+data, restore portable v27 for current-state operation, or restore the signed
+archive-equivalent v28 dataset through the guarded full-archive path.
 
 ## Prepare
 
@@ -58,11 +57,10 @@ The data selections map to installer modes as follows:
 | Keep / sync, current state | `--no-archive` |
 | Keep / sync, retain archive | `--archive` |
 | Portable restore | `--no-archive` |
-| Full archive restore, when published | `--full-archive` |
+| Full archive v28 restore | `--full-archive` |
 
-Portable data cannot be used to claim full archive status. The full archive
-control remains disabled until a separately signed archive-equivalent dataset
-is published.
+Portable data cannot be used to claim full archive status. Select full archive
+only with the separately signed archive-equivalent v28 dataset.
 
 For a mining selection, the command normalizes the entered MAC addresses,
 persists `POOL_ASIC_MAC_ALLOWLIST` in the installed stack `.env`, recreates the
@@ -94,9 +92,11 @@ printf '%s  %s\n' "$EXPECTED_SHA256" "$FILE.part" | sha256sum -c -
 mv "$FILE.part" "$FILE"
 ```
 
-Portable v27 is delivered as three immutable parts. Verify each part against
-`records/dataset/portable-v27-parts.json`, concatenate them in listed order,
-then verify the assembled archive SHA-256:
+Portable v27 is delivered as three immutable parts. Full-archive v28 uses the
+same procedure with all 40 entries in
+`records/dataset/full-archive-v28-parts.json`. Verify each selected part,
+concatenate it in manifest order, then verify the assembled archive SHA-256.
+For portable v27:
 
 ```bash
 cat blockdag-mainnet-portable-v27-20260715T2000Z.tar.zst.part-* \
@@ -136,6 +136,11 @@ Confirm mainnet chain ID `1404`, `archive_node_equivalent=false`, archive
 SHA-256 and size, native and EVM boundaries, state root, and fixed checkpoint.
 Never merge native, EVM, freezer, or database directories from different data
 sets by hand.
+
+For a full-archive restore, verify
+`records/dataset/full-archive-v28-canonical-manifest.json` in the same way and
+confirm `archive_node_equivalent=true`, native order `15368869`, EVM block
+`14977965`, and complete all-heights archive-audit coverage before extraction.
 
 ## Existing Installations
 
