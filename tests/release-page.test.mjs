@@ -14,14 +14,12 @@ import {
   fullArchivePending,
   gatewayTemplatesReady,
   isCid,
-  isMacList,
   isSha256,
   isWallet,
-  normalizeMacList,
   publicationReady,
   resolveInstallSelection,
   shellQuote,
-} from "../releases/2.0.0-community-rescue-rc.44/assets/release-page.mjs";
+} from "../releases/2.0.0-community-rescue-rc.52/assets/release-page.mjs";
 
 
 const syntheticHash = (character) => character.repeat(64);
@@ -134,7 +132,7 @@ function syntheticPublishedManifest({ portable = true, archive = true } = {}) {
       dataset_key_path: anyDataset ? "records/dataset/dataset-key.pem" : null,
       dataset_key_id: anyDataset ? "dataset-test-key" : null,
       dataset_key_sha256: anyDataset ? syntheticHash("b") : null,
-      dataset_verifier_path: "records/dataset/verify-manifest.py",
+      dataset_verifier_path: anyDataset ? "records/dataset/verify-manifest.py" : null,
     },
     download_policy: {
       requires_ipv4: true,
@@ -209,9 +207,6 @@ test("identity and transport validators reject malformed values", () => {
   assert.equal(isCid("cid-placeholder"), false);
   assert.equal(isWallet(`0x${"1".repeat(40)}`), true);
   assert.equal(isWallet("0x1234"), false);
-  assert.equal(isMacList("aa:bb:cc:dd:ee:ff,11:22:33:44:55:66"), true);
-  assert.equal(isMacList("not-a-mac"), false);
-  assert.equal(normalizeMacList("AA:BB:CC:DD:EE:FF, 11:22:33:44:55:66"), "aa:bb:cc:dd:ee:ff,11:22:33:44:55:66");
   assert.equal(gatewayTemplatesReady(["https://one.invalid/ipfs/{cid}", "https://two.invalid/ipfs/{cid}"]), true);
   assert.equal(gatewayTemplatesReady(["http://one.invalid/ipfs/{cid}"]), false);
 });
@@ -272,7 +267,6 @@ test("a complete synthetic manifest unlocks only valid operator input", () => {
     dataset: "none",
     dataDir: "/srv/blockdag/node-data",
     wallet: "",
-    macs: "aa:bb:cc:dd:ee:ff",
   });
   assert.match(missingWallet, /valid public 0x payout wallet/);
 
@@ -298,7 +292,6 @@ test("generated full-archive command is resumable, verified, and shell-valid", (
     dataset: "full_archive",
     dataDir: "/srv/blockdag/node-data",
     wallet: `0x${"1".repeat(40)}`,
-    macs: "aa:bb:cc:dd:ee:ff,11:22:33:44:55:66",
   }, "https://release.invalid/index.html");
 
   assert.match(command, /curl -4 --http1\.1/);
@@ -319,11 +312,7 @@ test("generated full-archive command is resumable, verified, and shell-valid", (
   assert.match(command, /--dataset-trusted-key/);
   assert.match(command, /BDAG_RELEASE_VERSION='2\.0\.0-community-rescue-rc\.30'/);
   assert.match(command, /BDAG_RELEASE_SEQUENCE='30'/);
-  assert.match(command, /export POOL_ASIC_MAC_ALLOWLIST='aa:bb:cc:dd:ee:ff,11:22:33:44:55:66'/);
-  assert.match(command, /temporary\.replace\(path\)/);
-  assert.match(command, /docker compose --profile mining up -d --no-build --pull never pool/);
-  assert.match(command, /docker inspect/);
-  assert.match(command, /grep -Fqx/);
+  assert.doesNotMatch(command, /POOL_ASIC_MAC_ALLOWLIST|ASIC MAC allowlist/);
   assert.match(command, /openssl pkeyutl -verify/);
   assert.match(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
   assert.doesNotMatch(command, /YOUR_PUBLIC|CID_FROM|SHA256_FROM/);
@@ -381,11 +370,10 @@ test("the full archive RPC preset is an exact fail-closed mapping", async () => 
 test("every selectable role, dataset, and retention combination maps to the intended installer mode", () => {
   const manifest = syntheticPublishedManifest();
   const wallet = `0x${"1".repeat(40)}`;
-  const macs = "AA:BB:CC:DD:EE:FF";
   const cases = [
     {
       label: "mining current-state software-only",
-      options: { profile: "mining", dataset: "none", retention: "current", wallet, macs },
+      options: { profile: "mining", dataset: "none", retention: "current", wallet },
       expectedMode: "--no-archive",
       expectsDataset: false,
       expectsMining: true,
@@ -406,7 +394,7 @@ test("every selectable role, dataset, and retention combination maps to the inte
     },
     {
       label: "mining full archive restore",
-      options: { profile: "mining", dataset: "full_archive", retention: "current", wallet, macs },
+      options: { profile: "mining", dataset: "full_archive", retention: "current", wallet },
       expectedMode: "--full-archive",
       expectsDataset: true,
       expectsMining: true,
@@ -425,7 +413,8 @@ test("every selectable role, dataset, and retention combination maps to the inte
 
     assert.deepEqual(modeFlags, [entry.expectedMode], entry.label);
     assert.equal(command.includes("--dataset-archive"), entry.expectsDataset, entry.label);
-    assert.equal(command.includes("POOL_ASIC_MAC_ALLOWLIST"), entry.expectsMining, entry.label);
+    assert.equal(command.includes("MINING_POOL_ADDRESS"), entry.expectsMining, entry.label);
+    assert.doesNotMatch(command, /POOL_ASIC_MAC_ALLOWLIST|ASIC MAC allowlist/, entry.label);
     assert.match(command, new RegExp(`--profile ${entry.options.profile.replace("-", "\\-")}`), entry.label);
     assert.match(command, /Host preflight passed/, entry.label);
     assert.match(command, /Required command is unavailable/, entry.label);

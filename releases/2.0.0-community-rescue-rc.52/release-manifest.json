@@ -1,0 +1,136 @@
+{
+  "schema": "bdag.community-release-index.v2",
+  "release": {
+    "version": "2.0.0-community-rescue-rc.52",
+    "sequence": 52,
+    "channel": "community-rescue",
+    "status": "published",
+    "chain_id": 1404,
+    "published_at": "2026-07-26T23:38:16Z"
+  },
+  "source": {
+    "repository": "https://github.com/BlockdagEngineering/stack",
+    "release_url": "https://github.com/BlockdagEngineering/stack/tree/2.0.0-community-rescue-rc.52",
+    "tag": "2.0.0-community-rescue-rc.52",
+    "stack_commit": "bda8cf1e5c73a8e0316ce302650310feb0538939",
+    "corechain_commit": "bb0f7a6fed918e56251aa602503c90f1e1f30cb8",
+    "pool_commit": "79001ae94a6d66f1ef0614ef0b78e79fdf3b0f50",
+    "dashboard_commit": "f00b654f79e50346bf6e866348cf07bdcb3b44ec",
+    "source_lock_sha256": "254bcf4c5631cdf5a287e14a00d973c9849f33ebbc92edd201e5ff7fc526ca74"
+  },
+  "runtime_change": {
+    "transient_startup_canonical_boundary_rpc": "bounded-retry",
+    "transient_startup_peer_readiness": "bounded-retry",
+    "canonical_mismatch": "fail-immediately"
+  },
+  "trust": {
+    "release_key_path": "records/software/release-key.pem",
+    "release_key_sha256": "26f0051185d9c1abada3b5adcd3d11c88f522e09b3850211a04773250c267ffb",
+    "dataset_key_path": null,
+    "dataset_key_id": null,
+    "dataset_key_sha256": null,
+    "dataset_verifier_path": null
+  },
+  "download_policy": {
+    "requires_ipv4": true,
+    "requires_http_version": "HTTP/1.1",
+    "ipfs_gateways": [
+      "https://dweb.link/ipfs/{cid}",
+      "https://ipfs.io/ipfs/{cid}",
+      "https://w3s.link/ipfs/{cid}"
+    ],
+    "software_http_fallback_base": null
+  },
+  "records_delivery": {
+    "mode": "ipfs-directory",
+    "cid": "bafybeifh7va3f7d4qxe3tawns4pmbzxpthyake5florlrgvd5dicmwvud4",
+    "path_prefix": "records/"
+  },
+  "installer": {
+    "status": "published",
+    "filename": "bootstrap.sh",
+    "cid": "bafkreidwqs5bnqvw6dpauawdd6jgpelvwburrfprn5v23hpyduknbqyw7q",
+    "sha256": "7684ba16c2b6f0de0a02c31f92679175b0691895f16f6bad9df81d14d0c316fc",
+    "size_bytes": 5419
+  },
+  "software": {
+    "independent_from_datasets": true,
+    "targets": {
+      "linux-amd64": {
+        "status": "published",
+        "filename": "pool-stack-docker-2.0.0-community-rescue-rc.52-linux-amd64.zip",
+        "cid": "bafybeidhjurwx2633isgydr5jbvey6tstrya2ovqse4vccnzpih64k3c5a",
+        "sha256": "e5868053ad02f8b3ee4251b482bf6a62b928c41e46633d77398e47988042c61d",
+        "size_bytes": 639045187
+      },
+      "linux-arm64": {
+        "status": "published",
+        "filename": "pool-stack-docker-2.0.0-community-rescue-rc.52-linux-arm64.zip",
+        "cid": "bafybeibvrklv2qamdkqgypwftovdnu2qhhtpaulwv66wjwqxn2wzx2sbn4",
+        "sha256": "77b9e4d4b93f850b37af38f734c9cae8f42d4f26fbdbeb61416ecfc79b6439e4",
+        "size_bytes": 460361569
+      }
+    },
+    "records": {
+      "release_auth_manifest_path": "records/software/release-auth-manifest.json",
+      "release_auth_signature_path": "records/software/release-auth-manifest.json.sig",
+      "release_notes_path": "records/software/release-notes.md"
+    }
+  },
+  "datasets": {
+    "independent_from_software": true,
+    "portable": {
+      "status": "pending",
+      "label": "No RC52 portable dataset",
+      "archive_node_equivalent": false,
+      "version": null,
+      "filename": null,
+      "sha256": null,
+      "size_bytes": null,
+      "unpacked_size_bytes": null,
+      "delivery": {
+        "mode": null,
+        "cid": null,
+        "parts_manifest_path": null,
+        "parts": []
+      },
+      "canonical_manifest_path": null,
+      "canonical_manifest_sha256": null,
+      "validation_spec_path": null,
+      "native_boundary": null,
+      "evm_boundary": null,
+      "fixed_checkpoint": null
+    },
+    "full_archive": {
+      "status": "pending",
+      "label": "No RC52 full-archive dataset",
+      "archive_node_equivalent": true,
+      "version": null,
+      "filename": null,
+      "sha256": null,
+      "size_bytes": null,
+      "unpacked_size_bytes": null,
+      "delivery": {
+        "mode": null,
+        "cid": null,
+        "parts_manifest_path": null,
+        "parts": []
+      },
+      "canonical_manifest_path": null,
+      "canonical_manifest_sha256": null,
+      "validation_spec_path": null,
+      "native_boundary": null,
+      "evm_boundary": null,
+      "fixed_checkpoint": null,
+      "archive_audit": null
+    }
+  },
+  "qualification": {
+    "status": "passed",
+    "signed_package_integrity_verified": true,
+    "portable_dataset_verified": false,
+    "full_archive_dataset_verified": false,
+    "restore_path_verified": true,
+    "runtime_path_verified": true
+  }
+}

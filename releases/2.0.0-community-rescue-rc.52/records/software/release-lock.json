@@ -1,0 +1,1342 @@
+{
+  "schema": "bdag.release-lock.v3",
+  "signature": {
+    "algorithm": "ed25519",
+    "key_id": "qualification-v4-20260712",
+    "public_key_sha256": "26f0051185d9c1abada3b5adcd3d11c88f522e09b3850211a04773250c267ffb",
+    "value": "3pW5q75EtoDRjc9MbfwPAUAq4gBoBw8j3SKaCClMybcO3MeN0KcF23s4OBqG32R88f7T1brAL7QkL/LMC4+UDQ=="
+  },
+  "signed": {
+    "dataset_policy": {
+      "bootstrap_peers": [
+        "/ip4/52.8.54.60/tcp/8150/p2p/16Uiu2HAkzUWr4YUM7mAhLdCVZgFoV9He6aQzKTyWWrJ7SWQKRTN7",
+        "/ip4/13.57.132.47/tcp/8150/p2p/16Uiu2HAmDynYpWjWmgVGf9qVWvDdLnJ3ybVgDmFexizR4zMereus",
+        "/ip4/54.151.18.92/tcp/8150/p2p/16Uiu2HAmVm91o1JXS2C7P6uTVuVX5empgnRtzuK4UaC8fHmePbKP",
+        "/ip4/3.126.64.13/tcp/8152/p2p/16Uiu2HAmEFxRaBbbf3sRi43CCvMk5Y6zPkuGY9s4uRK2FKJVJkqo",
+        "/ip4/5.78.193.245/tcp/8150/p2p/16Uiu2HAm1wy22irkSGLCwrPTvkbGvEtdDBZkt3MkrtqV4UkivY8e",
+        "/ip4/16.170.172.77/tcp/8150/p2p/16Uiu2HAmJPo7MfJHKc45ByNLeMxzGDcaiS5HvbNWjd4RgBiajaTv",
+        "/ip4/102.182.77.16/tcp/8150/p2p/16Uiu2HAmRWSPS7Ti2pij1MvbTSLqeFnA99BmjNNUvRAD7bKpRWYz"
+      ],
+      "canonical_evm_checkpoint": {
+        "hash": "0xf001ca3751618d87d92e21b65d60cd2cc243ceb6d1e4f152bed92016947e994b",
+        "number": 13700000,
+        "state_root": "0x9ba2c71154656c151fdeb048c0ef3eed1aba91f6dde495f983e8367a6a7478f3"
+      },
+      "chain_id": 1404,
+      "genesis_hash": "0x3fb19ea409ac7399ad7b988b88e0d436722c967137e51e834ccefd7611a592ef",
+      "genesis_state_root": "0x564aeb23c21b395f94839991240f0665fdf6b083cad3a41ac6412fa2180ac76a",
+      "network": "mainnet",
+      "producer_activation": {
+        "maximum_peer_lead_blocks": 0,
+        "maximum_remaining_blocks": 0,
+        "minimum_fresh_consensus_peers": 2,
+        "require_chain_current": true,
+        "require_p2p_current": true,
+        "require_p2p_mining_fresh": true
+      },
+      "provenance_policy": {
+        "release_match_required": false
+      },
+      "required_checkpoint": {
+        "hash": "0xbf9a0ccd88fa03eb3d7cbc0052b258b9b21132ae4ba3f0276f6e482a9d601738",
+        "number": 13863411,
+        "require_receipts": true,
+        "require_state": true,
+        "state_root": "0xad51cb1e1357172afc5ca5dcebc477ff818661b64b8b5b64cdf9cd54a8450c00"
+      }
+    },
+    "dataset_trust": {
+      "key_id": "qualification-v2-20260711",
+      "public_key_sha256": "f9f2f7df88d43c8d51df8bdc2a369601ff0b4b9de224e8ab9b609b423b203d24"
+    },
+    "release": {
+      "channel": "qualification",
+      "sequence": 52,
+      "source_date_epoch": 1785101869,
+      "version": "2.0.0-community-rescue-rc.52"
+    },
+    "repositories": {
+      "blockdag-corechain": {
+        "commit": "bb0f7a6fed918e56251aa602503c90f1e1f30cb8",
+        "commit_time_epoch": 1784352064,
+        "dirty": false,
+        "remote": "https://github.com/BlockdagEngineering/blockdag-corechain.git",
+        "repository": "BlockdagEngineering/blockdag-corechain",
+        "tree": "29b30f96f20ab19a141eabc901f6fd0946d1ddd9"
+      },
+      "pool": {
+        "commit": "79001ae94a6d66f1ef0614ef0b78e79fdf3b0f50",
+        "commit_time_epoch": 1785101869,
+        "dirty": false,
+        "remote": "https://github.com/BlockdagEngineering/pool.git",
+        "repository": "BlockdagEngineering/pool",
+        "tree": "3979ff05511895b8e8fc2ca400da89d8e7a9c891"
+      },
+      "redis-dash": {
+        "commit": "f00b654f79e50346bf6e866348cf07bdcb3b44ec",
+        "commit_time_epoch": 1784232848,
+        "dirty": false,
+        "remote": "https://github.com/BlockdagEngineering/redis-dash.git",
+        "repository": "BlockdagEngineering/redis-dash",
+        "tree": "a0f4422854f4fe295387c896803e2fbba773ab81"
+      },
+      "stack": {
+        "commit": "bda8cf1e5c73a8e0316ce302650310feb0538939",
+        "commit_time_epoch": 1784611439,
+        "dirty": false,
+        "remote": "https://github.com/BlockdagEngineering/stack.git",
+        "repository": "BlockdagEngineering/stack",
+        "tree": "571f4d40a105c08791bb173efc4ca03140e9c72f"
+      }
+    },
+    "resolver_toolchain": {
+      "buildx_resolver": "github.com/docker/buildx 0.30.1 0.30.1-0ubuntu1",
+      "docker_resolver": "29.1.3",
+      "go_requested": "1.26.0",
+      "go_resolver": "go version go1.26.0 linux/amd64"
+    },
+    "source_lock_sha256": "254bcf4c5631cdf5a287e14a00d973c9849f33ebbc92edd201e5ff7fc526ca74",
+    "targets": {
+      "linux-amd64": {
+        "binaries": {
+          "blockdag-node": {
+            "name": "blockdag-node",
+            "sha256": "71fcf2ff08908d84d3069cea5398994a53bc3148e6d239a0d6ad2e2e8f038297",
+            "size_bytes": 102011928
+          },
+          "dashboard": {
+            "name": "dashboard",
+            "sha256": "81d80f0c4205d5b483510a1165700d4a889bf150dd1c21cf165196387c2a7258",
+            "size_bytes": 20314832
+          },
+          "dashboard-api": {
+            "name": "dashboard-api",
+            "sha256": "602f2d2d7192b21dd38398cff0473d23348395539462e2f028f2cb7881855d08",
+            "size_bytes": 9481172
+          },
+          "mining-pool": {
+            "name": "mining-pool",
+            "sha256": "f32092648db287faf616d027787ab6f8d20b7bfee8cabaa79c6fc671bf794f51",
+            "size_bytes": 25954832
+          },
+          "nodeworker": {
+            "name": "nodeworker",
+            "sha256": "2fb15ba7049d9345226060065b6892d951ce6ec5e2996bf06c2aa4d47cbbacb0",
+            "size_bytes": 36571680
+          }
+        },
+        "image_bundle": {
+          "name": "docker-images-linux-amd64.tar",
+          "sha256": "ec49fe8dc8255eb0e84de932b37ac9662e9e25f75386526c420c6ecc2aa704ea",
+          "size_bytes": 554599424,
+          "unpacked_size_bytes": 640905180
+        },
+        "images": [
+          {
+            "image_digest": "sha256:b6192bbbe9a37b229f817db7f5da756b8f47b288c196340655a689461d25d40f",
+            "name": "dashboard",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/dashboard:2.0.0-community-rescue-rc.52-linux-amd64",
+            "repo_digests": [
+              "bdag-offline/dashboard@sha256:3a6c2c9d04f97520d5106dda3194c4aab5c1e7a261b21f8517292ea42c394495"
+            ]
+          },
+          {
+            "image_digest": "sha256:bf8527eb54c3680e728d5b4b383a8ba730d72dae7236fbc8dff97ed6b224a731",
+            "name": "miner-route",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/miner-route:2.0.0-community-rescue-rc.52-linux-amd64",
+            "repo_digests": [
+              "alpine@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc",
+              "bdag-offline/miner-route@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc"
+            ]
+          },
+          {
+            "image_digest": "sha256:a9384d7c2866f6e416ad623c5e42975a26b425f6c2dbfc11e593a86ebc1c6268",
+            "name": "node",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/node:2.0.0-community-rescue-rc.52-linux-amd64",
+            "repo_digests": [
+              "bdag-offline/node@sha256:765e4279049c12655e521be380c2d1a0806ea8aabed4db61acd57cc9f967f7d5"
+            ]
+          },
+          {
+            "image_digest": "sha256:5d8dfdbb8821b339f111538d2afb6906947026369e2e1a50b5711bb87de9d876",
+            "name": "pool",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/pool:2.0.0-community-rescue-rc.52-linux-amd64",
+            "repo_digests": [
+              "bdag-offline/pool@sha256:6693ff77e9b7df23dd561534db3c84b048cc459b2805fa6902876f537d97df9f"
+            ]
+          },
+          {
+            "image_digest": "sha256:8f3a14eb734964e739424e2132e4ab7618afb826e10509c66e91a5131dfab068",
+            "name": "postgres",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/postgres:2.0.0-community-rescue-rc.52-linux-amd64",
+            "repo_digests": [
+              "bdag-offline/postgres@sha256:0e441d964b57050c10ba70076d60de4747dd0e2a76fb5f407939ddd2e885d9c1",
+              "postgres@sha256:0e441d964b57050c10ba70076d60de4747dd0e2a76fb5f407939ddd2e885d9c1"
+            ]
+          },
+          {
+            "image_digest": "sha256:e2ca3835e2d91e885690ae3345bdd79f64d5f95d25ab7818166c739b153fbc34",
+            "name": "sentinel",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/sentinel:2.0.0-community-rescue-rc.52-linux-amd64",
+            "repo_digests": [
+              "bdag-offline/sentinel@sha256:18e714a68a9cae140a3748263cf7bc822b52dada0c03ad89564c851c7a8e06c7"
+            ]
+          },
+          {
+            "image_digest": "sha256:18d76bb6f564d9e1e5932384d1d20fcad98a3292ff38ff0d21fe2d3b40ed9b26",
+            "name": "status-sampler",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/status-sampler:2.0.0-community-rescue-rc.52-linux-amd64",
+            "repo_digests": [
+              "bdag-offline/status-sampler@sha256:b37a75b831145ab0c46b94bb13c2c8b3cda25832e937dde35f0850d918bc2aa3"
+            ]
+          },
+          {
+            "image_digest": "sha256:eac5c5b796fede57cd2f25119e453abf0cea438e2e5096894e1b5365fc0ccba3",
+            "name": "watchdog",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/watchdog:2.0.0-community-rescue-rc.52-linux-amd64",
+            "repo_digests": [
+              "bdag-offline/watchdog@sha256:8222b4fee341d9e4c1979236d54d1ed5a5e944fecd32f9090436e87c25c5c7c3"
+            ]
+          }
+        ],
+        "payload_files": {
+          ".dockerignore": {
+            "name": ".dockerignore",
+            "sha256": "490aa508e0721bebdf49afd0c4d11806c72c40e601d968ac547b48f5d91b4621",
+            "size_bytes": 709
+          },
+          ".env.example": {
+            "name": ".env.example",
+            "sha256": "daa4f87ceadcce5e51cf66ee8045db12290effe9782edf1e0e4ecd47fcecaf1d",
+            "size_bytes": 22655
+          },
+          "README.md": {
+            "name": "README.md",
+            "sha256": "938b1f0b8cb4f242b4bdf504a21c563313d5e546c920ad10ef5f4f4b39aa7439",
+            "size_bytes": 8408
+          },
+          "checksums.txt": {
+            "name": "checksums.txt",
+            "sha256": "569474c7c75edf8d241d3318fe1015c391cae093650f38894128fe6c1fe18ded",
+            "size_bytes": 411
+          },
+          "docker-compose.yml": {
+            "name": "docker-compose.yml",
+            "sha256": "58696fd3741e172cf035f24239e6f96cf53281a13124af89860b496d3f297001",
+            "size_bytes": 36941
+          },
+          "docker/dashboard-redis.conf": {
+            "name": "dashboard-redis.conf",
+            "sha256": "621d925ee9b6258ab46af96a8d2631eaf03ab7daa4746f26f4d07c1ad0f66550",
+            "size_bytes": 220
+          },
+          "docker/entrypoint-nodeworker.sh": {
+            "name": "entrypoint-nodeworker.sh",
+            "sha256": "6db656a986361666a4be14b20ae1f1abcbe132ababd738ec34463d89ffcc491c",
+            "size_bytes": 32249
+          },
+          "docker/entrypoint-pool.sh": {
+            "name": "entrypoint-pool.sh",
+            "sha256": "34d19704ef0704092748a49a5a6ead7f7b9c38d489c51882d3516fba4e604653",
+            "size_bytes": 6482
+          },
+          "docker/no-snapshot.marker": {
+            "name": "no-snapshot.marker",
+            "sha256": "e6c4b3767d6b03538eaf6e08a572a61b78a166eff22357f752a5e1a1dd8ebe19",
+            "size_bytes": 5
+          },
+          "dockerfile": {
+            "name": "dockerfile",
+            "sha256": "f56e13d2a051922e95615f2837fe4f86e7f95087e92626b0ac02efc2a813fb24",
+            "size_bytes": 8391
+          },
+          "host/mining-appliance/90-bdag-ephemeral.conf": {
+            "name": "90-bdag-ephemeral.conf",
+            "sha256": "6adf66c1f0bbeca2fe8d70395517cde8010e4d633eb7540a77682e27178184fd",
+            "size_bytes": 72
+          },
+          "host/mining-appliance/90-mining-appliance-journald.conf": {
+            "name": "90-mining-appliance-journald.conf",
+            "sha256": "040d24b5ecc28a4cb932b4bbf7aed38dd8d5c2c261b3b0e77cc00d1a73997a8e",
+            "size_bytes": 113
+          },
+          "host/mining-appliance/90-mining-appliance-sysctl.conf": {
+            "name": "90-mining-appliance-sysctl.conf",
+            "sha256": "1a1904330e991f0c15e36385f30dd349098e96af186a8803c3438e6c30c6e5f5",
+            "size_bytes": 638
+          },
+          "host/mining-appliance/bdag-node-child-guard": {
+            "name": "bdag-node-child-guard",
+            "sha256": "8e91644fc96388aa8ee468737915adc2040849f14db99805fd967211aad24886",
+            "size_bytes": 10444
+          },
+          "host/mining-appliance/bdag-node-child-guard.service": {
+            "name": "bdag-node-child-guard.service",
+            "sha256": "ad20a2c379a048714fa2d888583c4c8a97ba51d34595efded84df61182683a34",
+            "size_bytes": 415
+          },
+          "host/mining-appliance/bdag-node-child-guard.timer": {
+            "name": "bdag-node-child-guard.timer",
+            "sha256": "e751d598beb02a5f137142e0038580014405aecf4b3e8524113cd78c18f29006",
+            "size_bytes": 191
+          },
+          "host/mining-appliance/bdag-runtime-priority": {
+            "name": "bdag-runtime-priority",
+            "sha256": "be187d038b30085d3f1124116501dcf11e385dd44c1b917722105e545a6d2bd2",
+            "size_bytes": 5763
+          },
+          "host/mining-appliance/bdag-runtime-priority.service": {
+            "name": "bdag-runtime-priority.service",
+            "sha256": "3e3a55582922f10fba9746804ea916015d9a79be7925fe8b7d7d32760338b5b7",
+            "size_bytes": 281
+          },
+          "host/mining-appliance/bdag-runtime-priority.timer": {
+            "name": "bdag-runtime-priority.timer",
+            "sha256": "cb0f238bad4ff64dfe5c47c90526d98df9753f0d1ed54958eb41b9bb201ba513",
+            "size_bytes": 189
+          },
+          "host/mining-appliance/bdag-stack-boot": {
+            "name": "bdag-stack-boot",
+            "sha256": "dd2321a89eca3d262086b54398f7e692af1af8cb89d0c6d3506875a4c23bfb05",
+            "size_bytes": 46685
+          },
+          "host/mining-appliance/bdag-stack-boot.service": {
+            "name": "bdag-stack-boot.service",
+            "sha256": "87b45ff59dd66155be65d1509c1da3239d0e7d1e33b865d9fd1e1b7d3f0d06a4",
+            "size_bytes": 919
+          },
+          "host/mining-appliance/bdag-stack-recovery.service": {
+            "name": "bdag-stack-recovery.service",
+            "sha256": "0acb3df59a10f7e731ca2cf20bfd7503bfba83c584367c921a8009654849de0e",
+            "size_bytes": 684
+          },
+          "host/mining-appliance/bdag-stack-recovery.timer": {
+            "name": "bdag-stack-recovery.timer",
+            "sha256": "e8b0b1c33ba5ce2e56d873e94e3b521ecb0031832fa81c2f2cfaf2dc09eb8c45",
+            "size_bytes": 223
+          },
+          "host/mining-appliance/docker-daemon.json": {
+            "name": "docker-daemon.json",
+            "sha256": "5462e8b3f0a2622124cb87ceebfc7276695de37c312d4b591a98fb91fea46e99",
+            "size_bytes": 116
+          },
+          "host/mining-appliance/mining-appliance-host-tuning": {
+            "name": "mining-appliance-host-tuning",
+            "sha256": "55abf2fce4990daa26530a4d19c39ad82c1976bcb64d837b7a947eeed069a610",
+            "size_bytes": 3589
+          },
+          "host/mining-appliance/mining-appliance-tuning.service": {
+            "name": "mining-appliance-tuning.service",
+            "sha256": "20a6be8451ef663d93478e1129123ad7e274cd01852a26818b8be32bfbdb334c",
+            "size_bytes": 297
+          },
+          "install.sh": {
+            "name": "install.sh",
+            "sha256": "915dbd43b1a3996b7670762155d68649661551812ea28a1b37b5d628d08c0678",
+            "size_bytes": 136338
+          },
+          "node.conf.example": {
+            "name": "node.conf.example",
+            "sha256": "2975c46709961fc906af216d64cfdbec963120bd3ced49a965dd38987a9b2aa5",
+            "size_bytes": 1978
+          },
+          "ops/allow-p2p-iptables.sh": {
+            "name": "allow-p2p-iptables.sh",
+            "sha256": "cbf875904df56bf6930c0ded59f0d8a5ed4d6a00dc4a3395c8f351fa3826df95",
+            "size_bytes": 705
+          },
+          "ops/apply-mining-host-tuning.sh": {
+            "name": "apply-mining-host-tuning.sh",
+            "sha256": "d6334256ae4f0ae524ff855e674c508b9707905c74cfa5061cbe413f98b85efa",
+            "size_bytes": 16213
+          },
+          "ops/automation_control.py": {
+            "name": "automation_control.py",
+            "sha256": "0f02fe99a1ed887f4fc2b06c651a01c8b41e3656544f637111dd9ef9462ed011",
+            "size_bytes": 31129
+          },
+          "ops/canonical_data_manifest.py": {
+            "name": "canonical_data_manifest.py",
+            "sha256": "6785473b29726c7c756204650f3f1fe833ff08fdff8c448a14aba1e585814382",
+            "size_bytes": 62051
+          },
+          "ops/capture_status_payload.py": {
+            "name": "capture_status_payload.py",
+            "sha256": "c1f1efe913af7a45ae61708caeb74f56560da2787fcc99a718ab547b1a7cd783",
+            "size_bytes": 1695
+          },
+          "ops/chain-state-self-heal.sh": {
+            "name": "chain-state-self-heal.sh",
+            "sha256": "0fa9c3b2f9e69409151800dacfa82436802b8cf8d9f782cf2efd91e31a711b7d",
+            "size_bytes": 13485
+          },
+          "ops/community_rescue_producer_scan.py": {
+            "name": "community_rescue_producer_scan.py",
+            "sha256": "69efc79afa64e31447445ce7a5ee3a600b83f4318bc10538258ef3cf57fb2d28",
+            "size_bytes": 22808
+          },
+          "ops/compose_migrations.py": {
+            "name": "compose_migrations.py",
+            "sha256": "0b7a7b50ea02005ed2473d69338f6bf147ebeeae283e9a19b0c46fbd470c44ae",
+            "size_bytes": 8763
+          },
+          "ops/config/stack-defaults.env": {
+            "name": "stack-defaults.env",
+            "sha256": "6f3df51b025dcc3c00af0b1bfb528a558fbabbba357d8933ca035bcc58aa7676",
+            "size_bytes": 9913
+          },
+          "ops/evm_dataset_builder.py": {
+            "name": "evm_dataset_builder.py",
+            "sha256": "f5675af9bb0b479cafeb34188a6eabe7dd83446bf7d2ad67fae2d5c74a19e00c",
+            "size_bytes": 114972
+          },
+          "ops/evm_dataset_retention.py": {
+            "name": "evm_dataset_retention.py",
+            "sha256": "cc4530929ebe9053db0acb333839f11e54d6c22e1d22b18b7522cb4243d9b860",
+            "size_bytes": 12074
+          },
+          "ops/guard_core.py": {
+            "name": "guard_core.py",
+            "sha256": "caceba4ebbe575a55004f92de40cf232c3f6939de9eb124abcd473df667f2369",
+            "size_bytes": 3660
+          },
+          "ops/incident_journal.py": {
+            "name": "incident_journal.py",
+            "sha256": "94a44106743c75b1345650a2a4079bf4323d21917f8ca4d82716066f10bcad0e",
+            "size_bytes": 5358
+          },
+          "ops/incident_reporter.py": {
+            "name": "incident_reporter.py",
+            "sha256": "61afec696bd778e477d95a050401d14461767350f71b2b7002d4177f60b7e94f",
+            "size_bytes": 5145
+          },
+          "ops/install-evm-dataset-builder.sh": {
+            "name": "install-evm-dataset-builder.sh",
+            "sha256": "8f35e836c95241012363fa152e6e497c45d4e59cf63f25bb0b6ab0b2c8080b91",
+            "size_bytes": 14122
+          },
+          "ops/install-p2p-services.sh": {
+            "name": "install-p2p-services.sh",
+            "sha256": "46c62a3cac4d4a63baac6eb454265285cced298dad4bb94166bf29a0bacdd530",
+            "size_bytes": 4780
+          },
+          "ops/mining_health_triage.py": {
+            "name": "mining_health_triage.py",
+            "sha256": "7d95fd6ae55dfbc23a0846a3713097acd13e874090e3f0831755a2bea37eac15",
+            "size_bytes": 2802
+          },
+          "ops/mining_readiness_gate.py": {
+            "name": "mining_readiness_gate.py",
+            "sha256": "e22a59d4abce99a27c4fd4a7518e523eeba5941315afa4c610a5e9a8fb568cab",
+            "size_bytes": 36228
+          },
+          "ops/node_child_guard.py": {
+            "name": "node_child_guard.py",
+            "sha256": "62a48ce4889eadf41a65800c98cb686f296dd1ae2afd0ffd1c4df180737071c0",
+            "size_bytes": 14850
+          },
+          "ops/p2p_guard.py": {
+            "name": "p2p_guard.py",
+            "sha256": "701a10849da668306aa98c8f2c078767872b971c4ad09bab22a1e96824bd8127",
+            "size_bytes": 24295
+          },
+          "ops/pool_ops.py": {
+            "name": "pool_ops.py",
+            "sha256": "073d22182905ac6b6cb5ea4e1c5a762844685b66bb88d7e83e7032c83660d5d5",
+            "size_bytes": 591835
+          },
+          "ops/pool_start_gate.py": {
+            "name": "pool_start_gate.py",
+            "sha256": "692e5156f241c50b536f7526aa8553e502bccb1c417c2aa8aed5a106c77f3c67",
+            "size_bytes": 20515
+          },
+          "ops/producer_pruned_dataset_builder.py": {
+            "name": "producer_pruned_dataset_builder.py",
+            "sha256": "cdafa62996be9eef4744a13afb163ae847c9b4781911c2be118021a979da9f3c",
+            "size_bytes": 89370
+          },
+          "ops/public_rpc_health.py": {
+            "name": "public_rpc_health.py",
+            "sha256": "adfc88e13c3cff8bd7a0b29e2d712d0a436b270e60ae6ac2f889d644e1fae3a9",
+            "size_bytes": 37225
+          },
+          "ops/release-install.sh": {
+            "name": "release-install.sh",
+            "sha256": "f8342ebee6ea6b9b074201174e5b7a36ba313f700f5b9aa4f5f98e2933974005",
+            "size_bytes": 140
+          },
+          "ops/stack_sentinel.py": {
+            "name": "stack_sentinel.py",
+            "sha256": "bfbc7a6b31c089209c8704909deea62cc18d273a91a476f1f4f25fbea09afd89",
+            "size_bytes": 17387
+          },
+          "ops/stack_status_source.py": {
+            "name": "stack_status_source.py",
+            "sha256": "6d2d9759252e04947510409071e6720d705a8e2d348426119c01a950f127254d",
+            "size_bytes": 20281
+          },
+          "ops/status_sampler.py": {
+            "name": "status_sampler.py",
+            "sha256": "edca87fe6181a8aff137609a23a3b650e99bc95035513bc3f3420e9275ceed95",
+            "size_bytes": 94388
+          },
+          "ops/sync_coordinator.py": {
+            "name": "sync_coordinator.py",
+            "sha256": "70b9f5ba58d11887f0c29820cd66b653590e63e85ccfedaa7e54be4eb25a2ef1",
+            "size_bytes": 4417
+          },
+          "ops/systemd/bdag-evm-dataset-builder@.service": {
+            "name": "bdag-evm-dataset-builder@.service",
+            "sha256": "cebcb6e40def48960a542d18882e87fa6906e5b14faf96a45a38c876131ca9d1",
+            "size_bytes": 1213
+          },
+          "ops/systemd/bdag-evm-dataset-builder@.timer": {
+            "name": "bdag-evm-dataset-builder@.timer",
+            "sha256": "390075556d7dabb4b1ec60340371fd92ac9b3b108a3cc9804519662c14d63765",
+            "size_bytes": 279
+          },
+          "ops/systemd/bdag-local-peers.timer": {
+            "name": "bdag-local-peers.timer",
+            "sha256": "e81382ba5330b1d2f5275fe4b5a7d6071addd17afb7124b9dbf0b91ca7f23288",
+            "size_bytes": 211
+          },
+          "ops/systemd/bdag-mining-host-tuning.service": {
+            "name": "bdag-mining-host-tuning.service",
+            "sha256": "f7bfe0c00824bbc0d1e29931014582ce7bd5c7cb524c8bca8f3683d3821ef66b",
+            "size_bytes": 283
+          },
+          "ops/systemd/bdag-mining-host-tuning.timer": {
+            "name": "bdag-mining-host-tuning.timer",
+            "sha256": "d0f7740913202082120cfd93e347ff70f1c681dd88f92606b5e6e9c0d02dd572",
+            "size_bytes": 225
+          },
+          "ops/systemd/bdag-p2p-firewall.service": {
+            "name": "bdag-p2p-firewall.service",
+            "sha256": "78a8ef10cc2bb479ec2a139b0e8dae356fb390b1643bf46dd967024938a8dc0d",
+            "size_bytes": 410
+          },
+          "ops/update-local-peers.py": {
+            "name": "update-local-peers.py",
+            "sha256": "596b098de3340cb0cc890b2b683f20430a0ea07e8f8b65ea5015a392be8a9e54",
+            "size_bytes": 37740
+          },
+          "ops/wait_for_node_sync.py": {
+            "name": "wait_for_node_sync.py",
+            "sha256": "da9868ec80337f2d2795b5a354d8deb8f4b27f79a6453910ebf5f2bc649da278",
+            "size_bytes": 32130
+          },
+          "ops/watchdog.py": {
+            "name": "watchdog.py",
+            "sha256": "2a49c8337cd827e2e9cd55f6219514561145b78bb21c8bc06816160ac1e96b4c",
+            "size_bytes": 304534
+          },
+          "release-payload.env": {
+            "name": "release-payload.env",
+            "sha256": "f8ecac527fb011b1781bb33a0ea6e048b703540a2969fa32390549e70afd8c04",
+            "size_bytes": 237
+          },
+          "scripts/check-release-archive.py": {
+            "name": "check-release-archive.py",
+            "sha256": "75ecd4f8d50cff0bb7c0261ab6e5bb0ea4dc40a2c2efacb940b4c0e229b85077",
+            "size_bytes": 70031
+          },
+          "scripts/create-live-savepoint.sh": {
+            "name": "create-live-savepoint.sh",
+            "sha256": "779d4c66599910b40ce2ce9630d7f2abea0abd1ae548a8f956bf82b4c2bdda43",
+            "size_bytes": 6551
+          },
+          "scripts/init-pool-postgres.sh": {
+            "name": "init-pool-postgres.sh",
+            "sha256": "aaae9c640b29bc41974e2664d2a63d61fbc38caa5f10994b3dcc0bfb5c333910",
+            "size_bytes": 2337
+          },
+          "scripts/install-mining-appliance-profile.sh": {
+            "name": "install-mining-appliance-profile.sh",
+            "sha256": "2116f3f90c66e4965c624de194f16cc0ef9163368b9f452349de50d4898587f6",
+            "size_bytes": 11944
+          },
+          "scripts/install_discovery.py": {
+            "name": "install_discovery.py",
+            "sha256": "aac9a427e4a77bc4c03e1d0ba154c7a81995c467e367c5f5a13cebae0777587c",
+            "size_bytes": 19331
+          },
+          "scripts/migrate-node-data-volume-to-host.sh": {
+            "name": "migrate-node-data-volume-to-host.sh",
+            "sha256": "6da0e5b21284239f83c02cff3ce3771951e0e9939608be374e169b9771b6ca37",
+            "size_bytes": 6377
+          },
+          "scripts/mining-appliance-preflight.py": {
+            "name": "mining-appliance-preflight.py",
+            "sha256": "78dde63ecec66c4dc5b8da86b14b482e0e5bc58f97e1cc63ca844b764ce534c5",
+            "size_bytes": 56582
+          },
+          "scripts/pool_schema_migration.py": {
+            "name": "pool_schema_migration.py",
+            "sha256": "4eba08a6c5f7b815556464dee9dfced6667422485bc2d6bfb6fb1df5ab16305b",
+            "size_bytes": 15501
+          },
+          "scripts/project_root_record.py": {
+            "name": "project_root_record.py",
+            "sha256": "d75ca96c4cc01adbfcfb7643c508be9ed131b4c628cfc9dab73c871fb20175e5",
+            "size_bytes": 7202
+          },
+          "scripts/recover-verified-install.sh": {
+            "name": "recover-verified-install.sh",
+            "sha256": "f2ae0c4b01b414e5553410d3c0703e39c7bcc4ad56d54a29e3a24a92d2cab4d3",
+            "size_bytes": 29225
+          },
+          "scripts/release-readiness-check.py": {
+            "name": "release-readiness-check.py",
+            "sha256": "d4b7df9b6df8154d0d076c20d420f244e52243f93150933f5ed32ffd8f9b8e04",
+            "size_bytes": 21016
+          },
+          "scripts/release/install.sh": {
+            "name": "install.sh",
+            "sha256": "915dbd43b1a3996b7670762155d68649661551812ea28a1b37b5d628d08c0678",
+            "size_bytes": 136338
+          },
+          "scripts/release_lock.py": {
+            "name": "release_lock.py",
+            "sha256": "1341e63c15a18303b3ff13664130fde251a6a5027052ea26bfb727323b26c1d7",
+            "size_bytes": 60409
+          },
+          "scripts/stack_boot_config_record.py": {
+            "name": "stack_boot_config_record.py",
+            "sha256": "bd7d669f5b1bba556bc1ac02a3f8228e5cd14553578b68ac58e0818f06414ad8",
+            "size_bytes": 6727
+          },
+          "scripts/transactional_installer.py": {
+            "name": "transactional_installer.py",
+            "sha256": "400d98c58084d8101c5d7f94fb21916dbd4979ff405a86840be934d2845e1c90",
+            "size_bytes": 187707
+          },
+          "scripts/validate-network-route-policy.py": {
+            "name": "validate-network-route-policy.py",
+            "sha256": "bbac69b7561efe4d3c3e5d6c8bebd8d296c387c0ca2c691c485ab4b11a133f81",
+            "size_bytes": 186
+          },
+          "scripts/validate_network_route_policy.py": {
+            "name": "validate_network_route_policy.py",
+            "sha256": "4b6029dfef98adccc51db9dd8d55adaa2bd6c5d73d5006d5469b89e2d65dc83f",
+            "size_bytes": 20520
+          },
+          "scripts/verify-release-architecture.py": {
+            "name": "verify-release-architecture.py",
+            "sha256": "6eb91afe2e2e276f599db43071125d9657a486b405ba1eb08220b3590724b9e8",
+            "size_bytes": 2078
+          },
+          "sql/pool-schema.sql": {
+            "name": "pool-schema.sql",
+            "sha256": "fed9795601c59cbcf31b66024e078d9f00c152ebbe62764e992bb5d83596cc31",
+            "size_bytes": 1832
+          },
+          "tools/miner_wizard.py": {
+            "name": "miner_wizard.py",
+            "sha256": "4a7d74374ea2eeead6c9ab2cad8acae0f2b57f151f79493d3e8ff23625d79e15",
+            "size_bytes": 4188
+          },
+          "tools/status.sh": {
+            "name": "status.sh",
+            "sha256": "d8cbf159ab6ff920d52915f1e4e00e926f8f52e4518da2516508e17e736af14e",
+            "size_bytes": 461
+          },
+          "version.txt": {
+            "name": "version.txt",
+            "sha256": "3b70183b0cb8aca8c8516e79017f042630178fd9e1ab9932624a51b6f09b010b",
+            "size_bytes": 29
+          }
+        },
+        "platform": "linux/amd64",
+        "provenance": {
+          "name": "release.json",
+          "sha256": "1bdfa48e4dca8bf851eb3fec6704c8cfdd5b74d0a6f8748dbb1e9ae613a7ad49",
+          "size_bytes": 7399
+        },
+        "sboms": {
+          "dashboard": {
+            "name": "dashboard.spdx.json",
+            "sha256": "f44d60cfbe454b439c5cb364be054db2a5d7211325bac0ef0a88df3ed23be929",
+            "size_bytes": 2509448
+          },
+          "miner-route": {
+            "name": "miner-route.spdx.json",
+            "sha256": "606b0b68caf3c2eaddbf3f0a49827d05ec5f28d7a5f5e7ba2309fce4bf21fc03",
+            "size_bytes": 87462
+          },
+          "node": {
+            "name": "node.spdx.json",
+            "sha256": "9aaa3df6a88d9cd32c9fad92618b166ae7e5ed347a1ce4e1c4fa69520cc7aa51",
+            "size_bytes": 2933917
+          },
+          "pool": {
+            "name": "pool.spdx.json",
+            "sha256": "02df69e11570dfefefc91a915d0c5c445189845fe3d8362c6487d0bdf2e5e754",
+            "size_bytes": 2409689
+          },
+          "postgres": {
+            "name": "postgres.spdx.json",
+            "sha256": "a209ff72cdbe461524fd04520632aae134497dac2fc6127347aa331111564d17",
+            "size_bytes": 5978155
+          },
+          "sentinel": {
+            "name": "sentinel.spdx.json",
+            "sha256": "397992cd9c3ff0a27fb7dd500a2d3a850206d62b7130e9775e8cca9e67810979",
+            "size_bytes": 3601070
+          },
+          "status-sampler": {
+            "name": "status-sampler.spdx.json",
+            "sha256": "db92eb7e0a3513c19e4a1e0e302c0aacb9cded0a9968c23c18baf4318d95fec7",
+            "size_bytes": 3601070
+          },
+          "watchdog": {
+            "name": "watchdog.spdx.json",
+            "sha256": "89be8a83ec85257fd8d0459f8ce0ac3df94d2419c5d4fe45aa78cab29c44e574",
+            "size_bytes": 3601070
+          }
+        },
+        "schema": "bdag.release-target-record.v3",
+        "source_lock_sha256": "254bcf4c5631cdf5a287e14a00d973c9849f33ebbc92edd201e5ff7fc526ca74",
+        "target": "linux-amd64",
+        "toolchain": {
+          "alpine_image": "alpine:3.20@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc",
+          "buildx": "github.com/docker/buildx 0.30.1 0.30.1-0ubuntu1",
+          "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+          "docker": "29.1.3",
+          "go": "go version go1.26.0 linux/amd64",
+          "go_build_image": "golang:1.26-bookworm@sha256:18aedc16aa19b3fd7ded7245fc14b109e054d65d22ed53c355c899582bbb2113",
+          "ops_image": "docker:27-cli@sha256:851f91d241214e7c6db86513b270d58776379aacc5eb9c4a87e5b47115e3065c",
+          "postgres_image": "postgres:15-bookworm@sha256:0e441d964b57050c10ba70076d60de4747dd0e2a76fb5f407939ddd2e885d9c1",
+          "runtime_image": "ubuntu:24.04@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90",
+          "syft": "anchore/syft:v1.27.0@sha256:d755e38b255045ebec12acacdb0f50b8b8781979116bbf2b9fa3bd5fb4a355af"
+        }
+      },
+      "linux-arm64": {
+        "binaries": {
+          "blockdag-node": {
+            "name": "blockdag-node",
+            "sha256": "fe072fb8539112368bc7a2e060f48406d7bf677ebe976fa843f354508cd00b61",
+            "size_bytes": 94873512
+          },
+          "dashboard": {
+            "name": "dashboard",
+            "sha256": "627346acfe542e355902c93309511fd51cb5080ca220da19766809f99bf0a49b",
+            "size_bytes": 18855602
+          },
+          "dashboard-api": {
+            "name": "dashboard-api",
+            "sha256": "3d7985664caf10360f12ceb386c1840facbe90ac6ad096dbb6e05ccdb9dd36f5",
+            "size_bytes": 8817003
+          },
+          "mining-pool": {
+            "name": "mining-pool",
+            "sha256": "dbefb95166d0728181d598b3b0b070472b452088e78e4f3ba625f3ce06191e67",
+            "size_bytes": 24318000
+          },
+          "nodeworker": {
+            "name": "nodeworker",
+            "sha256": "aea0f04d9eb03b820e011b19f8a018dbcb21ea6e4b71e0badc78d270af9a1324",
+            "size_bytes": 33425368
+          }
+        },
+        "image_bundle": {
+          "name": "docker-images-linux-arm64.tar",
+          "sha256": "56d50e5c8993f93faa797e5694653f1e852a289ab2c0d5b59feb2ea398e34d07",
+          "size_bytes": 373091840,
+          "unpacked_size_bytes": 616686595
+        },
+        "images": [
+          {
+            "image_digest": "sha256:fd8158eb9c564637143ba9742fdca13db965727364e4bb1e6aeda9238d331e17",
+            "name": "dashboard",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/dashboard:2.0.0-community-rescue-rc.52-linux-arm64",
+            "repo_digests": [
+              "bdag-offline/dashboard@sha256:61e48650633d084da5eb1c2ba822e53da8518fd8799d968181029f426cf2954c"
+            ]
+          },
+          {
+            "image_digest": "sha256:d8ec5554c938317a68fae37d779c991d0de61002a744ce93f327c86bca9c0583",
+            "name": "miner-route",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/miner-route:2.0.0-community-rescue-rc.52-linux-arm64",
+            "repo_digests": [
+              "bdag-offline/miner-route@sha256:cc21a81d432b70ef5f31f02a4a0fd3714e7fe837f23c7abcca1e931bf0881a2b"
+            ]
+          },
+          {
+            "image_digest": "sha256:0cca1f90f29c8fd566058853d0699f48669039dede12214ddb6133e71f76ae0a",
+            "name": "node",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/node:2.0.0-community-rescue-rc.52-linux-arm64",
+            "repo_digests": [
+              "bdag-offline/node@sha256:c9cf88e0422096258efda56706728e6db8acca525c08f9aea38e76937cff7938"
+            ]
+          },
+          {
+            "image_digest": "sha256:dc284682698eef4d06b7220e30f52777195474d68bc8cab4927e8d6d6e92b09f",
+            "name": "pool",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/pool:2.0.0-community-rescue-rc.52-linux-arm64",
+            "repo_digests": [
+              "bdag-offline/pool@sha256:ee8bf3124f7e1fa0e104bff51cdedd5c2f803d36a38efd6240f86b6d7d1e8ea5"
+            ]
+          },
+          {
+            "image_digest": "sha256:0dcaaaf66f065122d5ac43fe5e3fd239e9bb728cea2a5acd75f88ead7b127615",
+            "name": "postgres",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/postgres:2.0.0-community-rescue-rc.52-linux-arm64",
+            "repo_digests": [
+              "bdag-offline/postgres@sha256:1587ce3196ca3f785dd9ec63698395bd28d0e2f24a82d0ba07a403f13378325a"
+            ]
+          },
+          {
+            "image_digest": "sha256:2e57b9dc3177a742611a3fc14105bef08277a0c4364948bf770b9bfe1c174026",
+            "name": "sentinel",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/sentinel:2.0.0-community-rescue-rc.52-linux-arm64",
+            "repo_digests": [
+              "bdag-offline/sentinel@sha256:708ab279cdbb6da18ba8a325f425f375b25802c92ed61170b1d7b3c9559480ac"
+            ]
+          },
+          {
+            "image_digest": "sha256:9ac87bbb20c069d231f6d24056b37549602af7adf6abec791395746123acdefc",
+            "name": "status-sampler",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/status-sampler:2.0.0-community-rescue-rc.52-linux-arm64",
+            "repo_digests": [
+              "bdag-offline/status-sampler@sha256:8b5d7baddd6d6d4f60a8dcaf2a39327897576ac04eb720e2a967f9cbde233ab3"
+            ]
+          },
+          {
+            "image_digest": "sha256:2da455014ae04b286e2a0dbc13661710220d095552df2ec0b2e19af4a81b6515",
+            "name": "watchdog",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/watchdog:2.0.0-community-rescue-rc.52-linux-arm64",
+            "repo_digests": [
+              "bdag-offline/watchdog@sha256:3adb2db3f80b6d1093556df86d9afddbe1ef9fa370ae1f69ad508dded2bc5363"
+            ]
+          }
+        ],
+        "payload_files": {
+          ".dockerignore": {
+            "name": ".dockerignore",
+            "sha256": "490aa508e0721bebdf49afd0c4d11806c72c40e601d968ac547b48f5d91b4621",
+            "size_bytes": 709
+          },
+          ".env.example": {
+            "name": ".env.example",
+            "sha256": "daa4f87ceadcce5e51cf66ee8045db12290effe9782edf1e0e4ecd47fcecaf1d",
+            "size_bytes": 22655
+          },
+          "README.md": {
+            "name": "README.md",
+            "sha256": "938b1f0b8cb4f242b4bdf504a21c563313d5e546c920ad10ef5f4f4b39aa7439",
+            "size_bytes": 8408
+          },
+          "checksums.txt": {
+            "name": "checksums.txt",
+            "sha256": "7a6d49f4d563e4a02497c5af37585eeac6b04a7bcb496a279bb85a36dae84b18",
+            "size_bytes": 411
+          },
+          "docker-compose.yml": {
+            "name": "docker-compose.yml",
+            "sha256": "58696fd3741e172cf035f24239e6f96cf53281a13124af89860b496d3f297001",
+            "size_bytes": 36941
+          },
+          "docker/dashboard-redis.conf": {
+            "name": "dashboard-redis.conf",
+            "sha256": "621d925ee9b6258ab46af96a8d2631eaf03ab7daa4746f26f4d07c1ad0f66550",
+            "size_bytes": 220
+          },
+          "docker/entrypoint-nodeworker.sh": {
+            "name": "entrypoint-nodeworker.sh",
+            "sha256": "6db656a986361666a4be14b20ae1f1abcbe132ababd738ec34463d89ffcc491c",
+            "size_bytes": 32249
+          },
+          "docker/entrypoint-pool.sh": {
+            "name": "entrypoint-pool.sh",
+            "sha256": "34d19704ef0704092748a49a5a6ead7f7b9c38d489c51882d3516fba4e604653",
+            "size_bytes": 6482
+          },
+          "docker/no-snapshot.marker": {
+            "name": "no-snapshot.marker",
+            "sha256": "e6c4b3767d6b03538eaf6e08a572a61b78a166eff22357f752a5e1a1dd8ebe19",
+            "size_bytes": 5
+          },
+          "dockerfile": {
+            "name": "dockerfile",
+            "sha256": "f56e13d2a051922e95615f2837fe4f86e7f95087e92626b0ac02efc2a813fb24",
+            "size_bytes": 8391
+          },
+          "host/mining-appliance/90-bdag-ephemeral.conf": {
+            "name": "90-bdag-ephemeral.conf",
+            "sha256": "6adf66c1f0bbeca2fe8d70395517cde8010e4d633eb7540a77682e27178184fd",
+            "size_bytes": 72
+          },
+          "host/mining-appliance/90-mining-appliance-journald.conf": {
+            "name": "90-mining-appliance-journald.conf",
+            "sha256": "040d24b5ecc28a4cb932b4bbf7aed38dd8d5c2c261b3b0e77cc00d1a73997a8e",
+            "size_bytes": 113
+          },
+          "host/mining-appliance/90-mining-appliance-sysctl.conf": {
+            "name": "90-mining-appliance-sysctl.conf",
+            "sha256": "1a1904330e991f0c15e36385f30dd349098e96af186a8803c3438e6c30c6e5f5",
+            "size_bytes": 638
+          },
+          "host/mining-appliance/bdag-node-child-guard": {
+            "name": "bdag-node-child-guard",
+            "sha256": "8e91644fc96388aa8ee468737915adc2040849f14db99805fd967211aad24886",
+            "size_bytes": 10444
+          },
+          "host/mining-appliance/bdag-node-child-guard.service": {
+            "name": "bdag-node-child-guard.service",
+            "sha256": "ad20a2c379a048714fa2d888583c4c8a97ba51d34595efded84df61182683a34",
+            "size_bytes": 415
+          },
+          "host/mining-appliance/bdag-node-child-guard.timer": {
+            "name": "bdag-node-child-guard.timer",
+            "sha256": "e751d598beb02a5f137142e0038580014405aecf4b3e8524113cd78c18f29006",
+            "size_bytes": 191
+          },
+          "host/mining-appliance/bdag-runtime-priority": {
+            "name": "bdag-runtime-priority",
+            "sha256": "be187d038b30085d3f1124116501dcf11e385dd44c1b917722105e545a6d2bd2",
+            "size_bytes": 5763
+          },
+          "host/mining-appliance/bdag-runtime-priority.service": {
+            "name": "bdag-runtime-priority.service",
+            "sha256": "3e3a55582922f10fba9746804ea916015d9a79be7925fe8b7d7d32760338b5b7",
+            "size_bytes": 281
+          },
+          "host/mining-appliance/bdag-runtime-priority.timer": {
+            "name": "bdag-runtime-priority.timer",
+            "sha256": "cb0f238bad4ff64dfe5c47c90526d98df9753f0d1ed54958eb41b9bb201ba513",
+            "size_bytes": 189
+          },
+          "host/mining-appliance/bdag-stack-boot": {
+            "name": "bdag-stack-boot",
+            "sha256": "dd2321a89eca3d262086b54398f7e692af1af8cb89d0c6d3506875a4c23bfb05",
+            "size_bytes": 46685
+          },
+          "host/mining-appliance/bdag-stack-boot.service": {
+            "name": "bdag-stack-boot.service",
+            "sha256": "87b45ff59dd66155be65d1509c1da3239d0e7d1e33b865d9fd1e1b7d3f0d06a4",
+            "size_bytes": 919
+          },
+          "host/mining-appliance/bdag-stack-recovery.service": {
+            "name": "bdag-stack-recovery.service",
+            "sha256": "0acb3df59a10f7e731ca2cf20bfd7503bfba83c584367c921a8009654849de0e",
+            "size_bytes": 684
+          },
+          "host/mining-appliance/bdag-stack-recovery.timer": {
+            "name": "bdag-stack-recovery.timer",
+            "sha256": "e8b0b1c33ba5ce2e56d873e94e3b521ecb0031832fa81c2f2cfaf2dc09eb8c45",
+            "size_bytes": 223
+          },
+          "host/mining-appliance/docker-daemon.json": {
+            "name": "docker-daemon.json",
+            "sha256": "5462e8b3f0a2622124cb87ceebfc7276695de37c312d4b591a98fb91fea46e99",
+            "size_bytes": 116
+          },
+          "host/mining-appliance/mining-appliance-host-tuning": {
+            "name": "mining-appliance-host-tuning",
+            "sha256": "55abf2fce4990daa26530a4d19c39ad82c1976bcb64d837b7a947eeed069a610",
+            "size_bytes": 3589
+          },
+          "host/mining-appliance/mining-appliance-tuning.service": {
+            "name": "mining-appliance-tuning.service",
+            "sha256": "20a6be8451ef663d93478e1129123ad7e274cd01852a26818b8be32bfbdb334c",
+            "size_bytes": 297
+          },
+          "install.sh": {
+            "name": "install.sh",
+            "sha256": "915dbd43b1a3996b7670762155d68649661551812ea28a1b37b5d628d08c0678",
+            "size_bytes": 136338
+          },
+          "node.conf.example": {
+            "name": "node.conf.example",
+            "sha256": "2975c46709961fc906af216d64cfdbec963120bd3ced49a965dd38987a9b2aa5",
+            "size_bytes": 1978
+          },
+          "ops/allow-p2p-iptables.sh": {
+            "name": "allow-p2p-iptables.sh",
+            "sha256": "cbf875904df56bf6930c0ded59f0d8a5ed4d6a00dc4a3395c8f351fa3826df95",
+            "size_bytes": 705
+          },
+          "ops/apply-mining-host-tuning.sh": {
+            "name": "apply-mining-host-tuning.sh",
+            "sha256": "d6334256ae4f0ae524ff855e674c508b9707905c74cfa5061cbe413f98b85efa",
+            "size_bytes": 16213
+          },
+          "ops/automation_control.py": {
+            "name": "automation_control.py",
+            "sha256": "0f02fe99a1ed887f4fc2b06c651a01c8b41e3656544f637111dd9ef9462ed011",
+            "size_bytes": 31129
+          },
+          "ops/canonical_data_manifest.py": {
+            "name": "canonical_data_manifest.py",
+            "sha256": "6785473b29726c7c756204650f3f1fe833ff08fdff8c448a14aba1e585814382",
+            "size_bytes": 62051
+          },
+          "ops/capture_status_payload.py": {
+            "name": "capture_status_payload.py",
+            "sha256": "c1f1efe913af7a45ae61708caeb74f56560da2787fcc99a718ab547b1a7cd783",
+            "size_bytes": 1695
+          },
+          "ops/chain-state-self-heal.sh": {
+            "name": "chain-state-self-heal.sh",
+            "sha256": "0fa9c3b2f9e69409151800dacfa82436802b8cf8d9f782cf2efd91e31a711b7d",
+            "size_bytes": 13485
+          },
+          "ops/community_rescue_producer_scan.py": {
+            "name": "community_rescue_producer_scan.py",
+            "sha256": "69efc79afa64e31447445ce7a5ee3a600b83f4318bc10538258ef3cf57fb2d28",
+            "size_bytes": 22808
+          },
+          "ops/compose_migrations.py": {
+            "name": "compose_migrations.py",
+            "sha256": "0b7a7b50ea02005ed2473d69338f6bf147ebeeae283e9a19b0c46fbd470c44ae",
+            "size_bytes": 8763
+          },
+          "ops/config/stack-defaults.env": {
+            "name": "stack-defaults.env",
+            "sha256": "6f3df51b025dcc3c00af0b1bfb528a558fbabbba357d8933ca035bcc58aa7676",
+            "size_bytes": 9913
+          },
+          "ops/evm_dataset_builder.py": {
+            "name": "evm_dataset_builder.py",
+            "sha256": "f5675af9bb0b479cafeb34188a6eabe7dd83446bf7d2ad67fae2d5c74a19e00c",
+            "size_bytes": 114972
+          },
+          "ops/evm_dataset_retention.py": {
+            "name": "evm_dataset_retention.py",
+            "sha256": "cc4530929ebe9053db0acb333839f11e54d6c22e1d22b18b7522cb4243d9b860",
+            "size_bytes": 12074
+          },
+          "ops/guard_core.py": {
+            "name": "guard_core.py",
+            "sha256": "caceba4ebbe575a55004f92de40cf232c3f6939de9eb124abcd473df667f2369",
+            "size_bytes": 3660
+          },
+          "ops/incident_journal.py": {
+            "name": "incident_journal.py",
+            "sha256": "94a44106743c75b1345650a2a4079bf4323d21917f8ca4d82716066f10bcad0e",
+            "size_bytes": 5358
+          },
+          "ops/incident_reporter.py": {
+            "name": "incident_reporter.py",
+            "sha256": "61afec696bd778e477d95a050401d14461767350f71b2b7002d4177f60b7e94f",
+            "size_bytes": 5145
+          },
+          "ops/install-evm-dataset-builder.sh": {
+            "name": "install-evm-dataset-builder.sh",
+            "sha256": "8f35e836c95241012363fa152e6e497c45d4e59cf63f25bb0b6ab0b2c8080b91",
+            "size_bytes": 14122
+          },
+          "ops/install-p2p-services.sh": {
+            "name": "install-p2p-services.sh",
+            "sha256": "46c62a3cac4d4a63baac6eb454265285cced298dad4bb94166bf29a0bacdd530",
+            "size_bytes": 4780
+          },
+          "ops/mining_health_triage.py": {
+            "name": "mining_health_triage.py",
+            "sha256": "7d95fd6ae55dfbc23a0846a3713097acd13e874090e3f0831755a2bea37eac15",
+            "size_bytes": 2802
+          },
+          "ops/mining_readiness_gate.py": {
+            "name": "mining_readiness_gate.py",
+            "sha256": "e22a59d4abce99a27c4fd4a7518e523eeba5941315afa4c610a5e9a8fb568cab",
+            "size_bytes": 36228
+          },
+          "ops/node_child_guard.py": {
+            "name": "node_child_guard.py",
+            "sha256": "62a48ce4889eadf41a65800c98cb686f296dd1ae2afd0ffd1c4df180737071c0",
+            "size_bytes": 14850
+          },
+          "ops/p2p_guard.py": {
+            "name": "p2p_guard.py",
+            "sha256": "701a10849da668306aa98c8f2c078767872b971c4ad09bab22a1e96824bd8127",
+            "size_bytes": 24295
+          },
+          "ops/pool_ops.py": {
+            "name": "pool_ops.py",
+            "sha256": "073d22182905ac6b6cb5ea4e1c5a762844685b66bb88d7e83e7032c83660d5d5",
+            "size_bytes": 591835
+          },
+          "ops/pool_start_gate.py": {
+            "name": "pool_start_gate.py",
+            "sha256": "692e5156f241c50b536f7526aa8553e502bccb1c417c2aa8aed5a106c77f3c67",
+            "size_bytes": 20515
+          },
+          "ops/producer_pruned_dataset_builder.py": {
+            "name": "producer_pruned_dataset_builder.py",
+            "sha256": "cdafa62996be9eef4744a13afb163ae847c9b4781911c2be118021a979da9f3c",
+            "size_bytes": 89370
+          },
+          "ops/public_rpc_health.py": {
+            "name": "public_rpc_health.py",
+            "sha256": "adfc88e13c3cff8bd7a0b29e2d712d0a436b270e60ae6ac2f889d644e1fae3a9",
+            "size_bytes": 37225
+          },
+          "ops/release-install.sh": {
+            "name": "release-install.sh",
+            "sha256": "f8342ebee6ea6b9b074201174e5b7a36ba313f700f5b9aa4f5f98e2933974005",
+            "size_bytes": 140
+          },
+          "ops/stack_sentinel.py": {
+            "name": "stack_sentinel.py",
+            "sha256": "bfbc7a6b31c089209c8704909deea62cc18d273a91a476f1f4f25fbea09afd89",
+            "size_bytes": 17387
+          },
+          "ops/stack_status_source.py": {
+            "name": "stack_status_source.py",
+            "sha256": "6d2d9759252e04947510409071e6720d705a8e2d348426119c01a950f127254d",
+            "size_bytes": 20281
+          },
+          "ops/status_sampler.py": {
+            "name": "status_sampler.py",
+            "sha256": "edca87fe6181a8aff137609a23a3b650e99bc95035513bc3f3420e9275ceed95",
+            "size_bytes": 94388
+          },
+          "ops/sync_coordinator.py": {
+            "name": "sync_coordinator.py",
+            "sha256": "70b9f5ba58d11887f0c29820cd66b653590e63e85ccfedaa7e54be4eb25a2ef1",
+            "size_bytes": 4417
+          },
+          "ops/systemd/bdag-evm-dataset-builder@.service": {
+            "name": "bdag-evm-dataset-builder@.service",
+            "sha256": "cebcb6e40def48960a542d18882e87fa6906e5b14faf96a45a38c876131ca9d1",
+            "size_bytes": 1213
+          },
+          "ops/systemd/bdag-evm-dataset-builder@.timer": {
+            "name": "bdag-evm-dataset-builder@.timer",
+            "sha256": "390075556d7dabb4b1ec60340371fd92ac9b3b108a3cc9804519662c14d63765",
+            "size_bytes": 279
+          },
+          "ops/systemd/bdag-local-peers.timer": {
+            "name": "bdag-local-peers.timer",
+            "sha256": "e81382ba5330b1d2f5275fe4b5a7d6071addd17afb7124b9dbf0b91ca7f23288",
+            "size_bytes": 211
+          },
+          "ops/systemd/bdag-mining-host-tuning.service": {
+            "name": "bdag-mining-host-tuning.service",
+            "sha256": "f7bfe0c00824bbc0d1e29931014582ce7bd5c7cb524c8bca8f3683d3821ef66b",
+            "size_bytes": 283
+          },
+          "ops/systemd/bdag-mining-host-tuning.timer": {
+            "name": "bdag-mining-host-tuning.timer",
+            "sha256": "d0f7740913202082120cfd93e347ff70f1c681dd88f92606b5e6e9c0d02dd572",
+            "size_bytes": 225
+          },
+          "ops/systemd/bdag-p2p-firewall.service": {
+            "name": "bdag-p2p-firewall.service",
+            "sha256": "78a8ef10cc2bb479ec2a139b0e8dae356fb390b1643bf46dd967024938a8dc0d",
+            "size_bytes": 410
+          },
+          "ops/update-local-peers.py": {
+            "name": "update-local-peers.py",
+            "sha256": "596b098de3340cb0cc890b2b683f20430a0ea07e8f8b65ea5015a392be8a9e54",
+            "size_bytes": 37740
+          },
+          "ops/wait_for_node_sync.py": {
+            "name": "wait_for_node_sync.py",
+            "sha256": "da9868ec80337f2d2795b5a354d8deb8f4b27f79a6453910ebf5f2bc649da278",
+            "size_bytes": 32130
+          },
+          "ops/watchdog.py": {
+            "name": "watchdog.py",
+            "sha256": "2a49c8337cd827e2e9cd55f6219514561145b78bb21c8bc06816160ac1e96b4c",
+            "size_bytes": 304534
+          },
+          "release-payload.env": {
+            "name": "release-payload.env",
+            "sha256": "eb686ed5844308dd780a0a753f7e90533ce88e4e66c992a05a8767d398265b38",
+            "size_bytes": 237
+          },
+          "scripts/check-release-archive.py": {
+            "name": "check-release-archive.py",
+            "sha256": "75ecd4f8d50cff0bb7c0261ab6e5bb0ea4dc40a2c2efacb940b4c0e229b85077",
+            "size_bytes": 70031
+          },
+          "scripts/create-live-savepoint.sh": {
+            "name": "create-live-savepoint.sh",
+            "sha256": "779d4c66599910b40ce2ce9630d7f2abea0abd1ae548a8f956bf82b4c2bdda43",
+            "size_bytes": 6551
+          },
+          "scripts/init-pool-postgres.sh": {
+            "name": "init-pool-postgres.sh",
+            "sha256": "aaae9c640b29bc41974e2664d2a63d61fbc38caa5f10994b3dcc0bfb5c333910",
+            "size_bytes": 2337
+          },
+          "scripts/install-mining-appliance-profile.sh": {
+            "name": "install-mining-appliance-profile.sh",
+            "sha256": "2116f3f90c66e4965c624de194f16cc0ef9163368b9f452349de50d4898587f6",
+            "size_bytes": 11944
+          },
+          "scripts/install_discovery.py": {
+            "name": "install_discovery.py",
+            "sha256": "aac9a427e4a77bc4c03e1d0ba154c7a81995c467e367c5f5a13cebae0777587c",
+            "size_bytes": 19331
+          },
+          "scripts/migrate-node-data-volume-to-host.sh": {
+            "name": "migrate-node-data-volume-to-host.sh",
+            "sha256": "6da0e5b21284239f83c02cff3ce3771951e0e9939608be374e169b9771b6ca37",
+            "size_bytes": 6377
+          },
+          "scripts/mining-appliance-preflight.py": {
+            "name": "mining-appliance-preflight.py",
+            "sha256": "78dde63ecec66c4dc5b8da86b14b482e0e5bc58f97e1cc63ca844b764ce534c5",
+            "size_bytes": 56582
+          },
+          "scripts/pool_schema_migration.py": {
+            "name": "pool_schema_migration.py",
+            "sha256": "4eba08a6c5f7b815556464dee9dfced6667422485bc2d6bfb6fb1df5ab16305b",
+            "size_bytes": 15501
+          },
+          "scripts/project_root_record.py": {
+            "name": "project_root_record.py",
+            "sha256": "d75ca96c4cc01adbfcfb7643c508be9ed131b4c628cfc9dab73c871fb20175e5",
+            "size_bytes": 7202
+          },
+          "scripts/recover-verified-install.sh": {
+            "name": "recover-verified-install.sh",
+            "sha256": "f2ae0c4b01b414e5553410d3c0703e39c7bcc4ad56d54a29e3a24a92d2cab4d3",
+            "size_bytes": 29225
+          },
+          "scripts/release-readiness-check.py": {
+            "name": "release-readiness-check.py",
+            "sha256": "d4b7df9b6df8154d0d076c20d420f244e52243f93150933f5ed32ffd8f9b8e04",
+            "size_bytes": 21016
+          },
+          "scripts/release/install.sh": {
+            "name": "install.sh",
+            "sha256": "915dbd43b1a3996b7670762155d68649661551812ea28a1b37b5d628d08c0678",
+            "size_bytes": 136338
+          },
+          "scripts/release_lock.py": {
+            "name": "release_lock.py",
+            "sha256": "1341e63c15a18303b3ff13664130fde251a6a5027052ea26bfb727323b26c1d7",
+            "size_bytes": 60409
+          },
+          "scripts/stack_boot_config_record.py": {
+            "name": "stack_boot_config_record.py",
+            "sha256": "bd7d669f5b1bba556bc1ac02a3f8228e5cd14553578b68ac58e0818f06414ad8",
+            "size_bytes": 6727
+          },
+          "scripts/transactional_installer.py": {
+            "name": "transactional_installer.py",
+            "sha256": "400d98c58084d8101c5d7f94fb21916dbd4979ff405a86840be934d2845e1c90",
+            "size_bytes": 187707
+          },
+          "scripts/validate-network-route-policy.py": {
+            "name": "validate-network-route-policy.py",
+            "sha256": "bbac69b7561efe4d3c3e5d6c8bebd8d296c387c0ca2c691c485ab4b11a133f81",
+            "size_bytes": 186
+          },
+          "scripts/validate_network_route_policy.py": {
+            "name": "validate_network_route_policy.py",
+            "sha256": "4b6029dfef98adccc51db9dd8d55adaa2bd6c5d73d5006d5469b89e2d65dc83f",
+            "size_bytes": 20520
+          },
+          "scripts/verify-release-architecture.py": {
+            "name": "verify-release-architecture.py",
+            "sha256": "6eb91afe2e2e276f599db43071125d9657a486b405ba1eb08220b3590724b9e8",
+            "size_bytes": 2078
+          },
+          "sql/pool-schema.sql": {
+            "name": "pool-schema.sql",
+            "sha256": "fed9795601c59cbcf31b66024e078d9f00c152ebbe62764e992bb5d83596cc31",
+            "size_bytes": 1832
+          },
+          "tools/miner_wizard.py": {
+            "name": "miner_wizard.py",
+            "sha256": "4a7d74374ea2eeead6c9ab2cad8acae0f2b57f151f79493d3e8ff23625d79e15",
+            "size_bytes": 4188
+          },
+          "tools/status.sh": {
+            "name": "status.sh",
+            "sha256": "d8cbf159ab6ff920d52915f1e4e00e926f8f52e4518da2516508e17e736af14e",
+            "size_bytes": 461
+          },
+          "version.txt": {
+            "name": "version.txt",
+            "sha256": "3b70183b0cb8aca8c8516e79017f042630178fd9e1ab9932624a51b6f09b010b",
+            "size_bytes": 29
+          }
+        },
+        "platform": "linux/arm64",
+        "provenance": {
+          "name": "release.json",
+          "sha256": "1bf1652483ae35c73c0d9bfaaf88a2f07deef5cb598b7fe1ee8ac6787bf12bf0",
+          "size_bytes": 7235
+        },
+        "sboms": {
+          "dashboard": {
+            "name": "dashboard.spdx.json",
+            "sha256": "13fdb9a2fbbc6f6f81641cb3249a89baec1dddec711b78064a50778b16307bda",
+            "size_bytes": 2510050
+          },
+          "miner-route": {
+            "name": "miner-route.spdx.json",
+            "sha256": "6f6a70e5531a6b32eb8ff59705645b666460cf05bec15116e3ad3676cd2235cb",
+            "size_bytes": 87479
+          },
+          "node": {
+            "name": "node.spdx.json",
+            "sha256": "d6c53e0287d73e8c4c17674ede8dc10707e93ba37c678a2ecb1f0cbb992a3d7b",
+            "size_bytes": 2932999
+          },
+          "pool": {
+            "name": "pool.spdx.json",
+            "sha256": "6bcf5923256e4c24682c5d7dfca1f7ba394f04c5e996cc07851d404c7b3f3b76",
+            "size_bytes": 2410416
+          },
+          "postgres": {
+            "name": "postgres.spdx.json",
+            "sha256": "29739c6228b5518bd2f4bdf55b327d31e793496f55bec8590a5d00411a4293cc",
+            "size_bytes": 5982965
+          },
+          "sentinel": {
+            "name": "sentinel.spdx.json",
+            "sha256": "101d87f34f66ff7dd07e943a900d355c06a978c8d4643959d4ce9b3018ac1a45",
+            "size_bytes": 3601338
+          },
+          "status-sampler": {
+            "name": "status-sampler.spdx.json",
+            "sha256": "874354212ad8cb10070e519b624d8ad76c9d2b2a68dec88154b1c0335a8b7ee7",
+            "size_bytes": 3601338
+          },
+          "watchdog": {
+            "name": "watchdog.spdx.json",
+            "sha256": "edb8b5a5d318775dbacd9b05bb078afa809903bee5864942938f01c305152d08",
+            "size_bytes": 3601338
+          }
+        },
+        "schema": "bdag.release-target-record.v3",
+        "source_lock_sha256": "254bcf4c5631cdf5a287e14a00d973c9849f33ebbc92edd201e5ff7fc526ca74",
+        "target": "linux-arm64",
+        "toolchain": {
+          "alpine_image": "alpine:3.20@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc",
+          "buildx": "github.com/docker/buildx 0.30.1 0.30.1-0ubuntu1",
+          "compiler": "aarch64-linux-gnu-gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+          "docker": "29.1.3",
+          "go": "go version go1.26.0 linux/amd64",
+          "go_build_image": "golang:1.26-bookworm@sha256:18aedc16aa19b3fd7ded7245fc14b109e054d65d22ed53c355c899582bbb2113",
+          "ops_image": "docker:27-cli@sha256:851f91d241214e7c6db86513b270d58776379aacc5eb9c4a87e5b47115e3065c",
+          "postgres_image": "postgres:15-bookworm@sha256:0e441d964b57050c10ba70076d60de4747dd0e2a76fb5f407939ddd2e885d9c1",
+          "runtime_image": "ubuntu:24.04@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90",
+          "syft": "anchore/syft:v1.27.0@sha256:d755e38b255045ebec12acacdb0f50b8b8781979116bbf2b9fa3bd5fb4a355af"
+        }
+      }
+    }
+  }
+}
