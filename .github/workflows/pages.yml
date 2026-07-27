@@ -34,14 +34,24 @@ jobs:
         run: python3 tests/validate_rc44_release.py --publication-ready
       - name: Validate published RC52 release
         run: python3 tests/validate_rc52_release.py --publication-ready
+      - name: Validate published RC58 release
+        run: python3 tests/validate_rc58_release.py --publication-ready
       - name: Test generated install commands
         run: node --test tests/release-page.test.mjs
+      - name: Stage exact public tree
+        run: |
+          set -euo pipefail
+          test ! -e _site
+          install -d -m 0755 _site
+          install -m 0644 index.html _site/index.html
+          cp -a releases _site/releases
+          python3 tests/validate_pages_artifact.py _site
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4

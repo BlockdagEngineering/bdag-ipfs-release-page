@@ -1,31 +1,31 @@
 {
   "schema": "bdag.community-ipfs-pins.v1",
-  "release": "2.0.0-community-rescue-rc.52",
+  "release": "2.0.0-community-rescue-rc.58",
   "ipns": "k51qzi5uqu5dgijozv3dne65cp7iqv96tpsa8dflmwmqvdw9oxx4w3gsvt0ctl",
   "pins": [
     {
       "name": "release-page-root",
-      "cid": "bafybeiaaltw5oflkqhn6ewgw7ingzsjrr5cgbez4mojy4pleepfgianyqy",
+      "cid": "bafybeibmkyhqwqz26t3lb6w7dp6sjqe2i4goyiopsn6ppfwnf4rrtryjwi",
       "recursive": true
     },
     {
       "name": "release-records-root",
-      "cid": "bafybeifh7va3f7d4qxe3tawns4pmbzxpthyake5florlrgvd5dicmwvud4",
+      "cid": "bafybeic5r7t5y6dpoprjbjps2yehjq2d4ovilsnv6ss4ixo45v3tu2zd6a",
       "recursive": true
     },
     {
       "name": "verified-installer",
-      "cid": "bafkreidwqs5bnqvw6dpauawdd6jgpelvwburrfprn5v23hpyduknbqyw7q",
+      "cid": "bafkreifjiyrt4tpjhgupyw2bw7ocudlc5fo3js62dvyepcpspan3kocncu",
       "recursive": false
     },
     {
       "name": "linux-amd64-software",
-      "cid": "bafybeidhjurwx2633isgydr5jbvey6tstrya2ovqse4vccnzpih64k3c5a",
+      "cid": "bafybeid3wexawynj3cnef7gy6jtewqo3fiaycs2bslz74tyd53rboqlbhm",
       "recursive": true
     },
     {
       "name": "linux-arm64-software",
-      "cid": "bafybeibvrklv2qamdkqgypwftovdnu2qhhtpaulwv66wjwqxn2wzx2sbn4",
+      "cid": "bafybeifv2bjsgovh6ze2iupq2ykaf3soqtoen7pr5x5mq3b7qob3g5ebsq",
       "recursive": true
     }
   ]

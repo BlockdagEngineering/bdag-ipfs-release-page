@@ -1,10 +1,10 @@
 # Community Rescue IPFS Publishing
 
-Current release: `2.0.0-community-rescue-rc.52`
+Current release: `2.0.0-community-rescue-rc.58`
 
 Immutable setup page:
 
-`https://dweb.link/ipfs/bafybeiaaltw5oflkqhn6ewgw7ingzsjrr5cgbez4mojy4pleepfgianyqy/index.html`
+`https://dweb.link/ipfs/bafybeibmkyhqwqz26t3lb6w7dp6sjqe2i4goyiopsn6ppfwnf4rrtryjwi/index.html`
 
 Mutable latest-release IPNS name:
 
@@ -23,31 +23,33 @@ clients.
 From the repository root:
 
 ```bash
-ipfs add -r --cid-version=1 --raw-leaves=true --chunker=size-262144 \
-  --hash=sha2-256 --pin=true -Q \
-  releases/2.0.0-community-rescue-rc.52
+ipfs add -r --hidden=true --empty-dirs=true --cid-version=1 \
+  --raw-leaves=true --chunker=size-262144 --hash=sha2-256 \
+  --preserve-mode=false --preserve-mtime=false --pin=true -Q \
+  releases/2.0.0-community-rescue-rc.58
 ```
 
 Expected CID:
 
-`bafybeiaaltw5oflkqhn6ewgw7ingzsjrr5cgbez4mojy4pleepfgianyqy`
+`bafybeibmkyhqwqz26t3lb6w7dp6sjqe2i4goyiopsn6ppfwnf4rrtryjwi`
 
 The signed-record directory must independently reproduce as:
 
 ```bash
-ipfs add -r --cid-version=1 --raw-leaves=true --chunker=size-262144 \
-  --hash=sha2-256 --pin=true -Q \
-  releases/2.0.0-community-rescue-rc.52/records
+ipfs add -r --hidden=true --empty-dirs=true --cid-version=1 \
+  --raw-leaves=true --chunker=size-262144 --hash=sha2-256 \
+  --preserve-mode=false --preserve-mtime=false --pin=true -Q \
+  releases/2.0.0-community-rescue-rc.58/records
 ```
 
 Expected records CID:
 
-`bafybeifh7va3f7d4qxe3tawns4pmbzxpthyake5florlrgvd5dicmwvud4`
+`bafybeic5r7t5y6dpoprjbjps2yehjq2d4ovilsnv6ss4ixo45v3tu2zd6a`
 
 ## Community Mirroring
 
-Pin the five RC52 roots in `free-pinning-cids.json`. The page, signed records,
-installer, and both software archives are independently addressable. RC52 does
+Pin the five RC58 roots in `free-pinning-cids.json`. The page, signed records,
+installer, and both software archives are independently addressable. RC58 does
 not publish or replace any chain dataset; earlier dataset publications retain
 their own immutable CIDs and signatures.
 
@@ -62,7 +64,7 @@ static TCP/UDP port forward for the Kubo swarm port.
 Each seeder needs:
 
 - Linux on `amd64` with the release Kubo binary available locally.
-- At least 5 GB free for the RC52 software and operating headroom.
+- At least 5 GB free for the RC58 software and operating headroom.
 - `jq`, `systemd`, passwordless administrative access, and outbound internet.
 - A public router mapping for TCP and UDP. Confirm `ipfs swarm addrs autonat`
   reports `Reachability: Public` before relying on the node.
@@ -123,6 +125,7 @@ publish the new immutable root through IPNS and update the GitHub Pages root.
 Before adding a new release-page directory to IPFS:
 
 ```bash
+python3 tests/validate_rc58_release.py --publication-ready
 python3 tests/validate_rc52_release.py --publication-ready
 node --test tests/release-page.test.mjs
 ```

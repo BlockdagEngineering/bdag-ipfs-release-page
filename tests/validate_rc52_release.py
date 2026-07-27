@@ -350,11 +350,6 @@ def validate_page(validator: Validator, manifest: dict[str, Any]) -> None:
             f"private path leaked in {path.relative_to(ROOT)}",
         )
 
-    root_index = (ROOT / "index.html").read_text(encoding="utf-8")
-    validator.check(
-        "releases/2.0.0-community-rescue-rc.52/index.html" in root_index,
-        "root redirect does not select RC52",
-    )
     validator.check(
         not (RELEASE / "records" / "dataset").exists()
         or not any((RELEASE / "records" / "dataset").iterdir()),
