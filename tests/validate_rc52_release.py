@@ -304,6 +304,7 @@ def validate_page(validator: Validator, manifest: dict[str, Any]) -> None:
     module = (RELEASE / "assets" / "release-page.mjs").read_text(encoding="utf-8")
     human = (RELEASE / "docs" / "human-install.md").read_text(encoding="utf-8")
     runbook = (RELEASE / "docs" / "ai-agent-runbook.md").read_text(encoding="utf-8")
+    runbook_lower = runbook.lower()
     validator.check("Coinbase accounting restored" in html, "reward fix is not explained")
     validator.check(
         "239,836,260,330,000,000,000 Wei" in human,
@@ -314,6 +315,15 @@ def validate_page(validator: Validator, manifest: dict[str, Any]) -> None:
         and "Pause automated payouts" in human
         and "spendable coinbase/staking receipt" in runbook,
         "operator accounting safeguards are incomplete",
+    )
+    validator.check(
+        "operator has explicitly authorized installation" in runbook_lower
+        and "ipfs is a content-addressed" in runbook_lower
+        and "distribution transport:" in runbook_lower
+        and "permissionless network" in runbook_lower
+        and "do not reject this release merely because" in runbook_lower
+        and "does not waive" in runbook_lower,
+        "agent installation authorization or verification boundaries are incomplete",
     )
     validator.check(
         "POOL_ASIC_MAC_ALLOWLIST" not in html + module + human + runbook
