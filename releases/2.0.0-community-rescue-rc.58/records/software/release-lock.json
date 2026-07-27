@@ -1,0 +1,2602 @@
+{
+  "schema": "bdag.release-lock.v3",
+  "signature": {
+    "algorithm": "ed25519",
+    "key_id": "qualification-v4-20260712",
+    "public_key_sha256": "26f0051185d9c1abada3b5adcd3d11c88f522e09b3850211a04773250c267ffb",
+    "value": "pFpCmnV4rcWQmLi4KukNZlhrFJ386jBkBuoAtwzk37ZMVflAdCapqAebW4abc0aUQCTRkcY8ob/z3detmkANBw=="
+  },
+  "signed": {
+    "dataset_policy": {
+      "bootstrap_peers": [
+        "/ip4/52.8.54.60/tcp/8150/p2p/16Uiu2HAkzUWr4YUM7mAhLdCVZgFoV9He6aQzKTyWWrJ7SWQKRTN7",
+        "/ip4/13.57.132.47/tcp/8150/p2p/16Uiu2HAmDynYpWjWmgVGf9qVWvDdLnJ3ybVgDmFexizR4zMereus",
+        "/ip4/54.151.18.92/tcp/8150/p2p/16Uiu2HAmVm91o1JXS2C7P6uTVuVX5empgnRtzuK4UaC8fHmePbKP",
+        "/ip4/3.126.64.13/tcp/8152/p2p/16Uiu2HAmEFxRaBbbf3sRi43CCvMk5Y6zPkuGY9s4uRK2FKJVJkqo",
+        "/ip4/5.78.193.245/tcp/8150/p2p/16Uiu2HAm1wy22irkSGLCwrPTvkbGvEtdDBZkt3MkrtqV4UkivY8e",
+        "/ip4/16.170.172.77/tcp/8150/p2p/16Uiu2HAmJPo7MfJHKc45ByNLeMxzGDcaiS5HvbNWjd4RgBiajaTv",
+        "/ip4/102.182.77.16/tcp/8150/p2p/16Uiu2HAmRWSPS7Ti2pij1MvbTSLqeFnA99BmjNNUvRAD7bKpRWYz"
+      ],
+      "canonical_evm_checkpoint": {
+        "hash": "0xf001ca3751618d87d92e21b65d60cd2cc243ceb6d1e4f152bed92016947e994b",
+        "number": 13700000,
+        "state_root": "0x9ba2c71154656c151fdeb048c0ef3eed1aba91f6dde495f983e8367a6a7478f3"
+      },
+      "chain_id": 1404,
+      "genesis_hash": "0x3fb19ea409ac7399ad7b988b88e0d436722c967137e51e834ccefd7611a592ef",
+      "genesis_state_root": "0x564aeb23c21b395f94839991240f0665fdf6b083cad3a41ac6412fa2180ac76a",
+      "network": "mainnet",
+      "producer_activation": {
+        "maximum_peer_lead_blocks": 0,
+        "maximum_remaining_blocks": 0,
+        "minimum_fresh_consensus_peers": 2,
+        "require_chain_current": true,
+        "require_p2p_current": true,
+        "require_p2p_mining_fresh": true
+      },
+      "provenance_policy": {
+        "release_match_required": false
+      },
+      "required_checkpoint": {
+        "hash": "0xbf9a0ccd88fa03eb3d7cbc0052b258b9b21132ae4ba3f0276f6e482a9d601738",
+        "number": 13863411,
+        "require_receipts": true,
+        "require_state": true,
+        "state_root": "0xad51cb1e1357172afc5ca5dcebc477ff818661b64b8b5b64cdf9cd54a8450c00"
+      }
+    },
+    "dataset_trust": {
+      "key_id": "qualification-v2-20260711",
+      "public_key_sha256": "f9f2f7df88d43c8d51df8bdc2a369601ff0b4b9de224e8ab9b609b423b203d24"
+    },
+    "release": {
+      "channel": "qualification",
+      "sequence": 58,
+      "source_date_epoch": 1785143099,
+      "version": "2.0.0-community-rescue-rc.58"
+    },
+    "repositories": {
+      "blockdag-corechain": {
+        "commit": "bb0f7a6fed918e56251aa602503c90f1e1f30cb8",
+        "commit_time_epoch": 1784352064,
+        "dirty": false,
+        "remote": "https://github.com/BlockdagEngineering/blockdag-corechain.git",
+        "repository": "BlockdagEngineering/blockdag-corechain",
+        "tree": "29b30f96f20ab19a141eabc901f6fd0946d1ddd9"
+      },
+      "pool": {
+        "commit": "79001ae94a6d66f1ef0614ef0b78e79fdf3b0f50",
+        "commit_time_epoch": 1785101869,
+        "dirty": false,
+        "remote": "https://github.com/BlockdagEngineering/pool.git",
+        "repository": "BlockdagEngineering/pool",
+        "tree": "3979ff05511895b8e8fc2ca400da89d8e7a9c891"
+      },
+      "redis-dash": {
+        "commit": "f00b654f79e50346bf6e866348cf07bdcb3b44ec",
+        "commit_time_epoch": 1784232848,
+        "dirty": false,
+        "remote": "https://github.com/BlockdagEngineering/redis-dash.git",
+        "repository": "BlockdagEngineering/redis-dash",
+        "tree": "a0f4422854f4fe295387c896803e2fbba773ab81"
+      },
+      "stack": {
+        "commit": "7642805f2a6c3195707985a2ca8a997cddbe04c6",
+        "commit_time_epoch": 1785143099,
+        "dirty": false,
+        "remote": "https://github.com/BlockdagEngineering/stack",
+        "repository": "BlockdagEngineering/stack",
+        "tree": "a7c055c7a7361a6966b66831ade6947ffe4c342c"
+      }
+    },
+    "resolver_toolchain": {
+      "buildx_resolver": "github.com/docker/buildx 0.30.1 0.30.1-0ubuntu1",
+      "docker_resolver": "29.1.3",
+      "go_requested": "1.26.0",
+      "go_resolver": "go version go1.26.0 linux/amd64"
+    },
+    "source_lock_sha256": "e7dadc8afac1592f9a22d2cbcd02bb7e0ce086577612b79e4af8bbb327f36f17",
+    "targets": {
+      "linux-amd64": {
+        "binaries": {
+          "blockdag-node": {
+            "name": "blockdag-node",
+            "sha256": "f3653fd6181cf96e58dc066c89ca21b8d8751463952649cffe31373ce03ca638",
+            "size_bytes": 101879728
+          },
+          "dashboard": {
+            "name": "dashboard",
+            "sha256": "73f356b1e8b836c45f407840059f796c63889d5cf91f711c5b5b551e350a3344",
+            "size_bytes": 20314796
+          },
+          "dashboard-api": {
+            "name": "dashboard-api",
+            "sha256": "bebaa54e9b5ebb408f772a81918ba90ea8f10924e45b71022062921791178c43",
+            "size_bytes": 9481248
+          },
+          "mining-pool": {
+            "name": "mining-pool",
+            "sha256": "d1155a3079d2ade4b8af641673399bf9edbd2e6a957b23637957849e10b932b7",
+            "size_bytes": 25884464
+          },
+          "nodeworker": {
+            "name": "nodeworker",
+            "sha256": "b46fa043c6babb7675895e5f9eb137c07575ce3b4eaada28ea6c672bf0d76051",
+            "size_bytes": 36440528
+          }
+        },
+        "image_bundle": {
+          "name": "docker-images-linux-amd64.tar",
+          "sha256": "392249f9edc6e4c393896c0e5178cd852c2d7a3aa59609aba91cbc60c988cc45",
+          "size_bytes": 1022429696,
+          "unpacked_size_bytes": 1706850988
+        },
+        "images": [
+          {
+            "image_digest": "sha256:dad510191a985de224d091f4222f5abafebe6579731d22f89bac7d715eb24698",
+            "name": "dashboard",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/dashboard:2.0.0-community-rescue-rc.58-linux-amd64",
+            "repo_digests": []
+          },
+          {
+            "image_digest": "sha256:bf8527eb54c3680e728d5b4b383a8ba730d72dae7236fbc8dff97ed6b224a731",
+            "name": "miner-route",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/miner-route:2.0.0-community-rescue-rc.58-linux-amd64",
+            "repo_digests": [
+              "alpine@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc"
+            ]
+          },
+          {
+            "image_digest": "sha256:899498a1e3cab64a4509bf7ec8d65cc5820bbeca0a81cd017885e9e70d3e84c2",
+            "name": "node",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/node:2.0.0-community-rescue-rc.58-linux-amd64",
+            "repo_digests": []
+          },
+          {
+            "image_digest": "sha256:249455e35cfff5c18fe7d9c3db1e4a5c3989fb959668801a33d16de7d38bf597",
+            "name": "pool",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/pool:2.0.0-community-rescue-rc.58-linux-amd64",
+            "repo_digests": []
+          },
+          {
+            "image_digest": "sha256:8f3a14eb734964e739424e2132e4ab7618afb826e10509c66e91a5131dfab068",
+            "name": "postgres",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/postgres:2.0.0-community-rescue-rc.58-linux-amd64",
+            "repo_digests": [
+              "postgres@sha256:0e441d964b57050c10ba70076d60de4747dd0e2a76fb5f407939ddd2e885d9c1"
+            ]
+          },
+          {
+            "image_digest": "sha256:c0d905dbbd6da2ef0242316a2ba7ae562913ec952ba0c5dc049c3f4d0c2883e6",
+            "name": "sentinel",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/sentinel:2.0.0-community-rescue-rc.58-linux-amd64",
+            "repo_digests": []
+          },
+          {
+            "image_digest": "sha256:6752450bb535954bb886079ae4d36f09dafbffa8a0f6df87239388fb8e1cdea7",
+            "name": "status-sampler",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/status-sampler:2.0.0-community-rescue-rc.58-linux-amd64",
+            "repo_digests": []
+          },
+          {
+            "image_digest": "sha256:8d455bb39fdfd3caee8f77e0676e5271fdef48faab21277323be2320578dfa96",
+            "name": "watchdog",
+            "platform": "linux/amd64",
+            "reference": "bdag-offline/watchdog:2.0.0-community-rescue-rc.58-linux-amd64",
+            "repo_digests": []
+          }
+        ],
+        "payload_files": {
+          ".dockerignore": {
+            "name": ".dockerignore",
+            "sha256": "490aa508e0721bebdf49afd0c4d11806c72c40e601d968ac547b48f5d91b4621",
+            "size_bytes": 709
+          },
+          ".env.example": {
+            "name": ".env.example",
+            "sha256": "2114dffc7fc4887c0439315e7c461b8c17f680d9d3a66a713411bcc92a7c6dfd",
+            "size_bytes": 23625
+          },
+          "README.md": {
+            "name": "README.md",
+            "sha256": "eb76055f0a6857b6a51e9ba2e59a5d78544166cb810ed365667e20b0790250d5",
+            "size_bytes": 11600
+          },
+          "checksums.txt": {
+            "name": "checksums.txt",
+            "sha256": "08472175856faf005ccefd6fbcdb2615d5a8293a4b5fb445594c8da77f0d93f7",
+            "size_bytes": 411
+          },
+          "docker-compose.yml": {
+            "name": "docker-compose.yml",
+            "sha256": "5c9d81f18be31511626b083ff9ee910e078a9475a81a3f99546e0d5f6afb0a20",
+            "size_bytes": 38590
+          },
+          "docker/dashboard-redis.conf": {
+            "name": "dashboard-redis.conf",
+            "sha256": "621d925ee9b6258ab46af96a8d2631eaf03ab7daa4746f26f4d07c1ad0f66550",
+            "size_bytes": 220
+          },
+          "docker/entrypoint-nodeworker.sh": {
+            "name": "entrypoint-nodeworker.sh",
+            "sha256": "59c101f4e2b9ad2364ac312037d30d65e1f3c46554892e76e09dab89d2b25b20",
+            "size_bytes": 35076
+          },
+          "docker/entrypoint-pool.sh": {
+            "name": "entrypoint-pool.sh",
+            "sha256": "34d19704ef0704092748a49a5a6ead7f7b9c38d489c51882d3516fba4e604653",
+            "size_bytes": 6482
+          },
+          "docker/no-snapshot.marker": {
+            "name": "no-snapshot.marker",
+            "sha256": "e6c4b3767d6b03538eaf6e08a572a61b78a166eff22357f752a5e1a1dd8ebe19",
+            "size_bytes": 5
+          },
+          "dockerfile": {
+            "name": "dockerfile",
+            "sha256": "f56e13d2a051922e95615f2837fe4f86e7f95087e92626b0ac02efc2a813fb24",
+            "size_bytes": 8391
+          },
+          "host/mining-appliance/90-bdag-ephemeral.conf": {
+            "name": "90-bdag-ephemeral.conf",
+            "sha256": "6adf66c1f0bbeca2fe8d70395517cde8010e4d633eb7540a77682e27178184fd",
+            "size_bytes": 72
+          },
+          "host/mining-appliance/90-mining-appliance-journald.conf": {
+            "name": "90-mining-appliance-journald.conf",
+            "sha256": "040d24b5ecc28a4cb932b4bbf7aed38dd8d5c2c261b3b0e77cc00d1a73997a8e",
+            "size_bytes": 113
+          },
+          "host/mining-appliance/90-mining-appliance-sysctl.conf": {
+            "name": "90-mining-appliance-sysctl.conf",
+            "sha256": "1a1904330e991f0c15e36385f30dd349098e96af186a8803c3438e6c30c6e5f5",
+            "size_bytes": 638
+          },
+          "host/mining-appliance/bdag-chain-state-self-heal.service": {
+            "name": "bdag-chain-state-self-heal.service",
+            "sha256": "13ec57567c8c859050bed12ec6300ba1cbbd31a61281e19151ea6fd473f860cc",
+            "size_bytes": 823
+          },
+          "host/mining-appliance/bdag-chain-state-self-heal.timer": {
+            "name": "bdag-chain-state-self-heal.timer",
+            "sha256": "c95db34ce59910f70f1c7c1edbcd09d68c53eb9c0ede68b5d94318a5248dce48",
+            "size_bytes": 261
+          },
+          "host/mining-appliance/bdag-node-child-guard": {
+            "name": "bdag-node-child-guard",
+            "sha256": "8e91644fc96388aa8ee468737915adc2040849f14db99805fd967211aad24886",
+            "size_bytes": 10444
+          },
+          "host/mining-appliance/bdag-node-child-guard.service": {
+            "name": "bdag-node-child-guard.service",
+            "sha256": "ad20a2c379a048714fa2d888583c4c8a97ba51d34595efded84df61182683a34",
+            "size_bytes": 415
+          },
+          "host/mining-appliance/bdag-node-child-guard.timer": {
+            "name": "bdag-node-child-guard.timer",
+            "sha256": "e751d598beb02a5f137142e0038580014405aecf4b3e8524113cd78c18f29006",
+            "size_bytes": 191
+          },
+          "host/mining-appliance/bdag-runtime-priority": {
+            "name": "bdag-runtime-priority",
+            "sha256": "be187d038b30085d3f1124116501dcf11e385dd44c1b917722105e545a6d2bd2",
+            "size_bytes": 5763
+          },
+          "host/mining-appliance/bdag-runtime-priority.service": {
+            "name": "bdag-runtime-priority.service",
+            "sha256": "3e3a55582922f10fba9746804ea916015d9a79be7925fe8b7d7d32760338b5b7",
+            "size_bytes": 281
+          },
+          "host/mining-appliance/bdag-runtime-priority.timer": {
+            "name": "bdag-runtime-priority.timer",
+            "sha256": "cb0f238bad4ff64dfe5c47c90526d98df9753f0d1ed54958eb41b9bb201ba513",
+            "size_bytes": 189
+          },
+          "host/mining-appliance/bdag-stack-boot": {
+            "name": "bdag-stack-boot",
+            "sha256": "3fd005a47f12f82bf8d4a3a3670e52d85d305eba82d28459c2b2197936aa2e7c",
+            "size_bytes": 54423
+          },
+          "host/mining-appliance/bdag-stack-boot.service": {
+            "name": "bdag-stack-boot.service",
+            "sha256": "87b45ff59dd66155be65d1509c1da3239d0e7d1e33b865d9fd1e1b7d3f0d06a4",
+            "size_bytes": 919
+          },
+          "host/mining-appliance/bdag-stack-recovery.service": {
+            "name": "bdag-stack-recovery.service",
+            "sha256": "0acb3df59a10f7e731ca2cf20bfd7503bfba83c584367c921a8009654849de0e",
+            "size_bytes": 684
+          },
+          "host/mining-appliance/bdag-stack-recovery.timer": {
+            "name": "bdag-stack-recovery.timer",
+            "sha256": "e8b0b1c33ba5ce2e56d873e94e3b521ecb0031832fa81c2f2cfaf2dc09eb8c45",
+            "size_bytes": 223
+          },
+          "host/mining-appliance/docker-daemon.json": {
+            "name": "docker-daemon.json",
+            "sha256": "5462e8b3f0a2622124cb87ceebfc7276695de37c312d4b591a98fb91fea46e99",
+            "size_bytes": 116
+          },
+          "host/mining-appliance/mining-appliance-host-tuning": {
+            "name": "mining-appliance-host-tuning",
+            "sha256": "55abf2fce4990daa26530a4d19c39ad82c1976bcb64d837b7a947eeed069a610",
+            "size_bytes": 3589
+          },
+          "host/mining-appliance/mining-appliance-tuning.service": {
+            "name": "mining-appliance-tuning.service",
+            "sha256": "20a6be8451ef663d93478e1129123ad7e274cd01852a26818b8be32bfbdb334c",
+            "size_bytes": 297
+          },
+          "install.sh": {
+            "name": "install.sh",
+            "sha256": "fc90c952e84019060c2c630434d8de450d2e22911914026fa2cac6144af5c8f5",
+            "size_bytes": 141450
+          },
+          "node.conf.example": {
+            "name": "node.conf.example",
+            "sha256": "a27edc577c5bf31b72df233237993aa2daebb9c4760aa1918ac920ee1dd8b5a2",
+            "size_bytes": 2162
+          },
+          "ops/allow-p2p-iptables.sh": {
+            "name": "allow-p2p-iptables.sh",
+            "sha256": "cbf875904df56bf6930c0ded59f0d8a5ed4d6a00dc4a3395c8f351fa3826df95",
+            "size_bytes": 705
+          },
+          "ops/apply-mining-host-tuning.sh": {
+            "name": "apply-mining-host-tuning.sh",
+            "sha256": "d6334256ae4f0ae524ff855e674c508b9707905c74cfa5061cbe413f98b85efa",
+            "size_bytes": 16213
+          },
+          "ops/automation_control.py": {
+            "name": "automation_control.py",
+            "sha256": "0f02fe99a1ed887f4fc2b06c651a01c8b41e3656544f637111dd9ef9462ed011",
+            "size_bytes": 31129
+          },
+          "ops/canonical_data_manifest.py": {
+            "name": "canonical_data_manifest.py",
+            "sha256": "b208ee6eb2c1877aaf2dbdfdf6ff7a6061c2eb0ea979fca8bf21a4578b771554",
+            "size_bytes": 63346
+          },
+          "ops/capture_status_payload.py": {
+            "name": "capture_status_payload.py",
+            "sha256": "c1f1efe913af7a45ae61708caeb74f56560da2787fcc99a718ab547b1a7cd783",
+            "size_bytes": 1695
+          },
+          "ops/chain-state-self-heal.sh": {
+            "name": "chain-state-self-heal.sh",
+            "sha256": "f2cb449f2a423edbb6e6559e85144e8d27a504ea908a0ec9e8bc668b1531d622",
+            "size_bytes": 356
+          },
+          "ops/chain_state_repair.py": {
+            "name": "chain_state_repair.py",
+            "sha256": "3967dbec7d1f87e47bbc77afa6dd6ec4a47978f2bbadd828c212c273cecf5a04",
+            "size_bytes": 79754
+          },
+          "ops/community_rescue_producer_scan.py": {
+            "name": "community_rescue_producer_scan.py",
+            "sha256": "69efc79afa64e31447445ce7a5ee3a600b83f4318bc10538258ef3cf57fb2d28",
+            "size_bytes": 22808
+          },
+          "ops/compose_migrations.py": {
+            "name": "compose_migrations.py",
+            "sha256": "0b7a7b50ea02005ed2473d69338f6bf147ebeeae283e9a19b0c46fbd470c44ae",
+            "size_bytes": 8763
+          },
+          "ops/config/stack-defaults.env": {
+            "name": "stack-defaults.env",
+            "sha256": "bd3d07aa52552fc5f0193560bab0c5a33c83ff78d76049215641622731e7d452",
+            "size_bytes": 11002
+          },
+          "ops/evm_dataset_builder.py": {
+            "name": "evm_dataset_builder.py",
+            "sha256": "3b1ddd2e6e1dc963d18fe537997e3f4792412e7bd1fdde76c40b43f3c85c13ad",
+            "size_bytes": 115380
+          },
+          "ops/evm_dataset_retention.py": {
+            "name": "evm_dataset_retention.py",
+            "sha256": "cc4530929ebe9053db0acb333839f11e54d6c22e1d22b18b7522cb4243d9b860",
+            "size_bytes": 12074
+          },
+          "ops/guard_core.py": {
+            "name": "guard_core.py",
+            "sha256": "caceba4ebbe575a55004f92de40cf232c3f6939de9eb124abcd473df667f2369",
+            "size_bytes": 3660
+          },
+          "ops/incident_journal.py": {
+            "name": "incident_journal.py",
+            "sha256": "94a44106743c75b1345650a2a4079bf4323d21917f8ca4d82716066f10bcad0e",
+            "size_bytes": 5358
+          },
+          "ops/incident_reporter.py": {
+            "name": "incident_reporter.py",
+            "sha256": "61afec696bd778e477d95a050401d14461767350f71b2b7002d4177f60b7e94f",
+            "size_bytes": 5145
+          },
+          "ops/install-evm-dataset-builder.sh": {
+            "name": "install-evm-dataset-builder.sh",
+            "sha256": "8f35e836c95241012363fa152e6e497c45d4e59cf63f25bb0b6ab0b2c8080b91",
+            "size_bytes": 14122
+          },
+          "ops/install-p2p-services.sh": {
+            "name": "install-p2p-services.sh",
+            "sha256": "46c62a3cac4d4a63baac6eb454265285cced298dad4bb94166bf29a0bacdd530",
+            "size_bytes": 4780
+          },
+          "ops/local_chain_attestation.py": {
+            "name": "local_chain_attestation.py",
+            "sha256": "6c244bf3a4099d7dc8cebc9b52333699ca4cc88d857b3c43f2a07e315a73aedd",
+            "size_bytes": 33803
+          },
+          "ops/mining_health_triage.py": {
+            "name": "mining_health_triage.py",
+            "sha256": "7d95fd6ae55dfbc23a0846a3713097acd13e874090e3f0831755a2bea37eac15",
+            "size_bytes": 2802
+          },
+          "ops/mining_readiness_gate.py": {
+            "name": "mining_readiness_gate.py",
+            "sha256": "e22a59d4abce99a27c4fd4a7518e523eeba5941315afa4c610a5e9a8fb568cab",
+            "size_bytes": 36228
+          },
+          "ops/node_child_guard.py": {
+            "name": "node_child_guard.py",
+            "sha256": "bdc7bca51b88f670212cf2d73b7ca33f9200d799ef1d1aba9ae1d66091f71eca",
+            "size_bytes": 15138
+          },
+          "ops/p2p_guard.py": {
+            "name": "p2p_guard.py",
+            "sha256": "701a10849da668306aa98c8f2c078767872b971c4ad09bab22a1e96824bd8127",
+            "size_bytes": 24295
+          },
+          "ops/pool_ops.py": {
+            "name": "pool_ops.py",
+            "sha256": "0a99af95b1e2f0eead65aca4661e9172ed9e4debff089c0bcaebb42854dbb6ab",
+            "size_bytes": 603656
+          },
+          "ops/pool_start_gate.py": {
+            "name": "pool_start_gate.py",
+            "sha256": "c6fa9f4c2e9eaf335526e6138b161b442e3858ffce9fa346963d4794977441fa",
+            "size_bytes": 24893
+          },
+          "ops/producer_pruned_dataset_builder.py": {
+            "name": "producer_pruned_dataset_builder.py",
+            "sha256": "989f6e77cecb41c6a3a0cc0e75ec5ec768b2a8bb5a28de72b8cf9cb4b71f8309",
+            "size_bytes": 89806
+          },
+          "ops/public_rpc_health.py": {
+            "name": "public_rpc_health.py",
+            "sha256": "adfc88e13c3cff8bd7a0b29e2d712d0a436b270e60ae6ac2f889d644e1fae3a9",
+            "size_bytes": 37225
+          },
+          "ops/release-install.sh": {
+            "name": "release-install.sh",
+            "sha256": "f8342ebee6ea6b9b074201174e5b7a36ba313f700f5b9aa4f5f98e2933974005",
+            "size_bytes": 140
+          },
+          "ops/stack_sentinel.py": {
+            "name": "stack_sentinel.py",
+            "sha256": "6551037ef3be9059a7c79c8e88f47c618789bd6fe9367e265516a1fec839b2d2",
+            "size_bytes": 17429
+          },
+          "ops/stack_status_source.py": {
+            "name": "stack_status_source.py",
+            "sha256": "6d2d9759252e04947510409071e6720d705a8e2d348426119c01a950f127254d",
+            "size_bytes": 20281
+          },
+          "ops/status_sampler.py": {
+            "name": "status_sampler.py",
+            "sha256": "edca87fe6181a8aff137609a23a3b650e99bc95035513bc3f3420e9275ceed95",
+            "size_bytes": 94388
+          },
+          "ops/sync_coordinator.py": {
+            "name": "sync_coordinator.py",
+            "sha256": "70b9f5ba58d11887f0c29820cd66b653590e63e85ccfedaa7e54be4eb25a2ef1",
+            "size_bytes": 4417
+          },
+          "ops/systemd/bdag-evm-dataset-builder@.service": {
+            "name": "bdag-evm-dataset-builder@.service",
+            "sha256": "cebcb6e40def48960a542d18882e87fa6906e5b14faf96a45a38c876131ca9d1",
+            "size_bytes": 1213
+          },
+          "ops/systemd/bdag-evm-dataset-builder@.timer": {
+            "name": "bdag-evm-dataset-builder@.timer",
+            "sha256": "390075556d7dabb4b1ec60340371fd92ac9b3b108a3cc9804519662c14d63765",
+            "size_bytes": 279
+          },
+          "ops/systemd/bdag-local-peers.timer": {
+            "name": "bdag-local-peers.timer",
+            "sha256": "e81382ba5330b1d2f5275fe4b5a7d6071addd17afb7124b9dbf0b91ca7f23288",
+            "size_bytes": 211
+          },
+          "ops/systemd/bdag-mining-host-tuning.service": {
+            "name": "bdag-mining-host-tuning.service",
+            "sha256": "f7bfe0c00824bbc0d1e29931014582ce7bd5c7cb524c8bca8f3683d3821ef66b",
+            "size_bytes": 283
+          },
+          "ops/systemd/bdag-mining-host-tuning.timer": {
+            "name": "bdag-mining-host-tuning.timer",
+            "sha256": "d0f7740913202082120cfd93e347ff70f1c681dd88f92606b5e6e9c0d02dd572",
+            "size_bytes": 225
+          },
+          "ops/systemd/bdag-p2p-firewall.service": {
+            "name": "bdag-p2p-firewall.service",
+            "sha256": "78a8ef10cc2bb479ec2a139b0e8dae356fb390b1643bf46dd967024938a8dc0d",
+            "size_bytes": 410
+          },
+          "ops/update-local-peers.py": {
+            "name": "update-local-peers.py",
+            "sha256": "596b098de3340cb0cc890b2b683f20430a0ea07e8f8b65ea5015a392be8a9e54",
+            "size_bytes": 37740
+          },
+          "ops/wait_for_node_sync.py": {
+            "name": "wait_for_node_sync.py",
+            "sha256": "9ed25439a97efab725df89ec1177d689fe3ce29ee39a3d03a11bd09cd1c625a7",
+            "size_bytes": 32983
+          },
+          "ops/watchdog.py": {
+            "name": "watchdog.py",
+            "sha256": "7de17ea9dece0b9991da660474f44607c2f866d57a47c426ec2dc34cd33d2364",
+            "size_bytes": 331291
+          },
+          "release-payload.env": {
+            "name": "release-payload.env",
+            "sha256": "2b3dea071ca8c4eb29fa5f75cdbbfc2543d436094cadfde9cecf237ebc61f1f8",
+            "size_bytes": 237
+          },
+          "scripts/check-release-archive.py": {
+            "name": "check-release-archive.py",
+            "sha256": "941488ffa97bd34e033a57e987714b9d2293eff4fd3ed59f96a723a7c511cb76",
+            "size_bytes": 78204
+          },
+          "scripts/create-live-savepoint.sh": {
+            "name": "create-live-savepoint.sh",
+            "sha256": "779d4c66599910b40ce2ce9630d7f2abea0abd1ae548a8f956bf82b4c2bdda43",
+            "size_bytes": 6551
+          },
+          "scripts/init-pool-postgres.sh": {
+            "name": "init-pool-postgres.sh",
+            "sha256": "aaae9c640b29bc41974e2664d2a63d61fbc38caa5f10994b3dcc0bfb5c333910",
+            "size_bytes": 2337
+          },
+          "scripts/install-mining-appliance-profile.sh": {
+            "name": "install-mining-appliance-profile.sh",
+            "sha256": "039ff525c30259c9b3fe63abab9348abecfeb6286aa0268fe5ff02a6d142f2cc",
+            "size_bytes": 13041
+          },
+          "scripts/install_discovery.py": {
+            "name": "install_discovery.py",
+            "sha256": "61ccbb017210e0dd8eb62dcd446d2bd95b86f681007f1b0a37c7cfca99f66eb8",
+            "size_bytes": 19961
+          },
+          "scripts/migrate-node-data-volume-to-host.sh": {
+            "name": "migrate-node-data-volume-to-host.sh",
+            "sha256": "6da0e5b21284239f83c02cff3ce3771951e0e9939608be374e169b9771b6ca37",
+            "size_bytes": 6377
+          },
+          "scripts/mining-appliance-preflight.py": {
+            "name": "mining-appliance-preflight.py",
+            "sha256": "78dde63ecec66c4dc5b8da86b14b482e0e5bc58f97e1cc63ca844b764ce534c5",
+            "size_bytes": 56582
+          },
+          "scripts/pool_schema_migration.py": {
+            "name": "pool_schema_migration.py",
+            "sha256": "4eba08a6c5f7b815556464dee9dfced6667422485bc2d6bfb6fb1df5ab16305b",
+            "size_bytes": 15501
+          },
+          "scripts/project_root_record.py": {
+            "name": "project_root_record.py",
+            "sha256": "d75ca96c4cc01adbfcfb7643c508be9ed131b4c628cfc9dab73c871fb20175e5",
+            "size_bytes": 7202
+          },
+          "scripts/recover-verified-install.sh": {
+            "name": "recover-verified-install.sh",
+            "sha256": "d48d7c13afc1dcb461efd913102bd3d02d1b43c878ef28856197709845d6f1a5",
+            "size_bytes": 29139
+          },
+          "scripts/release-readiness-check.py": {
+            "name": "release-readiness-check.py",
+            "sha256": "d4b7df9b6df8154d0d076c20d420f244e52243f93150933f5ed32ffd8f9b8e04",
+            "size_bytes": 21016
+          },
+          "scripts/release/install.sh": {
+            "name": "install.sh",
+            "sha256": "fc90c952e84019060c2c630434d8de450d2e22911914026fa2cac6144af5c8f5",
+            "size_bytes": 141450
+          },
+          "scripts/release_lock.py": {
+            "name": "release_lock.py",
+            "sha256": "4e593b2cdf82cb038e41e93cd76d8b1ec8c155609c2b3fceb8af18801af7fdd0",
+            "size_bytes": 82845
+          },
+          "scripts/stack_boot_config_record.py": {
+            "name": "stack_boot_config_record.py",
+            "sha256": "bd7d669f5b1bba556bc1ac02a3f8228e5cd14553578b68ac58e0818f06414ad8",
+            "size_bytes": 6727
+          },
+          "scripts/transactional_installer.py": {
+            "name": "transactional_installer.py",
+            "sha256": "400d98c58084d8101c5d7f94fb21916dbd4979ff405a86840be934d2845e1c90",
+            "size_bytes": 187707
+          },
+          "scripts/validate-network-route-policy.py": {
+            "name": "validate-network-route-policy.py",
+            "sha256": "bbac69b7561efe4d3c3e5d6c8bebd8d296c387c0ca2c691c485ab4b11a133f81",
+            "size_bytes": 186
+          },
+          "scripts/validate_network_route_policy.py": {
+            "name": "validate_network_route_policy.py",
+            "sha256": "4b6029dfef98adccc51db9dd8d55adaa2bd6c5d73d5006d5469b89e2d65dc83f",
+            "size_bytes": 20520
+          },
+          "scripts/verify-release-architecture.py": {
+            "name": "verify-release-architecture.py",
+            "sha256": "6eb91afe2e2e276f599db43071125d9657a486b405ba1eb08220b3590724b9e8",
+            "size_bytes": 2078
+          },
+          "sql/pool-schema.sql": {
+            "name": "pool-schema.sql",
+            "sha256": "fed9795601c59cbcf31b66024e078d9f00c152ebbe62764e992bb5d83596cc31",
+            "size_bytes": 1832
+          },
+          "tools/miner_wizard.py": {
+            "name": "miner_wizard.py",
+            "sha256": "4a7d74374ea2eeead6c9ab2cad8acae0f2b57f151f79493d3e8ff23625d79e15",
+            "size_bytes": 4188
+          },
+          "tools/status.sh": {
+            "name": "status.sh",
+            "sha256": "d8cbf159ab6ff920d52915f1e4e00e926f8f52e4518da2516508e17e736af14e",
+            "size_bytes": 461
+          },
+          "version.txt": {
+            "name": "version.txt",
+            "sha256": "49115d57a7ba41d99726df8d1f780a3cb6694503c5d041549e294d1158a149f2",
+            "size_bytes": 29
+          }
+        },
+        "platform": "linux/amd64",
+        "provenance": {
+          "name": "release.json",
+          "sha256": "a92bb87f58c6ee9a086751f2adaf6e30698a31dfc66c9803b4b6d6aff95509c6",
+          "size_bytes": 33325
+        },
+        "sboms": {
+          "dashboard": {
+            "name": "dashboard.spdx.json",
+            "sha256": "cd0b6e7c727bc0be77332df736725292cc50acc1ba12acd93c49e3eca18d414e",
+            "size_bytes": 2509448
+          },
+          "miner-route": {
+            "name": "miner-route.spdx.json",
+            "sha256": "8508de3d561b5749525d244440c63a1a844b00fc1c8b761d7be62fc5d75ee313",
+            "size_bytes": 87462
+          },
+          "node": {
+            "name": "node.spdx.json",
+            "sha256": "d54f12b9ee3efb30ac1b308fa19463d60b82ce2f17326a9ab3aa596bf493c187",
+            "size_bytes": 2933917
+          },
+          "pool": {
+            "name": "pool.spdx.json",
+            "sha256": "b41925b712b75734d71073aa36419b37d9e4f316467afa7f595e79aa1272a675",
+            "size_bytes": 2409689
+          },
+          "postgres": {
+            "name": "postgres.spdx.json",
+            "sha256": "a74a0af2ccf4218e740deafacf46c4817274f225fea56218da8e4edd25538e0b",
+            "size_bytes": 5978155
+          },
+          "sentinel": {
+            "name": "sentinel.spdx.json",
+            "sha256": "bd3693c4a0e50bec97c9547574bc946db19216dfc6bde3035b07cc730bf064d0",
+            "size_bytes": 3601070
+          },
+          "status-sampler": {
+            "name": "status-sampler.spdx.json",
+            "sha256": "7ff16be8c5e4f54016c485bd878fa56577ac4e66be1c034769af23f17f6837d9",
+            "size_bytes": 3601070
+          },
+          "watchdog": {
+            "name": "watchdog.spdx.json",
+            "sha256": "20f12f716379b4cb5c68ad683b2a7a053a990866fbf62412baecd7681713f0c2",
+            "size_bytes": 3601070
+          }
+        },
+        "schema": "bdag.release-target-record.v3",
+        "source_lock_sha256": "e7dadc8afac1592f9a22d2cbcd02bb7e0ce086577612b79e4af8bbb327f36f17",
+        "target": "linux-amd64",
+        "toolchain": {
+          "abi_smoke_binaries": {
+            "blockdag-node": {
+              "sha256": "f3653fd6181cf96e58dc066c89ca21b8d8751463952649cffe31373ce03ca638",
+              "size_bytes": 101879728,
+              "status": 0
+            },
+            "dashboard": {
+              "sha256": "73f356b1e8b836c45f407840059f796c63889d5cf91f711c5b5b551e350a3344",
+              "size_bytes": 20314796,
+              "status": 124
+            },
+            "dashboard-api": {
+              "sha256": "bebaa54e9b5ebb408f772a81918ba90ea8f10924e45b71022062921791178c43",
+              "size_bytes": 9481248,
+              "status": 1
+            },
+            "mining-pool": {
+              "sha256": "d1155a3079d2ade4b8af641673399bf9edbd2e6a957b23637957849e10b932b7",
+              "size_bytes": 25884464,
+              "status": 1
+            },
+            "nodeworker": {
+              "sha256": "b46fa043c6babb7675895e5f9eb137c07575ce3b4eaada28ea6c672bf0d76051",
+              "size_bytes": 36440528,
+              "status": 0
+            }
+          },
+          "abi_smoke_glibc": "2.35",
+          "abi_smoke_image": "ubuntu:22.04@sha256:0e0a0fc6d18feda9db1590da249ac93e8d5abfea8f4c3c0c849ce512b5ef8982",
+          "abi_smoke_manifest_digest": "sha256:0d779ea97881505f5ef0039336ee85edba27519bdba968c284c86ee066a973c8",
+          "abi_smoke_platform": "linux/amd64",
+          "alpine_image": "alpine:3.20@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc",
+          "binary_abi_report": {
+            "binaries": {
+              "blockdag-node": {
+                "has_rpath": false,
+                "has_runpath": false,
+                "interpreter": "/lib64/ld-linux-x86-64.so.2",
+                "linkage": "dynamic",
+                "max_required_glibc": "2.34",
+                "needed_libraries": [
+                  "ld-linux-x86-64.so.2",
+                  "libc.so.6"
+                ],
+                "required_glibc": [
+                  "2.2.5",
+                  "2.3",
+                  "2.3.2",
+                  "2.3.4",
+                  "2.4",
+                  "2.7",
+                  "2.8",
+                  "2.14",
+                  "2.17",
+                  "2.32",
+                  "2.34"
+                ],
+                "sha256": "f3653fd6181cf96e58dc066c89ca21b8d8751463952649cffe31373ce03ca638",
+                "size_bytes": 101879728
+              },
+              "dashboard": {
+                "has_rpath": false,
+                "has_runpath": false,
+                "interpreter": null,
+                "linkage": "static",
+                "max_required_glibc": null,
+                "needed_libraries": [],
+                "required_glibc": [],
+                "sha256": "73f356b1e8b836c45f407840059f796c63889d5cf91f711c5b5b551e350a3344",
+                "size_bytes": 20314796
+              },
+              "dashboard-api": {
+                "has_rpath": false,
+                "has_runpath": false,
+                "interpreter": "/lib64/ld-linux-x86-64.so.2",
+                "linkage": "dynamic",
+                "max_required_glibc": "2.34",
+                "needed_libraries": [
+                  "libc.so.6"
+                ],
+                "required_glibc": [
+                  "2.2.5",
+                  "2.3.2",
+                  "2.3.4",
+                  "2.32",
+                  "2.34"
+                ],
+                "sha256": "bebaa54e9b5ebb408f772a81918ba90ea8f10924e45b71022062921791178c43",
+                "size_bytes": 9481248
+              },
+              "mining-pool": {
+                "has_rpath": false,
+                "has_runpath": false,
+                "interpreter": "/lib64/ld-linux-x86-64.so.2",
+                "linkage": "dynamic",
+                "max_required_glibc": "2.34",
+                "needed_libraries": [
+                  "libc.so.6"
+                ],
+                "required_glibc": [
+                  "2.2.5",
+                  "2.3.2",
+                  "2.3.4",
+                  "2.4",
+                  "2.14",
+                  "2.32",
+                  "2.34"
+                ],
+                "sha256": "d1155a3079d2ade4b8af641673399bf9edbd2e6a957b23637957849e10b932b7",
+                "size_bytes": 25884464
+              },
+              "nodeworker": {
+                "has_rpath": false,
+                "has_runpath": false,
+                "interpreter": "/lib64/ld-linux-x86-64.so.2",
+                "linkage": "dynamic",
+                "max_required_glibc": "2.34",
+                "needed_libraries": [
+                  "libc.so.6"
+                ],
+                "required_glibc": [
+                  "2.2.5",
+                  "2.3.2",
+                  "2.3.4",
+                  "2.4",
+                  "2.14",
+                  "2.32",
+                  "2.34"
+                ],
+                "sha256": "b46fa043c6babb7675895e5f9eb137c07575ce3b4eaada28ea6c672bf0d76051",
+                "size_bytes": 36440528
+              }
+            },
+            "max_glibc": "2.35",
+            "schema": "bdag.release-binary-abi.v1",
+            "target": "linux-amd64"
+          },
+          "binary_abi_report_sha256": "34dcccfda5f010d03d70f5fac2ab130970c8c5ebfd4696852cd01d5f2c926a41",
+          "binary_builder_base_image": "buildpack-deps:jammy@sha256:0704d9775531e89274dca865a6bdaf13ed71a64bfe36f3a01cf6bd59bdf1f6eb",
+          "binary_builder_base_manifest_digest": "sha256:b15ab82a7cb4cfd45f194efee027e8aa8bb8068a4e33703d400773fc3999738a",
+          "binary_builder_image_id": "sha256:4857bbe32698e40122233f1c951915ddb7ebfe7f1c4f4d6bdc823f1fb850e8f3",
+          "binary_builder_native_engine_arch": "x86_64",
+          "binary_builder_packages": {
+            "adduser": "3.118ubuntu5",
+            "apt": "2.4.14",
+            "autoconf": "2.71-2",
+            "automake": "1:1.16.5-1.3",
+            "autotools-dev": "20220109.1",
+            "base-files": "12ubuntu4.7",
+            "base-passwd": "3.5.52build1",
+            "bash": "5.1-6ubuntu1.1",
+            "binutils": "2.38-4ubuntu2.12",
+            "binutils-common:amd64": "2.38-4ubuntu2.12",
+            "binutils-x86-64-linux-gnu": "2.38-4ubuntu2.12",
+            "bsdutils": "1:2.37.2-4ubuntu3.5",
+            "bzip2": "1.0.8-5build1",
+            "ca-certificates": "20260601~22.04.1",
+            "comerr-dev:amd64": "2.1-1.46.5-2ubuntu1.2",
+            "coreutils": "8.32-4.1ubuntu1.3",
+            "cpp": "4:11.2.0-1ubuntu1",
+            "cpp-11": "11.4.0-1ubuntu1~22.04.3",
+            "curl": "7.81.0-1ubuntu1.25",
+            "dash": "0.5.11+git20210903+057cd650a4ed-3build1",
+            "debconf": "1.5.79ubuntu1",
+            "debianutils": "5.5-1ubuntu2",
+            "default-libmysqlclient-dev:amd64": "1.0.8",
+            "diffutils": "1:3.8-0ubuntu2",
+            "dirmngr": "2.2.27-3ubuntu2.5",
+            "dpkg": "1.21.1ubuntu2.6",
+            "dpkg-dev": "1.21.1ubuntu2.6",
+            "e2fsprogs": "1.46.5-2ubuntu1.2",
+            "file": "1:5.41-3ubuntu0.1",
+            "findutils": "4.8.0-1ubuntu3",
+            "fontconfig": "2.13.1-4.2ubuntu5",
+            "fontconfig-config": "2.13.1-4.2ubuntu5",
+            "fonts-dejavu-core": "2.37-2build1",
+            "g++": "4:11.2.0-1ubuntu1",
+            "g++-11": "11.4.0-1ubuntu1~22.04.3",
+            "gcc": "4:11.2.0-1ubuntu1",
+            "gcc-11": "11.4.0-1ubuntu1~22.04.3",
+            "gcc-11-base:amd64": "11.4.0-1ubuntu1~22.04.3",
+            "gcc-12-base:amd64": "12.3.0-1ubuntu1~22.04.3",
+            "gir1.2-freedesktop:amd64": "1.72.0-1",
+            "gir1.2-gdkpixbuf-2.0:amd64": "2.42.8+dfsg-1ubuntu0.5",
+            "gir1.2-glib-2.0:amd64": "1.72.0-1",
+            "gir1.2-rsvg-2.0:amd64": "2.52.5+dfsg-3ubuntu0.2",
+            "git": "1:2.34.1-1ubuntu1.17",
+            "git-man": "1:2.34.1-1ubuntu1.17",
+            "gnupg": "2.2.27-3ubuntu2.5",
+            "gnupg-l10n": "2.2.27-3ubuntu2.5",
+            "gnupg-utils": "2.2.27-3ubuntu2.5",
+            "gpg": "2.2.27-3ubuntu2.5",
+            "gpg-agent": "2.2.27-3ubuntu2.5",
+            "gpg-wks-client": "2.2.27-3ubuntu2.5",
+            "gpg-wks-server": "2.2.27-3ubuntu2.5",
+            "gpgconf": "2.2.27-3ubuntu2.5",
+            "gpgsm": "2.2.27-3ubuntu2.5",
+            "gpgv": "2.2.27-3ubuntu2.5",
+            "grep": "3.7-1build1",
+            "gzip": "1.10-4ubuntu4.1",
+            "hicolor-icon-theme": "0.17-2",
+            "hostname": "3.23ubuntu2",
+            "icu-devtools": "70.1-2",
+            "imagemagick": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "imagemagick-6-common": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "imagemagick-6.q16": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "init-system-helpers": "1.62",
+            "krb5-multidev:amd64": "1.19.2-2ubuntu0.7",
+            "libacl1:amd64": "2.3.1-1",
+            "libaom3:amd64": "3.3.0-1ubuntu0.1",
+            "libapr1:amd64": "1.7.0-8ubuntu0.22.04.2",
+            "libaprutil1:amd64": "1.6.1-5ubuntu4.22.04.2",
+            "libapt-pkg6.0:amd64": "2.4.14",
+            "libasan6:amd64": "11.4.0-1ubuntu1~22.04.3",
+            "libassuan0:amd64": "2.5.5-1build1",
+            "libatomic1:amd64": "12.3.0-1ubuntu1~22.04.3",
+            "libattr1:amd64": "1:2.5.1-1build1",
+            "libaudit-common": "1:3.0.7-1build1",
+            "libaudit1:amd64": "1:3.0.7-1build1",
+            "libbinutils:amd64": "2.38-4ubuntu2.12",
+            "libblkid-dev:amd64": "2.37.2-4ubuntu3.5",
+            "libblkid1:amd64": "2.37.2-4ubuntu3.5",
+            "libbrotli-dev:amd64": "1.0.9-2build6",
+            "libbrotli1:amd64": "1.0.9-2build6",
+            "libbsd0:amd64": "0.11.5-1",
+            "libbz2-1.0:amd64": "1.0.8-5build1",
+            "libbz2-dev:amd64": "1.0.8-5build1",
+            "libc-bin": "2.35-0ubuntu3.13",
+            "libc-dev-bin": "2.35-0ubuntu3.13",
+            "libc6-dev:amd64": "2.35-0ubuntu3.13",
+            "libc6:amd64": "2.35-0ubuntu3.13",
+            "libcairo-gobject2:amd64": "1.16.0-5ubuntu2.1",
+            "libcairo-script-interpreter2:amd64": "1.16.0-5ubuntu2.1",
+            "libcairo2-dev:amd64": "1.16.0-5ubuntu2.1",
+            "libcairo2:amd64": "1.16.0-5ubuntu2.1",
+            "libcap-ng0:amd64": "0.7.9-2.2build3",
+            "libcap2:amd64": "1:2.44-1ubuntu0.22.04.3",
+            "libcbor0.8:amd64": "0.8.0-2ubuntu1",
+            "libcc1-0:amd64": "12.3.0-1ubuntu1~22.04.3",
+            "libcom-err2:amd64": "1.46.5-2ubuntu1.2",
+            "libcrypt-dev:amd64": "1:4.4.27-1",
+            "libcrypt1:amd64": "1:4.4.27-1",
+            "libctf-nobfd0:amd64": "2.38-4ubuntu2.12",
+            "libctf0:amd64": "2.38-4ubuntu2.12",
+            "libcurl3-gnutls:amd64": "7.81.0-1ubuntu1.25",
+            "libcurl4-openssl-dev:amd64": "7.81.0-1ubuntu1.25",
+            "libcurl4:amd64": "7.81.0-1ubuntu1.25",
+            "libdatrie1:amd64": "0.2.13-2",
+            "libdav1d5:amd64": "0.9.2-1",
+            "libdb-dev:amd64": "1:5.3.21~exp1ubuntu4",
+            "libdb5.3-dev": "5.3.28+dfsg1-0.8ubuntu3",
+            "libdb5.3:amd64": "5.3.28+dfsg1-0.8ubuntu3",
+            "libde265-0:amd64": "1.0.8-1ubuntu0.3",
+            "libdebconfclient0:amd64": "0.261ubuntu1",
+            "libdeflate-dev:amd64": "1.10-2",
+            "libdeflate0:amd64": "1.10-2",
+            "libdjvulibre-dev:amd64": "3.5.28-2ubuntu0.22.04.2",
+            "libdjvulibre-text": "3.5.28-2ubuntu0.22.04.2",
+            "libdjvulibre21:amd64": "3.5.28-2ubuntu0.22.04.2",
+            "libdpkg-perl": "1.21.1ubuntu2.6",
+            "libedit2:amd64": "3.1-20210910-1build1",
+            "libelf1:amd64": "0.186-1ubuntu0.1",
+            "liberror-perl": "0.17029-1",
+            "libevent-2.1-7:amd64": "2.1.12-stable-1build3",
+            "libevent-core-2.1-7:amd64": "2.1.12-stable-1build3",
+            "libevent-dev": "2.1.12-stable-1build3",
+            "libevent-extra-2.1-7:amd64": "2.1.12-stable-1build3",
+            "libevent-openssl-2.1-7:amd64": "2.1.12-stable-1build3",
+            "libevent-pthreads-2.1-7:amd64": "2.1.12-stable-1build3",
+            "libexif-dev:amd64": "0.6.24-1build1",
+            "libexif12:amd64": "0.6.24-1build1",
+            "libexpat1-dev:amd64": "2.4.7-1ubuntu0.7",
+            "libexpat1:amd64": "2.4.7-1ubuntu0.7",
+            "libext2fs2:amd64": "1.46.5-2ubuntu1.2",
+            "libffi-dev:amd64": "3.4.2-4",
+            "libffi8:amd64": "3.4.2-4",
+            "libfftw3-double3:amd64": "3.3.8-2ubuntu8",
+            "libfido2-1:amd64": "1.10.0-1",
+            "libfontconfig-dev:amd64": "2.13.1-4.2ubuntu5",
+            "libfontconfig1-dev:amd64": "2.13.1-4.2ubuntu5",
+            "libfontconfig1:amd64": "2.13.1-4.2ubuntu5",
+            "libfreetype-dev:amd64": "2.11.1+dfsg-1ubuntu0.3",
+            "libfreetype6-dev:amd64": "2.11.1+dfsg-1ubuntu0.3",
+            "libfreetype6:amd64": "2.11.1+dfsg-1ubuntu0.3",
+            "libfribidi0:amd64": "1.0.8-2ubuntu3.1",
+            "libgcc-11-dev:amd64": "11.4.0-1ubuntu1~22.04.3",
+            "libgcc-s1:amd64": "12.3.0-1ubuntu1~22.04.3",
+            "libgcrypt20:amd64": "1.9.4-3ubuntu3.2",
+            "libgdbm-compat4:amd64": "1.23-1",
+            "libgdbm-dev:amd64": "1.23-1",
+            "libgdbm6:amd64": "1.23-1",
+            "libgdk-pixbuf-2.0-0:amd64": "2.42.8+dfsg-1ubuntu0.5",
+            "libgdk-pixbuf-2.0-dev:amd64": "2.42.8+dfsg-1ubuntu0.5",
+            "libgdk-pixbuf2.0-bin": "2.42.8+dfsg-1ubuntu0.5",
+            "libgdk-pixbuf2.0-common": "2.42.8+dfsg-1ubuntu0.5",
+            "libgirepository-1.0-1:amd64": "1.72.0-1",
+            "libglib2.0-0:amd64": "2.72.4-0ubuntu2.9",
+            "libglib2.0-bin": "2.72.4-0ubuntu2.9",
+            "libglib2.0-data": "2.72.4-0ubuntu2.9",
+            "libglib2.0-dev-bin": "2.72.4-0ubuntu2.9",
+            "libglib2.0-dev:amd64": "2.72.4-0ubuntu2.9",
+            "libgmp-dev:amd64": "2:6.2.1+dfsg-3ubuntu1",
+            "libgmp10:amd64": "2:6.2.1+dfsg-3ubuntu1",
+            "libgmpxx4ldbl:amd64": "2:6.2.1+dfsg-3ubuntu1",
+            "libgnutls30:amd64": "3.7.3-4ubuntu1.9",
+            "libgomp1:amd64": "12.3.0-1ubuntu1~22.04.3",
+            "libgpg-error0:amd64": "1.43-3",
+            "libgraphite2-3:amd64": "1.3.14-1ubuntu0.1",
+            "libgssapi-krb5-2:amd64": "1.19.2-2ubuntu0.7",
+            "libgssrpc4:amd64": "1.19.2-2ubuntu0.7",
+            "libharfbuzz0b:amd64": "2.7.4-1ubuntu3.2",
+            "libheif1:amd64": "1.12.0-2build1",
+            "libhogweed6:amd64": "3.7.3-1build2",
+            "libice-dev:amd64": "2:1.0.10-1build2",
+            "libice6:amd64": "2:1.0.10-1build2",
+            "libicu-dev:amd64": "70.1-2",
+            "libicu70:amd64": "70.1-2",
+            "libidn2-0:amd64": "2.3.2-2build1",
+            "libilmbase-dev:amd64": "2.5.7-2",
+            "libilmbase25:amd64": "2.5.7-2",
+            "libisl23:amd64": "0.24-2build1",
+            "libitm1:amd64": "12.3.0-1ubuntu1~22.04.3",
+            "libjbig-dev:amd64": "2.1-3.1ubuntu0.22.04.1",
+            "libjbig0:amd64": "2.1-3.1ubuntu0.22.04.1",
+            "libjpeg-dev:amd64": "8c-2ubuntu10",
+            "libjpeg-turbo8-dev:amd64": "2.1.2-0ubuntu1",
+            "libjpeg-turbo8:amd64": "2.1.2-0ubuntu1",
+            "libjpeg8-dev:amd64": "8c-2ubuntu10",
+            "libjpeg8:amd64": "8c-2ubuntu10",
+            "libk5crypto3:amd64": "1.19.2-2ubuntu0.7",
+            "libkadm5clnt-mit12:amd64": "1.19.2-2ubuntu0.7",
+            "libkadm5srv-mit12:amd64": "1.19.2-2ubuntu0.7",
+            "libkdb5-10:amd64": "1.19.2-2ubuntu0.7",
+            "libkeyutils1:amd64": "1.6.1-2ubuntu3",
+            "libkrb5-3:amd64": "1.19.2-2ubuntu0.7",
+            "libkrb5-dev:amd64": "1.19.2-2ubuntu0.7",
+            "libkrb5support0:amd64": "1.19.2-2ubuntu0.7",
+            "libksba8:amd64": "1.6.0-2ubuntu0.2",
+            "liblcms2-2:amd64": "2.12~rc1-2ubuntu0.1",
+            "liblcms2-dev:amd64": "2.12~rc1-2ubuntu0.1",
+            "libldap-2.5-0:amd64": "2.5.20+dfsg-0ubuntu0.22.04.1",
+            "liblqr-1-0-dev:amd64": "0.4.2-2.1",
+            "liblqr-1-0:amd64": "0.4.2-2.1",
+            "liblsan0:amd64": "12.3.0-1ubuntu1~22.04.3",
+            "libltdl-dev:amd64": "2.4.6-15build2",
+            "libltdl7:amd64": "2.4.6-15build2",
+            "liblz4-1:amd64": "1.9.3-2build2",
+            "liblzma-dev:amd64": "5.2.5-2ubuntu1.1",
+            "liblzma5:amd64": "5.2.5-2ubuntu1.1",
+            "liblzo2-2:amd64": "2.10-2build3",
+            "libmagic-mgc": "1:5.41-3ubuntu0.1",
+            "libmagic1:amd64": "1:5.41-3ubuntu0.1",
+            "libmagickcore-6-arch-config:amd64": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickcore-6-headers": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickcore-6.q16-6-extra:amd64": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickcore-6.q16-6:amd64": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickcore-6.q16-dev:amd64": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickcore-dev": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickwand-6-headers": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickwand-6.q16-6:amd64": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickwand-6.q16-dev:amd64": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickwand-dev": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmaxminddb-dev:amd64": "1.5.2-1build2",
+            "libmaxminddb0:amd64": "1.5.2-1build2",
+            "libmd0:amd64": "1.0.4-1build1",
+            "libmount-dev:amd64": "2.37.2-4ubuntu3.5",
+            "libmount1:amd64": "2.37.2-4ubuntu3.5",
+            "libmpc3:amd64": "1.2.1-2build1",
+            "libmpdec3:amd64": "2.5.1-2build2",
+            "libmpfr6:amd64": "4.1.0-3build3",
+            "libmysqlclient-dev": "8.0.46-0ubuntu0.22.04.3",
+            "libmysqlclient21:amd64": "8.0.46-0ubuntu0.22.04.3",
+            "libncurses-dev:amd64": "6.3-2ubuntu0.1",
+            "libncurses5-dev:amd64": "6.3-2ubuntu0.1",
+            "libncurses6:amd64": "6.3-2ubuntu0.1",
+            "libncursesw5-dev:amd64": "6.3-2ubuntu0.1",
+            "libncursesw6:amd64": "6.3-2ubuntu0.1",
+            "libnettle8:amd64": "3.7.3-1build2",
+            "libnghttp2-14:amd64": "1.43.0-1ubuntu0.3",
+            "libnpth0:amd64": "1.6-3build2",
+            "libnsl-dev:amd64": "1.3.0-2build2",
+            "libnsl2:amd64": "1.3.0-2build2",
+            "libnuma1:amd64": "2.0.14-3ubuntu2",
+            "libopenexr-dev": "2.5.7-1",
+            "libopenexr25:amd64": "2.5.7-1",
+            "libopenjp2-7-dev:amd64": "2.4.0-6ubuntu0.5",
+            "libopenjp2-7:amd64": "2.4.0-6ubuntu0.5",
+            "libp11-kit0:amd64": "0.24.0-6build1",
+            "libpam-modules-bin": "1.4.0-11ubuntu2.6",
+            "libpam-modules:amd64": "1.4.0-11ubuntu2.6",
+            "libpam-runtime": "1.4.0-11ubuntu2.6",
+            "libpam0g:amd64": "1.4.0-11ubuntu2.6",
+            "libpango-1.0-0:amd64": "1.50.6+ds-2ubuntu1",
+            "libpangocairo-1.0-0:amd64": "1.50.6+ds-2ubuntu1",
+            "libpangoft2-1.0-0:amd64": "1.50.6+ds-2ubuntu1",
+            "libpcre16-3:amd64": "2:8.39-13ubuntu0.22.04.1",
+            "libpcre2-16-0:amd64": "10.39-3ubuntu0.1",
+            "libpcre2-32-0:amd64": "10.39-3ubuntu0.1",
+            "libpcre2-8-0:amd64": "10.39-3ubuntu0.1",
+            "libpcre2-dev:amd64": "10.39-3ubuntu0.1",
+            "libpcre2-posix3:amd64": "10.39-3ubuntu0.1",
+            "libpcre3-dev:amd64": "2:8.39-13ubuntu0.22.04.1",
+            "libpcre32-3:amd64": "2:8.39-13ubuntu0.22.04.1",
+            "libpcre3:amd64": "2:8.39-13ubuntu0.22.04.1",
+            "libpcrecpp0v5:amd64": "2:8.39-13ubuntu0.22.04.1",
+            "libperl5.34:amd64": "5.34.0-3ubuntu1.7",
+            "libpixman-1-0:amd64": "0.40.0-1ubuntu0.22.04.1",
+            "libpixman-1-dev:amd64": "0.40.0-1ubuntu0.22.04.1",
+            "libpng-dev:amd64": "1.6.37-3ubuntu0.5",
+            "libpng16-16:amd64": "1.6.37-3ubuntu0.5",
+            "libpq-dev": "14.23-0ubuntu0.22.04.1",
+            "libpq5:amd64": "14.23-0ubuntu0.22.04.1",
+            "libprocps8:amd64": "2:3.3.17-6ubuntu2.1",
+            "libpsl5:amd64": "0.21.0-1.2build2",
+            "libpthread-stubs0-dev:amd64": "0.4-1build2",
+            "libpython3-stdlib:amd64": "3.10.6-1~22.04.1",
+            "libpython3.10-minimal:amd64": "3.10.12-1~22.04.15",
+            "libpython3.10-stdlib:amd64": "3.10.12-1~22.04.15",
+            "libquadmath0:amd64": "12.3.0-1ubuntu1~22.04.3",
+            "libreadline-dev:amd64": "8.1.2-1",
+            "libreadline8:amd64": "8.1.2-1",
+            "librsvg2-2:amd64": "2.52.5+dfsg-3ubuntu0.2",
+            "librsvg2-common:amd64": "2.52.5+dfsg-3ubuntu0.2",
+            "librsvg2-dev:amd64": "2.52.5+dfsg-3ubuntu0.2",
+            "librtmp1:amd64": "2.4+20151223.gitfa8646d.1-2build4",
+            "libsasl2-2:amd64": "2.1.27+dfsg2-3ubuntu1.2",
+            "libsasl2-modules-db:amd64": "2.1.27+dfsg2-3ubuntu1.2",
+            "libseccomp2:amd64": "2.5.3-2ubuntu3~22.04.1",
+            "libselinux1-dev:amd64": "3.3-1build2",
+            "libselinux1:amd64": "3.3-1build2",
+            "libsemanage-common": "3.3-1build2",
+            "libsemanage2:amd64": "3.3-1build2",
+            "libsepol-dev:amd64": "3.3-1build1",
+            "libsepol2:amd64": "3.3-1build1",
+            "libserf-1-1:amd64": "1.3.9-10ubuntu2",
+            "libsigsegv2:amd64": "2.13-1ubuntu3",
+            "libsm-dev:amd64": "2:1.2.3-1build2",
+            "libsm6:amd64": "2:1.2.3-1build2",
+            "libsmartcols1:amd64": "2.37.2-4ubuntu3.5",
+            "libsqlite3-0:amd64": "3.37.2-2ubuntu0.6",
+            "libsqlite3-dev:amd64": "3.37.2-2ubuntu0.6",
+            "libss2:amd64": "1.46.5-2ubuntu1.2",
+            "libssh-4:amd64": "0.9.6-2ubuntu0.22.04.7",
+            "libssl-dev:amd64": "3.0.2-0ubuntu1.25",
+            "libssl3:amd64": "3.0.2-0ubuntu1.25",
+            "libstdc++-11-dev:amd64": "11.4.0-1ubuntu1~22.04.3",
+            "libstdc++6:amd64": "12.3.0-1ubuntu1~22.04.3",
+            "libsvn1:amd64": "1.14.1-3ubuntu0.22.04.1",
+            "libsystemd0:amd64": "249.11-0ubuntu3.21",
+            "libtasn1-6:amd64": "4.18.0-4ubuntu0.2",
+            "libthai-data": "0.1.29-1build1",
+            "libthai0:amd64": "0.1.29-1build1",
+            "libtiff-dev:amd64": "4.3.0-6ubuntu0.13",
+            "libtiff5:amd64": "4.3.0-6ubuntu0.13",
+            "libtiffxx5:amd64": "4.3.0-6ubuntu0.13",
+            "libtinfo6:amd64": "6.3-2ubuntu0.1",
+            "libtirpc-common": "1.3.2-2ubuntu0.1",
+            "libtirpc-dev:amd64": "1.3.2-2ubuntu0.1",
+            "libtirpc3:amd64": "1.3.2-2ubuntu0.1",
+            "libtool": "2.4.6-15build2",
+            "libtsan0:amd64": "11.4.0-1ubuntu1~22.04.3",
+            "libubsan1:amd64": "12.3.0-1ubuntu1~22.04.3",
+            "libudev1:amd64": "249.11-0ubuntu3.21",
+            "libunistring2:amd64": "1.0-1",
+            "libutf8proc2:amd64": "2.7.0-3",
+            "libuuid1:amd64": "2.37.2-4ubuntu3.5",
+            "libwebp-dev:amd64": "1.2.2-2ubuntu0.22.04.2",
+            "libwebp7:amd64": "1.2.2-2ubuntu0.22.04.2",
+            "libwebpdemux2:amd64": "1.2.2-2ubuntu0.22.04.2",
+            "libwebpmux3:amd64": "1.2.2-2ubuntu0.22.04.2",
+            "libwmf-0.2-7:amd64": "0.2.12-5ubuntu1",
+            "libwmf-dev": "0.2.12-5ubuntu1",
+            "libwmflite-0.2-7:amd64": "0.2.12-5ubuntu1",
+            "libx11-6:amd64": "2:1.7.5-1ubuntu0.3",
+            "libx11-data": "2:1.7.5-1ubuntu0.3",
+            "libx11-dev:amd64": "2:1.7.5-1ubuntu0.3",
+            "libx265-199:amd64": "3.5-2",
+            "libxau-dev:amd64": "1:1.0.9-1build5",
+            "libxau6:amd64": "1:1.0.9-1build5",
+            "libxcb-render0-dev:amd64": "1.14-3ubuntu3",
+            "libxcb-render0:amd64": "1.14-3ubuntu3",
+            "libxcb-shm0-dev:amd64": "1.14-3ubuntu3",
+            "libxcb-shm0:amd64": "1.14-3ubuntu3",
+            "libxcb1-dev:amd64": "1.14-3ubuntu3",
+            "libxcb1:amd64": "1.14-3ubuntu3",
+            "libxdmcp-dev:amd64": "1:1.1.3-0ubuntu5",
+            "libxdmcp6:amd64": "1:1.1.3-0ubuntu5",
+            "libxext-dev:amd64": "2:1.3.4-1build1",
+            "libxext6:amd64": "2:1.3.4-1build1",
+            "libxml2-dev:amd64": "2.9.13+dfsg-1ubuntu0.12",
+            "libxml2:amd64": "2.9.13+dfsg-1ubuntu0.12",
+            "libxrender-dev:amd64": "1:0.9.10-1build4",
+            "libxrender1:amd64": "1:0.9.10-1build4",
+            "libxslt1-dev:amd64": "1.1.34-4ubuntu0.22.04.5",
+            "libxslt1.1:amd64": "1.1.34-4ubuntu0.22.04.5",
+            "libxt-dev:amd64": "1:1.2.1-1",
+            "libxt6:amd64": "1:1.2.1-1",
+            "libxxhash0:amd64": "0.8.1-1",
+            "libyaml-0-2:amd64": "0.2.2-1build2",
+            "libyaml-dev:amd64": "0.2.2-1build2",
+            "libzstd-dev:amd64": "1.4.8+dfsg-3build1",
+            "libzstd1:amd64": "1.4.8+dfsg-3build1",
+            "linux-libc-dev:amd64": "5.15.0-185.195",
+            "login": "1:4.8.1-2ubuntu2.2",
+            "logsave": "1.46.5-2ubuntu1.2",
+            "lsb-base": "11.1.0ubuntu4",
+            "lto-disabled-list": "24",
+            "m4": "1.4.18-5ubuntu2",
+            "make": "4.3-4.1build1",
+            "mawk": "1.3.4.20200120-3",
+            "media-types": "7.0.0",
+            "mercurial": "6.1.1-1ubuntu1",
+            "mercurial-common": "6.1.1-1ubuntu1",
+            "mount": "2.37.2-4ubuntu3.5",
+            "mysql-common": "5.8+1.0.8",
+            "ncurses-base": "6.3-2ubuntu0.1",
+            "ncurses-bin": "6.3-2ubuntu0.1",
+            "netbase": "6.3",
+            "openssh-client": "1:8.9p1-3ubuntu0.15",
+            "openssl": "3.0.2-0ubuntu1.25",
+            "passwd": "1:4.8.1-2ubuntu2.2",
+            "patch": "2.7.6-7build2",
+            "perl": "5.34.0-3ubuntu1.7",
+            "perl-base": "5.34.0-3ubuntu1.7",
+            "perl-modules-5.34": "5.34.0-3ubuntu1.7",
+            "pinentry-curses": "1.1.1-1build2",
+            "pkg-config": "0.29.2-1ubuntu3",
+            "procps": "2:3.3.17-6ubuntu2.1",
+            "python3": "3.10.6-1~22.04.1",
+            "python3-distutils": "3.10.8-1~22.04",
+            "python3-lib2to3": "3.10.8-1~22.04",
+            "python3-minimal": "3.10.6-1~22.04.1",
+            "python3.10": "3.10.12-1~22.04.15",
+            "python3.10-minimal": "3.10.12-1~22.04.15",
+            "readline-common": "8.1.2-1",
+            "rpcsvc-proto": "1.4.2-0ubuntu6",
+            "sed": "4.8-1ubuntu2.1",
+            "sensible-utils": "0.0.17",
+            "shared-mime-info": "2.1-2",
+            "subversion": "1.14.1-3ubuntu0.22.04.1",
+            "sysvinit-utils": "3.01-1ubuntu1",
+            "tar": "1.34+dfsg-1ubuntu0.1.22.04.3",
+            "tzdata": "2026a-0ubuntu0.22.04.1",
+            "ubuntu-keyring": "2021.03.26",
+            "ucf": "3.0043",
+            "unzip": "6.0-26ubuntu3.2",
+            "usrmerge": "25ubuntu2",
+            "util-linux": "2.37.2-4ubuntu3.5",
+            "uuid-dev:amd64": "2.37.2-4ubuntu3.5",
+            "wget": "1.21.2-2ubuntu1.1",
+            "x11-common": "1:7.7+23ubuntu2",
+            "x11proto-dev": "2021.5-1",
+            "xorg-sgml-doctools": "1:1.11-1.1",
+            "xtrans-dev": "1.4.0-1",
+            "xz-utils": "5.2.5-2ubuntu1.1",
+            "zlib1g-dev:amd64": "1:1.2.11.dfsg-2ubuntu9.2",
+            "zlib1g:amd64": "1:1.2.11.dfsg-2ubuntu9.2"
+          },
+          "binary_builder_platform": "linux/amd64",
+          "binary_builder_rootfs_diff_ids": [
+            "sha256:10f9108f6cebf96e05cadfab3c188071f3c6d084abe680fd0bc9f61c268e854d",
+            "sha256:9f951d64628d7eedeed9cd869e5749e39675217b10d453a152832a7d477fde94",
+            "sha256:e280def154266801fa19c1587dfe63894c93ab2de7ed3429af960c72e8cdefe9",
+            "sha256:38a3618cd59fe2ad577f7cdf725e3dc33c8a9e6798c3b5dd7e87d22e2badbd22",
+            "sha256:785224f1e2db1707d53072c4ad68199de66ffff5dfe63d930a6f13c1bd361861",
+            "sha256:43ebbc612cf0c1bc0feef64e645a2b1f03e1f87b9e2e55b388ac437d8875eb16",
+            "sha256:15b1e9035e267d75e8c13241e646cd8897ecf8e063e1a6c4ed5c7910b0357e17"
+          ],
+          "binary_builder_target": "linux-amd64",
+          "binary_linker_policy": {
+            "cgo_ldflags": "-buildid= -extldflags=-Wl,--build-id=none",
+            "gnu_build_id": "disabled",
+            "go_build_id": "empty",
+            "static_ldflags": "-buildid="
+          },
+          "binary_reproducibility": {
+            "binaries": {
+              "blockdag-node": {
+                "sha256": "f3653fd6181cf96e58dc066c89ca21b8d8751463952649cffe31373ce03ca638",
+                "size_bytes": 101879728
+              },
+              "dashboard": {
+                "sha256": "73f356b1e8b836c45f407840059f796c63889d5cf91f711c5b5b551e350a3344",
+                "size_bytes": 20314796
+              },
+              "dashboard-api": {
+                "sha256": "bebaa54e9b5ebb408f772a81918ba90ea8f10924e45b71022062921791178c43",
+                "size_bytes": 9481248
+              },
+              "mining-pool": {
+                "sha256": "d1155a3079d2ade4b8af641673399bf9edbd2e6a957b23637957849e10b932b7",
+                "size_bytes": 25884464
+              },
+              "nodeworker": {
+                "sha256": "b46fa043c6babb7675895e5f9eb137c07575ce3b4eaada28ea6c672bf0d76051",
+                "size_bytes": 36440528
+              }
+            },
+            "cache_isolation": "independent-home-gocache-gomodcache",
+            "comparison": "byte-identical",
+            "container_paths": {
+              "gocache": "/workspace/gocache",
+              "gomodcache": "/workspace/gomodcache",
+              "home": "/workspace/home",
+              "output": "/workspace/out"
+            },
+            "runs": 2
+          },
+          "buildx": "github.com/docker/buildx v0.35.0 a319e5b15052cf6557ceb666eb8ff6e32380b782",
+          "compiler": "gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0",
+          "compiler_full_version": "11.4.0",
+          "docker": "28.0.4",
+          "git": "git version 2.34.1",
+          "glibc": "glibc 2.35",
+          "go": "go version go1.26.0 linux/amd64",
+          "go_build_image": "golang:1.26-bookworm@sha256:18aedc16aa19b3fd7ded7245fc14b109e054d65d22ed53c355c899582bbb2113",
+          "go_toolchain_image": "golang:1.26.0-bookworm@sha256:2a0ba12e116687098780d3ce700f9ce3cb340783779646aafbabed748fa6677c",
+          "go_toolchain_manifest_digest": "sha256:4f7e5f23bfacf4c2934ba70c132532742b6a53f01a4209e2c2eb7bd06c16f0bc",
+          "linker": "GNU ld (GNU Binutils for Ubuntu) 2.38",
+          "max_required_glibc": "2.35",
+          "module_build_policy": {
+            "goenv": "off",
+            "goproxy": "off",
+            "gosumdb": "off",
+            "network": "none"
+          },
+          "module_cache_manifest_sha256": "195e1058e247fb4130ff64361823138213901322d4389f415443566dcfd1c52f",
+          "module_download_policy": {
+            "goenv": "off",
+            "gonoproxy": "",
+            "gonosumdb": "",
+            "goprivate": "",
+            "goproxy": "https://proxy.golang.org,direct",
+            "gosumdb": "sum.golang.org",
+            "resolution": "go-list-deps-release-commands",
+            "verification": "go-mod-verify"
+          },
+          "ops_image": "docker:27-cli@sha256:851f91d241214e7c6db86513b270d58776379aacc5eb9c4a87e5b47115e3065c",
+          "postgres_image": "postgres:15-bookworm@sha256:0e441d964b57050c10ba70076d60de4747dd0e2a76fb5f407939ddd2e885d9c1",
+          "runtime_image": "ubuntu:24.04@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90",
+          "syft": "anchore/syft:v1.27.0@sha256:d755e38b255045ebec12acacdb0f50b8b8781979116bbf2b9fa3bd5fb4a355af"
+        }
+      },
+      "linux-arm64": {
+        "binaries": {
+          "blockdag-node": {
+            "name": "blockdag-node",
+            "sha256": "354d5a8d898291c87cba5b3fe62b41a5e9be52eec5214a1f9ac12bdd2a01335f",
+            "size_bytes": 94802136
+          },
+          "dashboard": {
+            "name": "dashboard",
+            "sha256": "95e50ca22ad233e6840c219c624686caebc2a6c7f1ca1109a2be0c9457faa440",
+            "size_bytes": 18855566
+          },
+          "dashboard-api": {
+            "name": "dashboard-api",
+            "sha256": "3d9d019ff4c9a4e9bb0393caaf91d4795ba9520479ce9a095e71a00ccc294270",
+            "size_bytes": 8817103
+          },
+          "mining-pool": {
+            "name": "mining-pool",
+            "sha256": "b0419f2e924f65929a733aa4f6c949d987a5cb5e340061e3d0128345b2acdd83",
+            "size_bytes": 24248952
+          },
+          "nodeworker": {
+            "name": "nodeworker",
+            "sha256": "845d1048b1f76c7fac02dd324f4c855393cf8e5612cd2bea6f17cdcffb62b6f9",
+            "size_bytes": 33351240
+          }
+        },
+        "image_bundle": {
+          "name": "docker-images-linux-arm64.tar",
+          "sha256": "c063bae95e36e9240d739909546bcc1851c15c225ab2d0c32e99dc1a805643b3",
+          "size_bytes": 1060700672,
+          "unpacked_size_bytes": 1802776191
+        },
+        "images": [
+          {
+            "image_digest": "sha256:d0e1c696f934aa620cc542c0aafe427e665451ad3b332f00b13179e9433669ab",
+            "name": "dashboard",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/dashboard:2.0.0-community-rescue-rc.58-linux-arm64",
+            "repo_digests": []
+          },
+          {
+            "image_digest": "sha256:ab3fe4defd29ba6231229a4d41440ac8bde8218e85870e53876277faa24b35c4",
+            "name": "miner-route",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/miner-route:2.0.0-community-rescue-rc.58-linux-arm64",
+            "repo_digests": [
+              "alpine@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc"
+            ]
+          },
+          {
+            "image_digest": "sha256:ddd0d12f5e9f40bef3349418d468af74122eab0ef5476adc3d87d4f936b98de3",
+            "name": "node",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/node:2.0.0-community-rescue-rc.58-linux-arm64",
+            "repo_digests": []
+          },
+          {
+            "image_digest": "sha256:edff8b0d5ee3df709e9c024b2c3b9e4a0c40aad9c1cf48262a4d3dc39fe234da",
+            "name": "pool",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/pool:2.0.0-community-rescue-rc.58-linux-arm64",
+            "repo_digests": []
+          },
+          {
+            "image_digest": "sha256:1edcd215abdd763259f7c9c739bbb3c85c7442a5f83948088443b7cc6872f7b8",
+            "name": "postgres",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/postgres:2.0.0-community-rescue-rc.58-linux-arm64",
+            "repo_digests": [
+              "postgres@sha256:0e441d964b57050c10ba70076d60de4747dd0e2a76fb5f407939ddd2e885d9c1"
+            ]
+          },
+          {
+            "image_digest": "sha256:7769f3274f7ac714f0616393fcc1c88cf4974cb4347d1e03ade4b1c133c520a1",
+            "name": "sentinel",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/sentinel:2.0.0-community-rescue-rc.58-linux-arm64",
+            "repo_digests": []
+          },
+          {
+            "image_digest": "sha256:1089f35ebaa149857b9593030a693ab2f4e502999bde1bf2af950196f57efc59",
+            "name": "status-sampler",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/status-sampler:2.0.0-community-rescue-rc.58-linux-arm64",
+            "repo_digests": []
+          },
+          {
+            "image_digest": "sha256:1e9ddb54c989086f903786e8dfa604fd1dee79e79c744b87fc3b1c2c0e6ae871",
+            "name": "watchdog",
+            "platform": "linux/arm64",
+            "reference": "bdag-offline/watchdog:2.0.0-community-rescue-rc.58-linux-arm64",
+            "repo_digests": []
+          }
+        ],
+        "payload_files": {
+          ".dockerignore": {
+            "name": ".dockerignore",
+            "sha256": "490aa508e0721bebdf49afd0c4d11806c72c40e601d968ac547b48f5d91b4621",
+            "size_bytes": 709
+          },
+          ".env.example": {
+            "name": ".env.example",
+            "sha256": "2114dffc7fc4887c0439315e7c461b8c17f680d9d3a66a713411bcc92a7c6dfd",
+            "size_bytes": 23625
+          },
+          "README.md": {
+            "name": "README.md",
+            "sha256": "eb76055f0a6857b6a51e9ba2e59a5d78544166cb810ed365667e20b0790250d5",
+            "size_bytes": 11600
+          },
+          "checksums.txt": {
+            "name": "checksums.txt",
+            "sha256": "568637704ba4fbc3ad647a718bfe3e81e24ffbc9f937e4a7a6e357b9ea719f5a",
+            "size_bytes": 411
+          },
+          "docker-compose.yml": {
+            "name": "docker-compose.yml",
+            "sha256": "5c9d81f18be31511626b083ff9ee910e078a9475a81a3f99546e0d5f6afb0a20",
+            "size_bytes": 38590
+          },
+          "docker/dashboard-redis.conf": {
+            "name": "dashboard-redis.conf",
+            "sha256": "621d925ee9b6258ab46af96a8d2631eaf03ab7daa4746f26f4d07c1ad0f66550",
+            "size_bytes": 220
+          },
+          "docker/entrypoint-nodeworker.sh": {
+            "name": "entrypoint-nodeworker.sh",
+            "sha256": "59c101f4e2b9ad2364ac312037d30d65e1f3c46554892e76e09dab89d2b25b20",
+            "size_bytes": 35076
+          },
+          "docker/entrypoint-pool.sh": {
+            "name": "entrypoint-pool.sh",
+            "sha256": "34d19704ef0704092748a49a5a6ead7f7b9c38d489c51882d3516fba4e604653",
+            "size_bytes": 6482
+          },
+          "docker/no-snapshot.marker": {
+            "name": "no-snapshot.marker",
+            "sha256": "e6c4b3767d6b03538eaf6e08a572a61b78a166eff22357f752a5e1a1dd8ebe19",
+            "size_bytes": 5
+          },
+          "dockerfile": {
+            "name": "dockerfile",
+            "sha256": "f56e13d2a051922e95615f2837fe4f86e7f95087e92626b0ac02efc2a813fb24",
+            "size_bytes": 8391
+          },
+          "host/mining-appliance/90-bdag-ephemeral.conf": {
+            "name": "90-bdag-ephemeral.conf",
+            "sha256": "6adf66c1f0bbeca2fe8d70395517cde8010e4d633eb7540a77682e27178184fd",
+            "size_bytes": 72
+          },
+          "host/mining-appliance/90-mining-appliance-journald.conf": {
+            "name": "90-mining-appliance-journald.conf",
+            "sha256": "040d24b5ecc28a4cb932b4bbf7aed38dd8d5c2c261b3b0e77cc00d1a73997a8e",
+            "size_bytes": 113
+          },
+          "host/mining-appliance/90-mining-appliance-sysctl.conf": {
+            "name": "90-mining-appliance-sysctl.conf",
+            "sha256": "1a1904330e991f0c15e36385f30dd349098e96af186a8803c3438e6c30c6e5f5",
+            "size_bytes": 638
+          },
+          "host/mining-appliance/bdag-chain-state-self-heal.service": {
+            "name": "bdag-chain-state-self-heal.service",
+            "sha256": "13ec57567c8c859050bed12ec6300ba1cbbd31a61281e19151ea6fd473f860cc",
+            "size_bytes": 823
+          },
+          "host/mining-appliance/bdag-chain-state-self-heal.timer": {
+            "name": "bdag-chain-state-self-heal.timer",
+            "sha256": "c95db34ce59910f70f1c7c1edbcd09d68c53eb9c0ede68b5d94318a5248dce48",
+            "size_bytes": 261
+          },
+          "host/mining-appliance/bdag-node-child-guard": {
+            "name": "bdag-node-child-guard",
+            "sha256": "8e91644fc96388aa8ee468737915adc2040849f14db99805fd967211aad24886",
+            "size_bytes": 10444
+          },
+          "host/mining-appliance/bdag-node-child-guard.service": {
+            "name": "bdag-node-child-guard.service",
+            "sha256": "ad20a2c379a048714fa2d888583c4c8a97ba51d34595efded84df61182683a34",
+            "size_bytes": 415
+          },
+          "host/mining-appliance/bdag-node-child-guard.timer": {
+            "name": "bdag-node-child-guard.timer",
+            "sha256": "e751d598beb02a5f137142e0038580014405aecf4b3e8524113cd78c18f29006",
+            "size_bytes": 191
+          },
+          "host/mining-appliance/bdag-runtime-priority": {
+            "name": "bdag-runtime-priority",
+            "sha256": "be187d038b30085d3f1124116501dcf11e385dd44c1b917722105e545a6d2bd2",
+            "size_bytes": 5763
+          },
+          "host/mining-appliance/bdag-runtime-priority.service": {
+            "name": "bdag-runtime-priority.service",
+            "sha256": "3e3a55582922f10fba9746804ea916015d9a79be7925fe8b7d7d32760338b5b7",
+            "size_bytes": 281
+          },
+          "host/mining-appliance/bdag-runtime-priority.timer": {
+            "name": "bdag-runtime-priority.timer",
+            "sha256": "cb0f238bad4ff64dfe5c47c90526d98df9753f0d1ed54958eb41b9bb201ba513",
+            "size_bytes": 189
+          },
+          "host/mining-appliance/bdag-stack-boot": {
+            "name": "bdag-stack-boot",
+            "sha256": "3fd005a47f12f82bf8d4a3a3670e52d85d305eba82d28459c2b2197936aa2e7c",
+            "size_bytes": 54423
+          },
+          "host/mining-appliance/bdag-stack-boot.service": {
+            "name": "bdag-stack-boot.service",
+            "sha256": "87b45ff59dd66155be65d1509c1da3239d0e7d1e33b865d9fd1e1b7d3f0d06a4",
+            "size_bytes": 919
+          },
+          "host/mining-appliance/bdag-stack-recovery.service": {
+            "name": "bdag-stack-recovery.service",
+            "sha256": "0acb3df59a10f7e731ca2cf20bfd7503bfba83c584367c921a8009654849de0e",
+            "size_bytes": 684
+          },
+          "host/mining-appliance/bdag-stack-recovery.timer": {
+            "name": "bdag-stack-recovery.timer",
+            "sha256": "e8b0b1c33ba5ce2e56d873e94e3b521ecb0031832fa81c2f2cfaf2dc09eb8c45",
+            "size_bytes": 223
+          },
+          "host/mining-appliance/docker-daemon.json": {
+            "name": "docker-daemon.json",
+            "sha256": "5462e8b3f0a2622124cb87ceebfc7276695de37c312d4b591a98fb91fea46e99",
+            "size_bytes": 116
+          },
+          "host/mining-appliance/mining-appliance-host-tuning": {
+            "name": "mining-appliance-host-tuning",
+            "sha256": "55abf2fce4990daa26530a4d19c39ad82c1976bcb64d837b7a947eeed069a610",
+            "size_bytes": 3589
+          },
+          "host/mining-appliance/mining-appliance-tuning.service": {
+            "name": "mining-appliance-tuning.service",
+            "sha256": "20a6be8451ef663d93478e1129123ad7e274cd01852a26818b8be32bfbdb334c",
+            "size_bytes": 297
+          },
+          "install.sh": {
+            "name": "install.sh",
+            "sha256": "fc90c952e84019060c2c630434d8de450d2e22911914026fa2cac6144af5c8f5",
+            "size_bytes": 141450
+          },
+          "node.conf.example": {
+            "name": "node.conf.example",
+            "sha256": "a27edc577c5bf31b72df233237993aa2daebb9c4760aa1918ac920ee1dd8b5a2",
+            "size_bytes": 2162
+          },
+          "ops/allow-p2p-iptables.sh": {
+            "name": "allow-p2p-iptables.sh",
+            "sha256": "cbf875904df56bf6930c0ded59f0d8a5ed4d6a00dc4a3395c8f351fa3826df95",
+            "size_bytes": 705
+          },
+          "ops/apply-mining-host-tuning.sh": {
+            "name": "apply-mining-host-tuning.sh",
+            "sha256": "d6334256ae4f0ae524ff855e674c508b9707905c74cfa5061cbe413f98b85efa",
+            "size_bytes": 16213
+          },
+          "ops/automation_control.py": {
+            "name": "automation_control.py",
+            "sha256": "0f02fe99a1ed887f4fc2b06c651a01c8b41e3656544f637111dd9ef9462ed011",
+            "size_bytes": 31129
+          },
+          "ops/canonical_data_manifest.py": {
+            "name": "canonical_data_manifest.py",
+            "sha256": "b208ee6eb2c1877aaf2dbdfdf6ff7a6061c2eb0ea979fca8bf21a4578b771554",
+            "size_bytes": 63346
+          },
+          "ops/capture_status_payload.py": {
+            "name": "capture_status_payload.py",
+            "sha256": "c1f1efe913af7a45ae61708caeb74f56560da2787fcc99a718ab547b1a7cd783",
+            "size_bytes": 1695
+          },
+          "ops/chain-state-self-heal.sh": {
+            "name": "chain-state-self-heal.sh",
+            "sha256": "f2cb449f2a423edbb6e6559e85144e8d27a504ea908a0ec9e8bc668b1531d622",
+            "size_bytes": 356
+          },
+          "ops/chain_state_repair.py": {
+            "name": "chain_state_repair.py",
+            "sha256": "3967dbec7d1f87e47bbc77afa6dd6ec4a47978f2bbadd828c212c273cecf5a04",
+            "size_bytes": 79754
+          },
+          "ops/community_rescue_producer_scan.py": {
+            "name": "community_rescue_producer_scan.py",
+            "sha256": "69efc79afa64e31447445ce7a5ee3a600b83f4318bc10538258ef3cf57fb2d28",
+            "size_bytes": 22808
+          },
+          "ops/compose_migrations.py": {
+            "name": "compose_migrations.py",
+            "sha256": "0b7a7b50ea02005ed2473d69338f6bf147ebeeae283e9a19b0c46fbd470c44ae",
+            "size_bytes": 8763
+          },
+          "ops/config/stack-defaults.env": {
+            "name": "stack-defaults.env",
+            "sha256": "bd3d07aa52552fc5f0193560bab0c5a33c83ff78d76049215641622731e7d452",
+            "size_bytes": 11002
+          },
+          "ops/evm_dataset_builder.py": {
+            "name": "evm_dataset_builder.py",
+            "sha256": "3b1ddd2e6e1dc963d18fe537997e3f4792412e7bd1fdde76c40b43f3c85c13ad",
+            "size_bytes": 115380
+          },
+          "ops/evm_dataset_retention.py": {
+            "name": "evm_dataset_retention.py",
+            "sha256": "cc4530929ebe9053db0acb333839f11e54d6c22e1d22b18b7522cb4243d9b860",
+            "size_bytes": 12074
+          },
+          "ops/guard_core.py": {
+            "name": "guard_core.py",
+            "sha256": "caceba4ebbe575a55004f92de40cf232c3f6939de9eb124abcd473df667f2369",
+            "size_bytes": 3660
+          },
+          "ops/incident_journal.py": {
+            "name": "incident_journal.py",
+            "sha256": "94a44106743c75b1345650a2a4079bf4323d21917f8ca4d82716066f10bcad0e",
+            "size_bytes": 5358
+          },
+          "ops/incident_reporter.py": {
+            "name": "incident_reporter.py",
+            "sha256": "61afec696bd778e477d95a050401d14461767350f71b2b7002d4177f60b7e94f",
+            "size_bytes": 5145
+          },
+          "ops/install-evm-dataset-builder.sh": {
+            "name": "install-evm-dataset-builder.sh",
+            "sha256": "8f35e836c95241012363fa152e6e497c45d4e59cf63f25bb0b6ab0b2c8080b91",
+            "size_bytes": 14122
+          },
+          "ops/install-p2p-services.sh": {
+            "name": "install-p2p-services.sh",
+            "sha256": "46c62a3cac4d4a63baac6eb454265285cced298dad4bb94166bf29a0bacdd530",
+            "size_bytes": 4780
+          },
+          "ops/local_chain_attestation.py": {
+            "name": "local_chain_attestation.py",
+            "sha256": "6c244bf3a4099d7dc8cebc9b52333699ca4cc88d857b3c43f2a07e315a73aedd",
+            "size_bytes": 33803
+          },
+          "ops/mining_health_triage.py": {
+            "name": "mining_health_triage.py",
+            "sha256": "7d95fd6ae55dfbc23a0846a3713097acd13e874090e3f0831755a2bea37eac15",
+            "size_bytes": 2802
+          },
+          "ops/mining_readiness_gate.py": {
+            "name": "mining_readiness_gate.py",
+            "sha256": "e22a59d4abce99a27c4fd4a7518e523eeba5941315afa4c610a5e9a8fb568cab",
+            "size_bytes": 36228
+          },
+          "ops/node_child_guard.py": {
+            "name": "node_child_guard.py",
+            "sha256": "bdc7bca51b88f670212cf2d73b7ca33f9200d799ef1d1aba9ae1d66091f71eca",
+            "size_bytes": 15138
+          },
+          "ops/p2p_guard.py": {
+            "name": "p2p_guard.py",
+            "sha256": "701a10849da668306aa98c8f2c078767872b971c4ad09bab22a1e96824bd8127",
+            "size_bytes": 24295
+          },
+          "ops/pool_ops.py": {
+            "name": "pool_ops.py",
+            "sha256": "0a99af95b1e2f0eead65aca4661e9172ed9e4debff089c0bcaebb42854dbb6ab",
+            "size_bytes": 603656
+          },
+          "ops/pool_start_gate.py": {
+            "name": "pool_start_gate.py",
+            "sha256": "c6fa9f4c2e9eaf335526e6138b161b442e3858ffce9fa346963d4794977441fa",
+            "size_bytes": 24893
+          },
+          "ops/producer_pruned_dataset_builder.py": {
+            "name": "producer_pruned_dataset_builder.py",
+            "sha256": "989f6e77cecb41c6a3a0cc0e75ec5ec768b2a8bb5a28de72b8cf9cb4b71f8309",
+            "size_bytes": 89806
+          },
+          "ops/public_rpc_health.py": {
+            "name": "public_rpc_health.py",
+            "sha256": "adfc88e13c3cff8bd7a0b29e2d712d0a436b270e60ae6ac2f889d644e1fae3a9",
+            "size_bytes": 37225
+          },
+          "ops/release-install.sh": {
+            "name": "release-install.sh",
+            "sha256": "f8342ebee6ea6b9b074201174e5b7a36ba313f700f5b9aa4f5f98e2933974005",
+            "size_bytes": 140
+          },
+          "ops/stack_sentinel.py": {
+            "name": "stack_sentinel.py",
+            "sha256": "6551037ef3be9059a7c79c8e88f47c618789bd6fe9367e265516a1fec839b2d2",
+            "size_bytes": 17429
+          },
+          "ops/stack_status_source.py": {
+            "name": "stack_status_source.py",
+            "sha256": "6d2d9759252e04947510409071e6720d705a8e2d348426119c01a950f127254d",
+            "size_bytes": 20281
+          },
+          "ops/status_sampler.py": {
+            "name": "status_sampler.py",
+            "sha256": "edca87fe6181a8aff137609a23a3b650e99bc95035513bc3f3420e9275ceed95",
+            "size_bytes": 94388
+          },
+          "ops/sync_coordinator.py": {
+            "name": "sync_coordinator.py",
+            "sha256": "70b9f5ba58d11887f0c29820cd66b653590e63e85ccfedaa7e54be4eb25a2ef1",
+            "size_bytes": 4417
+          },
+          "ops/systemd/bdag-evm-dataset-builder@.service": {
+            "name": "bdag-evm-dataset-builder@.service",
+            "sha256": "cebcb6e40def48960a542d18882e87fa6906e5b14faf96a45a38c876131ca9d1",
+            "size_bytes": 1213
+          },
+          "ops/systemd/bdag-evm-dataset-builder@.timer": {
+            "name": "bdag-evm-dataset-builder@.timer",
+            "sha256": "390075556d7dabb4b1ec60340371fd92ac9b3b108a3cc9804519662c14d63765",
+            "size_bytes": 279
+          },
+          "ops/systemd/bdag-local-peers.timer": {
+            "name": "bdag-local-peers.timer",
+            "sha256": "e81382ba5330b1d2f5275fe4b5a7d6071addd17afb7124b9dbf0b91ca7f23288",
+            "size_bytes": 211
+          },
+          "ops/systemd/bdag-mining-host-tuning.service": {
+            "name": "bdag-mining-host-tuning.service",
+            "sha256": "f7bfe0c00824bbc0d1e29931014582ce7bd5c7cb524c8bca8f3683d3821ef66b",
+            "size_bytes": 283
+          },
+          "ops/systemd/bdag-mining-host-tuning.timer": {
+            "name": "bdag-mining-host-tuning.timer",
+            "sha256": "d0f7740913202082120cfd93e347ff70f1c681dd88f92606b5e6e9c0d02dd572",
+            "size_bytes": 225
+          },
+          "ops/systemd/bdag-p2p-firewall.service": {
+            "name": "bdag-p2p-firewall.service",
+            "sha256": "78a8ef10cc2bb479ec2a139b0e8dae356fb390b1643bf46dd967024938a8dc0d",
+            "size_bytes": 410
+          },
+          "ops/update-local-peers.py": {
+            "name": "update-local-peers.py",
+            "sha256": "596b098de3340cb0cc890b2b683f20430a0ea07e8f8b65ea5015a392be8a9e54",
+            "size_bytes": 37740
+          },
+          "ops/wait_for_node_sync.py": {
+            "name": "wait_for_node_sync.py",
+            "sha256": "9ed25439a97efab725df89ec1177d689fe3ce29ee39a3d03a11bd09cd1c625a7",
+            "size_bytes": 32983
+          },
+          "ops/watchdog.py": {
+            "name": "watchdog.py",
+            "sha256": "7de17ea9dece0b9991da660474f44607c2f866d57a47c426ec2dc34cd33d2364",
+            "size_bytes": 331291
+          },
+          "release-payload.env": {
+            "name": "release-payload.env",
+            "sha256": "bdf8c00d824b34be37d91d972e527743887493be27ee6196a9bbac63f5ebcfc6",
+            "size_bytes": 237
+          },
+          "scripts/check-release-archive.py": {
+            "name": "check-release-archive.py",
+            "sha256": "941488ffa97bd34e033a57e987714b9d2293eff4fd3ed59f96a723a7c511cb76",
+            "size_bytes": 78204
+          },
+          "scripts/create-live-savepoint.sh": {
+            "name": "create-live-savepoint.sh",
+            "sha256": "779d4c66599910b40ce2ce9630d7f2abea0abd1ae548a8f956bf82b4c2bdda43",
+            "size_bytes": 6551
+          },
+          "scripts/init-pool-postgres.sh": {
+            "name": "init-pool-postgres.sh",
+            "sha256": "aaae9c640b29bc41974e2664d2a63d61fbc38caa5f10994b3dcc0bfb5c333910",
+            "size_bytes": 2337
+          },
+          "scripts/install-mining-appliance-profile.sh": {
+            "name": "install-mining-appliance-profile.sh",
+            "sha256": "039ff525c30259c9b3fe63abab9348abecfeb6286aa0268fe5ff02a6d142f2cc",
+            "size_bytes": 13041
+          },
+          "scripts/install_discovery.py": {
+            "name": "install_discovery.py",
+            "sha256": "61ccbb017210e0dd8eb62dcd446d2bd95b86f681007f1b0a37c7cfca99f66eb8",
+            "size_bytes": 19961
+          },
+          "scripts/migrate-node-data-volume-to-host.sh": {
+            "name": "migrate-node-data-volume-to-host.sh",
+            "sha256": "6da0e5b21284239f83c02cff3ce3771951e0e9939608be374e169b9771b6ca37",
+            "size_bytes": 6377
+          },
+          "scripts/mining-appliance-preflight.py": {
+            "name": "mining-appliance-preflight.py",
+            "sha256": "78dde63ecec66c4dc5b8da86b14b482e0e5bc58f97e1cc63ca844b764ce534c5",
+            "size_bytes": 56582
+          },
+          "scripts/pool_schema_migration.py": {
+            "name": "pool_schema_migration.py",
+            "sha256": "4eba08a6c5f7b815556464dee9dfced6667422485bc2d6bfb6fb1df5ab16305b",
+            "size_bytes": 15501
+          },
+          "scripts/project_root_record.py": {
+            "name": "project_root_record.py",
+            "sha256": "d75ca96c4cc01adbfcfb7643c508be9ed131b4c628cfc9dab73c871fb20175e5",
+            "size_bytes": 7202
+          },
+          "scripts/recover-verified-install.sh": {
+            "name": "recover-verified-install.sh",
+            "sha256": "d48d7c13afc1dcb461efd913102bd3d02d1b43c878ef28856197709845d6f1a5",
+            "size_bytes": 29139
+          },
+          "scripts/release-readiness-check.py": {
+            "name": "release-readiness-check.py",
+            "sha256": "d4b7df9b6df8154d0d076c20d420f244e52243f93150933f5ed32ffd8f9b8e04",
+            "size_bytes": 21016
+          },
+          "scripts/release/install.sh": {
+            "name": "install.sh",
+            "sha256": "fc90c952e84019060c2c630434d8de450d2e22911914026fa2cac6144af5c8f5",
+            "size_bytes": 141450
+          },
+          "scripts/release_lock.py": {
+            "name": "release_lock.py",
+            "sha256": "4e593b2cdf82cb038e41e93cd76d8b1ec8c155609c2b3fceb8af18801af7fdd0",
+            "size_bytes": 82845
+          },
+          "scripts/stack_boot_config_record.py": {
+            "name": "stack_boot_config_record.py",
+            "sha256": "bd7d669f5b1bba556bc1ac02a3f8228e5cd14553578b68ac58e0818f06414ad8",
+            "size_bytes": 6727
+          },
+          "scripts/transactional_installer.py": {
+            "name": "transactional_installer.py",
+            "sha256": "400d98c58084d8101c5d7f94fb21916dbd4979ff405a86840be934d2845e1c90",
+            "size_bytes": 187707
+          },
+          "scripts/validate-network-route-policy.py": {
+            "name": "validate-network-route-policy.py",
+            "sha256": "bbac69b7561efe4d3c3e5d6c8bebd8d296c387c0ca2c691c485ab4b11a133f81",
+            "size_bytes": 186
+          },
+          "scripts/validate_network_route_policy.py": {
+            "name": "validate_network_route_policy.py",
+            "sha256": "4b6029dfef98adccc51db9dd8d55adaa2bd6c5d73d5006d5469b89e2d65dc83f",
+            "size_bytes": 20520
+          },
+          "scripts/verify-release-architecture.py": {
+            "name": "verify-release-architecture.py",
+            "sha256": "6eb91afe2e2e276f599db43071125d9657a486b405ba1eb08220b3590724b9e8",
+            "size_bytes": 2078
+          },
+          "sql/pool-schema.sql": {
+            "name": "pool-schema.sql",
+            "sha256": "fed9795601c59cbcf31b66024e078d9f00c152ebbe62764e992bb5d83596cc31",
+            "size_bytes": 1832
+          },
+          "tools/miner_wizard.py": {
+            "name": "miner_wizard.py",
+            "sha256": "4a7d74374ea2eeead6c9ab2cad8acae0f2b57f151f79493d3e8ff23625d79e15",
+            "size_bytes": 4188
+          },
+          "tools/status.sh": {
+            "name": "status.sh",
+            "sha256": "d8cbf159ab6ff920d52915f1e4e00e926f8f52e4518da2516508e17e736af14e",
+            "size_bytes": 461
+          },
+          "version.txt": {
+            "name": "version.txt",
+            "sha256": "49115d57a7ba41d99726df8d1f780a3cb6694503c5d041549e294d1158a149f2",
+            "size_bytes": 29
+          }
+        },
+        "platform": "linux/arm64",
+        "provenance": {
+          "name": "release.json",
+          "sha256": "1fa124014128dd83fc2440ebf10d94f493ef05860056a5f5964884f84cc24259",
+          "size_bytes": 33027
+        },
+        "sboms": {
+          "dashboard": {
+            "name": "dashboard.spdx.json",
+            "sha256": "7e66b5ae9fe9b1dff5080fc4b4c5f7afdae9318576b546b4ed14632a2b9687b4",
+            "size_bytes": 2510050
+          },
+          "miner-route": {
+            "name": "miner-route.spdx.json",
+            "sha256": "f3c32aa770e1a476803da627bc19dbc7f7a730542dafb6b28960a38584f260eb",
+            "size_bytes": 87479
+          },
+          "node": {
+            "name": "node.spdx.json",
+            "sha256": "dbc18e32622873af575ce8351b40fe36b4aed1bd36a48481b44b230b73aada8b",
+            "size_bytes": 2932999
+          },
+          "pool": {
+            "name": "pool.spdx.json",
+            "sha256": "3598bed68fcaedc5cce84aff31215f4aa8f1c5c1ff5e4a16045838477aa16982",
+            "size_bytes": 2410416
+          },
+          "postgres": {
+            "name": "postgres.spdx.json",
+            "sha256": "5ff726c5bfe7e1352eef45d74356a7a3cb3be6b5d000b3cb9406e5d84e8ed59b",
+            "size_bytes": 5982965
+          },
+          "sentinel": {
+            "name": "sentinel.spdx.json",
+            "sha256": "b579adcf809b212b7006530d2bc12a2d7fcc6a7670f86db66e80018e8f8d97d9",
+            "size_bytes": 3601338
+          },
+          "status-sampler": {
+            "name": "status-sampler.spdx.json",
+            "sha256": "3bae1fe7ebe139c186280c7c2b3d78de44ed2c42bf032d9c75116c72864509ed",
+            "size_bytes": 3601338
+          },
+          "watchdog": {
+            "name": "watchdog.spdx.json",
+            "sha256": "519c226cbc6bb52277b59eed9698949d29b835e9fc9f30217a52e53055104195",
+            "size_bytes": 3601338
+          }
+        },
+        "schema": "bdag.release-target-record.v3",
+        "source_lock_sha256": "e7dadc8afac1592f9a22d2cbcd02bb7e0ce086577612b79e4af8bbb327f36f17",
+        "target": "linux-arm64",
+        "toolchain": {
+          "abi_smoke_binaries": {
+            "blockdag-node": {
+              "sha256": "354d5a8d898291c87cba5b3fe62b41a5e9be52eec5214a1f9ac12bdd2a01335f",
+              "size_bytes": 94802136,
+              "status": 0
+            },
+            "dashboard": {
+              "sha256": "95e50ca22ad233e6840c219c624686caebc2a6c7f1ca1109a2be0c9457faa440",
+              "size_bytes": 18855566,
+              "status": 124
+            },
+            "dashboard-api": {
+              "sha256": "3d9d019ff4c9a4e9bb0393caaf91d4795ba9520479ce9a095e71a00ccc294270",
+              "size_bytes": 8817103,
+              "status": 1
+            },
+            "mining-pool": {
+              "sha256": "b0419f2e924f65929a733aa4f6c949d987a5cb5e340061e3d0128345b2acdd83",
+              "size_bytes": 24248952,
+              "status": 1
+            },
+            "nodeworker": {
+              "sha256": "845d1048b1f76c7fac02dd324f4c855393cf8e5612cd2bea6f17cdcffb62b6f9",
+              "size_bytes": 33351240,
+              "status": 0
+            }
+          },
+          "abi_smoke_glibc": "2.35",
+          "abi_smoke_image": "ubuntu:22.04@sha256:0e0a0fc6d18feda9db1590da249ac93e8d5abfea8f4c3c0c849ce512b5ef8982",
+          "abi_smoke_manifest_digest": "sha256:ecd3706b6b5587d1318e1777359b8563f9db6e8e5a81841f04dc3c7edbefbdc1",
+          "abi_smoke_platform": "linux/arm64",
+          "alpine_image": "alpine:3.20@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc",
+          "binary_abi_report": {
+            "binaries": {
+              "blockdag-node": {
+                "has_rpath": false,
+                "has_runpath": false,
+                "interpreter": "/lib/ld-linux-aarch64.so.1",
+                "linkage": "dynamic",
+                "max_required_glibc": "2.34",
+                "needed_libraries": [
+                  "ld-linux-aarch64.so.1",
+                  "libc.so.6"
+                ],
+                "required_glibc": [
+                  "2.17",
+                  "2.32",
+                  "2.34"
+                ],
+                "sha256": "354d5a8d898291c87cba5b3fe62b41a5e9be52eec5214a1f9ac12bdd2a01335f",
+                "size_bytes": 94802136
+              },
+              "dashboard": {
+                "has_rpath": false,
+                "has_runpath": false,
+                "interpreter": null,
+                "linkage": "static",
+                "max_required_glibc": null,
+                "needed_libraries": [],
+                "required_glibc": [],
+                "sha256": "95e50ca22ad233e6840c219c624686caebc2a6c7f1ca1109a2be0c9457faa440",
+                "size_bytes": 18855566
+              },
+              "dashboard-api": {
+                "has_rpath": false,
+                "has_runpath": false,
+                "interpreter": "/lib/ld-linux-aarch64.so.1",
+                "linkage": "dynamic",
+                "max_required_glibc": "2.34",
+                "needed_libraries": [
+                  "libc.so.6"
+                ],
+                "required_glibc": [
+                  "2.17",
+                  "2.32",
+                  "2.34"
+                ],
+                "sha256": "3d9d019ff4c9a4e9bb0393caaf91d4795ba9520479ce9a095e71a00ccc294270",
+                "size_bytes": 8817103
+              },
+              "mining-pool": {
+                "has_rpath": false,
+                "has_runpath": false,
+                "interpreter": "/lib/ld-linux-aarch64.so.1",
+                "linkage": "dynamic",
+                "max_required_glibc": "2.34",
+                "needed_libraries": [
+                  "ld-linux-aarch64.so.1",
+                  "libc.so.6"
+                ],
+                "required_glibc": [
+                  "2.17",
+                  "2.32",
+                  "2.34"
+                ],
+                "sha256": "b0419f2e924f65929a733aa4f6c949d987a5cb5e340061e3d0128345b2acdd83",
+                "size_bytes": 24248952
+              },
+              "nodeworker": {
+                "has_rpath": false,
+                "has_runpath": false,
+                "interpreter": "/lib/ld-linux-aarch64.so.1",
+                "linkage": "dynamic",
+                "max_required_glibc": "2.34",
+                "needed_libraries": [
+                  "ld-linux-aarch64.so.1",
+                  "libc.so.6"
+                ],
+                "required_glibc": [
+                  "2.17",
+                  "2.32",
+                  "2.34"
+                ],
+                "sha256": "845d1048b1f76c7fac02dd324f4c855393cf8e5612cd2bea6f17cdcffb62b6f9",
+                "size_bytes": 33351240
+              }
+            },
+            "max_glibc": "2.35",
+            "schema": "bdag.release-binary-abi.v1",
+            "target": "linux-arm64"
+          },
+          "binary_abi_report_sha256": "07ec60cde07db11dcffcb69fe2fcf3e2985dc37568a5830962381b0d92771c6e",
+          "binary_builder_base_image": "buildpack-deps:jammy@sha256:0704d9775531e89274dca865a6bdaf13ed71a64bfe36f3a01cf6bd59bdf1f6eb",
+          "binary_builder_base_manifest_digest": "sha256:73c6df2595e9f4fc2845feb4aafa3826734e9618967248d92a6186d841597bd9",
+          "binary_builder_image_id": "sha256:e3c24a445e955dee13ae5305149a4f0c1a9f4d47805ad9ef01358aadd26c6b3a",
+          "binary_builder_native_engine_arch": "aarch64",
+          "binary_builder_packages": {
+            "adduser": "3.118ubuntu5",
+            "apt": "2.4.14",
+            "autoconf": "2.71-2",
+            "automake": "1:1.16.5-1.3",
+            "autotools-dev": "20220109.1",
+            "base-files": "12ubuntu4.7",
+            "base-passwd": "3.5.52build1",
+            "bash": "5.1-6ubuntu1.1",
+            "binutils": "2.38-4ubuntu2.12",
+            "binutils-aarch64-linux-gnu": "2.38-4ubuntu2.12",
+            "binutils-common:arm64": "2.38-4ubuntu2.12",
+            "bsdutils": "1:2.37.2-4ubuntu3.5",
+            "bzip2": "1.0.8-5build1",
+            "ca-certificates": "20260601~22.04.1",
+            "comerr-dev:arm64": "2.1-1.46.5-2ubuntu1.2",
+            "coreutils": "8.32-4.1ubuntu1.3",
+            "cpp": "4:11.2.0-1ubuntu1",
+            "cpp-11": "11.4.0-1ubuntu1~22.04.3",
+            "curl": "7.81.0-1ubuntu1.25",
+            "dash": "0.5.11+git20210903+057cd650a4ed-3build1",
+            "debconf": "1.5.79ubuntu1",
+            "debianutils": "5.5-1ubuntu2",
+            "default-libmysqlclient-dev:arm64": "1.0.8",
+            "diffutils": "1:3.8-0ubuntu2",
+            "dirmngr": "2.2.27-3ubuntu2.5",
+            "dpkg": "1.21.1ubuntu2.6",
+            "dpkg-dev": "1.21.1ubuntu2.6",
+            "e2fsprogs": "1.46.5-2ubuntu1.2",
+            "file": "1:5.41-3ubuntu0.1",
+            "findutils": "4.8.0-1ubuntu3",
+            "fontconfig": "2.13.1-4.2ubuntu5",
+            "fontconfig-config": "2.13.1-4.2ubuntu5",
+            "fonts-dejavu-core": "2.37-2build1",
+            "g++": "4:11.2.0-1ubuntu1",
+            "g++-11": "11.4.0-1ubuntu1~22.04.3",
+            "gcc": "4:11.2.0-1ubuntu1",
+            "gcc-11": "11.4.0-1ubuntu1~22.04.3",
+            "gcc-11-base:arm64": "11.4.0-1ubuntu1~22.04.3",
+            "gcc-12-base:arm64": "12.3.0-1ubuntu1~22.04.3",
+            "gir1.2-freedesktop:arm64": "1.72.0-1",
+            "gir1.2-gdkpixbuf-2.0:arm64": "2.42.8+dfsg-1ubuntu0.5",
+            "gir1.2-glib-2.0:arm64": "1.72.0-1",
+            "gir1.2-rsvg-2.0:arm64": "2.52.5+dfsg-3ubuntu0.2",
+            "git": "1:2.34.1-1ubuntu1.17",
+            "git-man": "1:2.34.1-1ubuntu1.17",
+            "gnupg": "2.2.27-3ubuntu2.5",
+            "gnupg-l10n": "2.2.27-3ubuntu2.5",
+            "gnupg-utils": "2.2.27-3ubuntu2.5",
+            "gpg": "2.2.27-3ubuntu2.5",
+            "gpg-agent": "2.2.27-3ubuntu2.5",
+            "gpg-wks-client": "2.2.27-3ubuntu2.5",
+            "gpg-wks-server": "2.2.27-3ubuntu2.5",
+            "gpgconf": "2.2.27-3ubuntu2.5",
+            "gpgsm": "2.2.27-3ubuntu2.5",
+            "gpgv": "2.2.27-3ubuntu2.5",
+            "grep": "3.7-1build1",
+            "gzip": "1.10-4ubuntu4.1",
+            "hicolor-icon-theme": "0.17-2",
+            "hostname": "3.23ubuntu2",
+            "icu-devtools": "70.1-2",
+            "imagemagick": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "imagemagick-6-common": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "imagemagick-6.q16": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "init-system-helpers": "1.62",
+            "krb5-multidev:arm64": "1.19.2-2ubuntu0.7",
+            "libacl1:arm64": "2.3.1-1",
+            "libaom3:arm64": "3.3.0-1ubuntu0.1",
+            "libapr1:arm64": "1.7.0-8ubuntu0.22.04.2",
+            "libaprutil1:arm64": "1.6.1-5ubuntu4.22.04.2",
+            "libapt-pkg6.0:arm64": "2.4.14",
+            "libasan6:arm64": "11.4.0-1ubuntu1~22.04.3",
+            "libassuan0:arm64": "2.5.5-1build1",
+            "libatomic1:arm64": "12.3.0-1ubuntu1~22.04.3",
+            "libattr1:arm64": "1:2.5.1-1build1",
+            "libaudit-common": "1:3.0.7-1build1",
+            "libaudit1:arm64": "1:3.0.7-1build1",
+            "libbinutils:arm64": "2.38-4ubuntu2.12",
+            "libblkid-dev:arm64": "2.37.2-4ubuntu3.5",
+            "libblkid1:arm64": "2.37.2-4ubuntu3.5",
+            "libbrotli-dev:arm64": "1.0.9-2build6",
+            "libbrotli1:arm64": "1.0.9-2build6",
+            "libbsd0:arm64": "0.11.5-1",
+            "libbz2-1.0:arm64": "1.0.8-5build1",
+            "libbz2-dev:arm64": "1.0.8-5build1",
+            "libc-bin": "2.35-0ubuntu3.13",
+            "libc-dev-bin": "2.35-0ubuntu3.13",
+            "libc6-dev:arm64": "2.35-0ubuntu3.13",
+            "libc6:arm64": "2.35-0ubuntu3.13",
+            "libcairo-gobject2:arm64": "1.16.0-5ubuntu2.1",
+            "libcairo-script-interpreter2:arm64": "1.16.0-5ubuntu2.1",
+            "libcairo2-dev:arm64": "1.16.0-5ubuntu2.1",
+            "libcairo2:arm64": "1.16.0-5ubuntu2.1",
+            "libcap-ng0:arm64": "0.7.9-2.2build3",
+            "libcap2:arm64": "1:2.44-1ubuntu0.22.04.3",
+            "libcbor0.8:arm64": "0.8.0-2ubuntu1",
+            "libcc1-0:arm64": "12.3.0-1ubuntu1~22.04.3",
+            "libcom-err2:arm64": "1.46.5-2ubuntu1.2",
+            "libcrypt-dev:arm64": "1:4.4.27-1",
+            "libcrypt1:arm64": "1:4.4.27-1",
+            "libctf-nobfd0:arm64": "2.38-4ubuntu2.12",
+            "libctf0:arm64": "2.38-4ubuntu2.12",
+            "libcurl3-gnutls:arm64": "7.81.0-1ubuntu1.25",
+            "libcurl4-openssl-dev:arm64": "7.81.0-1ubuntu1.25",
+            "libcurl4:arm64": "7.81.0-1ubuntu1.25",
+            "libdatrie1:arm64": "0.2.13-2",
+            "libdav1d5:arm64": "0.9.2-1",
+            "libdb-dev:arm64": "1:5.3.21~exp1ubuntu4",
+            "libdb5.3-dev": "5.3.28+dfsg1-0.8ubuntu3",
+            "libdb5.3:arm64": "5.3.28+dfsg1-0.8ubuntu3",
+            "libde265-0:arm64": "1.0.8-1ubuntu0.3",
+            "libdebconfclient0:arm64": "0.261ubuntu1",
+            "libdeflate-dev:arm64": "1.10-2",
+            "libdeflate0:arm64": "1.10-2",
+            "libdjvulibre-dev:arm64": "3.5.28-2ubuntu0.22.04.2",
+            "libdjvulibre-text": "3.5.28-2ubuntu0.22.04.2",
+            "libdjvulibre21:arm64": "3.5.28-2ubuntu0.22.04.2",
+            "libdpkg-perl": "1.21.1ubuntu2.6",
+            "libedit2:arm64": "3.1-20210910-1build1",
+            "libelf1:arm64": "0.186-1ubuntu0.1",
+            "liberror-perl": "0.17029-1",
+            "libevent-2.1-7:arm64": "2.1.12-stable-1build3",
+            "libevent-core-2.1-7:arm64": "2.1.12-stable-1build3",
+            "libevent-dev": "2.1.12-stable-1build3",
+            "libevent-extra-2.1-7:arm64": "2.1.12-stable-1build3",
+            "libevent-openssl-2.1-7:arm64": "2.1.12-stable-1build3",
+            "libevent-pthreads-2.1-7:arm64": "2.1.12-stable-1build3",
+            "libexif-dev:arm64": "0.6.24-1build1",
+            "libexif12:arm64": "0.6.24-1build1",
+            "libexpat1-dev:arm64": "2.4.7-1ubuntu0.7",
+            "libexpat1:arm64": "2.4.7-1ubuntu0.7",
+            "libext2fs2:arm64": "1.46.5-2ubuntu1.2",
+            "libffi-dev:arm64": "3.4.2-4",
+            "libffi8:arm64": "3.4.2-4",
+            "libfftw3-double3:arm64": "3.3.8-2ubuntu8",
+            "libfido2-1:arm64": "1.10.0-1",
+            "libfontconfig-dev:arm64": "2.13.1-4.2ubuntu5",
+            "libfontconfig1-dev:arm64": "2.13.1-4.2ubuntu5",
+            "libfontconfig1:arm64": "2.13.1-4.2ubuntu5",
+            "libfreetype-dev:arm64": "2.11.1+dfsg-1ubuntu0.3",
+            "libfreetype6-dev:arm64": "2.11.1+dfsg-1ubuntu0.3",
+            "libfreetype6:arm64": "2.11.1+dfsg-1ubuntu0.3",
+            "libfribidi0:arm64": "1.0.8-2ubuntu3.1",
+            "libgcc-11-dev:arm64": "11.4.0-1ubuntu1~22.04.3",
+            "libgcc-s1:arm64": "12.3.0-1ubuntu1~22.04.3",
+            "libgcrypt20:arm64": "1.9.4-3ubuntu3.2",
+            "libgdbm-compat4:arm64": "1.23-1",
+            "libgdbm-dev:arm64": "1.23-1",
+            "libgdbm6:arm64": "1.23-1",
+            "libgdk-pixbuf-2.0-0:arm64": "2.42.8+dfsg-1ubuntu0.5",
+            "libgdk-pixbuf-2.0-dev:arm64": "2.42.8+dfsg-1ubuntu0.5",
+            "libgdk-pixbuf2.0-bin": "2.42.8+dfsg-1ubuntu0.5",
+            "libgdk-pixbuf2.0-common": "2.42.8+dfsg-1ubuntu0.5",
+            "libgirepository-1.0-1:arm64": "1.72.0-1",
+            "libglib2.0-0:arm64": "2.72.4-0ubuntu2.9",
+            "libglib2.0-bin": "2.72.4-0ubuntu2.9",
+            "libglib2.0-data": "2.72.4-0ubuntu2.9",
+            "libglib2.0-dev-bin": "2.72.4-0ubuntu2.9",
+            "libglib2.0-dev:arm64": "2.72.4-0ubuntu2.9",
+            "libgmp-dev:arm64": "2:6.2.1+dfsg-3ubuntu1",
+            "libgmp10:arm64": "2:6.2.1+dfsg-3ubuntu1",
+            "libgmpxx4ldbl:arm64": "2:6.2.1+dfsg-3ubuntu1",
+            "libgnutls30:arm64": "3.7.3-4ubuntu1.9",
+            "libgomp1:arm64": "12.3.0-1ubuntu1~22.04.3",
+            "libgpg-error0:arm64": "1.43-3",
+            "libgraphite2-3:arm64": "1.3.14-1ubuntu0.1",
+            "libgssapi-krb5-2:arm64": "1.19.2-2ubuntu0.7",
+            "libgssrpc4:arm64": "1.19.2-2ubuntu0.7",
+            "libharfbuzz0b:arm64": "2.7.4-1ubuntu3.2",
+            "libheif1:arm64": "1.12.0-2build1",
+            "libhogweed6:arm64": "3.7.3-1build2",
+            "libhwasan0:arm64": "12.3.0-1ubuntu1~22.04.3",
+            "libice-dev:arm64": "2:1.0.10-1build2",
+            "libice6:arm64": "2:1.0.10-1build2",
+            "libicu-dev:arm64": "70.1-2",
+            "libicu70:arm64": "70.1-2",
+            "libidn2-0:arm64": "2.3.2-2build1",
+            "libilmbase-dev:arm64": "2.5.7-2",
+            "libilmbase25:arm64": "2.5.7-2",
+            "libisl23:arm64": "0.24-2build1",
+            "libitm1:arm64": "12.3.0-1ubuntu1~22.04.3",
+            "libjbig-dev:arm64": "2.1-3.1ubuntu0.22.04.1",
+            "libjbig0:arm64": "2.1-3.1ubuntu0.22.04.1",
+            "libjpeg-dev:arm64": "8c-2ubuntu10",
+            "libjpeg-turbo8-dev:arm64": "2.1.2-0ubuntu1",
+            "libjpeg-turbo8:arm64": "2.1.2-0ubuntu1",
+            "libjpeg8-dev:arm64": "8c-2ubuntu10",
+            "libjpeg8:arm64": "8c-2ubuntu10",
+            "libk5crypto3:arm64": "1.19.2-2ubuntu0.7",
+            "libkadm5clnt-mit12:arm64": "1.19.2-2ubuntu0.7",
+            "libkadm5srv-mit12:arm64": "1.19.2-2ubuntu0.7",
+            "libkdb5-10:arm64": "1.19.2-2ubuntu0.7",
+            "libkeyutils1:arm64": "1.6.1-2ubuntu3",
+            "libkrb5-3:arm64": "1.19.2-2ubuntu0.7",
+            "libkrb5-dev:arm64": "1.19.2-2ubuntu0.7",
+            "libkrb5support0:arm64": "1.19.2-2ubuntu0.7",
+            "libksba8:arm64": "1.6.0-2ubuntu0.2",
+            "liblcms2-2:arm64": "2.12~rc1-2ubuntu0.1",
+            "liblcms2-dev:arm64": "2.12~rc1-2ubuntu0.1",
+            "libldap-2.5-0:arm64": "2.5.20+dfsg-0ubuntu0.22.04.1",
+            "liblqr-1-0-dev:arm64": "0.4.2-2.1",
+            "liblqr-1-0:arm64": "0.4.2-2.1",
+            "liblsan0:arm64": "12.3.0-1ubuntu1~22.04.3",
+            "libltdl-dev:arm64": "2.4.6-15build2",
+            "libltdl7:arm64": "2.4.6-15build2",
+            "liblz4-1:arm64": "1.9.3-2build2",
+            "liblzma-dev:arm64": "5.2.5-2ubuntu1.1",
+            "liblzma5:arm64": "5.2.5-2ubuntu1.1",
+            "liblzo2-2:arm64": "2.10-2build3",
+            "libmagic-mgc": "1:5.41-3ubuntu0.1",
+            "libmagic1:arm64": "1:5.41-3ubuntu0.1",
+            "libmagickcore-6-arch-config:arm64": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickcore-6-headers": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickcore-6.q16-6-extra:arm64": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickcore-6.q16-6:arm64": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickcore-6.q16-dev:arm64": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickcore-dev": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickwand-6-headers": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickwand-6.q16-6:arm64": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickwand-6.q16-dev:arm64": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmagickwand-dev": "8:6.9.11.60+dfsg-1.3ubuntu0.22.04.5",
+            "libmaxminddb-dev:arm64": "1.5.2-1build2",
+            "libmaxminddb0:arm64": "1.5.2-1build2",
+            "libmd0:arm64": "1.0.4-1build1",
+            "libmount-dev:arm64": "2.37.2-4ubuntu3.5",
+            "libmount1:arm64": "2.37.2-4ubuntu3.5",
+            "libmpc3:arm64": "1.2.1-2build1",
+            "libmpdec3:arm64": "2.5.1-2build2",
+            "libmpfr6:arm64": "4.1.0-3build3",
+            "libmysqlclient-dev": "8.0.46-0ubuntu0.22.04.3",
+            "libmysqlclient21:arm64": "8.0.46-0ubuntu0.22.04.3",
+            "libncurses-dev:arm64": "6.3-2ubuntu0.1",
+            "libncurses5-dev:arm64": "6.3-2ubuntu0.1",
+            "libncurses6:arm64": "6.3-2ubuntu0.1",
+            "libncursesw5-dev:arm64": "6.3-2ubuntu0.1",
+            "libncursesw6:arm64": "6.3-2ubuntu0.1",
+            "libnettle8:arm64": "3.7.3-1build2",
+            "libnghttp2-14:arm64": "1.43.0-1ubuntu0.3",
+            "libnpth0:arm64": "1.6-3build2",
+            "libnsl-dev:arm64": "1.3.0-2build2",
+            "libnsl2:arm64": "1.3.0-2build2",
+            "libnuma1:arm64": "2.0.14-3ubuntu2",
+            "libopenexr-dev": "2.5.7-1",
+            "libopenexr25:arm64": "2.5.7-1",
+            "libopenjp2-7-dev:arm64": "2.4.0-6ubuntu0.5",
+            "libopenjp2-7:arm64": "2.4.0-6ubuntu0.5",
+            "libp11-kit0:arm64": "0.24.0-6build1",
+            "libpam-modules-bin": "1.4.0-11ubuntu2.6",
+            "libpam-modules:arm64": "1.4.0-11ubuntu2.6",
+            "libpam-runtime": "1.4.0-11ubuntu2.6",
+            "libpam0g:arm64": "1.4.0-11ubuntu2.6",
+            "libpango-1.0-0:arm64": "1.50.6+ds-2ubuntu1",
+            "libpangocairo-1.0-0:arm64": "1.50.6+ds-2ubuntu1",
+            "libpangoft2-1.0-0:arm64": "1.50.6+ds-2ubuntu1",
+            "libpcre16-3:arm64": "2:8.39-13ubuntu0.22.04.1",
+            "libpcre2-16-0:arm64": "10.39-3ubuntu0.1",
+            "libpcre2-32-0:arm64": "10.39-3ubuntu0.1",
+            "libpcre2-8-0:arm64": "10.39-3ubuntu0.1",
+            "libpcre2-dev:arm64": "10.39-3ubuntu0.1",
+            "libpcre2-posix3:arm64": "10.39-3ubuntu0.1",
+            "libpcre3-dev:arm64": "2:8.39-13ubuntu0.22.04.1",
+            "libpcre32-3:arm64": "2:8.39-13ubuntu0.22.04.1",
+            "libpcre3:arm64": "2:8.39-13ubuntu0.22.04.1",
+            "libpcrecpp0v5:arm64": "2:8.39-13ubuntu0.22.04.1",
+            "libperl5.34:arm64": "5.34.0-3ubuntu1.7",
+            "libpixman-1-0:arm64": "0.40.0-1ubuntu0.22.04.1",
+            "libpixman-1-dev:arm64": "0.40.0-1ubuntu0.22.04.1",
+            "libpng-dev:arm64": "1.6.37-3ubuntu0.5",
+            "libpng16-16:arm64": "1.6.37-3ubuntu0.5",
+            "libpq-dev": "14.23-0ubuntu0.22.04.1",
+            "libpq5:arm64": "14.23-0ubuntu0.22.04.1",
+            "libprocps8:arm64": "2:3.3.17-6ubuntu2.1",
+            "libpsl5:arm64": "0.21.0-1.2build2",
+            "libpthread-stubs0-dev:arm64": "0.4-1build2",
+            "libpython3-stdlib:arm64": "3.10.6-1~22.04.1",
+            "libpython3.10-minimal:arm64": "3.10.12-1~22.04.15",
+            "libpython3.10-stdlib:arm64": "3.10.12-1~22.04.15",
+            "libreadline-dev:arm64": "8.1.2-1",
+            "libreadline8:arm64": "8.1.2-1",
+            "librsvg2-2:arm64": "2.52.5+dfsg-3ubuntu0.2",
+            "librsvg2-common:arm64": "2.52.5+dfsg-3ubuntu0.2",
+            "librsvg2-dev:arm64": "2.52.5+dfsg-3ubuntu0.2",
+            "librtmp1:arm64": "2.4+20151223.gitfa8646d.1-2build4",
+            "libsasl2-2:arm64": "2.1.27+dfsg2-3ubuntu1.2",
+            "libsasl2-modules-db:arm64": "2.1.27+dfsg2-3ubuntu1.2",
+            "libseccomp2:arm64": "2.5.3-2ubuntu3~22.04.1",
+            "libselinux1-dev:arm64": "3.3-1build2",
+            "libselinux1:arm64": "3.3-1build2",
+            "libsemanage-common": "3.3-1build2",
+            "libsemanage2:arm64": "3.3-1build2",
+            "libsepol-dev:arm64": "3.3-1build1",
+            "libsepol2:arm64": "3.3-1build1",
+            "libserf-1-1:arm64": "1.3.9-10ubuntu2",
+            "libsigsegv2:arm64": "2.13-1ubuntu3",
+            "libsm-dev:arm64": "2:1.2.3-1build2",
+            "libsm6:arm64": "2:1.2.3-1build2",
+            "libsmartcols1:arm64": "2.37.2-4ubuntu3.5",
+            "libsqlite3-0:arm64": "3.37.2-2ubuntu0.6",
+            "libsqlite3-dev:arm64": "3.37.2-2ubuntu0.6",
+            "libss2:arm64": "1.46.5-2ubuntu1.2",
+            "libssh-4:arm64": "0.9.6-2ubuntu0.22.04.7",
+            "libssl-dev:arm64": "3.0.2-0ubuntu1.25",
+            "libssl3:arm64": "3.0.2-0ubuntu1.25",
+            "libstdc++-11-dev:arm64": "11.4.0-1ubuntu1~22.04.3",
+            "libstdc++6:arm64": "12.3.0-1ubuntu1~22.04.3",
+            "libsvn1:arm64": "1.14.1-3ubuntu0.22.04.1",
+            "libsystemd0:arm64": "249.11-0ubuntu3.21",
+            "libtasn1-6:arm64": "4.18.0-4ubuntu0.2",
+            "libthai-data": "0.1.29-1build1",
+            "libthai0:arm64": "0.1.29-1build1",
+            "libtiff-dev:arm64": "4.3.0-6ubuntu0.13",
+            "libtiff5:arm64": "4.3.0-6ubuntu0.13",
+            "libtiffxx5:arm64": "4.3.0-6ubuntu0.13",
+            "libtinfo6:arm64": "6.3-2ubuntu0.1",
+            "libtirpc-common": "1.3.2-2ubuntu0.1",
+            "libtirpc-dev:arm64": "1.3.2-2ubuntu0.1",
+            "libtirpc3:arm64": "1.3.2-2ubuntu0.1",
+            "libtool": "2.4.6-15build2",
+            "libtsan0:arm64": "11.4.0-1ubuntu1~22.04.3",
+            "libubsan1:arm64": "12.3.0-1ubuntu1~22.04.3",
+            "libudev1:arm64": "249.11-0ubuntu3.21",
+            "libunistring2:arm64": "1.0-1",
+            "libutf8proc2:arm64": "2.7.0-3",
+            "libuuid1:arm64": "2.37.2-4ubuntu3.5",
+            "libwebp-dev:arm64": "1.2.2-2ubuntu0.22.04.2",
+            "libwebp7:arm64": "1.2.2-2ubuntu0.22.04.2",
+            "libwebpdemux2:arm64": "1.2.2-2ubuntu0.22.04.2",
+            "libwebpmux3:arm64": "1.2.2-2ubuntu0.22.04.2",
+            "libwmf-0.2-7:arm64": "0.2.12-5ubuntu1",
+            "libwmf-dev": "0.2.12-5ubuntu1",
+            "libwmflite-0.2-7:arm64": "0.2.12-5ubuntu1",
+            "libx11-6:arm64": "2:1.7.5-1ubuntu0.3",
+            "libx11-data": "2:1.7.5-1ubuntu0.3",
+            "libx11-dev:arm64": "2:1.7.5-1ubuntu0.3",
+            "libx265-199:arm64": "3.5-2",
+            "libxau-dev:arm64": "1:1.0.9-1build5",
+            "libxau6:arm64": "1:1.0.9-1build5",
+            "libxcb-render0-dev:arm64": "1.14-3ubuntu3",
+            "libxcb-render0:arm64": "1.14-3ubuntu3",
+            "libxcb-shm0-dev:arm64": "1.14-3ubuntu3",
+            "libxcb-shm0:arm64": "1.14-3ubuntu3",
+            "libxcb1-dev:arm64": "1.14-3ubuntu3",
+            "libxcb1:arm64": "1.14-3ubuntu3",
+            "libxdmcp-dev:arm64": "1:1.1.3-0ubuntu5",
+            "libxdmcp6:arm64": "1:1.1.3-0ubuntu5",
+            "libxext-dev:arm64": "2:1.3.4-1build1",
+            "libxext6:arm64": "2:1.3.4-1build1",
+            "libxml2-dev:arm64": "2.9.13+dfsg-1ubuntu0.12",
+            "libxml2:arm64": "2.9.13+dfsg-1ubuntu0.12",
+            "libxrender-dev:arm64": "1:0.9.10-1build4",
+            "libxrender1:arm64": "1:0.9.10-1build4",
+            "libxslt1-dev:arm64": "1.1.34-4ubuntu0.22.04.5",
+            "libxslt1.1:arm64": "1.1.34-4ubuntu0.22.04.5",
+            "libxt-dev:arm64": "1:1.2.1-1",
+            "libxt6:arm64": "1:1.2.1-1",
+            "libxxhash0:arm64": "0.8.1-1",
+            "libyaml-0-2:arm64": "0.2.2-1build2",
+            "libyaml-dev:arm64": "0.2.2-1build2",
+            "libzstd-dev:arm64": "1.4.8+dfsg-3build1",
+            "libzstd1:arm64": "1.4.8+dfsg-3build1",
+            "linux-libc-dev:arm64": "5.15.0-185.195",
+            "login": "1:4.8.1-2ubuntu2.2",
+            "logsave": "1.46.5-2ubuntu1.2",
+            "lsb-base": "11.1.0ubuntu4",
+            "lto-disabled-list": "24",
+            "m4": "1.4.18-5ubuntu2",
+            "make": "4.3-4.1build1",
+            "mawk": "1.3.4.20200120-3",
+            "media-types": "7.0.0",
+            "mercurial": "6.1.1-1ubuntu1",
+            "mercurial-common": "6.1.1-1ubuntu1",
+            "mount": "2.37.2-4ubuntu3.5",
+            "mysql-common": "5.8+1.0.8",
+            "ncurses-base": "6.3-2ubuntu0.1",
+            "ncurses-bin": "6.3-2ubuntu0.1",
+            "netbase": "6.3",
+            "openssh-client": "1:8.9p1-3ubuntu0.15",
+            "openssl": "3.0.2-0ubuntu1.25",
+            "passwd": "1:4.8.1-2ubuntu2.2",
+            "patch": "2.7.6-7build2",
+            "perl": "5.34.0-3ubuntu1.7",
+            "perl-base": "5.34.0-3ubuntu1.7",
+            "perl-modules-5.34": "5.34.0-3ubuntu1.7",
+            "pinentry-curses": "1.1.1-1build2",
+            "pkg-config": "0.29.2-1ubuntu3",
+            "procps": "2:3.3.17-6ubuntu2.1",
+            "python3": "3.10.6-1~22.04.1",
+            "python3-distutils": "3.10.8-1~22.04",
+            "python3-lib2to3": "3.10.8-1~22.04",
+            "python3-minimal": "3.10.6-1~22.04.1",
+            "python3.10": "3.10.12-1~22.04.15",
+            "python3.10-minimal": "3.10.12-1~22.04.15",
+            "readline-common": "8.1.2-1",
+            "rpcsvc-proto": "1.4.2-0ubuntu6",
+            "sed": "4.8-1ubuntu2.1",
+            "sensible-utils": "0.0.17",
+            "shared-mime-info": "2.1-2",
+            "subversion": "1.14.1-3ubuntu0.22.04.1",
+            "sysvinit-utils": "3.01-1ubuntu1",
+            "tar": "1.34+dfsg-1ubuntu0.1.22.04.3",
+            "tzdata": "2026a-0ubuntu0.22.04.1",
+            "ubuntu-keyring": "2021.03.26",
+            "ucf": "3.0043",
+            "unzip": "6.0-26ubuntu3.2",
+            "usrmerge": "25ubuntu2",
+            "util-linux": "2.37.2-4ubuntu3.5",
+            "uuid-dev:arm64": "2.37.2-4ubuntu3.5",
+            "wget": "1.21.2-2ubuntu1.1",
+            "x11-common": "1:7.7+23ubuntu2",
+            "x11proto-dev": "2021.5-1",
+            "xorg-sgml-doctools": "1:1.11-1.1",
+            "xtrans-dev": "1.4.0-1",
+            "xz-utils": "5.2.5-2ubuntu1.1",
+            "zlib1g-dev:arm64": "1:1.2.11.dfsg-2ubuntu9.2",
+            "zlib1g:arm64": "1:1.2.11.dfsg-2ubuntu9.2"
+          },
+          "binary_builder_platform": "linux/arm64",
+          "binary_builder_rootfs_diff_ids": [
+            "sha256:349cd24b7d434a8beb71a40f461c42b9f58e19b2637af5065f91bb019759cb91",
+            "sha256:a72d7dcdd20aa7b4a51b6277f5748b212610cd61023b466c63b61ff1ee07da5e",
+            "sha256:b148f48aff8df2431ac45c516553ffffe28295712479884e896e522a1a168d33",
+            "sha256:c4b1c6c6fe0e62af4c3dc539723b8992d44f79a57f2fe6decac263e6a0286924",
+            "sha256:ed7d9487c7694751d737343a5b3b25393d417f69810d113c7f097065886a82c6",
+            "sha256:eba718feac27bde17e26047964f35dd938abe80ab241f22d28ef02ea7af8f6df",
+            "sha256:389488d98edca4c540a1a5d933eff14dd2d1de4bc5282e86a4c63e93b00c0196"
+          ],
+          "binary_builder_target": "linux-arm64",
+          "binary_linker_policy": {
+            "cgo_ldflags": "-buildid= -extldflags=-Wl,--build-id=none",
+            "gnu_build_id": "disabled",
+            "go_build_id": "empty",
+            "static_ldflags": "-buildid="
+          },
+          "binary_reproducibility": {
+            "binaries": {
+              "blockdag-node": {
+                "sha256": "354d5a8d898291c87cba5b3fe62b41a5e9be52eec5214a1f9ac12bdd2a01335f",
+                "size_bytes": 94802136
+              },
+              "dashboard": {
+                "sha256": "95e50ca22ad233e6840c219c624686caebc2a6c7f1ca1109a2be0c9457faa440",
+                "size_bytes": 18855566
+              },
+              "dashboard-api": {
+                "sha256": "3d9d019ff4c9a4e9bb0393caaf91d4795ba9520479ce9a095e71a00ccc294270",
+                "size_bytes": 8817103
+              },
+              "mining-pool": {
+                "sha256": "b0419f2e924f65929a733aa4f6c949d987a5cb5e340061e3d0128345b2acdd83",
+                "size_bytes": 24248952
+              },
+              "nodeworker": {
+                "sha256": "845d1048b1f76c7fac02dd324f4c855393cf8e5612cd2bea6f17cdcffb62b6f9",
+                "size_bytes": 33351240
+              }
+            },
+            "cache_isolation": "independent-home-gocache-gomodcache",
+            "comparison": "byte-identical",
+            "container_paths": {
+              "gocache": "/workspace/gocache",
+              "gomodcache": "/workspace/gomodcache",
+              "home": "/workspace/home",
+              "output": "/workspace/out"
+            },
+            "runs": 2
+          },
+          "buildx": "github.com/docker/buildx v0.35.0 a319e5b15052cf6557ceb666eb8ff6e32380b782",
+          "compiler": "gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0",
+          "compiler_full_version": "11.4.0",
+          "docker": "28.0.4",
+          "git": "git version 2.34.1",
+          "glibc": "glibc 2.35",
+          "go": "go version go1.26.0 linux/arm64",
+          "go_build_image": "golang:1.26-bookworm@sha256:18aedc16aa19b3fd7ded7245fc14b109e054d65d22ed53c355c899582bbb2113",
+          "go_toolchain_image": "golang:1.26.0-bookworm@sha256:2a0ba12e116687098780d3ce700f9ce3cb340783779646aafbabed748fa6677c",
+          "go_toolchain_manifest_digest": "sha256:1ee99c345f8179002a0de40728e0eaa8865b81257b3924ef150ee65b3f1d3fc7",
+          "linker": "GNU ld (GNU Binutils for Ubuntu) 2.38",
+          "max_required_glibc": "2.35",
+          "module_build_policy": {
+            "goenv": "off",
+            "goproxy": "off",
+            "gosumdb": "off",
+            "network": "none"
+          },
+          "module_cache_manifest_sha256": "195e1058e247fb4130ff64361823138213901322d4389f415443566dcfd1c52f",
+          "module_download_policy": {
+            "goenv": "off",
+            "gonoproxy": "",
+            "gonosumdb": "",
+            "goprivate": "",
+            "goproxy": "https://proxy.golang.org,direct",
+            "gosumdb": "sum.golang.org",
+            "resolution": "go-list-deps-release-commands",
+            "verification": "go-mod-verify"
+          },
+          "ops_image": "docker:27-cli@sha256:851f91d241214e7c6db86513b270d58776379aacc5eb9c4a87e5b47115e3065c",
+          "postgres_image": "postgres:15-bookworm@sha256:0e441d964b57050c10ba70076d60de4747dd0e2a76fb5f407939ddd2e885d9c1",
+          "runtime_image": "ubuntu:24.04@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90",
+          "syft": "anchore/syft:v1.27.0@sha256:d755e38b255045ebec12acacdb0f50b8b8781979116bbf2b9fa3bd5fb4a355af"
+        }
+      }
+    }
+  }
+}

@@ -34,8 +34,8 @@ jobs:
         run: python3 tests/validate_rc44_release.py --publication-ready
       - name: Validate published RC52 release
         run: python3 tests/validate_rc52_release.py --publication-ready
-      - name: Validate RC58 release draft
-        run: python3 tests/validate_rc58_release.py
+      - name: Validate published RC58 release
+        run: python3 tests/validate_rc58_release.py --publication-ready
       - name: Test generated install commands
         run: node --test tests/release-page.test.mjs
       - name: Stage exact public tree

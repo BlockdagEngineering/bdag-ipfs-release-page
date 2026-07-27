@@ -254,7 +254,7 @@ test("a foreign published RC30 manifest cannot unlock the RC58 client", async ()
   assert.doesNotMatch(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
 });
 
-test("the real RC58 manifest is draft-locked now and must exactly unlock at finalization", async () => {
+test("the real RC58 manifest is the exact finalized publication and unlocks install commands", async () => {
   const manifestUrl = new URL("../releases/2.0.0-community-rescue-rc.58/release-manifest.json", import.meta.url);
   const manifest = JSON.parse(await readFile(manifestUrl, "utf8"));
   const ready = productionPublicationReady(manifest);
@@ -264,14 +264,10 @@ test("the real RC58 manifest is draft-locked now and must exactly unlock at fina
     retention: "current",
     dataDir: "/srv/blockdag/node-data",
   });
-  assert.equal(ready, EXPECTED_RELEASE_IDENTITY.publicationFinalized);
-  if (EXPECTED_RELEASE_IDENTITY.publicationFinalized) {
-    assert.equal(manifest.release.version, EXPECTED_RELEASE_IDENTITY.version);
-    assert.match(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
-  } else {
-    assert.match(command, /is not publication-ready/);
-    assert.doesNotMatch(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
-  }
+  assert.equal(EXPECTED_RELEASE_IDENTITY.publicationFinalized, true);
+  assert.equal(ready, true);
+  assert.equal(manifest.release.version, EXPECTED_RELEASE_IDENTITY.version);
+  assert.match(command, /bash "\$PACKAGE_ROOT\/install\.sh"/);
 });
 
 test("identity and transport validators reject malformed values", () => {

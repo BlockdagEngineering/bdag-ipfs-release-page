@@ -3,9 +3,8 @@
 BlockDAG `2.0.0-community-rescue-rc.58`, release sequence `58`, corrects the
 pool's coinbase reward accounting on mainnet chain ID `1404`.
 
-This page is a draft until the manifest contains final signed software
-records, SHA-256 values, sizes, and immutable IPFS CIDs. Do not install the
-draft.
+This published page contains the final signed software records, SHA-256
+values, sizes, and immutable IPFS CIDs. Verify them before installation.
 
 ## What It Fixes
 
@@ -54,10 +53,9 @@ unchanged. Only the pool source pin changes, to
 
 ## Install
 
-After the release is finalized, open the release page and confirm sequence
-`58`. Verify the signed authorization record, release-key fingerprint,
-package SHA-256, immutable CID, architecture, and chain ID before using its
-generated command.
+Open the published release page and confirm sequence `58`. Verify the signed
+authorization record, release-key fingerprint, package SHA-256, immutable
+CID, architecture, and chain ID before using its generated command.
 
 Choose `Keep / sync`. RC58 publishes neither a portable dataset nor a full
 archive, so preserve compatible data or let the node synchronize normally.

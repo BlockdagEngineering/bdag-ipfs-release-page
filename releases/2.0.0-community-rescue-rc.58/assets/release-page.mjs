@@ -5,12 +5,10 @@ const COMMIT_PATTERN = /^[0-9a-f]{40}$/;
 const WALLET_PATTERN = /^0x[0-9a-fA-F]{40}$/;
 const SAFE_FILENAME_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._+-]*$/;
 
-// This module is release-specific. The RC58 page remains fail-closed until
-// signed source and artifact records provide every remaining value below.
-// Never copy artifact hashes or CIDs from an earlier release to make this
-// draft appear complete.
+// This module is release-specific. These values are pinned to the signed RC58
+// source and artifact records and the deterministic IPFS import receipts.
 export const EXPECTED_RELEASE_IDENTITY = Object.freeze({
-  publicationFinalized: false,
+  publicationFinalized: true,
   version: "2.0.0-community-rescue-rc.58",
   sequence: 58,
   channel: "community-rescue",
@@ -21,32 +19,32 @@ export const EXPECTED_RELEASE_IDENTITY = Object.freeze({
   corechainCommit: "bb0f7a6fed918e56251aa602503c90f1e1f30cb8",
   poolCommit: "79001ae94a6d66f1ef0614ef0b78e79fdf3b0f50",
   dashboardCommit: "f00b654f79e50346bf6e866348cf07bdcb3b44ec",
-  sourceLockSha256: null,
-  recordsCid: null,
+  sourceLockSha256: "e7dadc8afac1592f9a22d2cbcd02bb7e0ce086577612b79e4af8bbb327f36f17",
+  recordsCid: "bafybeic5r7t5y6dpoprjbjps2yehjq2d4ovilsnv6ss4ixo45v3tu2zd6a",
   installer: {
-    status: "pending",
+    status: "published",
     filename: "bootstrap.sh",
-    cid: null,
-    sha256: null,
-    size_bytes: null,
+    cid: "bafkreifjiyrt4tpjhgupyw2bw7ocudlc5fo3js62dvyepcpspan3kocncu",
+    sha256: "a946233e4de939a8fc5b41b7dc2a0d62e95db4cbda1d704789f2781bb5384d15",
+    size_bytes: 6223,
   },
   targets: {
     "linux-amd64": {
-      status: "pending",
+      status: "published",
       filename: "pool-stack-docker-2.0.0-community-rescue-rc.58-linux-amd64.zip",
-      cid: null,
-      sha256: null,
-      size_bytes: null,
+      cid: "bafybeid3wexawynj3cnef7gy6jtewqo3fiaycs2bslz74tyd53rboqlbhm",
+      sha256: "8f0b544a3682e79e283be296a3f148d9121139236c4ffbcc2152f51fded25eb0",
+      size_bytes: 480461478,
     },
     "linux-arm64": {
-      status: "pending",
+      status: "published",
       filename: "pool-stack-docker-2.0.0-community-rescue-rc.58-linux-arm64.zip",
-      cid: null,
-      sha256: null,
-      size_bytes: null,
+      cid: "bafybeifv2bjsgovh6ze2iupq2ykaf3soqtoen7pr5x5mq3b7qob3g5ebsq",
+      sha256: "2e40729208f90a24a9b3de9e853bfd6400d1e6c3682ee28f54d8c36c82aa57c4",
+      size_bytes: 455939492,
     },
   },
-  releaseKeySha256: null,
+  releaseKeySha256: "26f0051185d9c1abada3b5adcd3d11c88f522e09b3850211a04773250c267ffb",
 });
 
 export function isSha256(value) {

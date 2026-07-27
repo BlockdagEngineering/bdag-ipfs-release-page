@@ -4,9 +4,9 @@
     "version": "2.0.0-community-rescue-rc.58",
     "sequence": 58,
     "channel": "community-rescue",
-    "status": "draft",
+    "status": "published",
     "chain_id": 1404,
-    "published_at": null
+    "published_at": "2026-07-27T18:41:21Z"
   },
   "source": {
     "repository": "https://github.com/BlockdagEngineering/stack",
@@ -16,7 +16,7 @@
     "corechain_commit": "bb0f7a6fed918e56251aa602503c90f1e1f30cb8",
     "pool_commit": "79001ae94a6d66f1ef0614ef0b78e79fdf3b0f50",
     "dashboard_commit": "f00b654f79e50346bf6e866348cf07bdcb3b44ec",
-    "source_lock_sha256": null
+    "source_lock_sha256": "e7dadc8afac1592f9a22d2cbcd02bb7e0ce086577612b79e4af8bbb327f36f17"
   },
   "runtime_change": {
     "transient_startup_canonical_boundary_rpc": "bounded-retry",
@@ -28,8 +28,8 @@
     "automatic_payouts": "disabled-pending-staking-reconciliation"
   },
   "trust": {
-    "release_key_path": null,
-    "release_key_sha256": null,
+    "release_key_path": "records/software/release-key.pem",
+    "release_key_sha256": "26f0051185d9c1abada3b5adcd3d11c88f522e09b3850211a04773250c267ffb",
     "dataset_key_path": null,
     "dataset_key_id": null,
     "dataset_key_sha256": null,
@@ -48,32 +48,32 @@
   },
   "records_delivery": {
     "mode": "ipfs-directory",
-    "cid": null,
+    "cid": "bafybeic5r7t5y6dpoprjbjps2yehjq2d4ovilsnv6ss4ixo45v3tu2zd6a",
     "path_prefix": "records/"
   },
   "installer": {
-    "status": "pending",
+    "status": "published",
     "filename": "bootstrap.sh",
-    "cid": null,
-    "sha256": null,
-    "size_bytes": null
+    "cid": "bafkreifjiyrt4tpjhgupyw2bw7ocudlc5fo3js62dvyepcpspan3kocncu",
+    "sha256": "a946233e4de939a8fc5b41b7dc2a0d62e95db4cbda1d704789f2781bb5384d15",
+    "size_bytes": 6223
   },
   "software": {
     "independent_from_datasets": true,
     "targets": {
       "linux-amd64": {
-        "status": "pending",
+        "status": "published",
         "filename": "pool-stack-docker-2.0.0-community-rescue-rc.58-linux-amd64.zip",
-        "cid": null,
-        "sha256": null,
-        "size_bytes": null
+        "cid": "bafybeid3wexawynj3cnef7gy6jtewqo3fiaycs2bslz74tyd53rboqlbhm",
+        "sha256": "8f0b544a3682e79e283be296a3f148d9121139236c4ffbcc2152f51fded25eb0",
+        "size_bytes": 480461478
       },
       "linux-arm64": {
-        "status": "pending",
+        "status": "published",
         "filename": "pool-stack-docker-2.0.0-community-rescue-rc.58-linux-arm64.zip",
-        "cid": null,
-        "sha256": null,
-        "size_bytes": null
+        "cid": "bafybeifv2bjsgovh6ze2iupq2ykaf3soqtoen7pr5x5mq3b7qob3g5ebsq",
+        "sha256": "2e40729208f90a24a9b3de9e853bfd6400d1e6c3682ee28f54d8c36c82aa57c4",
+        "size_bytes": 455939492
       }
     },
     "records": {
@@ -131,11 +131,11 @@
     }
   },
   "qualification": {
-    "status": "in-progress",
-    "signed_package_integrity_verified": false,
+    "status": "passed",
+    "signed_package_integrity_verified": true,
     "portable_dataset_verified": false,
     "full_archive_dataset_verified": false,
-    "restore_path_verified": false,
-    "runtime_path_verified": false
+    "restore_path_verified": true,
+    "runtime_path_verified": true
   }
 }

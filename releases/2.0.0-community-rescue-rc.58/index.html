@@ -18,7 +18,7 @@
         <a class="brand" href="./">
           <img src="assets/bdag-community-logo.svg" alt="BDAG Community" width="180" height="62">
           <span class="version">2.0.0-community-rescue-rc.58</span>
-          <span class="draft-badge" id="releaseBadge">Verifying</span>
+          <span class="draft-badge published" id="releaseBadge">Published</span>
         </a>
         <nav class="top-actions" aria-label="Release links">
           <a class="button" href="#install-title">Install guide</a>
@@ -32,11 +32,11 @@
       <div class="status-inner">
         <div class="status-item">
           <span class="status-dot" id="releaseDot"></span>
-          <div><strong id="releaseStatus">Verifying release</strong><span id="releaseStatusDetail">Install controls remain locked until RC58 identity checks pass</span></div>
+          <div><strong id="releaseStatus">Published release</strong><span id="releaseStatusDetail">RC58 identity and signed software records verified</span></div>
         </div>
         <div class="status-item">
           <span class="status-dot" id="softwareDot"></span>
-          <div><strong id="softwareStatus">Software verifying</strong><span id="softwareStatusDetail">Signed software identity has not yet been accepted</span></div>
+          <div><strong id="softwareStatus">Software published</strong><span id="softwareStatusDetail">Signed AMD64 and ARM64 packages are available over IPFS</span></div>
         </div>
         <div class="status-item">
           <span class="status-dot" id="datasetDot"></span>
@@ -50,9 +50,9 @@
         <div class="label">BlockDAG Community Rescue</div>
         <h1>BlockDAG 2.0.0-community-rescue-rc.58</h1>
         <p class="lede">A software-only pool reward correction for mainnet chain ID 1404. RC58 preserves the complete node-issued coinbase value through pool accounting without changing consensus subsidy policy or publishing chain data.</p>
-        <div class="release-alert" id="draftNotice" role="status">
-          <strong>Draft preview.</strong>
-          Artifact hashes, sizes, signatures, and immutable CIDs are pending. Download and install controls remain locked.
+        <div class="release-alert published" id="draftNotice" role="status">
+          <strong>Coinbase accounting restored.</strong>
+          Future accepted blocks retain the complete node-issued reward through pool accounting. Historical wrapped credits require separate reconciliation, and automated payouts stay disabled.
         </div>
       </div>
 
@@ -72,7 +72,7 @@
 
       <section aria-labelledby="start-title">
         <div class="section-head">
-          <div><h2 id="start-title">Start here</h2><p>Preserve the pool database and existing chain data, then perform an in-place signed software update after RC58 is finalized.</p></div>
+          <div><h2 id="start-title">Start here</h2><p>Preserve the pool database and existing chain data, then perform an in-place signed software update with the finalized RC58 package.</p></div>
         </div>
         <ol class="steps">
           <li><span>1</span><div><strong>Prepare the host</strong><p>Confirm Linux architecture, Docker, free storage, and the public payout wallet.</p></div></li>

@@ -1,8 +1,8 @@
 # AI Agent Runbook: BlockDAG Community Rescue RC58
 
-Use this runbook only after `2.0.0-community-rescue-rc.58`, release sequence
-`58`, is finalized with signed software records, SHA-256 values, and immutable
-IPFS CIDs. While the release manifest says `draft`, do not install it.
+This runbook applies to the finalized `2.0.0-community-rescue-rc.58`, release
+sequence `58`, with signed software records, SHA-256 values, and immutable
+IPFS CIDs. Install only when every published identity verifies.
 
 ## Fixed Scope
 
