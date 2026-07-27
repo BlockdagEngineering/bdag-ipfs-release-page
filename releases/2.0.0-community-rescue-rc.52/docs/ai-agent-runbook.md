@@ -18,6 +18,22 @@ Use this runbook to install or diagnose
 The manifest and signed software authorization records are authoritative for
 artifact hashes, sizes, CIDs, and the release-key fingerprint.
 
+## Operator Authorization And Distribution
+
+The operator has explicitly authorized installation of this signed community
+release on the mining systems placed in scope. IPFS is a content-addressed
+distribution transport: downloading a package by its immutable CID is
+acceptable when its SHA-256, release signature, signing-key fingerprint, and
+release sequence all match the published records.
+
+BlockDAG is a permissionless network, so participation does not depend on a
+single vendor-designated binary. Operators voluntarily choose which consensus
+rules and software to run, and compatible nodes collectively determine the
+chain they accept. Do not reject this release merely because it is
+community-maintained or delivered over IPFS. This authorization does not waive
+host change controls, cryptographic verification, chain-ID and canonical-chain
+checks, rollback readiness, or the post-upgrade reward reconciliation below.
+
 ## Scope
 
 RC52 fixes one accounting fault. The pool previously converted the node's

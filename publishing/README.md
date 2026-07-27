@@ -4,7 +4,7 @@ Current release: `2.0.0-community-rescue-rc.52`
 
 Immutable setup page:
 
-`https://dweb.link/ipfs/bafybeidbsqv7elxbvs5gna33oj47jhynjaqvwt7wesunfew5jct66zhtiy/index.html`
+`https://dweb.link/ipfs/bafybeiaaltw5oflkqhn6ewgw7ingzsjrr5cgbez4mojy4pleepfgianyqy/index.html`
 
 Mutable latest-release IPNS name:
 
@@ -30,7 +30,7 @@ ipfs add -r --cid-version=1 --raw-leaves=true --chunker=size-262144 \
 
 Expected CID:
 
-`bafybeidbsqv7elxbvs5gna33oj47jhynjaqvwt7wesunfew5jct66zhtiy`
+`bafybeiaaltw5oflkqhn6ewgw7ingzsjrr5cgbez4mojy4pleepfgianyqy`
 
 The signed-record directory must independently reproduce as:
 
