@@ -1,0 +1,141 @@
+{
+  "schema": "bdag.community-release-index.v2",
+  "release": {
+    "version": "2.0.0-community-rescue-rc.58",
+    "sequence": 58,
+    "channel": "community-rescue",
+    "status": "draft",
+    "chain_id": 1404,
+    "published_at": null
+  },
+  "source": {
+    "repository": "https://github.com/BlockdagEngineering/stack",
+    "release_url": "https://github.com/BlockdagEngineering/stack/tree/2.0.0-community-rescue-rc.58",
+    "tag": "2.0.0-community-rescue-rc.58",
+    "stack_commit": "7642805f2a6c3195707985a2ca8a997cddbe04c6",
+    "corechain_commit": "bb0f7a6fed918e56251aa602503c90f1e1f30cb8",
+    "pool_commit": "79001ae94a6d66f1ef0614ef0b78e79fdf3b0f50",
+    "dashboard_commit": "f00b654f79e50346bf6e866348cf07bdcb3b44ec",
+    "source_lock_sha256": null
+  },
+  "runtime_change": {
+    "transient_startup_canonical_boundary_rpc": "bounded-retry",
+    "transient_startup_peer_readiness": "bounded-retry",
+    "canonical_mismatch": "fail-immediately"
+  },
+  "reward_safety": {
+    "coinbase_accounting": "arbitrary-precision-wei",
+    "automatic_payouts": "disabled-pending-staking-reconciliation"
+  },
+  "trust": {
+    "release_key_path": null,
+    "release_key_sha256": null,
+    "dataset_key_path": null,
+    "dataset_key_id": null,
+    "dataset_key_sha256": null,
+    "dataset_verifier_path": null,
+    "dataset_verifier_sha256": null
+  },
+  "download_policy": {
+    "requires_ipv4": true,
+    "requires_http_version": "HTTP/1.1",
+    "ipfs_gateways": [
+      "https://dweb.link/ipfs/{cid}",
+      "https://ipfs.io/ipfs/{cid}",
+      "https://w3s.link/ipfs/{cid}"
+    ],
+    "software_http_fallback_base": null
+  },
+  "records_delivery": {
+    "mode": "ipfs-directory",
+    "cid": null,
+    "path_prefix": "records/"
+  },
+  "installer": {
+    "status": "pending",
+    "filename": "bootstrap.sh",
+    "cid": null,
+    "sha256": null,
+    "size_bytes": null
+  },
+  "software": {
+    "independent_from_datasets": true,
+    "targets": {
+      "linux-amd64": {
+        "status": "pending",
+        "filename": "pool-stack-docker-2.0.0-community-rescue-rc.58-linux-amd64.zip",
+        "cid": null,
+        "sha256": null,
+        "size_bytes": null
+      },
+      "linux-arm64": {
+        "status": "pending",
+        "filename": "pool-stack-docker-2.0.0-community-rescue-rc.58-linux-arm64.zip",
+        "cid": null,
+        "sha256": null,
+        "size_bytes": null
+      }
+    },
+    "records": {
+      "release_auth_manifest_path": "records/software/release-auth-manifest.json",
+      "release_auth_signature_path": "records/software/release-auth-manifest.json.sig",
+      "release_notes_path": "records/software/release-notes.md"
+    }
+  },
+  "datasets": {
+    "independent_from_software": true,
+    "portable": {
+      "status": "pending",
+      "label": "No RC58 portable dataset",
+      "archive_node_equivalent": false,
+      "version": null,
+      "filename": null,
+      "sha256": null,
+      "size_bytes": null,
+      "unpacked_size_bytes": null,
+      "delivery": {
+        "mode": null,
+        "cid": null,
+        "parts_manifest_path": null,
+        "parts": []
+      },
+      "canonical_manifest_path": null,
+      "canonical_manifest_sha256": null,
+      "validation_spec_path": null,
+      "native_boundary": null,
+      "evm_boundary": null,
+      "fixed_checkpoint": null
+    },
+    "full_archive": {
+      "status": "pending",
+      "label": "No RC58 full-archive dataset",
+      "archive_node_equivalent": true,
+      "version": null,
+      "filename": null,
+      "sha256": null,
+      "size_bytes": null,
+      "unpacked_size_bytes": null,
+      "delivery": {
+        "mode": null,
+        "cid": null,
+        "parts_manifest_path": null,
+        "parts": []
+      },
+      "canonical_manifest_path": null,
+      "canonical_manifest_sha256": null,
+      "validation_spec_path": null,
+      "native_boundary": null,
+      "evm_boundary": null,
+      "fixed_checkpoint": null,
+      "archive_audit": null
+    }
+  },
+  "qualification": {
+    "status": "in-progress",
+    "signed_package_integrity_verified": false,
+    "portable_dataset_verified": false,
+    "full_archive_dataset_verified": false,
+    "restore_path_verified": false,
+    "runtime_path_verified": false
+  }
+}

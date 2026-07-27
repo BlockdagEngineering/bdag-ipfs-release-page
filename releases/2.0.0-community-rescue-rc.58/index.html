@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta name="robots" content="index,follow">
+    <meta name="description" content="BlockDAG Community Rescue RC58 corrects uint64 overflow in pool coinbase reward accounting for mainnet chain ID 1404.">
+    <title>BlockDAG Community Rescue RC58</title>
+    <link rel="canonical" href="https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.0.0-community-rescue-rc.58/index.html">
+    <link rel="icon" href="assets/bdag-community-logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/release.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#install-title">Skip to installation</a>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="./">
+          <img src="assets/bdag-community-logo.svg" alt="BDAG Community" width="180" height="62">
+          <span class="version">2.0.0-community-rescue-rc.58</span>
+          <span class="draft-badge" id="releaseBadge">Verifying</span>
+        </a>
+        <nav class="top-actions" aria-label="Release links">
+          <a class="button" href="#install-title">Install guide</a>
+          <a class="button" href="docs/ai-agent-runbook.md" download>AI runbook (.md)</a>
+          <a class="button" href="release-manifest.json">Technical manifest</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="status-band" aria-label="Publication status">
+      <div class="status-inner">
+        <div class="status-item">
+          <span class="status-dot" id="releaseDot"></span>
+          <div><strong id="releaseStatus">Verifying release</strong><span id="releaseStatusDetail">Install controls remain locked until RC58 identity checks pass</span></div>
+        </div>
+        <div class="status-item">
+          <span class="status-dot" id="softwareDot"></span>
+          <div><strong id="softwareStatus">Software verifying</strong><span id="softwareStatusDetail">Signed software identity has not yet been accepted</span></div>
+        </div>
+        <div class="status-item">
+          <span class="status-dot" id="datasetDot"></span>
+          <div><strong id="datasetStatus">No RC58 dataset</strong><span id="datasetStatusDetail">Keep compatible chain data or synchronize normally</span></div>
+        </div>
+      </div>
+    </div>
+
+    <main id="main-content">
+      <div class="release-head">
+        <div class="label">BlockDAG Community Rescue</div>
+        <h1>BlockDAG 2.0.0-community-rescue-rc.58</h1>
+        <p class="lede">A software-only pool reward correction for mainnet chain ID 1404. RC58 preserves the complete node-issued coinbase value through pool accounting without changing consensus subsidy policy or publishing chain data.</p>
+        <div class="release-alert" id="draftNotice" role="status">
+          <strong>Draft preview.</strong>
+          Artifact hashes, sizes, signatures, and immutable CIDs are pending. Download and install controls remain locked.
+        </div>
+      </div>
+
+      <section aria-labelledby="release-change-title">
+        <div class="section-head">
+          <div><h2 id="release-change-title">What RC58 fixes</h2><p>The previous pool converted the valid 1e8-unit node reward to Wei inside a 64-bit integer. Normal mainnet rewards exceed that range after scaling by 10<sup>10</sup>, so the value wrapped before fee and credit accounting.</p></div>
+        </div>
+        <div class="prereq-grid">
+          <div class="prereq"><strong>Full reward precision</strong><span>Reward conversion, the 1% pool fee, PPLNS credits, Postgres values, and wallet-payout calculations now remain exact above the 64-bit limit.</span></div>
+          <div class="prereq"><strong>Exact regression vector</strong><span><code>23,983,626,033</code> atomic units become <code>239.83626033 BDAG</code> gross, <code>2.3983626033 BDAG</code> fee, and <code>237.4378977267 BDAG</code> sole-account credit.</span></div>
+          <div class="prereq"><strong>Observed X100 baseline</strong><span>At the demonstrated <code>4,259</code> accepted blocks/day, the corrected 1% credit is about <code>1,011,248 BDAG/day</code> per X100. Actual results depend on accepted block count.</span></div>
+          <div class="prereq"><strong>Minimal source delta</strong><span>RC58 uses stack commit <code>7642805…</code> with the exact RC55 tree, retains the pinned core and dashboard, and changes only the pool commit to <code>79001ae…</code>.</span></div>
+          <div class="prereq"><strong>Consensus unchanged</strong><span>Consensus subsidy, header validation, protocol distribution, miner eligibility, the 1% pool fee, PPLNS proportions, and maturity remain unchanged.</span></div>
+          <div class="prereq"><strong>Forward correction</strong><span>New accepted blocks are credited correctly. Historical wrapped credits are not silently rewritten or paid twice.</span></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="start-title">
+        <div class="section-head">
+          <div><h2 id="start-title">Start here</h2><p>Preserve the pool database and existing chain data, then perform an in-place signed software update after RC58 is finalized.</p></div>
+        </div>
+        <ol class="steps">
+          <li><span>1</span><div><strong>Prepare the host</strong><p>Confirm Linux architecture, Docker, free storage, and the public payout wallet.</p></div></li>
+          <li><span>2</span><div><strong>Preserve accounting</strong><p>Back up Postgres before upgrading. Do not delete or overwrite the existing ledger while historical reconciliation is pending.</p></div></li>
+          <li><span>3</span><div><strong>Verify every file</strong><p>Check SHA-256, the release authorization signature, and the signed release sequence before installation.</p></div></li>
+          <li><span>4</span><div><strong>Install and check</strong><p>Start the stack, confirm chain ID 1404, then verify full gross reward accounting. Keep payouts disabled until liquid and staked protocol receipts reconcile with the ledger.</p></div></li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="install-title">
+        <div class="section-head">
+          <div><h2 id="install-title">Install command builder</h2><p>These fields stay in this browser. The page does not transmit or store them.</p></div>
+        </div>
+        <div class="workspace">
+          <div class="controls">
+            <fieldset>
+              <legend>Node role</legend>
+              <div class="segmented segmented-four" role="group" aria-label="Node role">
+                <button type="button" class="active" data-profile="mining" aria-pressed="true">Mining pool</button>
+                <button type="button" data-profile="public-rpc" aria-pressed="false">Public RPC</button>
+                <button type="button" data-profile="non-mining" aria-pressed="false">Node only</button>
+                <button type="button" data-preset="full-archive-rpc" aria-pressed="false" aria-disabled="true" disabled>Full archive RPC</button>
+              </div>
+            </fieldset>
+            <fieldset id="datasetField">
+              <legend>Chain data</legend>
+              <div class="segmented segmented-three" role="group" aria-label="Chain data choice">
+                <button type="button" class="active" data-dataset="none" aria-pressed="true">Keep / sync</button>
+                <button type="button" data-dataset="portable" aria-pressed="false" aria-disabled="true" disabled>Portable restore</button>
+                <button type="button" data-dataset="full_archive" aria-pressed="false" aria-disabled="true" disabled>Full archive</button>
+              </div>
+            </fieldset>
+            <fieldset id="retentionField">
+              <legend>EVM state retention</legend>
+              <div class="segmented segmented-two" role="group" aria-label="EVM state retention">
+                <button type="button" class="active" data-retention="current" aria-pressed="true">Current state</button>
+                <button type="button" data-retention="archive" aria-pressed="false">Retain archive</button>
+              </div>
+              <p class="field-help" id="retentionHelp">Current-state mode is appropriate for mining and ordinary RPC nodes. Select archive retention only when keeping compatible archive data.</p>
+            </fieldset>
+            <label>Node data directory<input id="dataDir" type="text" value="/srv/blockdag/node-data" spellcheck="false"></label>
+            <label>Download workspace<input id="downloadDir" type="text" value="/srv/blockdag/downloads" spellcheck="false"><span class="field-help">Keep resumable downloads and multipart assembly outside the live node-data tree.</span></label>
+            <label id="walletLabel">Public payout wallet<input id="wallet" type="text" placeholder="0xYOUR_PUBLIC_PAYOUT_ADDRESS" autocomplete="off" spellcheck="false"></label>
+            <div id="selectionSummary" class="selection-summary">Software only. Existing compatible data is retained or the node synchronizes normally.</div>
+            <div id="inputNotice" class="notice">Enter only a public payout address. A seed phrase or private key is never needed.</div>
+          </div>
+          <div>
+            <div class="terminal">
+              <div class="terminal-bar"><span>Generated Linux command</span><button id="copyCommand" type="button" disabled>Copy command</button></div>
+              <pre id="installCommand" tabindex="0" aria-label="Generated Linux installation command">Loading release manifest...</pre>
+            </div>
+            <div class="notice">The command checks Linux, required tools, Docker access, administrative access, and minimum free space before downloading. Downloads use IPv4 and HTTP/1.1 with retries.</div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="prepare-title">
+        <div class="section-head"><div><h2 id="prepare-title">Prepare the host</h2><p>Have these items ready before downloading large files.</p></div></div>
+        <div class="prereq-grid">
+          <div class="prereq"><strong>Public payout wallet</strong><span>Mining needs a public <code>0x...</code> address. Never provide a seed phrase or private key.</span></div>
+          <div class="prereq"><strong>Supported host</strong><span>Use 64-bit Linux on AMD64 or ARM64 with Docker Engine and Docker Compose v2.</span></div>
+          <div class="prereq"><strong>Required tools</strong><span>Install <code>curl</code>, <code>unzip</code>, <code>sha256sum</code>, Python 3, <code>tar</code>, and <code>zstd</code>.</span></div>
+          <div class="prereq"><strong>Storage</strong><span>Use the final manifest sizes to allow room for the download, extraction, chain growth, and a rollback copy.</span></div>
+          <div class="prereq"><strong>Public RPC edge</strong><span>Use an independently configured TLS edge proxy with firewalling, per-client abuse controls, health checks, monitoring, and restart recovery.</span></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="downloads-title">
+        <div class="section-head"><div><h2 id="downloads-title">Signed software</h2><p>RC58 is software-only. Keep compatible existing chain data during the upgrade or synchronize normally; no RC58 dataset is published.</p></div></div>
+        <div class="artifact-grid">
+          <article class="artifact" data-artifact="linux-amd64">
+            <span class="kind">Linux AMD64 software</span>
+            <h3>RC58 offline stack</h3>
+            <dl><dt>Status</dt><dd data-field="status">Pending</dd><dt>Filename</dt><dd data-field="filename">Pending final metadata</dd><dt>Size</dt><dd data-field="size">Pending</dd><dt>SHA-256</dt><dd data-field="sha256">Pending</dd></dl>
+            <code data-field="cid">CID pending</code>
+            <div class="artifact-actions"><a class="button primary disabled" data-action="download" aria-disabled="true">Not yet published</a></div>
+          </article>
+          <article class="artifact" data-artifact="linux-arm64">
+            <span class="kind">Linux ARM64 software</span>
+            <h3>RC58 offline stack</h3>
+            <dl><dt>Status</dt><dd data-field="status">Pending</dd><dt>Filename</dt><dd data-field="filename">Pending final metadata</dd><dt>Size</dt><dd data-field="size">Pending</dd><dt>SHA-256</dt><dd data-field="sha256">Pending</dd></dl>
+            <code data-field="cid">CID pending</code>
+            <div class="artifact-actions"><a class="button primary disabled" data-action="download" aria-disabled="true">Not yet published</a></div>
+          </article>
+          <article class="artifact" data-artifact="portable">
+            <span class="kind">Portable dataset</span>
+            <h3>No RC58 portable dataset</h3>
+            <p>This software-only release has no portable artifact, identity, signed record, CID, or pin.</p>
+            <dl><dt>Status</dt><dd data-field="status">Not published</dd><dt>Filename</dt><dd data-field="filename">None</dd><dt>Download</dt><dd data-field="size">None</dd><dt>Expanded</dt><dd data-field="unpacked-size">None</dd><dt>SHA-256</dt><dd data-field="sha256">None</dd></dl>
+            <code data-field="cid">No delivery record</code>
+            <div class="artifact-actions"><a class="button primary disabled" data-action="download" aria-disabled="true">Not published</a><a class="button disabled" data-action="manifest" aria-disabled="true">No signed manifest</a></div>
+          </article>
+          <article class="artifact" data-artifact="full_archive">
+            <span class="kind">Full archive dataset</span>
+            <h3>No RC58 full archive</h3>
+            <p>This software-only release has no full-archive artifact, identity, signed record, CID, or pin. Existing compatible archive data may remain in place.</p>
+            <dl><dt>Status</dt><dd data-field="status">Not published</dd><dt>Filename</dt><dd data-field="filename">None</dd><dt>Download</dt><dd data-field="size">None</dd><dt>Expanded</dt><dd data-field="unpacked-size">None</dd><dt>SHA-256</dt><dd data-field="sha256">None</dd></dl>
+            <code data-field="cid">No delivery record</code>
+            <div class="artifact-actions"><a class="button primary disabled" data-action="download" aria-disabled="true">Not published</a><a class="button disabled" data-action="manifest" aria-disabled="true">No signed manifest</a></div>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="verify-title">
+        <div class="section-head"><div><h2 id="verify-title">Verify before installing</h2><p>A successful download is not enough. Verify the exact bytes and the signed trust records.</p></div></div>
+        <div class="verify-grid">
+          <div>
+            <h3>Software</h3>
+            <ol class="check-list">
+              <li>Match the package SHA-256 to the release manifest.</li>
+              <li>Verify the release authorization signature with the published release key.</li>
+              <li>Confirm the release key fingerprint and signed release sequence.</li>
+              <li>Run the packaged installer, which verifies its signed release lock before activation.</li>
+            </ol>
+          </div>
+          <div>
+            <h3>Existing chain data</h3>
+            <ol class="check-list">
+              <li>RC58 supplies no portable or full-archive dataset.</li>
+              <li>Preserve compatible native, EVM, and pool accounting data before upgrading.</li>
+              <li>Use <strong>Keep / sync</strong>; never substitute an earlier release's dataset as an RC58 artifact.</li>
+              <li>Never merge database or freezer directories from different histories by hand.</li>
+            </ol>
+          </div>
+        </div>
+        <pre class="command-sample">curl -4 --http1.1 -fL --retry 12 --retry-all-errors -C - \
+  "https://GATEWAY.example/ipfs/CID_FROM_RELEASE_MANIFEST" \
+  -o "ARTIFACT.part"
+printf '%s  %s\n' "SHA256_FROM_RELEASE_MANIFEST" "ARTIFACT.part" | sha256sum -c -</pre>
+      </section>
+
+      <section aria-labelledby="gateway-title">
+        <div class="section-head"><div><h2 id="gateway-title">When an IPFS gateway times out</h2><p>A gateway timeout does not change the CID or the file. Resume through another gateway and verify the final hash. If the IPFS page itself is unavailable, use the <a href="https://blockdagengineering.github.io/bdag-ipfs-release-page/">stable web copy</a>.</p></div></div>
+        <div class="gateway-grid">
+          <div class="gateway-step"><strong>1. Keep the partial file</strong><span>Do not delete <code>.part</code>. The documented command resumes it with <code>-C -</code>.</span></div>
+          <div class="gateway-step"><strong>2. Change the gateway</strong><span>Try each gateway listed in the release manifest while keeping the same CID and output filename.</span></div>
+          <div class="gateway-step"><strong>3. Force the stable transport</strong><span>Keep both <code>-4</code> and <code>--http1.1</code> on every large download.</span></div>
+          <div class="gateway-step"><strong>4. Verify after assembly</strong><span>Trust only the published SHA-256 and signature records, regardless of which gateway returned the bytes.</span></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="records-title">
+        <div class="section-head"><div><h2 id="records-title">Release records</h2><p>Only RC58 software records will be published. Dataset records are intentionally absent.</p></div></div>
+        <div class="record-grid">
+          <div>
+            <h3>Software records</h3>
+            <ul class="record-list">
+              <li><a class="disabled-link" data-record="release-auth" aria-disabled="true">Release authorization manifest</a><code>pending</code></li>
+              <li><a class="disabled-link" data-record="release-key" aria-disabled="true">Release public key</a><code>pending</code></li>
+              <li><a class="disabled-link" data-record="release-notes" aria-disabled="true">Release notes</a><code>pending</code></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Dataset records</h3>
+            <ul class="record-list">
+              <li><a class="disabled-link" data-record="dataset-key" aria-disabled="true">Dataset public key</a><code>not published</code></li>
+              <li><a class="disabled-link" data-record="dataset-verifier" aria-disabled="true">Dataset manifest verifier</a><code>not published</code></li>
+              <li><a class="disabled-link" data-record="portable-manifest" aria-disabled="true">Portable signed manifest</a><code>not published</code></li>
+              <li><a class="disabled-link" data-record="archive-manifest" aria-disabled="true">Full archive signed manifest</a><code>not published</code></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <footer>Community-maintained prerelease for mainnet chain ID 1404. Page revision 1. Verify immutable CIDs, SHA-256 values, signatures, and the first post-upgrade block credit before attaching hash power.</footer>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite">Command copied</div>
+    <noscript><div class="noscript">JavaScript is required to read the release manifest and unlock verified download controls.</div></noscript>
+    <script type="module" src="assets/release-page.mjs"></script>
+  </body>
+</html>

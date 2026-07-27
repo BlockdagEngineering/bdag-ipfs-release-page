@@ -495,11 +495,6 @@ def validate_publication_ready(validator: Validator, manifest: dict[str, Any]) -
     )
     html = (RELEASE / "index.html").read_text(encoding="utf-8")
     validator.check("noindex,nofollow" not in html, "published page must be indexable")
-    root_index = (ROOT / "index.html").read_text(encoding="utf-8")
-    validator.check(
-        "releases/2.0.0-community-rescue-rc.44/index.html" in root_index,
-        "root redirect does not select published RC44",
-    )
 
 
 def main() -> None:
