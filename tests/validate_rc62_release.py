@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the fail-closed RC58 draft or final signed software publication."""
+"""Validate the fail-closed RC62 draft or final signed software publication."""
 
 from __future__ import annotations
 
@@ -17,52 +17,52 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.0.0-community-rescue-rc.58"
+VERSION = "2.0.0-community-rescue-rc.62"
 RELEASE_DIR = ROOT / "releases" / VERSION
 MANIFEST_PATH = RELEASE_DIR / "release-manifest.json"
 SOFTWARE_DIR = RELEASE_DIR / "records" / "software"
-SEQUENCE = 58
+SEQUENCE = 62
 
 SOURCE = {
     "repository": "https://github.com/BlockdagEngineering/stack",
     "release_url": f"https://github.com/BlockdagEngineering/stack/tree/{VERSION}",
     "tag": VERSION,
-    "stack_commit": "7642805f2a6c3195707985a2ca8a997cddbe04c6",
+    "stack_commit": "60c3c6fd66edf24f79aff8ae8e0f91a3d01adb2e",
     "corechain_commit": "bb0f7a6fed918e56251aa602503c90f1e1f30cb8",
     "pool_commit": "79001ae94a6d66f1ef0614ef0b78e79fdf3b0f50",
     "dashboard_commit": "f00b654f79e50346bf6e866348cf07bdcb3b44ec",
     "source_lock_sha256": None,
 }
 
-# RC58_FINAL_METADATA_REQUIRED: replace every value below only from the final
+# RC62_FINAL_METADATA_REQUIRED: replace every value below only from the final
 # signed build and deterministic IPFS publication receipts. Deliberately invalid
 # placeholders keep --publication-ready fail-closed while artifacts assemble.
-FINAL_PLACEHOLDER_PREFIX = "__RC58_FINAL_"
+FINAL_PLACEHOLDER_PREFIX = "__RC62_FINAL_"
 FINAL_RELEASE_KEY_SHA256 = "26f0051185d9c1abada3b5adcd3d11c88f522e09b3850211a04773250c267ffb"
-FINAL_SOURCE_LOCK_SHA256 = "e7dadc8afac1592f9a22d2cbcd02bb7e0ce086577612b79e4af8bbb327f36f17"
-FINAL_RECORDS_CID = "bafybeic5r7t5y6dpoprjbjps2yehjq2d4ovilsnv6ss4ixo45v3tu2zd6a"
-FINAL_PAGE_CID = "bafybeibmkyhqwqz26t3lb6w7dp6sjqe2i4goyiopsn6ppfwnf4rrtryjwi"
+FINAL_SOURCE_LOCK_SHA256 = "09eef25d1a70af571ccce655162dfb579ff5836e62999900c2cda0fdabc7c729"
+FINAL_RECORDS_CID = "bafybeiabffabrb345zxeufuqh6kbj7qvyx3aprqe3mq2itn3uzjk72wsga"
+FINAL_PAGE_CID = "bafybeiavwpvhacxznesv5imjuqdcb2g6idrnqalor6kf7fr3pjq3tmatky"
 FINAL_ARTIFACTS = {
     "installer": {
         "status": "published",
         "filename": "bootstrap.sh",
-        "cid": "bafkreifjiyrt4tpjhgupyw2bw7ocudlc5fo3js62dvyepcpspan3kocncu",
-        "sha256": "a946233e4de939a8fc5b41b7dc2a0d62e95db4cbda1d704789f2781bb5384d15",
-        "size_bytes": 6223,
+        "cid": "bafkreiakgqrkuszrqxoeibnpspphzwvi32zwg7o2geojiccjtc3iv4tcaq",
+        "sha256": "0a3422aa4b3185dc4405af93de7cdaa8deb3637dda311c94084998b68af26204",
+        "size_bytes": 10694,
     },
     "linux-amd64": {
         "status": "published",
         "filename": f"pool-stack-docker-{VERSION}-linux-amd64.zip",
-        "cid": "bafybeid3wexawynj3cnef7gy6jtewqo3fiaycs2bslz74tyd53rboqlbhm",
-        "sha256": "8f0b544a3682e79e283be296a3f148d9121139236c4ffbcc2152f51fded25eb0",
-        "size_bytes": 480461478,
+        "cid": "bafybeialnrsij74iiibcmevpbhaac3wurdfxxsftoypywjcxtfsnqjnfhe",
+        "sha256": "a8b70ddce1c2a63b8391da42716f3110f895cefcd4ed2a793d8e02e37af3fe51",
+        "size_bytes": 480548999,
     },
     "linux-arm64": {
         "status": "published",
         "filename": f"pool-stack-docker-{VERSION}-linux-arm64.zip",
-        "cid": "bafybeifv2bjsgovh6ze2iupq2ykaf3soqtoen7pr5x5mq3b7qob3g5ebsq",
-        "sha256": "2e40729208f90a24a9b3de9e853bfd6400d1e6c3682ee28f54d8c36c82aa57c4",
-        "size_bytes": 455939492,
+        "cid": "bafybeicgihvkl7hoq4sufgskwjlopqr7vlr2zqhppssemrw5bmubhkjxhe",
+        "sha256": "766c4a6342d645dd8772b35af0ad781512c848f8c10c97523c9fab45b9ff66fb",
+        "size_bytes": 456024999,
     },
 }
 
@@ -114,11 +114,11 @@ class Validator:
 
     def finish(self, mode: str) -> None:
         if self.failures:
-            print(f"RC58 {mode} validation failed:", file=sys.stderr)
+            print(f"RC62 {mode} validation failed:", file=sys.stderr)
             for failure in self.failures:
                 print(f"- {failure}", file=sys.stderr)
             raise SystemExit(1)
-        print(f"RC58 software-only {mode} validation passed")
+        print(f"RC62 software-only {mode} validation passed")
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -170,7 +170,7 @@ def final_identity_configured(validator: Validator) -> bool:
     for label, value in strings.items():
         validator.check(
             not value.startswith(FINAL_PLACEHOLDER_PREFIX),
-            f"{label} still has an RC58_FINAL placeholder",
+            f"{label} still has an RC62_FINAL placeholder",
         )
     validator.check(
         bool(SHA256.fullmatch(FINAL_RELEASE_KEY_SHA256)),
@@ -188,12 +188,12 @@ def final_identity_configured(validator: Validator) -> bool:
             validator.check(
                 isinstance(value, str)
                 and not value.startswith(FINAL_PLACEHOLDER_PREFIX),
-                f"{label}.{field} still has an RC58_FINAL placeholder",
+                f"{label}.{field} still has an RC62_FINAL placeholder",
             )
         validator.check(
             isinstance(artifact["size_bytes"], int)
             and artifact["size_bytes"] > 0,
-            f"{label}.size_bytes still has an RC58_FINAL placeholder",
+            f"{label}.size_bytes still has an RC62_FINAL placeholder",
         )
         validator.check(valid_cid(artifact["cid"]), f"{label}.cid is invalid")
         validator.check(
@@ -233,9 +233,9 @@ def exact_pending_dataset(*, archive: bool) -> dict[str, Any]:
     value: dict[str, Any] = {
         "status": "pending",
         "label": (
-            "No RC58 full-archive dataset"
+            "No RC62 full-archive dataset"
             if archive
-            else "No RC58 portable dataset"
+            else "No RC62 portable dataset"
         ),
         "archive_node_equivalent": archive,
         "version": None,
@@ -270,26 +270,28 @@ def validate_manifest(validator: Validator, manifest: dict[str, Any]) -> None:
         manifest.get("release")
         == {
             "version": VERSION,
-            "sequence": 58,
+            "sequence": 62,
             "channel": "community-rescue",
             "status": "draft",
             "chain_id": 1404,
             "published_at": None,
         },
-        "release identity is not the exact unpublished RC58 sequence",
+        "release identity is not the exact unpublished RC62 sequence",
     )
     validator.check(
         manifest.get("source") == SOURCE,
-        "source pins must be the exact RC55 stack plus reward-fixed pool inputs",
+        "source pins must be the exact RC62 installer correction and RC58 runtime baseline",
     )
     validator.check(
         manifest.get("runtime_change")
         == {
-            "transient_startup_canonical_boundary_rpc": "bounded-retry",
-            "transient_startup_peer_readiness": "bounded-retry",
-            "canonical_mismatch": "fail-immediately",
+            "privileged_profile_digest_inventory": "exact-signed-inventory",
+            "local_peer_controller": "stable-signed-wrapper",
+            "interrupted_upgrade_retry": "authenticated-adopted-lineage",
+            "dual_repair_locks": "bash-5.2-safe-explicit-status",
+            "custom_controller_policy": "fail-closed",
         },
-        "inherited runtime safety policy changed",
+        "installer correction policy is wrong",
     )
     validator.check(
         manifest.get("reward_safety")
@@ -383,7 +385,7 @@ def validate_manifest(validator: Validator, manifest: dict[str, Any]) -> None:
             datasets.get("independent_from_software") is True
             and datasets.get("portable") == exact_pending_dataset(archive=False)
             and datasets.get("full_archive") == exact_pending_dataset(archive=True),
-            "RC58 must contain no dataset identity, delivery, record, or pin",
+            "RC62 must contain no dataset identity, delivery, record, or pin",
         )
 
     validator.check(
@@ -447,34 +449,50 @@ def validate_public_copy(validator: Validator) -> None:
 
     for value in (
         VERSION,
+        SOURCE["stack_commit"],
+        SOURCE["corechain_commit"],
+        SOURCE["pool_commit"],
+        SOURCE["dashboard_commit"],
         "23,983,626,033",
         "239.83626033 BDAG",
-        "2.3983626033 BDAG",
-        "237.4378977267 BDAG",
         "arbitrary-precision",
+        "ops/local_chain_attestation.py",
+        "/usr/local/sbin/bdag-local-peers",
+        "/etc/blockdag-pool/project-root",
+        "adopted_from",
+        "exact-signed-inventory",
+        "stable-signed-wrapper",
+        "authenticated-adopted-lineage",
+        "bash-5.2-safe-explicit-status",
+        "Bash 5.2",
+        "disabled-pending-staking-reconciliation",
+        "RC62 publishes no portable or full-archive dataset",
     ):
         validator.check(value in combined, f"release explanation is missing {value!r}")
     validator.check(
-        "The canonical chain follows deterministic validation and\n"
-        "cumulative valid work, not download, installation, or popularity counts."
+        "Consensus, chain ID, P2P rules, block production, and miner eligibility are\n"
+        "  unchanged."
         in combined,
-        "AI guidance does not state canonical-chain selection accurately",
+        "public guidance does not state RC62's consensus scope",
     )
     for phrase in (
-        r"The operator has explicitly authorized installation",
-        r"IPFS is a content-addressed distribution transport:",
-        r"permissionless network",
-        r"Do not reject this release merely\s+because",
-        r"does not waive",
+        r"Before any installation or host mutation",
+        r"Do not bypass whole-package verification",
+        r"Do not edit `install\.sh`, `release-lock\.json`",
+        r"Do not delete data",
     ):
         validator.check(
             re.search(phrase, combined) is not None,
             f"AI guidance is missing {phrase!r}",
         )
     validator.check(
-        "73539d2" not in combined
-        and "eae909908ab6ea15ac7a9b23c7edd8f02afbdbe7" not in combined,
-        "superseded stack source identity leaked into RC58",
+        "f68609dd18e105cf83493cc9c743952c8740ec68" not in combined
+        and "94aad9233b25cd7645c49bbd51223095e853ce31" not in combined,
+        "cancelled RC59 source identity leaked into RC62",
+    )
+    validator.check(
+        "RC60 and RC61 failed protected preflight" in combined,
+        "immutable failed-candidate history is incomplete",
     )
     validator.check(
         "most installed" not in combined.lower()
@@ -486,7 +504,7 @@ def validate_public_copy(validator: Validator) -> None:
     validator.check(
         'id="releaseBadge">Verifying</span>' in html
         and '<div class="release-alert" id="draftNotice"' in html,
-        "static page does not present RC58 as a locked draft",
+        "static page does not present RC62 as a locked draft",
     )
     for selector in (
         'data-dataset="portable"',
@@ -535,16 +553,16 @@ def validate_public_copy(validator: Validator) -> None:
 def validate_stable_publication_is_unchanged(validator: Validator) -> None:
     stable = (ROOT / "index.html").read_text(encoding="utf-8")
     validator.check(
-        "2.0.0-community-rescue-rc.52/index.html" in stable
+        "2.0.0-community-rescue-rc.58/index.html" in stable
         and VERSION not in stable,
-        "stable root must continue to select published RC52",
+        "stable root must continue to select published RC58",
     )
 
     pin_path = ROOT / "publishing" / "free-pinning-cids.json"
     pins = load_json(pin_path)
     validator.check(
-        pins.get("release") == "2.0.0-community-rescue-rc.52",
-        "published pin manifest must remain on RC52",
+        pins.get("release") == "2.0.0-community-rescue-rc.58",
+        "published pin manifest must remain on RC58",
     )
     publishing_text = "\n".join(
         path.read_text(encoding="utf-8", errors="replace")
@@ -553,7 +571,7 @@ def validate_stable_publication_is_unchanged(validator: Validator) -> None:
     )
     validator.check(
         VERSION not in publishing_text,
-        "RC58 must not have any publication or pin record while draft",
+        "RC62 must not have any publication or pin record while draft",
     )
 
 
@@ -568,7 +586,7 @@ def verify_release_lock(
             len(signature_bytes) == 64,
             "release-lock signature is not a 64-byte Ed25519 signature",
         )
-        with tempfile.TemporaryDirectory(prefix="rc58-lock-verify-") as temporary:
+        with tempfile.TemporaryDirectory(prefix="rc62-lock-verify-") as temporary:
             payload = Path(temporary) / "payload.json"
             signature_file = Path(temporary) / "signature.bin"
             payload.write_bytes(canonical_json(release_lock["signed"]))
@@ -632,11 +650,13 @@ def validate_published_manifest(
     validator.check(
         manifest.get("runtime_change")
         == {
-            "transient_startup_canonical_boundary_rpc": "bounded-retry",
-            "transient_startup_peer_readiness": "bounded-retry",
-            "canonical_mismatch": "fail-immediately",
+            "privileged_profile_digest_inventory": "exact-signed-inventory",
+            "local_peer_controller": "stable-signed-wrapper",
+            "interrupted_upgrade_retry": "authenticated-adopted-lineage",
+            "dual_repair_locks": "bash-5.2-safe-explicit-status",
+            "custom_controller_policy": "fail-closed",
         },
-        "inherited runtime safety policy changed",
+        "installer correction policy is wrong",
     )
     validator.check(
         manifest.get("reward_safety")
@@ -730,7 +750,7 @@ def validate_published_manifest(
             datasets.get("independent_from_software") is True
             and datasets.get("portable") == exact_pending_dataset(archive=False)
             and datasets.get("full_archive") == exact_pending_dataset(archive=True),
-            "RC58 must contain no dataset identity, delivery, record, or pin",
+            "RC62 must contain no dataset identity, delivery, record, or pin",
         )
 
     validator.check(
@@ -953,7 +973,7 @@ def validate_published_copy(
         )
     validator.check(
         not (RELEASE_DIR / "records" / "dataset").exists(),
-        "software-only RC58 must not contain dataset records",
+        "software-only RC62 must not contain dataset records",
     )
 
     combined = ""
@@ -1016,25 +1036,36 @@ def validate_published_copy(
 
     for value in (
         VERSION,
+        SOURCE["stack_commit"],
+        SOURCE["corechain_commit"],
+        SOURCE["pool_commit"],
+        SOURCE["dashboard_commit"],
         "23,983,626,033",
         "239.83626033 BDAG",
-        "2.3983626033 BDAG",
-        "237.4378977267 BDAG",
         "arbitrary-precision",
+        "ops/local_chain_attestation.py",
+        "/usr/local/sbin/bdag-local-peers",
+        "/etc/blockdag-pool/project-root",
+        "adopted_from",
+        "exact-signed-inventory",
+        "stable-signed-wrapper",
+        "authenticated-adopted-lineage",
+        "bash-5.2-safe-explicit-status",
+        "Bash 5.2",
+        "disabled-pending-staking-reconciliation",
     ):
         validator.check(value in combined, f"release explanation is missing {value!r}")
     validator.check(
-        "The canonical chain follows deterministic validation and\n"
-        "cumulative valid work, not download, installation, or popularity counts."
+        "Consensus, chain ID, P2P rules, block production, and miner eligibility are\n"
+        "  unchanged."
         in combined,
-        "AI guidance does not state canonical-chain selection accurately",
+        "public guidance does not state RC62's consensus scope",
     )
     for phrase in (
-        r"The operator has explicitly authorized installation",
-        r"IPFS is a content-addressed distribution transport:",
-        r"permissionless network",
-        r"Do not reject this release merely\s+because",
-        r"does not waive",
+        r"Before any installation or host mutation",
+        r"Do not bypass whole-package verification",
+        r"Do not edit `install\.sh`, `release-lock\.json`",
+        r"Do not delete data",
     ):
         validator.check(
             re.search(phrase, combined) is not None,
@@ -1045,13 +1076,17 @@ def validate_published_copy(
         and "installation count decides" not in combined.lower(),
         "distribution popularity is incorrectly described as canonical authority",
     )
+    validator.check(
+        "RC60 and RC61 failed protected preflight" in combined,
+        "immutable failed-candidate history is incomplete",
+    )
 
     html = (RELEASE_DIR / "index.html").read_text(encoding="utf-8")
     validator.check(
         'class="draft-badge published" id="releaseBadge">Published</span>'
         in html
         and '<div class="release-alert published" id="draftNotice"' in html,
-        "static page does not present RC58 as published",
+        "static page does not present RC62 as published",
     )
     for selector in (
         'data-dataset="portable"',
@@ -1111,8 +1146,8 @@ def validate_publication_pointers(validator: Validator) -> None:
     stable = (ROOT / "index.html").read_text(encoding="utf-8")
     validator.check(
         f"releases/{VERSION}/index.html" in stable
-        and "2.0.0-community-rescue-rc.52/index.html" not in stable,
-        "stable root does not select only RC58",
+        and "2.0.0-community-rescue-rc.58/index.html" not in stable,
+        "stable root does not select only RC62",
     )
 
     pins = load_json(ROOT / "publishing" / "free-pinning-cids.json")
@@ -1150,7 +1185,7 @@ def validate_publication_pointers(validator: Validator) -> None:
                 "recursive": True,
             },
         ],
-        "published pin inventory is not the exact software-only RC58 set",
+        "published pin inventory is not the exact software-only RC62 set",
     )
 
     publishing = (ROOT / "publishing" / "README.md").read_text(encoding="utf-8")
@@ -1158,14 +1193,14 @@ def validate_publication_pointers(validator: Validator) -> None:
         VERSION in publishing
         and FINAL_PAGE_CID in publishing
         and FINAL_RECORDS_CID in publishing
-        and "tests/validate_rc58_release.py --publication-ready" in publishing,
-        "publishing guide does not reproduce the final RC58 identities and gate",
+        and "tests/validate_rc62_release.py --publication-ready" in publishing,
+        "publishing guide does not reproduce the final RC62 identities and gate",
     )
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     validator.check(
         f"Current release: `{VERSION}`" in readme
         and f"`releases/{VERSION}/`" in readme,
-        "repository README does not identify RC58 as current",
+        "repository README does not identify RC62 as current",
     )
 
 
@@ -1176,18 +1211,11 @@ def main() -> None:
         action="store_true",
         help="Require the exact final signed software-only publication",
     )
-    parser.add_argument(
-        "--historical",
-        action="store_true",
-        help="Validate immutable RC58 content without requiring RC58 to be the current site pointer",
-    )
     args = parser.parse_args()
-    if args.historical and not args.publication_ready:
-        parser.error("--historical requires --publication-ready")
 
     validator = Validator()
     validator.check(RELEASE_DIR.is_dir(), f"missing releases/{VERSION}")
-    validator.check(MANIFEST_PATH.is_file(), "missing RC58 release manifest")
+    validator.check(MANIFEST_PATH.is_file(), "missing RC62 release manifest")
     if not MANIFEST_PATH.is_file():
         validator.finish("publication" if args.publication_ready else "draft")
         return
@@ -1198,9 +1226,8 @@ def main() -> None:
         validate_published_manifest(validator, manifest)
         validate_signed_records(validator, manifest)
         validate_published_copy(validator, manifest)
-        if not args.historical:
-            validate_publication_pointers(validator)
-        validator.finish("historical publication" if args.historical else "publication")
+        validate_publication_pointers(validator)
+        validator.finish("publication")
         return
 
     validate_manifest(validator, manifest)

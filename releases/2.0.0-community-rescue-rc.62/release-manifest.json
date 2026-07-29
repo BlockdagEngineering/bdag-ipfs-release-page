@@ -1,0 +1,143 @@
+{
+  "schema": "bdag.community-release-index.v2",
+  "release": {
+    "version": "2.0.0-community-rescue-rc.62",
+    "sequence": 62,
+    "channel": "community-rescue",
+    "status": "published",
+    "chain_id": 1404,
+    "published_at": "2026-07-29T21:32:22Z"
+  },
+  "source": {
+    "repository": "https://github.com/BlockdagEngineering/stack",
+    "release_url": "https://github.com/BlockdagEngineering/stack/tree/2.0.0-community-rescue-rc.62",
+    "tag": "2.0.0-community-rescue-rc.62",
+    "stack_commit": "60c3c6fd66edf24f79aff8ae8e0f91a3d01adb2e",
+    "corechain_commit": "bb0f7a6fed918e56251aa602503c90f1e1f30cb8",
+    "pool_commit": "79001ae94a6d66f1ef0614ef0b78e79fdf3b0f50",
+    "dashboard_commit": "f00b654f79e50346bf6e866348cf07bdcb3b44ec",
+    "source_lock_sha256": "09eef25d1a70af571ccce655162dfb579ff5836e62999900c2cda0fdabc7c729"
+  },
+  "runtime_change": {
+    "privileged_profile_digest_inventory": "exact-signed-inventory",
+    "local_peer_controller": "stable-signed-wrapper",
+    "interrupted_upgrade_retry": "authenticated-adopted-lineage",
+    "dual_repair_locks": "bash-5.2-safe-explicit-status",
+    "custom_controller_policy": "fail-closed"
+  },
+  "reward_safety": {
+    "coinbase_accounting": "arbitrary-precision-wei",
+    "automatic_payouts": "disabled-pending-staking-reconciliation"
+  },
+  "trust": {
+    "release_key_path": "records/software/release-key.pem",
+    "release_key_sha256": "26f0051185d9c1abada3b5adcd3d11c88f522e09b3850211a04773250c267ffb",
+    "dataset_key_path": null,
+    "dataset_key_id": null,
+    "dataset_key_sha256": null,
+    "dataset_verifier_path": null,
+    "dataset_verifier_sha256": null
+  },
+  "download_policy": {
+    "requires_ipv4": true,
+    "requires_http_version": "HTTP/1.1",
+    "ipfs_gateways": [
+      "https://dweb.link/ipfs/{cid}",
+      "https://ipfs.io/ipfs/{cid}",
+      "https://w3s.link/ipfs/{cid}"
+    ],
+    "software_http_fallback_base": null
+  },
+  "records_delivery": {
+    "mode": "ipfs-directory",
+    "cid": "bafybeiabffabrb345zxeufuqh6kbj7qvyx3aprqe3mq2itn3uzjk72wsga",
+    "path_prefix": "records/"
+  },
+  "installer": {
+    "status": "published",
+    "filename": "bootstrap.sh",
+    "cid": "bafkreiakgqrkuszrqxoeibnpspphzwvi32zwg7o2geojiccjtc3iv4tcaq",
+    "sha256": "0a3422aa4b3185dc4405af93de7cdaa8deb3637dda311c94084998b68af26204",
+    "size_bytes": 10694
+  },
+  "software": {
+    "independent_from_datasets": true,
+    "targets": {
+      "linux-amd64": {
+        "status": "published",
+        "filename": "pool-stack-docker-2.0.0-community-rescue-rc.62-linux-amd64.zip",
+        "cid": "bafybeialnrsij74iiibcmevpbhaac3wurdfxxsftoypywjcxtfsnqjnfhe",
+        "sha256": "a8b70ddce1c2a63b8391da42716f3110f895cefcd4ed2a793d8e02e37af3fe51",
+        "size_bytes": 480548999
+      },
+      "linux-arm64": {
+        "status": "published",
+        "filename": "pool-stack-docker-2.0.0-community-rescue-rc.62-linux-arm64.zip",
+        "cid": "bafybeicgihvkl7hoq4sufgskwjlopqr7vlr2zqhppssemrw5bmubhkjxhe",
+        "sha256": "766c4a6342d645dd8772b35af0ad781512c848f8c10c97523c9fab45b9ff66fb",
+        "size_bytes": 456024999
+      }
+    },
+    "records": {
+      "release_auth_manifest_path": "records/software/release-auth-manifest.json",
+      "release_auth_signature_path": "records/software/release-auth-manifest.json.sig",
+      "release_notes_path": "records/software/release-notes.md"
+    }
+  },
+  "datasets": {
+    "independent_from_software": true,
+    "portable": {
+      "status": "pending",
+      "label": "No RC62 portable dataset",
+      "archive_node_equivalent": false,
+      "version": null,
+      "filename": null,
+      "sha256": null,
+      "size_bytes": null,
+      "unpacked_size_bytes": null,
+      "delivery": {
+        "mode": null,
+        "cid": null,
+        "parts_manifest_path": null,
+        "parts": []
+      },
+      "canonical_manifest_path": null,
+      "canonical_manifest_sha256": null,
+      "validation_spec_path": null,
+      "native_boundary": null,
+      "evm_boundary": null,
+      "fixed_checkpoint": null
+    },
+    "full_archive": {
+      "status": "pending",
+      "label": "No RC62 full-archive dataset",
+      "archive_node_equivalent": true,
+      "version": null,
+      "filename": null,
+      "sha256": null,
+      "size_bytes": null,
+      "unpacked_size_bytes": null,
+      "delivery": {
+        "mode": null,
+        "cid": null,
+        "parts_manifest_path": null,
+        "parts": []
+      },
+      "canonical_manifest_path": null,
+      "canonical_manifest_sha256": null,
+      "validation_spec_path": null,
+      "native_boundary": null,
+      "evm_boundary": null,
+      "fixed_checkpoint": null,
+      "archive_audit": null
+    }
+  },
+  "qualification": {
+    "status": "passed",
+    "signed_package_integrity_verified": true,
+    "portable_dataset_verified": false,
+    "full_archive_dataset_verified": false,
+    "restore_path_verified": true,
+    "runtime_path_verified": true
+  }
+}
