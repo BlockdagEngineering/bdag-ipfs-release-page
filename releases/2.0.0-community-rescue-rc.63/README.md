@@ -31,3 +31,8 @@ but their state cannot influence mining readiness or canonical selection.
 Start with `verify-load-amd64.sh`, then follow the install or divergent-node
 guide. The detached Ed25519 signature and pinned public-key fingerprint are
 authority; a web page, mutable tag, build, or mirror alone is not.
+
+The public immutable install bundle is IPFS directory
+`bafybeic6lrevdxfv3tnv2tm6uktk7muleqg5iz3v3cigt3yq7qq2dzvrp4`. The gateway
+is transport only: the unchanged loader authenticates the signed record and
+checks every exact archive before loading it.

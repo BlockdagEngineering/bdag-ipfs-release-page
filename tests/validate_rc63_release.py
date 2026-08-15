@@ -113,7 +113,10 @@ def main() -> None:
     page = (RELEASE / "index.html").read_text(encoding="utf-8")
     guide = (RELEASE / "docs" / "install-amd64.md").read_text(encoding="utf-8")
     loader = (RELEASE / "verify-load-amd64.sh").read_text(encoding="utf-8")
+    public_bundle = "bafybeic6lrevdxfv3tnv2tm6uktk7muleqg5iz3v3cigt3yq7qq2dzvrp4"
     require("jeremy-community-rescue-rc.63-amd64" in page and "dockerArchive" in page, "page omits release identity")
+    require(public_bundle in page and public_bundle in guide, "public immutable bundle omitted")
+    require("BDAG_RC63_BASE_URL=https://dweb.link/ipfs/" in guide, "public loader command omitted")
     require("cutover-pool-image-owner-safe.sh" in guide and "owner payout" in guide, "install guide omits owner-safe cutover")
     require("pkeyutl -verify" in loader and "docker load" in loader and "No running container" in loader, "loader omits authenticated staging boundary")
     for path in RELEASE.rglob("*"):
