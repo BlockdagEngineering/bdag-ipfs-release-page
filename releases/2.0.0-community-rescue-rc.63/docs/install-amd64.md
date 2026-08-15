@@ -5,14 +5,13 @@
 
    ```sh
    chmod 0755 verify-load-amd64.sh
-   BDAG_RC63_BASE_URL=https://dweb.link/ipfs/bafybeic6lrevdxfv3tnv2tm6uktk7muleqg5iz3v3cigt3yq7qq2dzvrp4 \
+   BDAG_RC63_BASE_URL=https://w3s.link/ipfs/bafybeic6lrevdxfv3tnv2tm6uktk7muleqg5iz3v3cigt3yq7qq2dzvrp4 \
      ./verify-load-amd64.sh "$PWD/blockdag-community-rescue-rc63-amd64"
    ```
 
-   The public immutable install bundle is also available through
-   `https://ipfs.io/ipfs/bafybeic6lrevdxfv3tnv2tm6uktk7muleqg5iz3v3cigt3yq7qq2dzvrp4`.
-   It contains the signed record, pinned public key, detached signature, and
-   exact Docker archives. The loader downloads these files from the selected
+   The public immutable install bundle contains the signed record, pinned
+   public key, detached signature, and exact Docker archives. The loader
+   downloads these files from the selected
    transport, then verifies the key fingerprint, signature, Chain ID, AMD64 scope, archive
    bytes and hashes, image labels, manifests, and node binary before loading
    either image. It does not restart containers or reconfigure ASICs.
