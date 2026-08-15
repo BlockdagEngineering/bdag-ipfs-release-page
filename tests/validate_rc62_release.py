@@ -1142,13 +1142,14 @@ def validate_published_copy(
     )
 
 
-def validate_publication_pointers(validator: Validator) -> None:
-    stable = (ROOT / "index.html").read_text(encoding="utf-8")
-    validator.check(
-        f"releases/{VERSION}/index.html" in stable
-        and "2.0.0-community-rescue-rc.58/index.html" not in stable,
-        "stable root does not select only RC62",
-    )
+def validate_publication_pointers(validator: Validator, historical: bool = False) -> None:
+    if not historical:
+        stable = (ROOT / "index.html").read_text(encoding="utf-8")
+        validator.check(
+            f"releases/{VERSION}/index.html" in stable
+            and "2.0.0-community-rescue-rc.58/index.html" not in stable,
+            "stable root does not select only RC62",
+        )
 
     pins = load_json(ROOT / "publishing" / "free-pinning-cids.json")
     validator.check(
@@ -1196,12 +1197,13 @@ def validate_publication_pointers(validator: Validator) -> None:
         and "tests/validate_rc62_release.py --publication-ready" in publishing,
         "publishing guide does not reproduce the final RC62 identities and gate",
     )
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    validator.check(
-        f"Current release: `{VERSION}`" in readme
-        and f"`releases/{VERSION}/`" in readme,
-        "repository README does not identify RC62 as current",
-    )
+    if not historical:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        validator.check(
+            f"Current release: `{VERSION}`" in readme
+            and f"`releases/{VERSION}/`" in readme,
+            "repository README does not identify RC62 as current",
+        )
 
 
 def main() -> None:
@@ -1210,6 +1212,11 @@ def main() -> None:
         "--publication-ready",
         action="store_true",
         help="Require the exact final signed software-only publication",
+    )
+    parser.add_argument(
+        "--historical",
+        action="store_true",
+        help="Validate immutable RC62 publication while allowing a newer stable root",
     )
     args = parser.parse_args()
 
@@ -1226,7 +1233,7 @@ def main() -> None:
         validate_published_manifest(validator, manifest)
         validate_signed_records(validator, manifest)
         validate_published_copy(validator, manifest)
-        validate_publication_pointers(validator)
+        validate_publication_pointers(validator, historical=args.historical)
         validator.finish("publication")
         return
 

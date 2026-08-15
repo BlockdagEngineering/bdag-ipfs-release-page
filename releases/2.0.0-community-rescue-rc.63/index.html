@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BlockDAG Community Rescue RC63</title>
+    <style>
+      body { margin: 0 auto; max-width: 58rem; padding: 2rem; color: #172033; background: #f7f9fc; font: 16px/1.55 system-ui, sans-serif; }
+      h1, h2 { line-height: 1.2; } code { overflow-wrap: anywhere; }
+      .warning { border-left: .35rem solid #c2410c; background: #fff7ed; padding: 1rem; }
+      .card { background: white; border: 1px solid #dbe3ef; border-radius: .6rem; padding: 1rem 1.25rem; margin: 1rem 0; }
+      a { color: #0759b8; } dt { font-weight: 700; } dd { margin: 0 0 .7rem; }
+    </style>
+  </head>
+  <body>
+    <h1>BlockDAG Community Rescue RC63</h1>
+    <p class="warning"><strong>AMD64 only.</strong> ARM64 is explicitly deferred. Divergent protocol-45 data must use the backup-backed successor procedure; ordinary v45 peer sync is not qualified as a repair.</p>
+    <div class="card">
+      <h2>Authenticated release</h2>
+      <dl id="identity"><dt>Status</dt><dd>Loading signed release record…</dd></dl>
+      <p><a href="records/release.json">Release record</a> · <a href="records/release.json.sig">Detached signature</a> · <a href="records/release-public.pem">Public key</a></p>
+      <div id="artifacts"></div>
+      <p><a href="https://github.com/BlockdagEngineering/stack/releases/tag/jeremy-community-rescue-rc.63-amd64">Immutable GitHub Release mirrors</a>. Verify every archive against the signed record before loading.</p>
+    </div>
+    <div class="card">
+      <h2>Before installing</h2>
+      <p>Verify the Ed25519 signature, public-key fingerprint, archive SHA-256, platform manifest, config digest, and node binary. A mutable tag or this page alone is not authority.</p>
+      <p><a href="verify-load-amd64.sh">Verify and stage AMD64 images</a> · <a href="docs/install-amd64.md">AMD64 install guide</a> · <a href="docs/recover-divergent-node.md">Divergent-node recovery</a> · <a href="README.md">Release scope</a></p>
+    </div>
+    <script>
+      fetch("records/release.json", {cache: "no-store"}).then((response) => {
+        if (!response.ok) throw new Error("release record unavailable");
+        return response.json();
+      }).then((release) => {
+        document.getElementById("identity").innerHTML =
+          `<dt>Version</dt><dd><code>${release.version}</code></dd>` +
+          `<dt>Platform</dt><dd><code>${release.platforms.join(", ")}</code></dd>` +
+          `<dt>Node manifest</dt><dd><code>${release.images.node.qualifiedRuntimeManifest}</code></dd>` +
+          `<dt>Pool manifest</dt><dd><code>${release.images.pool.qualifiedRuntimeManifest}</code></dd>` +
+          `<dt>Node stack / core</dt><dd><code>${release.source.nodeStackCommit}</code><br><code>${release.source.coreCommit}</code></dd>` +
+          `<dt>Pool stack / pool</dt><dd><code>${release.source.poolStackCommit}</code><br><code>${release.source.poolCommit}</code></dd>`;
+        const node = release.images.node;
+        const pool = release.images.pool;
+        document.getElementById("artifacts").innerHTML =
+          `<p><a href="https://dweb.link/ipfs/${node.dockerArchive.cid}">AMD64 node Docker archive</a> (${node.dockerArchive.bytes} bytes, SHA-256 <code>${node.dockerArchive.sha256}</code>).</p>` +
+          `<p><a href="https://dweb.link/ipfs/${pool.dockerArchive.cid}">AMD64 pool Docker archive</a> (${pool.dockerArchive.bytes} bytes, SHA-256 <code>${pool.dockerArchive.sha256}</code>).</p>` +
+          `<p>OCI mirrors: <a href="https://dweb.link/ipfs/${node.ociArchive.cid}">node</a> · <a href="https://dweb.link/ipfs/${pool.ociArchive.cid}">pool</a>.</p>`;
+      }).catch((error) => {
+        document.getElementById("identity").innerHTML = `<dt>Status</dt><dd>${error.message}. Fail closed and do not install.</dd>`;
+      });
+    </script>
+  </body>
+</html>

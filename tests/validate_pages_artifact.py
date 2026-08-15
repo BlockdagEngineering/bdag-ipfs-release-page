@@ -72,6 +72,10 @@ EXPECTED_BINARY_SIGNATURES = {
         "releases/2.0.0-community-rescue-rc.62/records/software/"
         "release-auth-manifest.json.sig"
     ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.63/records/"
+        "release.json.sig"
+    ),
 }
 
 

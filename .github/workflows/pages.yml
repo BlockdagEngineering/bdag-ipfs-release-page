@@ -39,7 +39,9 @@ jobs:
           python3 tests/validate_rc58_release.py
           --publication-ready --historical
       - name: Validate published RC62 release
-        run: python3 tests/validate_rc62_release.py --publication-ready
+        run: python3 tests/validate_rc62_release.py --publication-ready --historical
+      - name: Validate published RC63 release
+        run: python3 tests/validate_rc63_release.py
       - name: Test generated install commands
         run: >-
           node --test
