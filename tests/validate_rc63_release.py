@@ -47,7 +47,7 @@ def main() -> None:
     require(record.get("deferredPlatforms") == ["linux/arm64"], "ARM64 deferral is not explicit")
     require(record.get("network") == {"chainId": 1404, "genesisHash": "0xd62590d28f5c32b6d46839075b3173c3d4c178482f8cd1b0e424bd3feeaed11c"}, "network identity drift")
     require(record.get("source") == {
-        "releaseOperationsCommit": "3b0a51426b92669673d6ed233ffbd5a798254b25",
+        "releaseOperationsCommit": "3b0a514f282b6385103190e2a949691a90332a8a",
         "nodeStackCommit": "ae1e8f1b4685d0e02888b127adbace5849c3a4f5",
         "coreCommit": "f07e084c06d758bc92377fc18cb5a0130fe6f89c",
         "poolStackCommit": "528a42bedeaaae9a2a4306fcd5a2a3c460f20b29",
