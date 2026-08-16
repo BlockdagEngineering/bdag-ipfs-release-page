@@ -32,6 +32,8 @@
       <pre><code>curl --fail --location --proto '=https' --tlsv1.2 -o verify-load-amd64.sh https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.0.0-community-rescue-rc.64/verify-load-amd64.sh
 chmod 0700 verify-load-amd64.sh
 BDAG_RC64_BASE_URL=https://bafybeiavz3mso2z7kc2cfittkn3lfgjz7t7xvuarkrmo4ll6pccbzzjk4a.ipfs.dweb.link ./verify-load-amd64.sh "$PWD/blockdag-community-rescue-rc64-amd64"</code></pre>
+      <p>For a genuinely empty node data directory, use the currently qualified snapshot transport explicitly. The signed CID and SHA-256 remain authoritative; the gateway is transport only.</p>
+      <pre><code>BDAG_RC64_SNAPSHOT_URL=https://ipfs.orbitor.dev/ipfs/bafybeibh3uotj3gz3rjyipnp6xrq5xekrqft7i2bjs5ypid7fv453p6twa ./blockdag-community-rescue-rc64-amd64/install-or-reuse-data-amd64.sh "$PWD/blockdag-community-rescue-rc64-amd64" /absolute/path/to/empty-node-data</code></pre>
     </div>
     <script>
       fetch("records/release.json", {cache: "no-store"}).then((response) => {

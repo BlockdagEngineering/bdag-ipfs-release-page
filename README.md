@@ -26,3 +26,8 @@ RC64 keeps legacy-v45 observations out of native-safe mining readiness while
 continuing the canonical feed. The signed record binds the exact node and pool
 images, source commits, immutable artifact CIDs, signed discovery fallback,
 fleet acceptance, fixed native/EVM anchors, and explicit platform scope.
+
+Empty installs should pass the qualified snapshot transport explicitly as
+`BDAG_RC64_SNAPSHOT_URL=https://ipfs.orbitor.dev/ipfs/bafybeibh3uotj3gz3rjyipnp6xrq5xekrqft7i2bjs5ypid7fv453p6twa`.
+The signed CID, SHA-256, byte count, and checkpoints remain authoritative; the
+gateway is transport only. Existing-data upgrades make no snapshot request.

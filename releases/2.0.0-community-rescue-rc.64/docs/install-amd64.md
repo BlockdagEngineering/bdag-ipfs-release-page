@@ -64,7 +64,15 @@ Public, LAN, and explicitly configured VPN dialing remain available.
 ## Empty installation
 
 Only a genuinely empty data directory may use the signed latest-data snapshot.
-Run `install-or-reuse-data-amd64.sh`. Before making a network request, it
+Run the helper with the qualified transport explicitly:
+
+```bash
+BDAG_RC64_SNAPSHOT_URL=https://ipfs.orbitor.dev/ipfs/bafybeibh3uotj3gz3rjyipnp6xrq5xekrqft7i2bjs5ypid7fv453p6twa \
+  ./blockdag-community-rescue-rc64-amd64/install-or-reuse-data-amd64.sh \
+  "$PWD/blockdag-community-rescue-rc64-amd64" /absolute/path/to/empty-node-data
+```
+
+Before making a network request, `install-or-reuse-data-amd64.sh`
 requires enough free space for the signed archive, a conservative 32 GiB
 extraction allowance, a 2 GiB staging margin, and the larger of 20 GiB or 15%
 filesystem reserve. It then verifies the downloaded byte count, SHA-256,

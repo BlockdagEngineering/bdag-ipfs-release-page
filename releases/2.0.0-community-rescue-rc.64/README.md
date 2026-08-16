@@ -47,6 +47,11 @@ Only an empty installation uses the signed IPFS snapshot automatically.
 Divergent, corrupt, latched, or stalled data follows the isolated, one-way,
 backup-backed recovery procedure.
 
+For an empty installation, pass the currently qualified transport explicitly:
+`BDAG_RC64_SNAPSHOT_URL=https://ipfs.orbitor.dev/ipfs/bafybeibh3uotj3gz3rjyipnp6xrq5xekrqft7i2bjs5ypid7fv453p6twa`.
+The signed CID, byte count, SHA-256 and fixed anchors remain authoritative; the
+gateway is transport only.
+
 Every install or upgrade starts with a storage-impact forecast and preserves
 the active stack, evidence, one known-good rollback, and the larger of 20 GiB
 or 15% filesystem reserve. The empty-data helper checks download, extraction,

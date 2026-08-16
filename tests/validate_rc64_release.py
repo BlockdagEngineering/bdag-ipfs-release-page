@@ -187,6 +187,10 @@ def main() -> None:
     require(all(marker in guide and marker in index for marker in (
         anonymous_bundle, "BDAG_RC64_BASE_URL=")),
         "anonymous authenticated transport command omitted")
+    snapshot_transport = "https://ipfs.orbitor.dev/ipfs/" + data["snapshot"]["cid"]
+    require(all(marker in guide and marker in index for marker in (
+        snapshot_transport, "BDAG_RC64_SNAPSHOT_URL=")),
+        "qualified empty-data transport command omitted")
 
     for path in RELEASE.rglob("*"):
         if not path.is_file():
