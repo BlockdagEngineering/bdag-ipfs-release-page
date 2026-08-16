@@ -6,6 +6,7 @@ on:
       - main
       - master
       - jeremy-dev-release
+      - jeremy/release/2026-08-15-rc64-canonical-recovery-amd64
   workflow_dispatch:
 
 permissions:
@@ -42,6 +43,8 @@ jobs:
         run: python3 tests/validate_rc62_release.py --publication-ready --historical
       - name: Validate published RC63 release
         run: python3 tests/validate_rc63_release.py
+      - name: Validate published RC64 release
+        run: python3 tests/validate_rc64_release.py
       - name: Test generated install commands
         run: >-
           node --test
