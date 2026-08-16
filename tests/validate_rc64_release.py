@@ -166,6 +166,7 @@ def main() -> None:
     loader = (RELEASE / "verify-load-amd64.sh").read_text(encoding="utf-8")
     data_helper = (RELEASE / "install-or-reuse-data-amd64.sh").read_text(encoding="utf-8")
     guide = (RELEASE / "docs" / "install-amd64.md").read_text(encoding="utf-8")
+    index = (RELEASE / "index.html").read_text(encoding="utf-8")
     recovery_guide = (RELEASE / "docs" / "recover-divergent-node.md").read_text(encoding="utf-8")
     require("bootstrap-peers.txt.sig" in loader and "latest-data-manifest.json.sig" in loader and
             "docker load" in loader, "loader omits authenticated inputs")
@@ -182,6 +183,10 @@ def main() -> None:
             "downtime-bounded exceptional data relocation guidance omitted")
     require("guard disabled" in guide and "no external EVM request" in guide,
             "miner-friendly EVM policy omitted")
+    anonymous_bundle = "bafybeiavz3mso2z7kc2cfittkn3lfgjz7t7xvuarkrmo4ll6pccbzzjk4a"
+    require(all(marker in guide and marker in index for marker in (
+        anonymous_bundle, "BDAG_RC64_BASE_URL=")),
+        "anonymous authenticated transport command omitted")
 
     for path in RELEASE.rglob("*"):
         if not path.is_file():

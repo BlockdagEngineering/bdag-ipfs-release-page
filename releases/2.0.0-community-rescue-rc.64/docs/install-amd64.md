@@ -4,6 +4,24 @@ RC64 supports `linux/amd64` only. ARM64 is deferred. Authenticate the signed
 release record, bootstrap file, latest-data manifest, and exact image bytes with
 `verify-load-amd64.sh` before changing a serving stack.
 
+The GitHub release is an immutable archival mirror, while anonymous image
+transport uses a pinned IPFS directory. Download the signed loader from this
+Pages site and pass the public transport explicitly:
+
+```bash
+curl --fail --location --proto '=https' --tlsv1.2 \
+  -o verify-load-amd64.sh \
+  https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.0.0-community-rescue-rc.64/verify-load-amd64.sh
+chmod 0700 verify-load-amd64.sh
+BDAG_RC64_BASE_URL=https://bafybeiavz3mso2z7kc2cfittkn3lfgjz7t7xvuarkrmo4ll6pccbzzjk4a.ipfs.dweb.link \
+  ./verify-load-amd64.sh "$PWD/blockdag-community-rescue-rc64-amd64"
+```
+
+The directory CID is transport only. The loader pins the public-key
+fingerprint and verifies the signed release, bootstrap and data manifests plus
+the exact archive hashes, byte sizes, AMD64 image identities, and node binary.
+It fails closed before stack changes on any mismatch.
+
 ## Existing canonical installation
 
 Keep the current node, pool, Stratum endpoint, accounting database, peerstore,

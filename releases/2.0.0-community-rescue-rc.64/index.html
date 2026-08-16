@@ -28,6 +28,10 @@
       <p>Native-safe mining remains available through EVM/reference trouble when the EVM guard is disabled. EVM observation continues. Native staleness, divergence, missing submission, or payout mismatch still fails closed.</p>
       <p>No public EVM reference is silently configured. Signed bootstrap peers improve discovery without becoming consensus authorities or readiness voters.</p>
       <p><a href="verify-load-amd64.sh">Verify and stage AMD64 images</a> · <a href="install-or-reuse-data-amd64.sh">Reuse or install data</a> · <a href="docs/install-amd64.md">Install guide</a> · <a href="docs/recover-divergent-node.md">Recovery guide</a> · <a href="README.md">Release scope</a></p>
+      <p>Anonymous staging uses the immutable IPFS directory transport below. The signed loader verifies every signature, byte count, SHA-256 value, image identity, and architecture before accepting it.</p>
+      <pre><code>curl --fail --location --proto '=https' --tlsv1.2 -o verify-load-amd64.sh https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.0.0-community-rescue-rc.64/verify-load-amd64.sh
+chmod 0700 verify-load-amd64.sh
+BDAG_RC64_BASE_URL=https://bafybeiavz3mso2z7kc2cfittkn3lfgjz7t7xvuarkrmo4ll6pccbzzjk4a.ipfs.dweb.link ./verify-load-amd64.sh "$PWD/blockdag-community-rescue-rc64-amd64"</code></pre>
     </div>
     <script>
       fetch("records/release.json", {cache: "no-store"}).then((response) => {
@@ -44,7 +48,8 @@
         document.getElementById("artifacts").innerHTML =
           `<p><a href="https://dweb.link/ipfs/${node.dockerArchive.cid}">AMD64 node Docker archive</a> (${node.dockerArchive.bytes} bytes, SHA-256 <code>${node.dockerArchive.sha256}</code>).</p>` +
           `<p><a href="https://dweb.link/ipfs/${pool.dockerArchive.cid}">AMD64 pool Docker archive</a> (${pool.dockerArchive.bytes} bytes, SHA-256 <code>${pool.dockerArchive.sha256}</code>).</p>` +
-          `<p>Signed bootstrap peers and the latest-data manifest are included; the snapshot is downloaded only for empty data.</p>`;
+          `<p>Signed bootstrap peers and the latest-data manifest are included; the snapshot is downloaded only for empty data.</p>` +
+          `<p>Anonymous bundle transport: <a href="https://bafybeiavz3mso2z7kc2cfittkn3lfgjz7t7xvuarkrmo4ll6pccbzzjk4a.ipfs.dweb.link/">IPFS directory</a>. This transport is not a trust authority.</p>`;
       }).catch((error) => {
         document.getElementById("identity").innerHTML = `<dt>Status</dt><dd>${error.message}. Fail closed and do not install.</dd>`;
       });

@@ -58,3 +58,9 @@ Start with `verify-load-amd64.sh`, then follow `docs/install-amd64.md` or
 `docs/recover-divergent-node.md`. Detached Ed25519 signatures and the pinned
 public-key fingerprint are authority; a mirror, gateway, tag, or web page alone
 is not.
+
+Anonymous staging uses IPFS directory
+`bafybeiavz3mso2z7kc2cfittkn3lfgjz7t7xvuarkrmo4ll6pccbzzjk4a` as transport.
+The GitHub release remains the immutable archival mirror. The directory does
+not become an authority: the unchanged signed loader authenticates every
+downloaded release input and qualified image before it can be used.
