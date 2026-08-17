@@ -1233,8 +1233,9 @@ def main() -> None:
         validate_published_manifest(validator, manifest)
         validate_signed_records(validator, manifest)
         validate_published_copy(validator, manifest)
-        validate_publication_pointers(validator, historical=args.historical)
-        validator.finish("publication")
+        if not args.historical:
+            validate_publication_pointers(validator)
+        validator.finish("historical publication" if args.historical else "publication")
         return
 
     validate_manifest(validator, manifest)

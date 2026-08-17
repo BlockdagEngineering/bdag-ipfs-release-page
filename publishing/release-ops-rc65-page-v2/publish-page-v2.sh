@@ -25,7 +25,7 @@ readonly ssm_cache=/home/jeremy/.cache/r65ssm-page-v2-publication
 
 [[ $subject_sha =~ ^sha256:[0-9a-f]{64}$ ]]
 [[ -f $subject_file && ! -L $subject_file && -d $release_root && ! -L $release_root ]]
-[[ $result == /home/jeremy/live-ops-artifacts/rc65-page-v2-publication-20260817/evidence-v5/publication.json ]]
+[[ $result == /home/jeremy/live-ops-artifacts/rc65-page-v2-publication-20260817/evidence-v6/publication.json ]]
 [[ ! -e $result && ! -L $result ]]
 for command in aws curl df find gh git ipfs jq openssl sha256sum ssh ss stat; do command -v "$command" >/dev/null; done
 
@@ -58,7 +58,7 @@ page_bytes=$(find "$release_root" -xdev -type f -printf '%s\n' | awk '{n+=$1} EN
 install -d -m 0700 "$ssm_cache" "$(dirname "$result")"
 [[ ! -L $ssm_cache && ! -L $(dirname "$result") ]]
 
-work=$(mktemp -d /home/jeremy/live-ops-artifacts/rc65-page-v2-publication-20260817/evidence-v5/.publish.XXXXXX)
+work=$(mktemp -d /home/jeremy/live-ops-artifacts/rc65-page-v2-publication-20260817/evidence-v6/.publish.XXXXXX)
 readonly work
 forward_pid=''
 cleanup() {
@@ -67,7 +67,7 @@ cleanup() {
   set +e
   [[ -z $forward_pid ]] || kill "$forward_pid" 2>/dev/null
   [[ -z $forward_pid ]] || wait "$forward_pid" 2>/dev/null
-  if [[ -d $work && ! -L $work && $work == /home/jeremy/live-ops-artifacts/rc65-page-v2-publication-20260817/evidence-v5/.publish.* ]]; then
+  if [[ -d $work && ! -L $work && $work == /home/jeremy/live-ops-artifacts/rc65-page-v2-publication-20260817/evidence-v6/.publish.* ]]; then
     find "$work" -xdev -type f -delete
     rmdir "$work"
   fi

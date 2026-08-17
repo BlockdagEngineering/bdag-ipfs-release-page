@@ -18,7 +18,7 @@ RELEASE = REPO / "releases/2.0.0-community-rescue-rc.65-page-v2"
 ACCEPT = REPO / "publishing/release-ops-rc65-page-v2/accept-page-v2.py"
 PUBLISH = REPO / "publishing/release-ops-rc65-page-v2/publish-page-v2.sh"
 BRANCH = "jeremy/release/2026-08-17-rc65-rich-ipfs-page-v2"
-BASE_COMMIT = "cae5b664f586df3945e6a5afc91637580e49c131"
+BASE_COMMIT = "c8ab59e27f28c1938dade9d0e05ee4299a49ed82"
 PAGE_CID = "bafybeiefg3ipbh6t57vccynamsn3msqevqaz3rlxgtidili4lnjyowm5ku"
 GIT_OID = re.compile(r"^[0-9a-f]{40}$")
 
@@ -113,7 +113,7 @@ def main() -> None:
     }
     subject_bytes = canonical(subject)
     subject_sha = "sha256:" + hashlib.sha256(subject_bytes).hexdigest()
-    evidence = workspace / "evidence-v5"
+    evidence = workspace / "evidence-v6"
 
     def acceptance(job_id: str, role: str) -> dict[str, object]:
         result = evidence / f"{role}.json"
@@ -150,7 +150,7 @@ def main() -> None:
         },
     ]
     plan = {
-        "schema_version": "release-ops-plan/v1", "release_id": "chain1404-rc65-page-v2-5",
+        "schema_version": "release-ops-plan/v1", "release_id": "chain1404-rc65-page-v2-6",
         "subject_sha256": subject_sha, "workspace_root": str(workspace),
         "concurrency": {"target": 3, "control": 1, "total": 4}, "environment": {},
         "inherit_env": ["HOME", "PATH", "SSH_AUTH_SOCK"],
