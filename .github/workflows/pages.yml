@@ -63,7 +63,9 @@ jobs:
           tar --extract --gzip --file "$archive" --directory "$RUNNER_TEMP" --no-same-owner kubo/ipfs
           install -m 0755 "$RUNNER_TEMP/kubo/ipfs" "$RUNNER_TEMP/bin/ipfs"
           printf '%s\n' "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+          printf 'IPFS_PATH=%s\n' "$RUNNER_TEMP/ipfs-verify-repo" >> "$GITHUB_ENV"
           "$RUNNER_TEMP/bin/ipfs" version | grep -Fx 'ipfs version 0.42.0'
+          IPFS_PATH="$RUNNER_TEMP/ipfs-verify-repo" "$RUNNER_TEMP/bin/ipfs" init --empty-repo
       - name: Validate signed RC65 rich page revision
         run: python3 tests/validate_rc65_page_v2.py
       - name: Test generated install commands
