@@ -49,6 +49,21 @@ jobs:
         run: python3 tests/validate_rc64_release.py
       - name: Validate RC65 publication candidate
         run: python3 tests/validate_rc65_release.py
+      - name: Install exact IPFS verifier
+        env:
+          KUBO_SHA512: 054c38a0cf66f7d738e25085ad62cb3a42d03d4bac329b7dd25c1d71cf18e1ce87d55b1d1b705b04c65210dca9109973579e0eb1cd72f6341ecb3311d840d156
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/kubo_v0.42.0_linux-amd64.tar.gz"
+          curl --fail --silent --show-error --location --retry 3 \
+            --output "$archive" \
+            https://dist.ipfs.tech/kubo/v0.42.0/kubo_v0.42.0_linux-amd64.tar.gz
+          printf '%s  %s\n' "$KUBO_SHA512" "$archive" | sha512sum --check --strict -
+          install -d -m 0755 "$RUNNER_TEMP/bin"
+          tar --extract --gzip --file "$archive" --directory "$RUNNER_TEMP" --no-same-owner kubo/ipfs
+          install -m 0755 "$RUNNER_TEMP/kubo/ipfs" "$RUNNER_TEMP/bin/ipfs"
+          printf '%s\n' "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/bin/ipfs" version | grep -Fx 'ipfs version 0.42.0'
       - name: Validate signed RC65 rich page revision
         run: python3 tests/validate_rc65_page_v2.py
       - name: Test generated install commands
