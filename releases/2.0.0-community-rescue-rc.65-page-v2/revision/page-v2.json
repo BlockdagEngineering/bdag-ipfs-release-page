@@ -1,0 +1,96 @@
+{
+  "compactAdmission": {
+    "artifact": {
+      "bytes": 16191131162,
+      "cid": "bafybeih55jggjwlwhdkapsb2h3cp4yx7lt3a43chiwyvuyazrh7eekm6y4",
+      "name": "blockdag-chain1404-compact-data-2.0.0-community-rescue-rc.65-evm17884079.tar.zst",
+      "sha256": "0939750a68afe7bec90774a48985f1ae5cdc734fc61364247296f32bd3a5eb92",
+      "unpackedBytes": 32618071094
+    },
+    "manifestCid": "bafkreie7lwh7jxxv4qsbz26kzaz4xul5e3lmilbawrwce5uigppd3jihq4",
+    "manifestPath": "revision/compact-canonical-manifest.json",
+    "manifestSchema": "bdag.canonical-data-manifest.v3",
+    "manifestSha256": "9f5d8ff4def5e4241cebcac833cbd17d26d6c42c20b46c22768833de3da50787",
+    "signerKeyId": "qualification-v2-20260711",
+    "validationPath": "revision/compact-canonical-validation.json",
+    "validationSha256": "5cbfda643c0f98d87a2a5e7d03cae860f6db009abec74941b5f1cb6956ac5092"
+  },
+  "createdAt": "2026-08-17T14:06:39Z",
+  "fullArchive": {
+    "catchUpRequired": true,
+    "inheritedFrom": "2.0.0-community-rescue-rc.44",
+    "partCount": 40,
+    "publishedEvmBoundary": 14977965,
+    "sha256": "bf71ff3ce7d29dca5c0b0c9f9f376d713c0029fdbabb76919929293073472f74",
+    "sizeBytes": 170210502672
+  },
+  "originalRecords": {
+    "cid": "bafybeihudga5veymvrnpdnzrz5juf6a277dgqudksaw6matcjc257judqe",
+    "contentAddressing": {
+      "chunker": "size-262144",
+      "cidVersion": 1,
+      "hash": "sha2-256",
+      "preserveMode": false,
+      "preserveMtime": false,
+      "rawLeaves": true
+    },
+    "releaseJsonSha256": "4f1c1962edb90dd99f4286d58507ed2216ea47f7bc83ccb055072269731b1335",
+    "unchanged": true
+  },
+  "presentation": {
+    "assets": {
+      "assets/bdag-community-logo.svg": {
+        "bytes": 5608,
+        "sha256": "e7516457cf569e4ad435db7a09c148340709c06fd974e8c1f3e4dbcd97bf3596"
+      },
+      "assets/release-page.mjs": {
+        "bytes": 27866,
+        "sha256": "751c8c2cb56f2f423ec1e922773546466ce61ae222acfcd3654a62f6a0a94584"
+      },
+      "assets/release.css": {
+        "bytes": 13449,
+        "sha256": "5a0c48e89d7b3baa59aa250fb2547a3d4d2f49bc1fee1f9973188aa483a06f54"
+      },
+      "revision/compact-canonical-validation.json": {
+        "bytes": 2407,
+        "sha256": "5cbfda643c0f98d87a2a5e7d03cae860f6db009abec74941b5f1cb6956ac5092"
+      },
+      "revision/verify-compact-admission.py": {
+        "bytes": 9370,
+        "sha256": "cf10b3114dadd9b28c65253fce66d2cf0eff708e8a186b1923b3d6b918c2318f"
+      },
+      "verify-load-v2.sh": {
+        "bytes": 608,
+        "sha256": "20860b685ad1bf9972151c5736c5bd56f0c34653351d1f12c834e7ca1387d825"
+      },
+      "verify-load.sh": {
+        "bytes": 6432,
+        "sha256": "85cd911fb964a33c03bc2e80ea82150a90a9c392e1b969797dc77f7d71b10296"
+      }
+    },
+    "designReference": "https://bdag.community/",
+    "externalRuntimeDependencies": false,
+    "predecessorCid": "bafybeiet53pfpyf52mmbqwqg6qapxueblqhyqyit6f5zyfaotunpwtgweq",
+    "revision": 2
+  },
+  "release": {
+    "sequence": 65,
+    "softwareTag": "jeremy-community-rescue-rc.65.6",
+    "version": "2.0.0-community-rescue-rc.65"
+  },
+  "schema": "bdag.community-page-revision.v2",
+  "status": "published",
+  "trust": {
+    "bdagCommunityIsTrustAuthority": false,
+    "datasetKeySha256": "f9f2f7df88d43c8d51df8bdc2a369601ff0b4b9de224e8ab9b609b423b203d24",
+    "gatewayIsTransportOnly": true,
+    "outerReleaseKeySha256": "9c78685439ff9841f14f1f7db386942a14a3d2dde1c75d9ea739a0da97149e66",
+    "softwareReleaseKeySha256": "26f0051185d9c1abada3b5adcd3d11c88f522e09b3850211a04773250c267ffb"
+  },
+  "unchangedBytes": {
+    "compactDataset": true,
+    "fullArchive": true,
+    "originalRecords": true,
+    "software": true
+  }
+}

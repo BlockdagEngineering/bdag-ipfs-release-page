@@ -1,0 +1,91 @@
+{
+  "release": "pool-v6.5.7",
+  "generated_at": "2026-06-18T12:54:34Z",
+  "selection_policy": "Bootstrap overlay is limited to operator seeds plus live public service-port peers. Observed temporary/high NAT ports are excluded because they are not durable bootstrap addresses.",
+  "operator_aws_nodes": [
+    {
+      "name": "Explorer RPC archive node",
+      "region": "eu-central-1",
+      "multiaddr": "/ip4/3.126.64.13/tcp/8152/p2p/16Uiu2HAmEFxRaBbbf3sRi43CCvMk5Y6zPkuGY9s4uRK2FKJVJkqo",
+      "source": "operator supplied stable seed"
+    },
+    {
+      "name": "Main RPC archive node",
+      "region": "eu-central-1",
+      "multiaddr": "/ip4/63.182.36.180/tcp/8150/p2p/16Uiu2HAmP8HsTF9ks8JjFamzT9JBZb3ymSiCJ8rkzXBZqYj4yKtP",
+      "source": "operator supplied stable seed; live active peer from Cape Town pool node"
+    },
+    {
+      "name": "Cape Town pool/node host",
+      "region": "af-south-1",
+      "multiaddr": "/ip4/16.28.133.168/tcp/8150/p2p/16Uiu2HAm9UcTayJDSajjJYsWwVaN2qqGeczcs9kXse3dMdvGDRjz",
+      "source": "peer ID from v6.5.7 packaged seed for 16.28.133.168:8150; replaces previously supplied stale peer ID 16Uiu2HAkvnS42..."
+    }
+  ],
+  "validation": {
+    "method": "Operator peer refresh using getPeerInfo, then filter state=true, active=true, Full|CF service, public /ip4, TCP 8150/8151/8152, and matching peer ID in multiaddr.",
+    "pool_node_total_peers": 31,
+    "pool_node_stable_candidates": 9,
+    "snapshot_node_total_peers": 1,
+    "snapshot_node_stable_candidates": 1,
+    "full_restore_or_fresh_install_rerun": false,
+    "note": "This pass fixes the weak peer list reported from a snapshot node. It prunes high-port observed peers and updates metadata; it does not rerun a full EC2 restore/install validation."
+  },
+  "counts": {
+    "operator_seed_count": 3,
+    "live_stable_service_port_peer_count": 9,
+    "release_overlay_seed_count": 11,
+    "packaged_unique_seed_count": 12,
+    "expected_merged_seed_count_after_dedupe": 21
+  },
+  "bootstrap_peers": [
+    "/ip4/3.126.64.13/tcp/8152/p2p/16Uiu2HAmEFxRaBbbf3sRi43CCvMk5Y6zPkuGY9s4uRK2FKJVJkqo",
+    "/ip4/63.182.36.180/tcp/8150/p2p/16Uiu2HAmP8HsTF9ks8JjFamzT9JBZb3ymSiCJ8rkzXBZqYj4yKtP",
+    "/ip4/16.28.133.168/tcp/8150/p2p/16Uiu2HAm9UcTayJDSajjJYsWwVaN2qqGeczcs9kXse3dMdvGDRjz",
+    "/ip4/169.0.254.182/tcp/8150/p2p/16Uiu2HAmGsEDGnDGhvziZR1UQSELTDihXRKYMB6SrbEQ6NsWBVqD",
+    "/ip4/13.140.165.186/tcp/8150/p2p/16Uiu2HAm4hHD7Ht5LJrLgaKXr7YP2RzHHjrrCLNt8zv8FQ9s3gBU",
+    "/ip4/102.39.221.179/tcp/8152/p2p/16Uiu2HAm8ebvL9NTNwgLYwm8LEEXSY7QKQhQ7YVcAV7PR6ymsrTm",
+    "/ip4/80.141.136.179/tcp/8151/p2p/16Uiu2HAmMZNeDNLgfLXFKzEiWZHFjdDejLSCzhunJMYWoYhdT3gv",
+    "/ip4/102.39.221.179/tcp/8150/p2p/16Uiu2HAmNQznwWPjuAUhXnTkP6EuWsEHa4eRnb1aTm3WcZQKsrFn",
+    "/ip4/47.156.6.142/tcp/8151/p2p/16Uiu2HAmJz7PTCxSWTnuJhvbf4oXEffFZ1KAE3yNBX9SY72jS1ta",
+    "/ip4/218.32.84.82/tcp/8150/p2p/16Uiu2HAmNjFKhP3945Az3afdBSUSRwhgDw1uGRBDsqSvSduStbWJ",
+    "/ip4/5.78.193.245/tcp/8150/p2p/16Uiu2HAkwosZsQdtgAQHoJ57MFKpWnyfGJtSpt2R2aJMgR6ywGME"
+  ],
+  "packaged_unique_peers_observed_in_v6_5_7_payload": [
+    "/ip4/13.57.132.47/tcp/8150/p2p/16Uiu2HAmDynYpWjWmgVGf9qVWvDdLnJ3ybVgDmFexizR4zMereus",
+    "/ip4/3.218.54.171/tcp/8150/p2p/16Uiu2HAmUZBdpuutiLPuru1UQnX8hf6GyvG7yU2B832sYjvNhmQG",
+    "/ip4/16.28.133.168/tcp/8150/p2p/16Uiu2HAm9UcTayJDSajjJYsWwVaN2qqGeczcs9kXse3dMdvGDRjz",
+    "/ip4/102.182.77.21/tcp/8151/p2p/16Uiu2HAm2uPLqM1dfd3ddbzg3FDAmvuvyo3vbBSXpVHurqAsUxWQ",
+    "/ip4/121.91.173.235/tcp/8150/p2p/16Uiu2HAkvH1U2kQqQFh6fSVQPGgABaKNHRMT7DceGe6kRtYr6ndY",
+    "/ip4/102.182.77.16/tcp/8152/p2p/16Uiu2HAm99a8KYuUkL5LGEQbpRNhz5nzScrwYpEh47BfSaVMCg5G",
+    "/ip4/63.182.36.180/tcp/8150/p2p/16Uiu2HAmP8HsTF9ks8JjFamzT9JBZb3ymSiCJ8rkzXBZqYj4yKtP",
+    "/ip4/52.8.54.60/tcp/8150/p2p/16Uiu2HAkzUWr4YUM7mAhLdCVZgFoV9He6aQzKTyWWrJ7SWQKRTN7",
+    "/ip4/204.236.141.121/tcp/8150/p2p/16Uiu2HAm5qppgbBCjVpTN5nKtjEU5KsSbs2gz4S9uPiSWVSGfNh1",
+    "/ip4/54.151.18.92/tcp/8150/p2p/16Uiu2HAmVm91o1JXS2C7P6uTVuVX5empgnRtzuK4UaC8fHmePbKP",
+    "/ip4/18.142.70.83/tcp/8150/p2p/16Uiu2HAmBSdn2taoteYwLZJZkDm2iCwL6eQ4UaXYNBBtAwaBU18X",
+    "/ip4/54.214.229.250/tcp/8154/p2p/16Uiu2HAm1vZgJXKhUfWWC7nz9wzNpUDiYAid7zCZSKb1hhU7QBNB"
+  ],
+  "expected_merged_peers_after_dedupe": [
+    "/ip4/3.126.64.13/tcp/8152/p2p/16Uiu2HAmEFxRaBbbf3sRi43CCvMk5Y6zPkuGY9s4uRK2FKJVJkqo",
+    "/ip4/63.182.36.180/tcp/8150/p2p/16Uiu2HAmP8HsTF9ks8JjFamzT9JBZb3ymSiCJ8rkzXBZqYj4yKtP",
+    "/ip4/16.28.133.168/tcp/8150/p2p/16Uiu2HAm9UcTayJDSajjJYsWwVaN2qqGeczcs9kXse3dMdvGDRjz",
+    "/ip4/169.0.254.182/tcp/8150/p2p/16Uiu2HAmGsEDGnDGhvziZR1UQSELTDihXRKYMB6SrbEQ6NsWBVqD",
+    "/ip4/13.140.165.186/tcp/8150/p2p/16Uiu2HAm4hHD7Ht5LJrLgaKXr7YP2RzHHjrrCLNt8zv8FQ9s3gBU",
+    "/ip4/102.39.221.179/tcp/8152/p2p/16Uiu2HAm8ebvL9NTNwgLYwm8LEEXSY7QKQhQ7YVcAV7PR6ymsrTm",
+    "/ip4/80.141.136.179/tcp/8151/p2p/16Uiu2HAmMZNeDNLgfLXFKzEiWZHFjdDejLSCzhunJMYWoYhdT3gv",
+    "/ip4/102.39.221.179/tcp/8150/p2p/16Uiu2HAmNQznwWPjuAUhXnTkP6EuWsEHa4eRnb1aTm3WcZQKsrFn",
+    "/ip4/47.156.6.142/tcp/8151/p2p/16Uiu2HAmJz7PTCxSWTnuJhvbf4oXEffFZ1KAE3yNBX9SY72jS1ta",
+    "/ip4/218.32.84.82/tcp/8150/p2p/16Uiu2HAmNjFKhP3945Az3afdBSUSRwhgDw1uGRBDsqSvSduStbWJ",
+    "/ip4/5.78.193.245/tcp/8150/p2p/16Uiu2HAkwosZsQdtgAQHoJ57MFKpWnyfGJtSpt2R2aJMgR6ywGME",
+    "/ip4/13.57.132.47/tcp/8150/p2p/16Uiu2HAmDynYpWjWmgVGf9qVWvDdLnJ3ybVgDmFexizR4zMereus",
+    "/ip4/3.218.54.171/tcp/8150/p2p/16Uiu2HAmUZBdpuutiLPuru1UQnX8hf6GyvG7yU2B832sYjvNhmQG",
+    "/ip4/102.182.77.21/tcp/8151/p2p/16Uiu2HAm2uPLqM1dfd3ddbzg3FDAmvuvyo3vbBSXpVHurqAsUxWQ",
+    "/ip4/121.91.173.235/tcp/8150/p2p/16Uiu2HAkvH1U2kQqQFh6fSVQPGgABaKNHRMT7DceGe6kRtYr6ndY",
+    "/ip4/102.182.77.16/tcp/8152/p2p/16Uiu2HAm99a8KYuUkL5LGEQbpRNhz5nzScrwYpEh47BfSaVMCg5G",
+    "/ip4/52.8.54.60/tcp/8150/p2p/16Uiu2HAkzUWr4YUM7mAhLdCVZgFoV9He6aQzKTyWWrJ7SWQKRTN7",
+    "/ip4/204.236.141.121/tcp/8150/p2p/16Uiu2HAm5qppgbBCjVpTN5nKtjEU5KsSbs2gz4S9uPiSWVSGfNh1",
+    "/ip4/54.151.18.92/tcp/8150/p2p/16Uiu2HAmVm91o1JXS2C7P6uTVuVX5empgnRtzuK4UaC8fHmePbKP",
+    "/ip4/18.142.70.83/tcp/8150/p2p/16Uiu2HAmBSdn2taoteYwLZJZkDm2iCwL6eQ4UaXYNBBtAwaBU18X",
+    "/ip4/54.214.229.250/tcp/8154/p2p/16Uiu2HAm1vZgJXKhUfWWC7nz9wzNpUDiYAid7zCZSKb1hhU7QBNB"
+  ]
+}

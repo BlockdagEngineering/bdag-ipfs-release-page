@@ -1,0 +1,110 @@
+{
+  "schema": "bdag.canonical-data-manifest.v3",
+  "signature": {
+    "algorithm": "ed25519",
+    "key_id": "qualification-v2-20260711",
+    "public_key_sha256": "f9f2f7df88d43c8d51df8bdc2a369601ff0b4b9de224e8ab9b609b423b203d24",
+    "value": "0RQzu73zUdOvNme4M2EJsnw5tjfTnpEubux/HX+VBJS7/higqvJcv8tqyA7hfLL1E6w+qd894GsIWzYjNFrlBA=="
+  },
+  "signed": {
+    "archive_node_equivalent": true,
+    "archive_validation": {
+      "audit_binary_sha256": "71fcf2ff08908d84d3069cea5398994a53bc3148e6d239a0d6ad2e2e8f038297",
+      "audit_report_sha256": "47ec5f31a8e34b2527d920c6b6b3d392f5b9832b84d8e2f9631c808a5498c52e",
+      "canonical_blocks_checked": 14977966,
+      "complete": true,
+      "core_source_revision": "bb0f7a6fed918e56251aa602503c90f1e1f30cb8",
+      "coverage": "all-canonical-state-roots",
+      "high": 14977965,
+      "low": 0,
+      "missing_canonical_hashes": 0,
+      "missing_headers": 0,
+      "missing_state_roots": 0,
+      "schema": "bdag.archive-state-validation.v1",
+      "state_roots_checked": 14977966,
+      "state_scheme": "hash",
+      "trie_traversals": {
+        "checkpoint": {
+          "hash": "0xbf9a0ccd88fa03eb3d7cbc0052b258b9b21132ae4ba3f0276f6e482a9d601738",
+          "number": 13863411,
+          "report_sha256": "24f409bd86517f34fdf1f66e8a7a927f66d0fe9590930d5bcf1fb3b76e6bf52b",
+          "state_root": "0xad51cb1e1357172afc5ca5dcebc477ff818661b64b8b5b64cdf9cd54a8450c00"
+        },
+        "genesis": {
+          "hash": "0x3fb19ea409ac7399ad7b988b88e0d436722c967137e51e834ccefd7611a592ef",
+          "number": 0,
+          "report_sha256": "9bd3ed850a551865a32a4c1c4fbf8197e961c753b9852b3817190e7a5b73613e",
+          "state_root": "0x564aeb23c21b395f94839991240f0665fdf6b083cad3a41ac6412fa2180ac76a"
+        },
+        "head": {
+          "hash": "0x47cdf1eff5d74483d1d463deac66b499958be70ffc9f509080224d42100e2d46",
+          "number": 14977965,
+          "report_sha256": "bd1b1de4a390821405e67e766d24ad7eeb886bd20451e7d1bef3c27cad0d1147",
+          "state_root": "0xdef13a61fe68cd5f4cb04242ecf3858d05dfa3d3425c17993c6006fe9ef7de2f"
+        }
+      }
+    },
+    "artifact": {
+      "format": "tar.zst",
+      "name": "blockdag-full-archive-v28-2.0.0-community-rescue-rc.44-evm14977965.tar.zst",
+      "sha256": "bf71ff3ce7d29dca5c0b0c9f9f376d713c0029fdbabb76919929293073472f74",
+      "size_bytes": 170210502672,
+      "unpacked_size_bytes": 272780361663
+    },
+    "chain_id": 1404,
+    "created_at": "2026-07-21T14:02:06Z",
+    "dataset_class": "verified-tip-state",
+    "evm": {
+      "hash": "0x47cdf1eff5d74483d1d463deac66b499958be70ffc9f509080224d42100e2d46",
+      "number": 14977965,
+      "state_root": "0xdef13a61fe68cd5f4cb04242ecf3858d05dfa3d3425c17993c6006fe9ef7de2f"
+    },
+    "fixed_checkpoint": {
+      "hash": "0xbf9a0ccd88fa03eb3d7cbc0052b258b9b21132ae4ba3f0276f6e482a9d601738",
+      "number": 13863411,
+      "state_root": "0xad51cb1e1357172afc5ca5dcebc477ff818661b64b8b5b64cdf9cd54a8450c00"
+    },
+    "genesis_hash": "0x3fb19ea409ac7399ad7b988b88e0d436722c967137e51e834ccefd7611a592ef",
+    "genesis_state_root": "0x564aeb23c21b395f94839991240f0665fdf6b083cad3a41ac6412fa2180ac76a",
+    "historical_state_guarantee": "all canonical EVM state roots from genesis through block 14977965",
+    "native": {
+      "hash": "0xcf2e947674c1202b7336c50d0913fef67fd1bbca226c3132126966df2bcdcd93",
+      "order": 15368869,
+      "state_root": "0xb47f62354734bd82e9cb046f390d72d9d601d740cd8728f214fc16a4bcc44aff"
+    },
+    "network": "mainnet",
+    "paths": [
+      "mainnet/BdagChain",
+      "mainnet/bdageth/chaindata"
+    ],
+    "provenance": {
+      "build_tools": {
+        "core_source_revision": "bb0f7a6fed918e56251aa602503c90f1e1f30cb8",
+        "dataset_builder_sha256": "059fbb674b3208789f83e47de89a30fe4d9610420983cb31ccc9ca3a9bfd410e",
+        "recovery_binary": "blockdag-node 2.0.0-community-rescue-rc.44 linux-amd64",
+        "recovery_binary_sha256": "71fcf2ff08908d84d3069cea5398994a53bc3148e6d239a0d6ad2e2e8f038297",
+        "release_lock_sha256": "a5df37f18de660c76e8110e55c7274b8beebe2187f9f062022ee168129ece7d6",
+        "stack_source_revision": "bda8cf1e5c73a8e0316ce302650310feb0538939",
+        "validation_spec_sha256": "569293861312aae24b156662170d8bbead8dbfd4281b6e9dcde0e3af757f3aa1"
+      },
+      "qualification": {
+        "allowlist_audit_sha256": "85567fdf52bcb09a31cfd27e48df4060e08e90ee12e5bfabaf50e0f9925953ab",
+        "archive_readback_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "canonical_sample_sha256": "128990a681723d34a5694740e3e9648a5e196b305116159578a912b81ec97580",
+        "distribution_signature_is_not_consensus_truth": true,
+        "multipart_manifest_sha256": "d31c47974b9a2926750a2632530b811ef76a230944191644bdd903ca8c497fcf",
+        "packaging_receipt_sha256": "1c4657e42feb7e02bdf3a9a3ad0bd409c5a1486589d2981e310e823464ccea4a",
+        "producer_majority_sample_sha256": "abcb6ed083b932d35026b82882eae9f73f72225079f99e2894f9e8c193c757eb",
+        "schema": "bdag.full-archive-dataset-qualification.v1",
+        "source_qualification_receipt_sha256": "e235e0007b980cbf9db7ae9bc2e56eb4d2d7ee72263e8257f7f70a20575fef88",
+        "source_snapshot_id": "snap-05daaf6cd75ec13c1"
+      }
+    },
+    "replay_anchor": {
+      "hash": "0xbf9a0ccd88fa03eb3d7cbc0052b258b9b21132ae4ba3f0276f6e482a9d601738",
+      "number": 13863411,
+      "state_root": "0xad51cb1e1357172afc5ca5dcebc477ff818661b64b8b5b64cdf9cd54a8450c00"
+    },
+    "version": "v28"
+  }
+}

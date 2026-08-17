@@ -1,0 +1,18 @@
+{
+  "version": "v26",
+  "native": {
+    "order": 14636755,
+    "hash": "0x591ccfb990e05462d3777db14cc09f0e11b4ae7b961750603394469fbbb9ac99",
+    "state_root": "0x415acb50323591aafaacd3af4673e80f15d249d36a601bb4489621503bd661ce"
+  },
+  "evm": {
+    "number": 14258129,
+    "hash": "0x694ccdde6c5921f2b1b39a6c7d45e2dbde1e8fa897d73ef4294896811e7c28bb",
+    "root": "0x24578d2552f5cf1c5b4f266a00364589e25ab251dbad4a4868bdedae4156be80"
+  },
+  "archive": {
+    "path": "/mnt/bdag-ssd/bdag-v26-build/artifacts/blockdag-evm-dataset-v26-20260714T115749Z.tar.zst",
+    "sha256": "90c86826ef59a300698a788ffc9555be1c2ca1adb7c8b02c0c230bda07738118",
+    "size_bytes": 10659644581
+  }
+}

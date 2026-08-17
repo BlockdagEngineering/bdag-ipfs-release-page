@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#0e0715">
+    <meta name="description" content="Authenticated BlockDAG Chain ID 1404 RC65 software and guided Linux installation for AMD64 and ARM64.">
+    <title>BlockDAG Community Rescue RC65</title>
+    <link rel="icon" href="assets/bdag-community-logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/release.css">
+    <script type="module" src="assets/release-page.mjs"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to release content</a>
+    <header class="site-header">
+      <nav class="nav shell" aria-label="Primary navigation">
+        <a class="brand" href="https://bdag.community/" target="_blank" rel="noopener noreferrer" aria-label="BlockDAG Community home">
+          <img src="assets/bdag-community-logo.svg" alt="" width="42" height="42">
+          <span><strong>BlockDAG</strong><small>Community release</small></span>
+        </a>
+        <div class="nav-links">
+          <a href="#install">Install</a>
+          <a href="#artifacts">Artifacts</a>
+          <a href="#verify">Verify</a>
+          <a class="pill-link" href="https://bdag.community/community#participate" target="_blank" rel="noopener noreferrer">Support the community</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero shell">
+        <div class="hero-copy">
+          <p class="eyebrow">Chain ID 1404 · Protocol 46</p>
+          <h1>Community Rescue <span>RC65</span></h1>
+          <p class="lede">Signed Linux software for AMD64 and ARM64, a current compact dataset for normal mining nodes, and a separately authenticated full-archive restore path.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#install">Build my install command</a>
+            <a class="button secondary" href="https://github.com/BlockdagEngineering/stack/releases/tag/jeremy-community-rescue-rc.65.6" target="_blank" rel="noopener noreferrer">View software release</a>
+          </div>
+          <p class="transport-note">IPFS gateways carry bytes. Signatures, hashes, fixed anchors, and Chain ID 1404 consensus establish trust.</p>
+        </div>
+        <aside class="hero-panel glass" aria-label="Release status">
+          <div class="status-row">
+            <span id="trustDot" class="status-dot checking" aria-hidden="true"></span>
+            <div><small>Authenticated release status</small><strong id="trustStatus">Checking signed records…</strong></div>
+          </div>
+          <p id="trustDetail" aria-live="polite">Commands remain locked until the original RC65 record, presentation revision, and compact dataset admission are verified.</p>
+          <dl class="identity-list">
+            <div><dt>Release</dt><dd>RC65.6</dd></div>
+            <div><dt>Architectures</dt><dd>AMD64 + ARM64</dd></div>
+            <div><dt>Network</dt><dd>mainnet / 0x57c</dd></div>
+            <div><dt>Presentation</dt><dd>signed page v2</dd></div>
+          </dl>
+        </aside>
+      </section>
+
+      <section class="status-band" aria-label="Release guarantees">
+        <div class="shell status-grid">
+          <div><span>01</span><strong>Existing data stays in place</strong><small>Normal upgrades download no chain snapshot.</small></div>
+          <div><span>02</span><strong>Owner payout is explicit</strong><small>Mining commands require a non-zero payout address.</small></div>
+          <div><span>03</span><strong>Immutable recovery bytes</strong><small>Every package and dataset is content-addressed.</small></div>
+        </div>
+      </section>
+
+      <section class="section shell" aria-labelledby="choose-heading">
+        <div class="section-heading">
+          <p class="eyebrow">Choose the shortest safe path</p>
+          <h2 id="choose-heading">What are you setting up?</h2>
+        </div>
+        <div class="choice-grid">
+          <article class="choice-card recommended">
+            <span class="badge">Recommended for upgrades</span>
+            <h3>Existing node</h3>
+            <p>Stage the signed software beside the current stack, reuse qualified data, and keep the old stack available for rollback.</p>
+            <button type="button" class="text-button" data-preset="upgrade">Select existing-data upgrade</button>
+          </article>
+          <article class="choice-card">
+            <span class="badge muted">New mining node</span>
+            <h3>Compact current state</h3>
+            <p>Start from the clean 15.1 GiB compact snapshot, then catch up from ordinary Chain ID 1404 peers.</p>
+            <button type="button" class="text-button" data-preset="compact-miner">Select compact mining node</button>
+          </article>
+          <article class="choice-card">
+            <span class="badge warning">Large advanced option</span>
+            <h3>Full archive / RPC</h3>
+            <p>Restore the signed 158.5 GiB 40-part archive at EVM block 14,977,965, then catch up normally.</p>
+            <button type="button" class="text-button" data-preset="full-archive">Select full archive</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="install" class="section shell install-layout" aria-labelledby="install-heading">
+        <div class="builder glass">
+          <div class="section-heading compact">
+            <p class="eyebrow">Guided command builder</p>
+            <h2 id="install-heading">Prepare an inspectable install</h2>
+            <p>Nothing is sent anywhere. Inputs stay in this browser and are used only to generate the command below.</p>
+          </div>
+          <form id="installForm" novalidate>
+            <div class="form-grid">
+              <label>
+                <span>Install path</span>
+                <select id="installMode" name="installMode">
+                  <option value="upgrade">Existing node upgrade — no dataset</option>
+                  <option value="compact-miner">New normal mining node — compact data</option>
+                  <option value="full-archive">New full archive / RPC node</option>
+                </select>
+              </label>
+              <label>
+                <span>Runtime profile</span>
+                <select id="profile" name="profile">
+                  <option value="mining">Mining pool and node</option>
+                  <option value="non-mining">Non-mining network node</option>
+                  <option value="public-rpc">Public RPC node</option>
+                </select>
+              </label>
+              <label>
+                <span>Canonical data directory</span>
+                <input id="dataDir" name="dataDir" value="/srv/blockdag/node-data" autocomplete="off" spellcheck="false">
+                <small>Existing upgrades point to the current qualified directory.</small>
+              </label>
+              <label>
+                <span>Download workspace</span>
+                <input id="downloadDir" name="downloadDir" value="/srv/blockdag/downloads/rc65" autocomplete="off" spellcheck="false">
+                <small>Keep this outside account-home and temporary filesystems.</small>
+              </label>
+              <label id="walletField">
+                <span>Mining payout address</span>
+                <input id="wallet" name="wallet" placeholder="0x…" autocomplete="off" spellcheck="false">
+                <small>The pool and node coinbase use this owner-controlled address.</small>
+              </label>
+              <label id="macField">
+                <span>ASIC MAC allowlist <em>optional</em></span>
+                <input id="asicMacs" name="asicMacs" placeholder="aa:bb:cc:dd:ee:ff,11:22:33:44:55:66" autocomplete="off" spellcheck="false">
+                <small>Comma-separated, full six-byte MAC addresses only.</small>
+              </label>
+              <label>
+                <span>Dashboard access</span>
+                <select id="dashboardBind" name="dashboardBind">
+                  <option value="localhost">Localhost only</option>
+                  <option value="lan">LAN interfaces</option>
+                </select>
+              </label>
+            </div>
+            <div id="selectionNotice" class="notice info" aria-live="polite"></div>
+            <div id="inputError" class="notice error" hidden aria-live="assertive"></div>
+            <button id="generateCommand" class="button primary" type="submit" disabled>Generate authenticated command</button>
+          </form>
+        </div>
+
+        <aside class="command-panel glass" aria-labelledby="command-heading">
+          <div class="command-header">
+            <div><p class="eyebrow">Review before running</p><h2 id="command-heading">Generated Bash</h2></div>
+            <button id="copyCommand" class="copy-button" type="button" disabled>Copy</button>
+          </div>
+          <pre><code id="installCommand">Signed release checks are still running…</code></pre>
+          <p class="command-help">Run as the non-root installation user. The installer elevates only bounded host changes and preserves authenticated resume material on failure.</p>
+          <div id="copyToast" class="toast" role="status" aria-live="polite"></div>
+        </aside>
+      </section>
+
+      <section id="artifacts" class="section shell" aria-labelledby="artifacts-heading">
+        <div class="section-heading">
+          <p class="eyebrow">Exact immutable payloads</p>
+          <h2 id="artifacts-heading">Release artifacts</h2>
+          <p>Download links use content-addressed IPFS paths. GitHub remains an authenticated software mirror, not a hidden runtime dependency.</p>
+        </div>
+        <div class="artifact-grid">
+          <article class="artifact-card" data-artifact="linux-amd64">
+            <div class="artifact-top"><span class="platform">Linux</span><strong>AMD64 software</strong></div>
+            <dl><div><dt>Size</dt><dd data-field="size">—</dd></div><div><dt>SHA-256</dt><dd><code data-field="sha256">—</code></dd></div><div><dt>CID</dt><dd><code data-field="cid">—</code></dd></div></dl>
+            <a class="button secondary small" data-action="download" href="#">Download from IPFS</a>
+          </article>
+          <article class="artifact-card" data-artifact="linux-arm64">
+            <div class="artifact-top"><span class="platform">Linux</span><strong>ARM64 software</strong></div>
+            <dl><div><dt>Size</dt><dd data-field="size">—</dd></div><div><dt>SHA-256</dt><dd><code data-field="sha256">—</code></dd></div><div><dt>CID</dt><dd><code data-field="cid">—</code></dd></div></dl>
+            <a class="button secondary small" data-action="download" href="#">Download from IPFS</a>
+          </article>
+          <article class="artifact-card accent" data-artifact="compact">
+            <div class="artifact-top"><span class="platform">New nodes</span><strong>Compact mining data</strong></div>
+            <dl><div><dt>Compressed</dt><dd data-field="size">—</dd></div><div><dt>Expanded</dt><dd data-field="unpacked">—</dd></div><div><dt>SHA-256</dt><dd><code data-field="sha256">—</code></dd></div><div><dt>CID</dt><dd><code data-field="cid">—</code></dd></div></dl>
+            <div class="card-actions"><a class="button secondary small" data-action="download" href="#">Download from IPFS</a><a data-action="manifest" href="revision/compact-canonical-manifest.json">Signed admission</a></div>
+          </article>
+          <article class="artifact-card warning-card" data-artifact="full-archive">
+            <div class="artifact-top"><span class="platform">Advanced</span><strong>Full archive v28</strong></div>
+            <dl><div><dt>Compressed</dt><dd data-field="size">—</dd></div><div><dt>Expanded</dt><dd data-field="unpacked">—</dd></div><div><dt>Parts</dt><dd data-field="parts">40</dd></div><div><dt>Boundary</dt><dd>EVM 14,977,965</dd></div><div><dt>SHA-256</dt><dd><code data-field="sha256">—</code></dd></div></dl>
+            <div class="card-actions"><a data-action="manifest" href="records/dataset/full-archive-v28-canonical-manifest.json">Signed manifest</a><a data-action="parts" href="records/dataset/full-archive-v28-parts.json">40-part inventory</a></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="verify" class="section shell verify-layout" aria-labelledby="verify-heading">
+        <div>
+          <p class="eyebrow">Trust, made inspectable</p>
+          <h2 id="verify-heading">Verify before installation</h2>
+          <p>The browser checks both RC65 signatures and exact immutable identities before it unlocks commands. Operators can repeat the same checks locally.</p>
+          <pre class="compact-code"><code>./verify-load-v2.sh /absolute/path/to/rc65-page-v2</code></pre>
+        </div>
+        <div class="record-list glass">
+          <a href="records/release.json"><span>Original signed release record</span><small>Byte-identical RC65 record</small></a>
+          <a href="revision/page-v2.json"><span>Signed presentation revision</span><small>Design and compact admission binding</small></a>
+          <a href="revision/compact-canonical-manifest.json"><span>Compact canonical-data manifest</span><small>Installer-compatible admission</small></a>
+          <a href="records/bootstrap-peers.manifest.json"><span>Signed bootstrap peers</span><small>Discovery only, never consensus authority</small></a>
+          <a href="docs/recover-divergent-node.md"><span>Divergent-node recovery guide</span><small>Authenticated, one-way, rollback-safe</small></a>
+        </div>
+      </section>
+
+      <section class="section shell community glass" aria-labelledby="community-heading">
+        <div>
+          <p class="eyebrow">Keep independent infrastructure healthy</p>
+          <h2 id="community-heading">Support the developers by supporting the community</h2>
+          <p>RC65 is built and maintained by independent community developers and node operators. If this release helps you, support the developers and strengthen Chain ID 1404 by running an independent node or miner, testing releases, reporting reproducible issues, and contributing engineering.</p>
+          <p class="disclaimer">This is an invitation to participate, not a donation or investment solicitation. Running hardware, holding assets, or operating infrastructure carries cost and risk; no return is promised.</p>
+        </div>
+        <div class="community-actions">
+          <a class="button primary" href="https://bdag.community/community#participate" target="_blank" rel="noopener noreferrer">Support the community</a>
+          <a href="https://bdag.community/mining" target="_blank" rel="noopener noreferrer">Learn about mining</a>
+          <a href="https://bdag.community/chain" target="_blank" rel="noopener noreferrer">Explore Chain ID 1404</a>
+          <a href="https://bdag.community/contact" target="_blank" rel="noopener noreferrer">Contact the community</a>
+        </div>
+      </section>
+
+      <section class="section shell history" aria-labelledby="history-heading">
+        <div class="section-heading compact"><p class="eyebrow">Immutable history</p><h2 id="history-heading">Earlier community release pages</h2></div>
+        <div class="history-links">
+          <a href="https://dweb.link/ipfs/bafybeiavwpvhacxznesv5imjuqdcb2g6idrnqalor6kf7fr3pjq3tmatky/index.html">RC62</a>
+          <a href="https://dweb.link/ipfs/bafybeibmkyhqwqz26t3lb6w7dp6sjqe2i4goyiopsn6ppfwnf4rrtryjwi/index.html">RC58</a>
+          <a href="https://dweb.link/ipfs/bafybeidbsqv7elxbvs5gna33oj47jhynjaqvwt7wesunfew5jct66zhtiy/index.html">RC52</a>
+          <a href="https://dweb.link/ipfs/bafybeiblqxf7d5cyqmapcpccpvaupatoydxsqceswm4taimqs247ux32ji/index.html">RC44</a>
+          <a href="https://dweb.link/ipfs/bafybeidomor34x6utpuhbhyok7a42abnxkaw4fs2oxphcmqopx63gciyvq/index.html">RC30</a>
+          <a href="https://dweb.link/ipfs/bafybeicrryxoxeg3kn4zuopoc7vwzf3ovytjhuidijbfoumad3xum2zany/index.html">RC24</a>
+          <a href="https://dweb.link/ipfs/bafybeiet53pfpyf52mmbqwqg6qapxueblqhyqyit6f5zyfaotunpwtgweq/">Original RC65 page</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="shell footer-grid">
+        <div><strong>BlockDAG Community Rescue RC65</strong><p>Compiled release assets and reviewed operational utilities. No corechain, pool, or dashboard implementation source and no source maps.</p></div>
+        <p><a href="https://bdag.community/" target="_blank" rel="noopener noreferrer">bdag.community</a> is informational and is not a release trust authority or runtime dependency.</p>
+      </div>
+    </footer>
+    <noscript><div class="noscript">JavaScript is required for browser-side signature verification and command generation. Signed records and local verification tools remain available.</div></noscript>
+  </body>
+</html>

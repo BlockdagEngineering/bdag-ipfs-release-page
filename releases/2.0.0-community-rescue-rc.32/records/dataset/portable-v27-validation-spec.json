@@ -1,0 +1,17 @@
+{
+  "version": "v27",
+  "native": {
+    "order": 14793128,
+    "hash": "0x3c055101d11f2fdd74b79f20e7052475ba20580e5ad22abb39f0dea4b18b4d5b",
+    "state_root": "0x39f32dc10d7a888b7655e7676e7fb53bfb0b632200f2aa038b4c4404ef6358fa"
+  },
+  "evm": {
+    "number": 14412749,
+    "hash": "0x7660df8146ade0e120d2bb15f69a4ebb3761eb9c43590536c5a4023e43b6aff8",
+    "root": "0x2707fa32a6e4dbf5b2cab0a83ecca2764a889e889535fa65b21c5eb8a41195ab"
+  },
+  "archive": {
+    "sha256": "00441e50d58bc84263cf5ab40ab0f7bd7f21b758809630a66c5d7deab04fc972",
+    "size_bytes": 10855850960
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "assets": {
+    "bootstrap.sh": {
+      "sha256": "2c3c8de4d7e4b203545de18aba0894835cd087740e2c46b14c37c6527e30abf0",
+      "size_bytes": 5213
+    },
+    "pool-stack-docker-2.0.0-community-rescue-rc.30-linux-amd64.zip": {
+      "sha256": "6fe3f6c055e8312d1b7a4afa49f40f664bdca474e4a88b9d18357adbf030f4f3",
+      "size_bytes": 638950229
+    },
+    "pool-stack-docker-2.0.0-community-rescue-rc.30-linux-arm64.zip": {
+      "sha256": "8c7ae12ee38d97022dbeed4219690296398d5ef9fe8187b34e55b3cc2eb83e40",
+      "size_bytes": 460262657
+    }
+  },
+  "release": {
+    "sequence": 30,
+    "version": "2.0.0-community-rescue-rc.30"
+  },
+  "release_key_sha256": "26f0051185d9c1abada3b5adcd3d11c88f522e09b3850211a04773250c267ffb",
+  "schema": "bdag.release-auth-manifest.v1"
+}
