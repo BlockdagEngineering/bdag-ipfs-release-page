@@ -17,8 +17,9 @@ REPO = Path("/home/jeremy/worktrees/bdag-rc64-release-page")
 RELEASE = REPO / "releases/2.0.0-community-rescue-rc.65-page-v2"
 ACCEPT = REPO / "publishing/release-ops-rc65-page-v2/accept-page-v2.py"
 PUBLISH = REPO / "publishing/release-ops-rc65-page-v2/publish-page-v2.sh"
+GATEWAY_VERIFY = REPO / "publishing/release-ops-rc65-page-v2/verify-gateway-page.py"
 BRANCH = "jeremy/release/2026-08-17-rc65-rich-ipfs-page-v2"
-BASE_COMMIT = "c8ab59e27f28c1938dade9d0e05ee4299a49ed82"
+BASE_COMMIT = "341a445531dd1337b55a49206c422b690f455309"
 PAGE_CID = "bafybeiefg3ipbh6t57vccynamsn3msqevqaz3rlxgtidili4lnjyowm5ku"
 GIT_OID = re.compile(r"^[0-9a-f]{40}$")
 
@@ -65,7 +66,7 @@ def main() -> None:
     workspace = args.workspace.resolve()
     if workspace.is_symlink() or not workspace.is_dir():
         raise SystemExit("publication workspace is missing or unsafe")
-    for path in (ACCEPT, PUBLISH):
+    for path in (ACCEPT, PUBLISH, GATEWAY_VERIFY):
         exact_file(path)
     if git("branch", "--show-current") != BRANCH or git("rev-parse", "HEAD") != BASE_COMMIT:
         raise SystemExit("page-v2 branch or base commit differs")
@@ -109,11 +110,15 @@ def main() -> None:
             "pinCount": len(pin_manifest["pins"]),
             "ipns": pin_manifest["ipns"],
         },
-        "operations": {"acceptScriptSha256": digest(ACCEPT), "publishScriptSha256": digest(PUBLISH)},
+        "operations": {
+            "acceptScriptSha256": digest(ACCEPT),
+            "publishScriptSha256": digest(PUBLISH),
+            "gatewayVerifierSha256": digest(GATEWAY_VERIFY),
+        },
     }
     subject_bytes = canonical(subject)
     subject_sha = "sha256:" + hashlib.sha256(subject_bytes).hexdigest()
-    evidence = workspace / "evidence-v6"
+    evidence = workspace / "evidence-v7"
 
     def acceptance(job_id: str, role: str) -> dict[str, object]:
         result = evidence / f"{role}.json"
@@ -150,7 +155,7 @@ def main() -> None:
         },
     ]
     plan = {
-        "schema_version": "release-ops-plan/v1", "release_id": "chain1404-rc65-page-v2-6",
+        "schema_version": "release-ops-plan/v1", "release_id": "chain1404-rc65-page-v2-7",
         "subject_sha256": subject_sha, "workspace_root": str(workspace),
         "concurrency": {"target": 3, "control": 1, "total": 4}, "environment": {},
         "inherit_env": ["HOME", "PATH", "SSH_AUTH_SOCK"],

@@ -10,6 +10,7 @@ readonly subject_sha=$2
 readonly result=$3
 readonly repo=/home/jeremy/worktrees/bdag-rc64-release-page
 readonly release_root=$repo/releases/2.0.0-community-rescue-rc.65-page-v2
+readonly gateway_verifier=$repo/publishing/release-ops-rc65-page-v2/verify-gateway-page.py
 readonly branch=jeremy/release/2026-08-17-rc65-rich-ipfs-page-v2
 readonly repository=BlockdagEngineering/bdag-ipfs-release-page
 readonly page_cid=bafybeiefg3ipbh6t57vccynamsn3msqevqaz3rlxgtidili4lnjyowm5ku
@@ -25,7 +26,7 @@ readonly ssm_cache=/home/jeremy/.cache/r65ssm-page-v2-publication
 
 [[ $subject_sha =~ ^sha256:[0-9a-f]{64}$ ]]
 [[ -f $subject_file && ! -L $subject_file && -d $release_root && ! -L $release_root ]]
-[[ $result == /home/jeremy/live-ops-artifacts/rc65-page-v2-publication-20260817/evidence-v6/publication.json ]]
+[[ $result == /home/jeremy/live-ops-artifacts/rc65-page-v2-publication-20260817/evidence-v7/publication.json ]]
 [[ ! -e $result && ! -L $result ]]
 for command in aws curl df find gh git ipfs jq openssl sha256sum ssh ss stat; do command -v "$command" >/dev/null; done
 
@@ -58,7 +59,7 @@ page_bytes=$(find "$release_root" -xdev -type f -printf '%s\n' | awk '{n+=$1} EN
 install -d -m 0700 "$ssm_cache" "$(dirname "$result")"
 [[ ! -L $ssm_cache && ! -L $(dirname "$result") ]]
 
-work=$(mktemp -d /home/jeremy/live-ops-artifacts/rc65-page-v2-publication-20260817/evidence-v6/.publish.XXXXXX)
+work=$(mktemp -d /home/jeremy/live-ops-artifacts/rc65-page-v2-publication-20260817/evidence-v7/.publish.XXXXXX)
 readonly work
 forward_pid=''
 cleanup() {
@@ -67,7 +68,7 @@ cleanup() {
   set +e
   [[ -z $forward_pid ]] || kill "$forward_pid" 2>/dev/null
   [[ -z $forward_pid ]] || wait "$forward_pid" 2>/dev/null
-  if [[ -d $work && ! -L $work && $work == /home/jeremy/live-ops-artifacts/rc65-page-v2-publication-20260817/evidence-v6/.publish.* ]]; then
+  if [[ -d $work && ! -L $work && $work == /home/jeremy/live-ops-artifacts/rc65-page-v2-publication-20260817/evidence-v7/.publish.* ]]; then
     find "$work" -xdev -type f -delete
     rmdir "$work"
   fi
@@ -165,21 +166,12 @@ curl -fsSL --max-time 60 -H 'Cache-Control: no-cache' \
 readonly dweb_url="https://dweb.link/ipfs/$page_cid/index.html"
 curl -fsSL --max-time 90 -H 'Cache-Control: no-cache' "$dweb_url?nocache=$nonce" -o "$work/dweb.html"
 grep -Fq 'Support the developers by supporting the community' "$work/dweb.html"
-exact_gateway=
-for candidate in \
-  "https://$page_cid.ipfs.dweb.link/index.html" \
-  "https://ipfs.io/ipfs/$page_cid/index.html" \
-  "https://w3s.link/ipfs/$page_cid/index.html"; do
-  if curl -fsSL --max-time 90 -H 'Cache-Control: no-cache' "$candidate?nocache=$nonce" -o "$work/gateway.html" && \
-     [[ $(sha256sum "$work/gateway.html" | awk '{print $1}') == $(sha256sum "$release_root/index.html" | awk '{print $1}') ]]; then
-    exact_gateway=$candidate
-    break
-  fi
-done
-[[ -n $exact_gateway ]]
-
-off_lan_hash=$(ssh -o BatchMode=yes -o ConnectTimeout=15 francois-140-zt \
-  "curl -fsSL --max-time 90 '$exact_gateway?offlan=$nonce' | sha256sum" | awk '{print $1}')
+python3 "$gateway_verifier" --local "$release_root/index.html" --gateway "$work/dweb.html" --cid "$page_cid" >"$work/dweb-proof.json"
+exact_gateway=$dweb_url
+ssh -o BatchMode=yes -o ConnectTimeout=15 francois-140-zt \
+  "curl -fsSL --max-time 90 '$dweb_url?offlan=$nonce'" >"$work/off-lan.html"
+python3 "$gateway_verifier" --local "$release_root/index.html" --gateway "$work/off-lan.html" --cid "$page_cid" >"$work/off-lan-proof.json"
+off_lan_hash=$(jq -er '.normalizedSha256' "$work/off-lan-proof.json")
 [[ $off_lan_hash == $(sha256sum "$release_root/index.html" | awk '{print $1}') ]]
 
 # Move both convenience pointers only after immutable CID, Pages, and off-LAN proofs pass.
