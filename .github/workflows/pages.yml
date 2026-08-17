@@ -82,6 +82,7 @@ jobs:
           install -d -m 0755 _site
           install -m 0644 index.html _site/index.html
           cp -a releases _site/releases
+          install -m 0644 /dev/null _site/.nojekyll
           python3 tests/validate_pages_artifact.py _site
       - name: Configure Pages
         uses: actions/configure-pages@v5

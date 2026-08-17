@@ -162,8 +162,17 @@ def main() -> None:
     if not root.is_dir() or root.is_symlink():
         raise SystemExit("staged Pages root is missing or unsafe")
     top_level = {path.name for path in root.iterdir()}
-    if top_level != {"index.html", "releases"}:
+    allowed_inventories = (
+        {"index.html", "releases"},
+        {".nojekyll", "index.html", "releases"},
+    )
+    if top_level not in allowed_inventories:
         raise SystemExit(f"unexpected staged Pages inventory: {sorted(top_level)}")
+    nojekyll = root / ".nojekyll"
+    if nojekyll.exists() and (
+        nojekyll.is_symlink() or not nojekyll.is_file() or nojekyll.stat().st_size != 0
+    ):
+        raise SystemExit(".nojekyll must be an empty regular file")
 
     findings: list[str] = []
     for path in root.rglob("*"):
