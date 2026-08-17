@@ -7,6 +7,7 @@ on:
       - master
       - jeremy-dev-release
       - jeremy/release/2026-08-15-rc64-canonical-recovery-amd64
+      - jeremy/release/2026-08-16-rc65-dual-arch-full-data-ipfs
   workflow_dispatch:
 
 permissions:
@@ -45,6 +46,8 @@ jobs:
         run: python3 tests/validate_rc63_release.py
       - name: Validate published RC64 release
         run: python3 tests/validate_rc64_release.py
+      - name: Validate RC65 publication candidate
+        run: python3 tests/validate_rc65_release.py
       - name: Test generated install commands
         run: >-
           node --test

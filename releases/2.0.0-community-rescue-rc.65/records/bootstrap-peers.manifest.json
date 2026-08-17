@@ -1,0 +1,1 @@
+{"file":{"lineCount":11,"name":"bootstrap-peers.txt","sha256":"5f1c559591d407a3a081d421e64a16f7cb794a3cdaea88d5176dc0d6e6de4d7c"},"network":{"chainId":1404,"protocol":46},"schema":"chain1404-bootstrap-peers-manifest/v1","status":"published","trust":{"consensusAuthority":false,"discoveryOnly":true,"miningReadinessVoter":false}}

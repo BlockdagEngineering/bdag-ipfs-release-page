@@ -100,6 +100,30 @@ EXPECTED_BINARY_SIGNATURES = {
         "releases/2.0.0-community-rescue-rc.64/records/evidence/"
         "release-evidence.json.sig"
     ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65/records/"
+        "release.json.sig"
+    ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65/records/"
+        "bootstrap-peers.txt.sig"
+    ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65/records/"
+        "bootstrap-peers.manifest.json.sig"
+    ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65/records/software/"
+        "release-auth-manifest.json.sig"
+    ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65/records/software/"
+        "publication-attestation.json.sig"
+    ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65/records/dataset/"
+        "compact-data-manifest.json.sig"
+    ),
 }
 
 
