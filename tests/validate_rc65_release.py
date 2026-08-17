@@ -32,6 +32,25 @@ def fingerprint(path: Path) -> str:
 
 
 def main() -> None:
+    actual_files = {
+        str(path.relative_to(ROOT))
+        for path in RELEASE.rglob("*")
+        if path.is_file()
+    }
+    tracked_files = {
+        entry
+        for entry in subprocess.check_output(
+            ["git", "-C", str(ROOT), "ls-files", "-z", "--", str(RELEASE.relative_to(ROOT))]
+        ).decode("utf-8").split("\0")
+        if entry
+    }
+    if actual_files != tracked_files:
+        fail(
+            "release working-tree and tracked inventories differ: "
+            f"untracked={sorted(actual_files - tracked_files)}, "
+            f"missing={sorted(tracked_files - actual_files)}"
+        )
+
     manifest_path = RECORDS / "release.json"
     if not manifest_path.is_file():
         fail("missing release manifest")
