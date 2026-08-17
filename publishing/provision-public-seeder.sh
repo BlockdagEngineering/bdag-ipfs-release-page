@@ -4,7 +4,7 @@ set -Eeuo pipefail
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 manifest=${1:-}
 kubo_binary=${2:-$(command -v ipfs || true)}
-storage_max=${BDAG_IPFS_STORAGE_MAX:-40GB}
+storage_max=${BDAG_IPFS_STORAGE_MAX:-250GB}
 expected_kubo_sha256=${BDAG_IPFS_KUBO_SHA256:-}
 force_upnp_refresh=${BDAG_IPFS_FORCE_UPNP_REFRESH:-0}
 

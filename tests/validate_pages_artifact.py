@@ -124,6 +124,34 @@ EXPECTED_BINARY_SIGNATURES = {
         "releases/2.0.0-community-rescue-rc.65/records/dataset/"
         "compact-data-manifest.json.sig"
     ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65-page-v2/records/"
+        "release.json.sig"
+    ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65-page-v2/records/"
+        "bootstrap-peers.txt.sig"
+    ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65-page-v2/records/"
+        "bootstrap-peers.manifest.json.sig"
+    ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65-page-v2/records/software/"
+        "release-auth-manifest.json.sig"
+    ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65-page-v2/records/software/"
+        "publication-attestation.json.sig"
+    ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65-page-v2/records/dataset/"
+        "compact-data-manifest.json.sig"
+    ),
+    Path(
+        "releases/2.0.0-community-rescue-rc.65-page-v2/revision/"
+        "page-v2.json.sig"
+    ),
 }
 
 

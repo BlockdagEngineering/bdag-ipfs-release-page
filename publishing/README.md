@@ -1,14 +1,16 @@
 # Community Rescue IPFS Publishing
 
-Current release: `2.0.0-community-rescue-rc.62`
+Current release: `2.0.0-community-rescue-rc.65`, rich page revision 2.
 
 Immutable setup page:
 
-`https://dweb.link/ipfs/bafybeiavwpvhacxznesv5imjuqdcb2g6idrnqalor6kf7fr3pjq3tmatky/index.html`
+`https://dweb.link/ipfs/bafybeiefg3ipbh6t57vccynamsn3msqevqaz3rlxgtidili4lnjyowm5ku/index.html`
 
-Mutable latest-release IPNS name:
+Mutable latest-release IPNS names:
 
 `k51qzi5uqu5dgijozv3dne65cp7iqv96tpsa8dflmwmqvdw9oxx4w3gsvt0ctl`
+
+`12D3KooWD3c6UAMwSBjuPbYinx4mJMTsEBK1kNjW9s5TtZL8L6Gi`
 
 The immutable CID is the authoritative page identity. IPNS is a convenience
 pointer and can take longer to resolve through public gateways.
@@ -26,12 +28,12 @@ From the repository root:
 ipfs add -r --hidden=true --empty-dirs=true --cid-version=1 \
   --raw-leaves=true --chunker=size-262144 --hash=sha2-256 \
   --preserve-mode=false --preserve-mtime=false --pin=true -Q \
-  releases/2.0.0-community-rescue-rc.62
+  releases/2.0.0-community-rescue-rc.65-page-v2
 ```
 
 Expected CID:
 
-`bafybeiavwpvhacxznesv5imjuqdcb2g6idrnqalor6kf7fr3pjq3tmatky`
+`bafybeiefg3ipbh6t57vccynamsn3msqevqaz3rlxgtidili4lnjyowm5ku`
 
 The signed-record directory must independently reproduce as:
 
@@ -39,19 +41,21 @@ The signed-record directory must independently reproduce as:
 ipfs add -r --hidden=true --empty-dirs=true --cid-version=1 \
   --raw-leaves=true --chunker=size-262144 --hash=sha2-256 \
   --preserve-mode=false --preserve-mtime=false --pin=true -Q \
-  releases/2.0.0-community-rescue-rc.62/records
+  releases/2.0.0-community-rescue-rc.65-page-v2/records
 ```
 
 Expected records CID:
 
-`bafybeiabffabrb345zxeufuqh6kbj7qvyx3aprqe3mq2itn3uzjk72wsga`
+`bafybeihudga5veymvrnpdnzrz5juf6a277dgqudksaw6matcjc257judqe`
 
 ## Community Mirroring
 
-Pin the five RC62 roots in `free-pinning-cids.json`. The page, signed records,
-installer, and both software archives are independently addressable. RC62 does
-not publish or replace any chain dataset; earlier dataset publications retain
-their own immutable CIDs and signatures.
+Regenerate `free-pinning-cids.json` with
+`python3 publishing/render-rc65-page-v2-pins.py`. Its 47 immutable roots cover
+the rich page, unchanged signed records, predecessor page, signed compact-data
+admission manifest, AMD64 and ARM64 software, compact mining-node data, and all
+40 inherited full-archive parts. Existing RC65 software and dataset bytes are
+not replaced by page revision 2.
 
 ## Durable Public Seeders
 
@@ -64,7 +68,8 @@ static TCP/UDP port forward for the Kubo swarm port.
 Each seeder needs:
 
 - Linux on `amd64` with the release Kubo binary available locally.
-- At least 5 GB free for the RC62 software and operating headroom.
+- Enough free storage for whichever RC65 roots the operator chooses to mirror;
+  the full 47-root inventory includes about 188 GB of release payloads.
 - `jq`, `systemd`, passwordless administrative access, and outbound internet.
 - A public router mapping for TCP and UDP. Confirm `ipfs swarm addrs autonat`
   reports `Reachability: Public` before relying on the node.
@@ -80,10 +85,14 @@ export BDAG_IPFS_KUBO_SHA256=<expected-ipfs-binary-sha256>
 ```
 
 The provisioner initializes Kubo without the restrictive server profile,
-enables router port mapping, limits the datastore to 40 GB, installs the
+enables router port mapping, limits the datastore to 250 GB by default, installs the
 low-priority persistent user service, enables login lingering, and starts an
 idempotent background replication unit. The source node must remain connected
 to the new seeder until all roots are pinned.
+
+Set `BDAG_IPFS_STORAGE_MAX` explicitly when mirroring a selected subset. Do not
+use a datastore limit below the retained roots plus garbage-collection and
+operating headroom.
 
 Some networks expose more than one UPnP gateway and Kubo may select the wrong
 one. If the public WAN address is valid but `ipfs swarm addrs autonat` remains
@@ -125,12 +134,10 @@ publish the new immutable root through IPNS and update the GitHub Pages root.
 Before adding a new release-page directory to IPFS:
 
 ```bash
-python3 tests/validate_rc62_release.py --publication-ready
-python3 tests/validate_rc58_release.py --publication-ready
-python3 tests/validate_rc52_release.py --publication-ready
-node --test tests/release-page.test.mjs \
-  tests/release-page-rc62.test.mjs \
-  tests/release-page-rc62-dom.test.mjs
+./releases/2.0.0-community-rescue-rc.65-page-v2/verify-load-v2.sh
+python3 tests/validate_rc65_release.py --publication-ready
+python3 tests/validate_rc65_page_v2.py --publication-ready
+node --test tests/*.test.mjs
 ```
 
 The command tests must cover every selectable role, dataset, and state-retention

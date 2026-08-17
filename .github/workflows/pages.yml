@@ -8,6 +8,7 @@ on:
       - jeremy-dev-release
       - jeremy/release/2026-08-15-rc64-canonical-recovery-amd64
       - jeremy/release/2026-08-16-rc65-dual-arch-full-data-ipfs
+      - jeremy/release/2026-08-17-rc65-rich-ipfs-page-v2
   workflow_dispatch:
 
 permissions:
@@ -48,12 +49,15 @@ jobs:
         run: python3 tests/validate_rc64_release.py
       - name: Validate RC65 publication candidate
         run: python3 tests/validate_rc65_release.py
+      - name: Validate signed RC65 rich page revision
+        run: python3 tests/validate_rc65_page_v2.py
       - name: Test generated install commands
         run: >-
           node --test
           tests/release-page.test.mjs
           tests/release-page-rc62.test.mjs
           tests/release-page-rc62-dom.test.mjs
+          tests/release-page-rc65-v2.test.mjs
       - name: Stage exact public tree
         run: |
           set -euo pipefail

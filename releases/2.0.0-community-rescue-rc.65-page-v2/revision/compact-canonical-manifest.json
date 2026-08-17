@@ -1,0 +1,79 @@
+{
+  "schema": "bdag.canonical-data-manifest.v3",
+  "signature": {
+    "algorithm": "ed25519",
+    "key_id": "qualification-v2-20260711",
+    "public_key_sha256": "f9f2f7df88d43c8d51df8bdc2a369601ff0b4b9de224e8ab9b609b423b203d24",
+    "value": "cSoFPIL2A87i3xUqW+sO6mb7eCvXNTxQh2tevCZ1cPfZirjsaWZbVb+PPcIt5vNZPv44IhM2DL61L22HnblHAQ=="
+  },
+  "signed": {
+    "archive_node_equivalent": false,
+    "artifact": {
+      "format": "tar.zst",
+      "name": "blockdag-chain1404-compact-data-2.0.0-community-rescue-rc.65-evm17884079.tar.zst",
+      "sha256": "0939750a68afe7bec90774a48985f1ae5cdc734fc61364247296f32bd3a5eb92",
+      "size_bytes": 16191131162,
+      "unpacked_size_bytes": 32618071094
+    },
+    "chain_id": 1404,
+    "created_at": "2026-08-17T01:40:05Z",
+    "dataset_class": "verified-tip-state",
+    "evm": {
+      "hash": "0xe2cba9b4dafaf963aa54ccd0e11774b3bb7a0967ed7ca2a42703a93e04052838",
+      "number": 17884079,
+      "state_root": "0x36e574d5689226e67c7d4a7c0e006430c6c926a3cf1965caca2d17d7030ab682"
+    },
+    "fixed_checkpoint": {
+      "hash": "0xbf9a0ccd88fa03eb3d7cbc0052b258b9b21132ae4ba3f0276f6e482a9d601738",
+      "number": 13863411,
+      "state_root": "0xad51cb1e1357172afc5ca5dcebc477ff818661b64b8b5b64cdf9cd54a8450c00"
+    },
+    "genesis_hash": "0x3fb19ea409ac7399ad7b988b88e0d436722c967137e51e834ccefd7611a592ef",
+    "genesis_state_root": "0x564aeb23c21b395f94839991240f0665fdf6b083cad3a41ac6412fa2180ac76a",
+    "historical_state_guarantee": "none; compact verified-tip state only, not an archive-node equivalent",
+    "native": {
+      "hash": "0x485b401eab78d0e4e319d2566ccf38b6f962b1cfbf983c8199a9d820e3d7e195",
+      "order": 18289992,
+      "state_root": "0xe2d6c99c90a439899e6399e27afd1f766ec91c0b1023b1ee8842dd4de6b49da3"
+    },
+    "network": "mainnet",
+    "paths": [
+      "mainnet/BdagChain",
+      "mainnet/bdageth/chaindata"
+    ],
+    "provenance": {
+      "build_tools": {
+        "core_source_revision": "f07e084c06d758bc92377fc18cb5a0130fe6f89c",
+        "dataset_builder_sha256": "3aa3da36415bd9632427c5ed1ccbda9a799b399c72955d31b6c3ee16f695966c",
+        "dataset_verifier_sha256": "4b9ebdd22af3da564271f5749c7a66fd7360f12e470330fa6df0b639df91b99e",
+        "recovery_binary": "blockdag-node jeremy-community-rescue-rc.65.6 linux-amd64",
+        "recovery_binary_sha256": "c34a7753803abb3495d694fd421aa2662c9a08280b1e9104e67644da3c571fed",
+        "release_lock_sha256": "b5a0defbf297a8245793fbb10d1a9cdbac1e2bbff066ab279a9fb0d17b299e0e",
+        "stack_source_revision": "3c16338eb1b4de5d840f3bf9c5441ba53bd5a9fb",
+        "validation_spec_sha256": "5cbfda643c0f98d87a2a5e7d03cae860f6db009abec74941b5f1cb6956ac5092"
+      },
+      "qualification": {
+        "capture_result_sha256": "e31b6c6d722901cc0d23cebe95ea9e152cd1feeaff714726fbd68d962a0dd341",
+        "capture_script_sha256": "2f581bb9a0a07687e137e2dda9f17d6fed32a89e94daa46f1d2f57279ee7281d",
+        "checkpoint_anchor_sha256": "d4cd0a4b59c46bbe6dc47921d26223fcb3acdb0c064d47fa20fbff449743f58e",
+        "clean_shutdown": true,
+        "component_source_excluded": true,
+        "credentials_excluded": true,
+        "node_identity_excluded": true,
+        "original_compact_manifest_sha256": "4bd36e9fbad65761fa1ca8f803cadbf249f53536aef0f76e5a5ec59a4ca97460",
+        "peerstore_excluded": true,
+        "publication_script_sha256": "3aa3da36415bd9632427c5ed1ccbda9a799b399c72955d31b6c3ee16f695966c",
+        "recovery_latches_excluded": true,
+        "schema": "chain1404-compact-canonical-admission/v1",
+        "snapshot_uuid": "3aac6deb-2ecc-7440-92ea-255521121c14",
+        "source_role": "preserved-divergent-recovery-canary"
+      }
+    },
+    "replay_anchor": {
+      "hash": "0xbf9a0ccd88fa03eb3d7cbc0052b258b9b21132ae4ba3f0276f6e482a9d601738",
+      "number": 13863411,
+      "state_root": "0xad51cb1e1357172afc5ca5dcebc477ff818661b64b8b5b64cdf9cd54a8450c00"
+    },
+    "version": "v65"
+  }
+}

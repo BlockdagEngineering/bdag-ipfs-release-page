@@ -1,31 +1,246 @@
 {
-  "schema": "bdag.community-ipfs-pins.v1",
-  "release": "2.0.0-community-rescue-rc.62",
-  "ipns": "k51qzi5uqu5dgijozv3dne65cp7iqv96tpsa8dflmwmqvdw9oxx4w3gsvt0ctl",
+  "schema": "bdag.community-ipfs-pins.v2",
+  "release": "2.0.0-community-rescue-rc.65",
+  "pageRevision": 2,
+  "pageCid": "bafybeiefg3ipbh6t57vccynamsn3msqevqaz3rlxgtidili4lnjyowm5ku",
+  "ipns": [
+    "k51qzi5uqu5dgijozv3dne65cp7iqv96tpsa8dflmwmqvdw9oxx4w3gsvt0ctl",
+    "12D3KooWD3c6UAMwSBjuPbYinx4mJMTsEBK1kNjW9s5TtZL8L6Gi"
+  ],
   "pins": [
     {
       "name": "release-page-root",
-      "cid": "bafybeiavwpvhacxznesv5imjuqdcb2g6idrnqalor6kf7fr3pjq3tmatky",
+      "cid": "bafybeiefg3ipbh6t57vccynamsn3msqevqaz3rlxgtidili4lnjyowm5ku",
       "recursive": true
     },
     {
       "name": "release-records-root",
-      "cid": "bafybeiabffabrb345zxeufuqh6kbj7qvyx3aprqe3mq2itn3uzjk72wsga",
+      "cid": "bafybeihudga5veymvrnpdnzrz5juf6a277dgqudksaw6matcjc257judqe",
       "recursive": true
     },
     {
-      "name": "verified-installer",
-      "cid": "bafkreiakgqrkuszrqxoeibnpspphzwvi32zwg7o2geojiccjtc3iv4tcaq",
+      "name": "predecessor-page-root",
+      "cid": "bafybeiet53pfpyf52mmbqwqg6qapxueblqhyqyit6f5zyfaotunpwtgweq",
+      "recursive": true
+    },
+    {
+      "name": "compact-canonical-admission-manifest",
+      "cid": "bafkreie7lwh7jxxv4qsbz26kzaz4xul5e3lmilbawrwce5uigppd3jihq4",
       "recursive": false
     },
     {
       "name": "linux-amd64-software",
-      "cid": "bafybeialnrsij74iiibcmevpbhaac3wurdfxxsftoypywjcxtfsnqjnfhe",
+      "cid": "bafybeiaar3zvj7wpr4snugwmln4fn25hvey4y5tbn536p6oha4ljcemooi",
       "recursive": true
     },
     {
       "name": "linux-arm64-software",
-      "cid": "bafybeicgihvkl7hoq4sufgskwjlopqr7vlr2zqhppssemrw5bmubhkjxhe",
+      "cid": "bafybeibisqkztkok5pxedpeztelruzkqpda5u62dfp5ctwvr2odymhrz74",
+      "recursive": true
+    },
+    {
+      "name": "compact-mining-node-data",
+      "cid": "bafybeih55jggjwlwhdkapsb2h3cp4yx7lt3a43chiwyvuyazrh7eekm6y4",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-001",
+      "cid": "bafybeigrnpnsm26ahfxxocikxskomw53lhq77jjkjxin7txifdp6gwn7l4",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-002",
+      "cid": "bafybeic23fajy36swnvy4dj6jmmrld72gyxmjocoud4n34aia72z6kpzka",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-003",
+      "cid": "bafybeig52loandzpt62otnigjixagxdau7djznihba73x4npgqcceph3ky",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-004",
+      "cid": "bafybeidsq6egqdqwc6qmnno6fzcspcfbz5tsgm5xlzdxwifmcdycjwxr54",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-005",
+      "cid": "bafybeidi572u6tbd6w5ko4qiwuvpael6r2ggn6n4qhkad3nckt2y5gfqsi",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-006",
+      "cid": "bafybeiex7cx2qfpl76wsgnftchtvncsuyb5abk2arqd7cupf7xv7demvge",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-007",
+      "cid": "bafybeiaobrxghhwuzjnnywisbh7qrjchfbew77d6qerhilazathorql4om",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-008",
+      "cid": "bafybeif2f4ntbg7jydx22dgflxclpdjngzckbg7ckulfr5cnswx26pd53m",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-009",
+      "cid": "bafybeigkmudhc5toawtkrdpdjsa3kmbyh6ybmtvxfm2exmxvqqfvwyoify",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-010",
+      "cid": "bafybeic2ppgfjfgk5pufky2wso5yrmxqtbcx22p2snfvli6arremtewuxi",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-011",
+      "cid": "bafybeieumtphqnyw6ybv7jps3uhlvfuja6hys4lkzj7gs2qykwn3epc6ny",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-012",
+      "cid": "bafybeif7c2cebhvd62y3z4k6lfrbngjvpwj7xgdud4f5he6dne4gobygvq",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-013",
+      "cid": "bafybeicqtseaqbvdobupmgri5j5l4hbohfsfqsrr53g2gba7hk72m5ywvi",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-014",
+      "cid": "bafybeiceho5jrgpvqpslgpsfwitlivtuaes2eu7krhm4oi6e6zbvt3dkfa",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-015",
+      "cid": "bafybeibjlwusyeshoxgry3m3d5fz3af2362neloup4myprzrv6mkg37xme",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-016",
+      "cid": "bafybeidykkygj3aioafpyqdxsamyz7vd6izckvejhaxo3projwb5wpc2de",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-017",
+      "cid": "bafybeie6aosqkuppewtdbnxl3ujcddgf26uq5vvcdhu3hazyocf3cy33ra",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-018",
+      "cid": "bafybeie2zsbzhbvpfmddbxwtf566derm4mhunbfhb4qb4nndi5vfxz74ba",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-019",
+      "cid": "bafybeigwznlnnip5kxv7ylnxsdgquctf22wi2l5w27ahuoyfo5l5uudtbi",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-020",
+      "cid": "bafybeiduz5tzjgrusgwe4wo46a5dynvayduv6bzx2byngr4b2ba5s6zkiy",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-021",
+      "cid": "bafybeihcbfkb6ydrons2ww6lzqe7nvc4heeqdde3frdtu74yspwq3eepn4",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-022",
+      "cid": "bafybeibpahbvvxydn4jqxbxzec5neplsqmxspfhbinfrfpsotlvz6ibq4m",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-023",
+      "cid": "bafybeihyc646ayw2tfmun65qkdrufs62gh4k5n7ar4mqy5lyrrgamf7s3y",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-024",
+      "cid": "bafybeih4dhnfhc7bbb67rgruztgbberynqoqg2gtpyehokzjjpwsqlac5u",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-025",
+      "cid": "bafybeidcncqtxaawlbxhfnm3vhifx3ghb3d7f4kynj3iohjlqlxv7aklk4",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-026",
+      "cid": "bafybeiceprf7hflbuieixzrpoh7qgedn6krfwup6cfvlliwqdx7w6lhxha",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-027",
+      "cid": "bafybeih3v3nqdurt2ay2d7v6eaycsy7konxkld67ojtuqbywmus23oi2nu",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-028",
+      "cid": "bafybeic6iexvyphkjyvqr4bgazd6fja57b6m2ylkb64tush3j3zr7dbl4q",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-029",
+      "cid": "bafybeih4iyigkstu6wca6roswfxqhfw2yxwbvika45zykydkcqozpmajeu",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-030",
+      "cid": "bafybeib45ndw2j6mxwesoz4uzoobw2gdj54qoepefvlkjwwvt2jc2rwany",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-031",
+      "cid": "bafybeieymdvgtaa3l2om3tdscy4d3setjomk5kztbatorszpjdgrjwo4ia",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-032",
+      "cid": "bafybeihfwt264g6d6d2altpqr6ul5lb6tilqjicjjabo4hsyczprzhzxa4",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-033",
+      "cid": "bafybeiewv4peshp32uzqbvt3atg6toh67ejt3dxnfkszpwzgtdaigftqom",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-034",
+      "cid": "bafybeigaa5zudve5mspkjbnw2xlyk7e5n4tpbugcoik4lqy5m7wesluuqe",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-035",
+      "cid": "bafybeicgvzhxq7u4khtqn5he2lcvum5p7pmvjkwwjt3zq5gelauho2t4hu",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-036",
+      "cid": "bafybeib7exslwgain62xttiy6ptxnmucvhn6c7nivvifnw3f2zurrvrbbi",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-037",
+      "cid": "bafybeiasakbfnmpziwvxgf4ijm3znnuvqym7x5ba22hgyju36acsa6lftu",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-038",
+      "cid": "bafybeifzk6l6l45eo4nh5bl4gl4cumysu2hxyf2o5vjsqtgpuoujjumy2u",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-039",
+      "cid": "bafybeigybifjt4rtan4ygwzko4jeq6eokgosboi3s5q27fjko4uuqzm4va",
+      "recursive": true
+    },
+    {
+      "name": "full-archive-part-040",
+      "cid": "bafybeie56inin6caugrcakozwxkjtn3np5pupp24yo4nse36muts3tmytq",
       "recursive": true
     }
   ]
