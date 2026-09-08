@@ -255,7 +255,7 @@ def execute(action: str, services: list[str]) -> int:
     mapped = [ALIASES.get(service, service) for service in selected]
     command = compose_command(target, config)
     if action == "start":
-        command += ["up", "-d", "--build", "--pull", "never", "--no-recreate", *mapped]
+        command += ["up", "-d", "--build", "--pull", "missing", "--no-recreate", *mapped]
     elif action == "stop":
         command += ["stop", *mapped]
     else:

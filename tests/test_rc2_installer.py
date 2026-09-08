@@ -209,7 +209,7 @@ class InstallerTests(unittest.TestCase):
     def test_service_runner_maps_postgres_without_shell_hooks(self):
         source = RUNNER_SCRIPT.read_text()
         self.assertIn('ALIASES = {"postgres": "pool-db"}', source)
-        self.assertIn('"--build", "--pull", "never", "--no-recreate"', source)
+        self.assertIn('"--build", "--pull", "missing", "--no-recreate"', source)
         self.assertNotIn("shell=True", source)
 
     def test_runner_env_decoder_matches_installer_literal_values(self):
