@@ -5,6 +5,18 @@ The exact downloads, sizes, SHA-256 values and native/EVM dataset boundary are i
 This release integrates Jeremy-owned work into `develop`; it does not promote
 the four source repositories to `main`.
 
+## Using the community page
+
+Choose **Existing node** for the full runtime package, **New node** for optional
+bootstrap data, or **One component** for a focused download. Match AMD64 or
+ARM64 to your Linux machine. The generated commands require a native IPFS
+command-line client and `sha256sum`; they download and check files only.
+The browser gateway buttons are optional, best-effort alternatives.
+
+This page retains RC65's community design while using the unchanged RC2
+software and dataset records. Its own IPFS page CID changes when the
+presentation changes; that does not change the software or dataset CIDs.
+
 ## Qualification
 
 AMD64 passed a nominal 120-second test on TesterD (120.442 seconds observed).

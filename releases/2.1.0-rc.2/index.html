@@ -3,67 +3,48 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="BlockDAG consolidated develop prerelease: independently downloadable components and a verified Chain 1404 bootstrap dataset.">
-  <title>BlockDAG 2.1.0-rc.2 — consolidated develop prerelease</title>
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0e0715">
+  <meta name="description" content="BlockDAG 2.1.0-rc.2 consolidated develop release: inspectable Linux software, optional Chain 1404 bootstrap data and community guidance.">
+  <title>BlockDAG 2.1.0-rc.2 — community release</title>
   <link rel="icon" href="assets/bdag-community-logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/release.css">
   <script type="module" src="assets/release.mjs"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to release content</a>
-  <header class="shell"><nav><a href="#main">BlockDAG Community</a> · <a href="#downloads">Downloads</a> · <a href="#dataset">Chain data</a> · <a href="README.md">Installation notes</a></nav></header>
+  <header class="site-header">
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="https://bdag.community/" target="_blank" rel="noopener noreferrer" aria-label="BlockDAG Community home"><img src="assets/bdag-community-logo.svg" alt="" width="42" height="42"><span><strong>BlockDAG</strong><small>Community release</small></span></a>
+      <div class="nav-links"><a href="#choose">Choose a path</a><a href="#download">Downloads</a><a href="#verify">Verify</a><a class="pill-link" href="https://bdag.community/community#participate" target="_blank" rel="noopener noreferrer">Join the community</a></div>
+    </nav>
+  </header>
+
   <main id="main">
-    <section class="section shell">
-      <p class="eyebrow">Consolidated develop prerelease · Chain ID 1404</p>
-      <h1>BlockDAG 2.1.0-rc.2</h1>
-      <p>Node, mining pool, dashboard and stack automation, assembled from the consolidated Jeremy work and integrated into <code>develop</code>. This is not a promotion to <code>main</code>.</p>
-      <p id="record-status" role="status">Checking the exact release record…</p>
-      <p id="qualification-status">AMD64 passed a nominal 120-second mining test on TesterD with three physical ASICs, advancing shares, accepted blocks, preserved accounting and an independent canonical witness. ARM64 hardware, additional fleet, reboot and six-hour-soak qualification are not claimed. See the hash-bound qualification record below.</p>
+    <section class="hero shell">
+      <div class="hero-copy"><p class="eyebrow">Chain ID 1404 · Develop prerelease · Linux AMD64 + ARM64</p><h1>BlockDAG <span>2.1.0-rc.2</span></h1><p class="lede">Download the consolidated node, pool and dashboard release, choose your Linux architecture, and inspect every file before you run it.</p><div class="hero-actions"><a class="button primary" href="#choose">Choose your path</a><a class="button secondary" href="#verify">See verification</a></div><p class="transport-note">Download from native IPFS. Optional browser gateways are best effort and never install or import anything automatically.</p></div>
+      <aside class="hero-panel glass" aria-label="Release status"><div class="status-row"><span id="trust-dot" class="status-dot checking" aria-hidden="true"></span><div><small>Hash-bound release status</small><strong id="record-status">Checking exact records…</strong></div></div><p id="trust-detail" aria-live="polite">Downloads and copy actions remain locked until the release record and its full SHA-256 binding are verified.</p><dl class="identity-list"><div><dt>Release</dt><dd>2.1.0-rc.2</dd></div><div><dt>State</dt><dd>Develop release</dd></div><div><dt>Network</dt><dd>mainnet / 1404</dd></div><div><dt>Qualification</dt><dd>120s / 3 ASICs</dd></div></dl><p id="qualification-status" class="command-help">Qualification details remain locked until record verification.</p></aside>
     </section>
-    <section class="section shell" aria-labelledby="changes-heading">
-      <h2 id="changes-heading">What is consolidated</h2>
-      <ul>
-        <li>Canonical native/EVM mining readiness, reserved block-submission RPC capacity and bounded recovery/backpressure.</li>
-        <li>Exact-candidate retention and retries, consistent job-health observations, clean-job repair and per-ASIC recovery.</li>
-        <li>Bounded dashboard/telemetry work and mining-aware automation. Obsolete <code>dashboard-api</code> is not a release component.</li>
-        <li>Owner-selected portable dataset verification, SHA-256 manifests and dataset-relative recovery checks.</li>
-        <li>Independently versioned components, fresh Pool53 database initialization and recently observed public bootstrap peers. Existing owner peers and ordinary discovery are preserved.</li>
-      </ul>
-    </section>
-    <section id="downloads" class="section shell">
-      <h2>Software downloads</h2>
-      <p>The full runtime ZIP includes the four components. Component archives are also available independently. IPFS CIDs and SHA-256 identify the exact bytes; no binary mirror is published.</p>
-      <p id="gateway-note"></p>
-      <div style="overflow:auto"><table><thead><tr><th>Payload</th><th>Platform</th><th>Size</th><th>Download</th><th>SHA-256</th></tr></thead><tbody id="software-downloads"></tbody></table></div>
-      <p><a href="records/software-SHA256SUMS">Software checksums</a> · <a href="records/release.json">Release record</a> · <a href="records/bootstrap-peers.json">Advisory bootstrap peers</a></p>
-      <h3>Download and verify with an IPFS client</h3>
-      <p>This uses the public peer network directly and does not require a gateway account. Review downloaded scripts before running them.</p>
-      <pre><code id="software-command">Waiting for the exact release record.</code></pre>
-      <h3>Choose the deployment</h3>
-      <ul>
-        <li><strong>All-in-one:</strong> node, pool, PostgreSQL and dashboard, with your own payout and ASIC configuration.</li>
-        <li><strong>Node:</strong> Core plus Stack, with no pool, PostgreSQL, dashboard or ASIC requirement.</li>
-        <li><strong>Pool:</strong> Pool plus Stack, connected to your explicitly configured compatible Core endpoint.</li>
-        <li><strong>Dashboard:</strong> Dashboard plus Stack; monitoring is not authority for accepting blocks.</li>
-      </ul>
-      <p>The explicit v2 CLI supports <code>--mode all-in-one|node|pool|redis-dash</code>. It needs owner-local configuration and service hooks; a component archive alone does not provision PostgreSQL or migrate an existing ledger.</p>
-    </section>
-    <section id="dataset" class="section shell">
-      <h2>Separate bootstrap dataset</h2>
-      <p id="dataset-status">Dataset qualification has not been loaded.</p>
-      <div id="dataset-download"></div>
-      <pre><code id="dataset-command">No dataset command is enabled until its exact acceptance record is available.</code></pre>
-      <p>Use a new empty destination. Never import over a running node's database, copy another pool's identity/accounting, or open one dataset with two writers. Existing valid data does not need to be replaced.</p>
-      <p>This is a full native+EVM <code>.bdsnap</code> bootstrap at the stated boundary, not a claim of complete historical EVM state. Ordinary peer catch-up is required after import.</p>
-    </section>
-    <section class="section shell">
-      <h2>Trust and upgrade boundaries</h2>
-      <p>Owner-selected hashes establish byte integrity; native/EVM checks establish database coherence. A signature can identify a publisher, but no central signature, account, path name or numeric UID authorizes blockchain validity.</p>
-      <p>Pool53 is qualified here for a fresh empty database or an unchanged Pool53 reinstall against an independently verified compatible V2 database. Generic older-ledger upgrades and old-schema downgrades are not qualified. Preserve identity, payout, PostgreSQL history and your compatible rollback.</p>
-      <p>Historical documentation mentioning mandatory signatures or <code>--allow-unsigned-catalog</code> does not describe the explicit v2 deployment path. Do not use that obsolete flag.</p>
-      <p><a href="https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.0.0-community-rescue-rc.65-page-v2/index.html">Preserved RC65 release page</a> · <a href="README.md">Installation and verification notes</a></p>
-    </section>
+
+    <section class="status-band" aria-label="Release boundaries"><div class="shell status-grid"><div><span>01</span><strong>Existing data stays put</strong><small>Reuse your current node and retain rollback; no automatic migration is performed here.</small></div><div><span>02</span><strong>Choose your architecture</strong><small>Use the verified Linux AMD64 or ARM64 package that matches your machine.</small></div><div><span>03</span><strong>Inspect before running</strong><small>Every download exposes its CID, path and SHA-256 before you copy a command.</small></div></div></section>
+
+    <section id="choose" class="section shell" aria-labelledby="choose-heading"><div class="section-heading"><p class="eyebrow">Choose the shortest safe path</p><h2 id="choose-heading">What are you setting up?</h2><p>Use the page to select and verify a download only. It does not ask for wallet, MAC, host or service settings, and it never changes a node.</p></div><div class="choice-grid"><article class="choice-card recommended"><span class="badge">Recommended for upgrades</span><h3>Existing node</h3><p>Download the matching release beside your current stack. Keep your node data, payout, accounting and rollback under your own control.</p><button type="button" class="text-button" data-path="existing">Select existing-node path</button></article><article class="choice-card"><span class="badge muted">New node</span><h3>Start from the dataset</h3><p>Download the optional Chain 1404 bootstrap snapshot into a new empty destination, verify it, then catch up from ordinary peers.</p><button type="button" class="text-button" data-path="new">Select new-node path</button></article><article class="choice-card"><span class="badge warning">Component path</span><h3>Inspect one component</h3><p>Choose Core, Pool, Dashboard, Stack or the full runtime ZIP for a focused review before you configure anything.</p><button type="button" class="text-button" data-path="component">Select component path</button></article></div></section>
+
+    <section id="download" class="section shell install-layout" aria-labelledby="download-heading"><div class="builder glass"><div class="section-heading compact"><p class="eyebrow">Choose your download</p><h2 id="download-heading">Pick your architecture and payload</h2><p>Start with the Linux machine you will inspect, then choose the full stack or one component.</p></div><div class="form-grid"><label for="architecture"><span>Which Linux machine are you using?</span><select id="architecture" disabled><option value="linux-amd64">AMD64 (x86-64)</option><option value="linux-arm64">ARM64 (AArch64)</option></select><small>Choose the architecture that matches the machine receiving the package.</small></label><label for="component"><span>Full stack or just one component?</span><select id="component" disabled><option value="full-stack">Full runtime ZIP</option><option value="corechain">Core</option><option value="pool">Pool</option><option value="dashboard">Dashboard</option><option value="stack">Stack</option></select><small>Download and verify only; no install or service action is generated.</small></label></div><div id="selectionNotice" class="notice info" aria-live="polite">Release verification is required before actions unlock.</div><div id="artifact-grid" class="artifact-card accent" data-selected-artifact><div class="artifact-top"><span class="platform">Selected payload</span><strong id="selectedName">Waiting for verification</strong></div><dl><div><dt>Size</dt><dd id="selectedSize">—</dd></div><div><dt>SHA-256</dt><dd><code id="selectedSha">—</code></dd></div><div><dt>IPFS path</dt><dd><code id="selectedPath">—</code></dd></div></dl><div class="card-actions"><button id="native-download" class="button primary small" type="button" data-action="download" disabled>Native IPFS link</button><button id="gateway-download" class="button secondary small" type="button" data-action="gateway" disabled>Best-effort browser gateway</button></div></div></div><aside class="command-panel glass" aria-labelledby="command-heading"><div class="command-header"><div><p class="eyebrow">Copy these commands to download and check your files</p><h2 id="command-heading">Inspect before running</h2></div><button id="copy-command" class="copy-button" type="button" disabled>Copy</button></div><pre><code id="download-command">Commands remain locked until the exact record is verified.</code></pre><p id="copy-status" class="toast" role="status" aria-live="polite"></p><p class="command-help">These commands download bytes and verify their checksum. Review the archive README and your own configuration before any operator-controlled install or service step.</p></aside></section>
+
+    <section id="dataset" class="section shell" aria-labelledby="dataset-heading"><div class="section-heading"><p class="eyebrow">Optional chain data</p><h2 id="dataset-heading">Bootstrap a new node carefully</h2><p id="dataset-status">The accepted Chain 1404 dataset is separate from the software. Use a new empty destination and never import over a running node or another operator's accounting.</p></div><div class="artifact-grid"><article class="artifact-card accent"><div class="artifact-top"><span class="platform">Accepted bootstrap</span><strong id="dataset-name">Dataset pending verification</strong></div><dl><div><dt>Boundary</dt><dd id="dataset-boundary">—</dd></div><div><dt>SHA-256</dt><dd><code id="dataset-sha">—</code></dd></div><div><dt>CID</dt><dd><code id="dataset-cid">—</code></dd></div></dl><div class="card-actions"><button id="native-dataset" class="button secondary small" type="button" data-action="dataset" disabled>Native IPFS dataset</button><button id="gateway-dataset" class="button secondary small" type="button" data-action="dataset-gateway" disabled>Best-effort gateway</button></div></article><article class="artifact-card"><span class="badge muted">Verify first</span><h3>New empty destination</h3><p>Download the snapshot, compare the displayed SHA-256, then follow the reviewed dataset guidance in <a href="README.md">README.md</a>. Ordinary peer catch-up remains necessary.</p><pre class="compact-code"><code id="dataset-command">Dataset commands remain locked until the exact acceptance record is verified.</code></pre></article></div></section>
+
+    <section id="verify" class="section shell verify-layout" aria-labelledby="verify-heading"><div><p class="eyebrow">Trust, made inspectable</p><h2 id="verify-heading">Verify before installation</h2><p>The browser checks the exact release record bytes against the bound SHA-256. Repeat the same checks locally before unpacking anything.</p><pre class="compact-code"><code id="record-command">sha256sum records/release.json
+# After downloading the records directory, compare
+# with the bound record hash shown alongside.
+# Check each downloaded package with its chooser command.</code></pre></div><div class="record-list glass"><a href="records/release.json"><span>Exact release record</span><small id="record-digest">Bound SHA-256: checking…</small></a><a href="records/software-SHA256SUMS"><span>Software SHA-256 checksums</span><small>All ten release artifacts</small></a><a href="records/mining-acceptance.json"><span>Mining test results</span><small>AMD64, three ASICs and the 120-second observation</small></a><a href="records/dataset-acceptance.json"><span>Dataset acceptance</span><small>Native/EVM checks and byte identity</small></a><a href="records/bootstrap-peers.json"><span>Advisory bootstrap observations</span><small>Discovery hints, never chain authority</small></a><a href="https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.0.0-community-rescue-rc.65-page-v2/index.html" target="_blank" rel="noopener noreferrer"><span>RC65 community archive</span><small>Preserved earlier rich release page</small></a></div></section>
+
+    <section id="community" class="section shell community glass" aria-labelledby="community-heading"><div><p class="eyebrow">Keep independent infrastructure healthy</p><h2 id="community-heading">Build, test and share what you learn</h2><p>This release is a develop prerelease for independent operators. Run a node or miner only after your own review, report reproducible issues, and contribute improvements through the community.</p><p class="disclaimer">This page is informational, not a promise of returns or future uptime. It does not grant publisher authority, replace local review or change an existing node.</p></div><div class="community-actions"><a class="button primary" href="https://bdag.community/community#participate" target="_blank" rel="noopener noreferrer">Support the community</a><a href="https://bdag.community/mining" target="_blank" rel="noopener noreferrer">Learn about mining</a><a href="https://bdag.community/chain" target="_blank" rel="noopener noreferrer">Explore Chain ID 1404</a><a href="https://bdag.community/contact" target="_blank" rel="noopener noreferrer">Contact the community</a></div></section>
+
+    <section class="section shell history" aria-labelledby="history-heading"><div class="section-heading compact"><p class="eyebrow">Immutable history</p><h2 id="history-heading">Earlier community work</h2></div><div class="history-links"><a href="https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.0.0-community-rescue-rc.65-page-v2/index.html" target="_blank" rel="noopener noreferrer">RC65 rich page</a><a href="https://bdag.community/community#participate" target="_blank" rel="noopener noreferrer">Community participation</a><a href="README.md">Installation notes</a></div></section>
   </main>
-  <noscript><p>Download and verification details remain available in <a href="README.md">the installation notes</a> and <a href="records/release.json">the release record</a>.</p></noscript>
+
+  <footer><div class="shell footer-grid"><div><strong>BlockDAG 2.1.0-rc.2</strong><p>Prepared develop release with inspectable software and optional Chain 1404 bootstrap data. No main promotion, ARM hardware, reboot or long-soak claim is made.</p></div><p><a href="https://bdag.community/" target="_blank" rel="noopener noreferrer">bdag.community</a> is informational and is not a release trust authority or runtime dependency.</p></div></footer>
+  <noscript><div class="noscript">JavaScript is required to verify the exact record before enabling download and clipboard actions. Records and checksum files remain available for local inspection.</div></noscript>
 </body>
 </html>

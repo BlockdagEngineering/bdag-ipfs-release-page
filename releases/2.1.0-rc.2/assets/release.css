@@ -128,7 +128,9 @@ h3 { margin: .65rem 0 .55rem; font-size: 1.35rem; }
 .text-button { position: absolute; bottom: 1.35rem; left: 1.45rem; border: 0; padding: 0; color: #dcb6ff; background: transparent; font-weight: 750; text-decoration: underline; text-underline-offset: .24em; }
 
 .install-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(22rem, .9fr); gap: 1rem; align-items: start; }
-.builder, .command-panel { padding: clamp(1.25rem, 3vw, 2rem); }
+.builder, .command-panel { min-width: 0; padding: clamp(1.25rem, 3vw, 2rem); }
+.hero > *, .verify-layout > *, .community > *, .form-grid > * { min-width: 0; }
+.choice-card { padding-bottom: 3.6rem; }
 .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 label { display: grid; gap: .42rem; color: #ddd6e7; font-size: .87rem; font-weight: 700; }
 label em { color: var(--muted); font-weight: 500; }
@@ -144,7 +146,7 @@ input[aria-invalid="true"] { border-color: var(--danger); }
 .command-header h2 { font-size: 1.7rem; }
 .copy-button { border: 1px solid var(--border); border-radius: .65rem; padding: .48rem .75rem; color: white; background: rgb(168 86 251 / 12%); }
 .copy-button:disabled { opacity: .45; cursor: not-allowed; }
-pre { max-width: 100%; min-height: 18rem; overflow: auto; margin: 1rem 0; border: 1px solid #30243f; border-radius: .75rem; padding: 1rem; color: #e8ddf2; background: #0a0610; font-size: .79rem; line-height: 1.55; white-space: pre; }
+pre { max-width: 100%; min-height: 18rem; overflow: auto; margin: 1rem 0; border: 1px solid #30243f; border-radius: .75rem; padding: 1rem; color: #e8ddf2; background: #0a0610; font-size: .79rem; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
 .compact-code { min-height: 0; }
 .command-help { color: var(--muted); font-size: .84rem; }
 .toast { min-height: 1.4rem; color: var(--teal); font-size: .84rem; }
@@ -154,19 +156,24 @@ pre { max-width: 100%; min-height: 18rem; overflow: auto; margin: 1rem 0; border
 .artifact-card.accent { border-color: rgb(44 224 206 / 35%); }
 .artifact-card.warning-card { border-color: rgb(245 186 98 / 35%); }
 .artifact-top { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+.artifact-top > * { min-width: 0; }
+.artifact-top strong { overflow-wrap: anywhere; }
 .platform { padding: .28rem .5rem; border-radius: .4rem; color: var(--teal); background: rgb(44 224 206 / 9%); font-size: .7rem; font-weight: 800; text-transform: uppercase; }
 .artifact-card dl { display: grid; gap: .55rem; margin: 1rem 0; }
 .artifact-card dl div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: .75rem; border-top: 1px solid rgb(255 255 255 / 6%); padding-top: .55rem; }
 .artifact-card dt { color: var(--muted); }
 .artifact-card dd { min-width: 0; margin: 0; text-align: right; }
-.artifact-card code { display: block; overflow: hidden; color: #dbc9ea; font-size: .73rem; text-overflow: ellipsis; white-space: nowrap; }
+.artifact-card code { color: #dbc9ea; font-size: .73rem; }
+.artifact-card dd code { display: block; white-space: normal; overflow-wrap: anywhere; }
+.command-header > div { min-width: 0; }
+.command-header .eyebrow { overflow-wrap: anywhere; }
 
 .verify-layout { display: grid; grid-template-columns: .85fr 1.15fr; gap: 2rem; align-items: center; }
 .verify-layout > div > p:not(.eyebrow) { color: var(--muted); }
 .record-list { display: grid; padding: .75rem 1.2rem; }
 .record-list a { display: grid; padding: .9rem .3rem; border-bottom: 1px solid rgb(255 255 255 / 8%); color: var(--text); text-decoration: none; }
 .record-list a:last-child { border-bottom: 0; }
-.record-list small { color: var(--muted); }
+.record-list small { color: var(--muted); overflow-wrap: anywhere; }
 .community { display: grid; grid-template-columns: 1.4fr .6fr; gap: 2rem; padding: clamp(1.5rem, 4vw, 3rem); }
 .community p { color: #c9c1d4; }
 .community .disclaimer { color: var(--muted); font-size: .82rem; }
@@ -185,7 +192,7 @@ footer { margin-top: 4rem; border-top: 1px solid rgb(255 255 255 / 8%); color: v
 
 @media (max-width: 900px) {
   .nav-links > a:not(.pill-link) { display: none; }
-  .hero, .install-layout, .verify-layout, .community { grid-template-columns: 1fr; }
+  .hero, .install-layout, .verify-layout, .community { grid-template-columns: minmax(0, 1fr); }
   .hero { gap: 1.3rem; }
   .status-grid { grid-template-columns: 1fr; }
   .status-grid > div { border-right: 1px solid rgb(255 255 255 / 7%); border-bottom: 1px solid rgb(255 255 255 / 7%); }
