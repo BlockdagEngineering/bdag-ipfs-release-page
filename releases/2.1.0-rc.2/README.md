@@ -7,6 +7,14 @@ the four source repositories to `main`.
 
 ## Using the community page
 
+Start with the [versioned installation companion](install-v1/index.html),
+[operator commands](install-v1/INSTALL.md), [download guide](install-v1/DOWNLOADS.md)
+or [AI-agent instructions](install-v1/AGENTS.md). These later instructions
+supersede legacy signature/v1 and older dataset choices in the unchanged ZIP.
+The three independent roles are **node-only**, **pool-only** (with its own
+PostgreSQL and a compatible remote node), and **dashboard-only** (with Redis
+and read-only observation endpoints). All-in-one is also supported.
+
 Choose **Existing node** for the full runtime package, **New node** for optional
 bootstrap data, or **One component** for a focused download. Match AMD64 or
 ARM64 to your Linux machine. The generated commands require a native IPFS
@@ -44,13 +52,15 @@ sha256sum -c SHA256SUMS
 ```
 
 The web page and record bind this exact CID. Public gateways may be slow or
-rate-limited; a native IPFS client uses the peer network directly. No binary
-mirror is published.
+rate-limited; a native IPFS client uses the peer network directly. The separate
+`install-v1/downloads.json` manifest describes the later anonymous HTTP mirror
+and resumable dataset pieces. It does not alter the historical release record.
 Hashes identify bytes, not a publisher: choose your expected hashes through a
 channel you trust. No compulsory publisher signature or account is required.
 
-Unpack the full runtime ZIP for `linux-amd64` (x86-64) or `linux-arm64` (AArch64).
-Review its README, `.env.example`, `node.conf.example`, compose files and scripts
+Use the full runtime ZIP for `linux-amd64` (x86-64) or `linux-arm64` (AArch64),
+with the versioned companion guide and its role-aware service runner.
+Inspect `.env.example`, `node.conf.example`, compose files and scripts
 before configuring or starting services. Do not copy another operator's payout,
 RPC authority, network identity, pool database, workers or ASIC configuration.
 
@@ -67,10 +77,11 @@ Dashboard and Stack. Explicit v2 commands start with, for example:
 ./scripts/bdag-stack install --root /your/downloaded/record-root --help
 ```
 
-Use `--mode all-in-one`, `node`, `pool` or `redis-dash`. The explicit v2 lifecycle
-requires your own configuration and service runner. `install` stages verified
-components; `apply` activates through those owner-defined hooks. A component
-archive is not itself a complete PostgreSQL deployment. Do not use historical
+Use `--mode all-in-one`, `node`, `pool` or `redis-dash`. The companion supplies a
+working service runner while keeping configuration owner-local. `install`
+stages verified components; `apply` selects them; `boot` starts services and
+checks live identity. A component archive is not itself a complete PostgreSQL
+deployment. Do not use historical
 v1 signature/override flags or `--allow-unsigned-catalog` for this release.
 
 ## Bootstrap an independent dataset

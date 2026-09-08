@@ -116,7 +116,7 @@ class InstallerTests(unittest.TestCase):
         self.assertIn('"--build", "--pull", "never", "--no-recreate"', source)
         self.assertNotIn("shell=True", source)
 
-    def test_node_start_waits_for_delayed_pinned_identity_without_auth_guess(self):
+    def test_node_start_waits_for_delayed_pinned_identity_with_owner_auth(self):
         expected = {"schema": "bdag.chain-identity.v1", "network": "mainnet", "native_network_magic": "0xb4c3dce8",
                     "native_genesis_hash": "0xnative", "evm_chain_id": "1404", "evm_genesis_hash": "0xevm"}
 
@@ -146,11 +146,12 @@ class InstallerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as raw:
             target = Path(raw)
             (target / "core-identity.json").write_bytes(INSTALL.canonical(expected))
+            (target / ".env").write_text("NODE_RPC_USER=owner\nNODE_RPC_PASS=local-test-only\n")
             with mock.patch.object(RUNNER.urllib.request, "urlopen", side_effect=delayed), \
                  mock.patch.object(RUNNER.time, "sleep", return_value=None):
                 RUNNER.wait_for_core_identity(target, "http://127.0.0.1:38131/", timeout_seconds=1)
             self.assertEqual(calls["count"], 3)
-            self.assertNotIn("Authorization", requests[-1].headers)
+            self.assertTrue(requests[-1].get_header("Authorization").startswith("Basic "))
             self.assertIn("ready after 3", (target / ".core-readiness.log").read_text())
 
     def test_wrong_identity_fails_closed_and_writes_private_diagnostic(self):
@@ -173,12 +174,27 @@ class InstallerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as raw:
             target = Path(raw)
             (target / "core-identity.json").write_bytes(INSTALL.canonical(expected))
+            (target / ".env").write_text("NODE_RPC_USER=owner\nNODE_RPC_PASS=local-test-only\n")
             with mock.patch.object(RUNNER.urllib.request, "urlopen", return_value=Response()):
                 with self.assertRaises(RUNNER.RunnerError):
                     RUNNER.wait_for_core_identity(target, "http://127.0.0.1:38131/", timeout_seconds=1)
             diagnostic = target / ".core-readiness.log"
             self.assertEqual(diagnostic.stat().st_mode & 0o777, 0o600)
             self.assertIn("mismatch", diagnostic.read_text())
+
+    def test_canonical_metadata_includes_required_lf(self):
+        self.assertEqual(INSTALL.canonical({"b": 2, "a": 1}), b'{"a":1,"b":2}\n')
+
+    def test_auth_transport_is_exact_endpoint_and_method_only(self):
+        handler = INSTALL.IdentityAuth("http://127.0.0.1:38131/", "owner", "test-only")
+        body = INSTALL.canonical({"jsonrpc":"2.0","id":1,"method":"getChainIdentity","params":[]})
+        request = INSTALL.urllib.request.Request(handler.endpoint, data=body)
+        self.assertTrue(handler.http_request(request).get_header("Authorization").startswith("Basic "))
+        self.assertNotIn("Authorization", request.headers)  # Not forwarded by ordinary redirects.
+        with self.assertRaises(INSTALL.InstallError):
+            handler.http_request(INSTALL.urllib.request.Request("https://unrelated.invalid/", data=body))
+        with self.assertRaises(INSTALL.InstallError):
+            handler.http_request(INSTALL.urllib.request.Request(handler.endpoint, data=body.replace(b'getChainIdentity', b'submitBlock')))
 
 
 if __name__ == "__main__":

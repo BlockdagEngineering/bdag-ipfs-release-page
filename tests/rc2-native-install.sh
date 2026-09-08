@@ -32,19 +32,19 @@ chmod 700 "$output_root/private-owner-env"
 installer="$companion_dir/bdag-install.py"
 [[ -f "$installer" ]] || { echo "installer is missing" >&2; exit 2; }
 
-if [[ -z "${BDAG_RC2_POOL_CORE_ENDPOINT:-}" ]]; then
-  echo "BDAG_RC2_POOL_CORE_ENDPOINT is required for the explicit remote-Core pool role" >&2
-  exit 2
-fi
-if [[ -z "${BDAG_RC2_OBSERVER_NODE_URL:-}" ]]; then
-  echo "BDAG_RC2_OBSERVER_NODE_URL is required for the read-only dashboard role" >&2
+if [[ -n "${BDAG_RC2_POOL_CORE_ENDPOINT:-}${BDAG_RC2_OBSERVER_NODE_URL:-}" ]]; then
+  echo "Native qualification uses only its owned real Core fixture, never an external service" >&2
   exit 2
 fi
 secret() { python3 -c 'import secrets; print(secrets.token_urlsafe(24), end="")'; }
 current_target=""
+fixture_target=""
 cleanup() {
   if [[ -n "$current_target" && -f "$current_target/install-pin.json" ]]; then
     timeout --foreground 120 python3 "$installer" stop --target "$current_target" >/dev/null 2>&1 || true
+  fi
+  if [[ -n "$fixture_target" && "$fixture_target" != "$current_target" ]]; then
+    timeout --foreground 120 python3 "$installer" stop --target "$fixture_target" >/dev/null 2>&1 || true
   fi
 }
 trap cleanup EXIT INT TERM
@@ -63,6 +63,10 @@ PY
 }
 
 for mode in node pool redis-dash all-in-one; do
+  if [[ "$mode" == all-in-one && -n "$fixture_target" ]]; then
+    timeout --foreground 120 python3 "$installer" stop --target "$fixture_target" >/dev/null
+    fixture_target=""
+  fi
   owner_env="$output_root/private-owner-env/$mode.env"
   target="$output_root/targets/$mode"
   current_target="$target"
@@ -83,6 +87,7 @@ for mode in node pool redis-dash all-in-one; do
   esac
   dashboard_port=$(( ${BDAG_RC2_DASHBOARD_PORT_BASE:-18088} + mode_index ))
   {
+    printf 'BDAG_ENABLE_NODE_MINING=0\nPOOL_BIND_ADDR=127.0.0.1:3334\nMETRICS_ADDR=127.0.0.1:9090\nPOOL_FEE_PERCENTAGE=0\n'
     if [[ "$mode" == pool ]]; then
       printf 'NODE_RPC_USER=%s\nNODE_RPC_PASS=%s\n' "$pool_core_user" "$pool_core_pass"
     else
@@ -161,20 +166,24 @@ PY
     redis-dash) core_url="$BDAG_RC2_OBSERVER_NODE_URL"; core_user="$observer_user"; core_pass="$observer_pass" ;;
     *) core_url="http://127.0.0.1:38131/" ;;
   esac
-  if ! CORE_URL="$core_url" CORE_USER="$core_user" CORE_PASS="$core_pass" RELEASE_RECORD="$release_record" python3 - <<'PY' >>"$log" 2>&1
+  if ! MODE="$mode" CORE_URL="$core_url" CORE_USER="$core_user" CORE_PASS="$core_pass" RELEASE_RECORD="$release_record" python3 - <<'PY' >>"$log" 2>&1
 import base64, json, os, urllib.request
 record=json.load(open(os.environ["RELEASE_RECORD"], encoding="utf-8"))
 expected=record["dataset"]["chain_identity"]
-body=json.dumps({"jsonrpc":"2.0","id":1,"method":"getChainIdentity","params":[]}, separators=(",", ":")).encode()
+method="getBlockCount" if os.environ["MODE"]=="redis-dash" else "getChainIdentity"
+body=json.dumps({"jsonrpc":"2.0","id":1,"method":method,"params":[]}, separators=(",", ":")).encode()
 request=urllib.request.Request(os.environ["CORE_URL"], data=body, headers={"Content-Type":"application/json"})
 token=base64.b64encode((os.environ["CORE_USER"]+":"+os.environ["CORE_PASS"]).encode()).decode()
 request.add_header("Authorization", "Basic "+token)
 with urllib.request.urlopen(request, timeout=5) as response:
     value=json.loads(response.read(65536))
 actual=value.get("result")
-if actual != expected:
+if method=="getBlockCount":
+    if value.get("error") is not None or not isinstance(actual, int):
+        raise SystemExit("limited observer read failed")
+elif actual != expected:
     raise SystemExit("Core getChainIdentity mismatch")
-print("CORE_IDENTITY_PASS")
+print("LIMITED_OBSERVER_READ_PASS" if method=="getBlockCount" else "CORE_IDENTITY_PASS")
 PY
   then
     write_receipt "$mode" "CORE_IDENTITY_FAILED" "typed Core identity probe failed; private log retained at $log"
@@ -182,20 +191,34 @@ PY
     exit 1
   fi
   if [[ "$mode" == pool || "$mode" == all-in-one ]]; then
-    if ! timeout --foreground 60 docker compose --project-directory "$target/compose-context" --project-name "$(grep '^COMPOSE_PROJECT_NAME=' "$target/.env" | cut -d= -f2-)" --env-file "$target/.env" -f "$target/compose.json" exec -T pool-db pg_isready >>"$log" 2>&1; then
+    project=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["project"])' "$target/runner-config.json")
+    if ! timeout --foreground 60 docker compose --project-directory "$target/compose-context" --project-name "$project" --env-file "$target/.env" -f "$target/compose.json" exec -T pool-db pg_isready >>"$log" 2>&1; then
       write_receipt "$mode" "POSTGRES_READINESS_FAILED" "PostgreSQL readiness probe failed; private log retained at $log"
       timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
       exit 1
     fi
   fi
   if [[ "$mode" == redis-dash || "$mode" == all-in-one ]]; then
-    if ! timeout --foreground 60 curl --fail --silent --show-error --max-time 5 "http://127.0.0.1:${dashboard_port}/" >>"$log" 2>&1; then
+    if ! timeout --foreground 60 curl --fail --silent --show-error --retry 20 --retry-connrefused --retry-delay 1 --max-time 5 "http://127.0.0.1:${dashboard_port}/" >>"$log" 2>&1; then
       write_receipt "$mode" "DASHBOARD_HTTP_FAILED" "dashboard HTTP probe failed; private log retained at $log"
       timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
       exit 1
     fi
   fi
   write_receipt "$mode" "LIFECYCLE_PASS_READINESS_PENDING" "$readiness"
+  if [[ "$mode" == node ]]; then
+    # This already tested real node is outside the pool/dashboard projects.
+    # Keep its one writer alive, then stop it before all-in-one uses port 38131.
+    fixture_target="$target"
+    BDAG_RC2_POOL_CORE_ENDPOINT=http://127.0.0.1:38131/
+    BDAG_RC2_OBSERVER_NODE_URL=http://127.0.0.1:38131/
+    BDAG_RC2_POOL_CORE_USER="$node_user"
+    BDAG_RC2_POOL_CORE_PASS="$node_pass"
+    BDAG_RC2_OBSERVER_USER="$limit_user"
+    BDAG_RC2_OBSERVER_PASS="$limit_pass"
+    current_target=""
+    continue
+  fi
   if ! timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1; then
     write_receipt "$mode" "STOP_FAILED" "installer stop failed; private log retained at $log"
     exit 1

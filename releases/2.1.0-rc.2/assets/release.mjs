@@ -1,4 +1,5 @@
 import {RECORD_SHA256} from './record-binding.mjs';
+import {enableDistribution} from './distribution.mjs';
 
 export const ARCHITECTURES = Object.freeze(['linux-amd64', 'linux-arm64']);
 export const COMPONENTS = Object.freeze(['full-stack', 'corechain', 'pool', 'dashboard', 'stack']);
@@ -130,6 +131,7 @@ function render(record) {
     ? 'Tested on AMD64 with three physical ASICs: shares and accepted blocks increased during a 120-second check, with accounting preserved. ARM64 hardware, reboot and long-run testing are not covered.'
     : 'AMD64 physical-mining/accounting qualification remains pending a detached 120-second receipt. ARM64 hardware, main promotion, reboot and long-soak qualification are not claimed.';
   setActionsEnabled(true); update();
+  enableDistribution(record, () => selectArtifact(record, arch.value, component.value));
 }
 
 function fail(error) {

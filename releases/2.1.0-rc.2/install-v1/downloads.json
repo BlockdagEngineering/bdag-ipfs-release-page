@@ -1,0 +1,438 @@
+{
+  "schema": "blockdag.downloads/v1",
+  "version": "2.1.0-rc.2",
+  "original_release_sha256": "468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2",
+  "software_cid": "bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq",
+  "dataset_cid": "bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u",
+  "mirror": {
+    "repository": "BlockdagEngineering/bdag-ipfs-release-page",
+    "tag": "jeremy/distribution/2.1.0-rc.2-install-v1",
+    "free_public_release_assets": true
+  },
+  "files": [
+    {
+      "path": "INSTALLATION-SCOPE.json",
+      "group": "software",
+      "bytes": 860,
+      "sha256": "49e7b0ba13fb87859e8317d7c2936433c10e1c980adf7ca54f761a1d47da6fe6",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/INSTALLATION-SCOPE.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/INSTALLATION-SCOPE.json"
+      ]
+    },
+    {
+      "path": "SHA256SUMS",
+      "group": "software",
+      "bytes": 2687,
+      "sha256": "233ac434c70efa6f928ddb1ceb21bb4862cba73ef1bd27ca918ea17370620c3b",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/SHA256SUMS",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/SHA256SUMS"
+      ]
+    },
+    {
+      "path": "artifacts/corechain-2.1.0-rc.2-linux-amd64.tar.gz",
+      "group": "software",
+      "bytes": 67154971,
+      "sha256": "3f0e50181c5d45c6ff8d4e0ad8892db930a08e26484f6949fe6cec3e2e011c0d",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/artifacts/corechain-2.1.0-rc.2-linux-amd64.tar.gz",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__corechain-2.1.0-rc.2-linux-amd64.tar.gz"
+      ]
+    },
+    {
+      "path": "artifacts/corechain-2.1.0-rc.2-linux-arm64.tar.gz",
+      "group": "software",
+      "bytes": 61170488,
+      "sha256": "522937711e30c8287bd4dd44a016f493d2c0617ccf7b80e13c702e30542623f9",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/artifacts/corechain-2.1.0-rc.2-linux-arm64.tar.gz",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__corechain-2.1.0-rc.2-linux-arm64.tar.gz"
+      ]
+    },
+    {
+      "path": "artifacts/dashboard-2.1.0-rc.2-linux-amd64.tar.gz",
+      "group": "software",
+      "bytes": 5353600,
+      "sha256": "faacfe1cda072ba998297d2dbec30aa80a78fda590c7d30b9018a405be2aa5f3",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/artifacts/dashboard-2.1.0-rc.2-linux-amd64.tar.gz",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__dashboard-2.1.0-rc.2-linux-amd64.tar.gz"
+      ]
+    },
+    {
+      "path": "artifacts/dashboard-2.1.0-rc.2-linux-arm64.tar.gz",
+      "group": "software",
+      "bytes": 4740712,
+      "sha256": "e51763f712c2e4861b18fc251402a5a881080276ead74693efb82a73f68825dc",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/artifacts/dashboard-2.1.0-rc.2-linux-arm64.tar.gz",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__dashboard-2.1.0-rc.2-linux-arm64.tar.gz"
+      ]
+    },
+    {
+      "path": "artifacts/pool-2.1.0-rc.2-linux-amd64.tar.gz",
+      "group": "software",
+      "bytes": 9281099,
+      "sha256": "0d473337c7d37ca75cd603b7cc04e0387d96dee217e9c0483a7c05a743a58840",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/artifacts/pool-2.1.0-rc.2-linux-amd64.tar.gz",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__pool-2.1.0-rc.2-linux-amd64.tar.gz"
+      ]
+    },
+    {
+      "path": "artifacts/pool-2.1.0-rc.2-linux-arm64.tar.gz",
+      "group": "software",
+      "bytes": 8368978,
+      "sha256": "c019592f52148ce889b2879dbfc2d64b551019106e2c8eda53409228ceb9b282",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/artifacts/pool-2.1.0-rc.2-linux-arm64.tar.gz",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__pool-2.1.0-rc.2-linux-arm64.tar.gz"
+      ]
+    },
+    {
+      "path": "artifacts/pool-stack-docker-stack-dev-v2.1.0-rc.2-linux-amd64.zip",
+      "group": "software",
+      "bytes": 82640717,
+      "sha256": "e0fdbc1b0a79259f32caa5e6908c93ae0d111c1b106dcfead3a37191271235e8",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/artifacts/pool-stack-docker-stack-dev-v2.1.0-rc.2-linux-amd64.zip",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__pool-stack-docker-stack-dev-v2.1.0-rc.2-linux-amd64.zip"
+      ]
+    },
+    {
+      "path": "artifacts/pool-stack-docker-stack-dev-v2.1.0-rc.2-linux-arm64.zip",
+      "group": "software",
+      "bytes": 75045840,
+      "sha256": "81882a77d2b0aeba2111df075704a96e490c55b96130079138122974671e5666",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/artifacts/pool-stack-docker-stack-dev-v2.1.0-rc.2-linux-arm64.zip",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__pool-stack-docker-stack-dev-v2.1.0-rc.2-linux-arm64.zip"
+      ]
+    },
+    {
+      "path": "artifacts/stack-2.1.0-rc.2-linux-amd64.tar.gz",
+      "group": "software",
+      "bytes": 481622,
+      "sha256": "33df87234f22367cddf36576adfea8d4b450b5749b6d5f647c3f5cad5e382b38",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/artifacts/stack-2.1.0-rc.2-linux-amd64.tar.gz",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__stack-2.1.0-rc.2-linux-amd64.tar.gz"
+      ]
+    },
+    {
+      "path": "artifacts/stack-2.1.0-rc.2-linux-arm64.tar.gz",
+      "group": "software",
+      "bytes": 481622,
+      "sha256": "33df87234f22367cddf36576adfea8d4b450b5749b6d5f647c3f5cad5e382b38",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/artifacts/stack-2.1.0-rc.2-linux-arm64.tar.gz",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__stack-2.1.0-rc.2-linux-arm64.tar.gz"
+      ]
+    },
+    {
+      "path": "component-catalog.json",
+      "group": "software",
+      "bytes": 770,
+      "sha256": "0ac93a5656669dc71b818bd44b516ecc9f6587596409818a595bcb75c76c4458",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/component-catalog.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/component-catalog.json"
+      ]
+    },
+    {
+      "path": "manifests/corechain-linux-amd64.files.json",
+      "group": "software",
+      "bytes": 1881,
+      "sha256": "7c2dfee4022362f6b783a573aa3bdf1edd07dde5afbe2a4f1e5d340d78831249",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/manifests/corechain-linux-amd64.files.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/manifests__corechain-linux-amd64.files.json"
+      ]
+    },
+    {
+      "path": "manifests/corechain-linux-arm64.files.json",
+      "group": "software",
+      "bytes": 1880,
+      "sha256": "192748800aad76bc57cccbbbe93f4b3d864ab129f11f2abfdcf6731a0b65ec91",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/manifests/corechain-linux-arm64.files.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/manifests__corechain-linux-arm64.files.json"
+      ]
+    },
+    {
+      "path": "manifests/dashboard-linux-amd64.files.json",
+      "group": "software",
+      "bytes": 742,
+      "sha256": "229d56ec652c7994c2e4bc01ab651534a23cf2e425c6c0ca1e4f20040f68440b",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/manifests/dashboard-linux-amd64.files.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/manifests__dashboard-linux-amd64.files.json"
+      ]
+    },
+    {
+      "path": "manifests/dashboard-linux-arm64.files.json",
+      "group": "software",
+      "bytes": 742,
+      "sha256": "1681d37b213fffe7a7bcc8087e0768c12d2d2ecebd920520aa136dfcd81ee92d",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/manifests/dashboard-linux-arm64.files.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/manifests__dashboard-linux-arm64.files.json"
+      ]
+    },
+    {
+      "path": "manifests/pool-linux-amd64.files.json",
+      "group": "software",
+      "bytes": 616,
+      "sha256": "5af2fcaa4f1d56801e7b9d31e811254fe42d98ad5ff6e984a9be65bd3695b153",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/manifests/pool-linux-amd64.files.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/manifests__pool-linux-amd64.files.json"
+      ]
+    },
+    {
+      "path": "manifests/pool-linux-arm64.files.json",
+      "group": "software",
+      "bytes": 616,
+      "sha256": "c3d1a32185ba4bb42ee03ac4989ef4b7e5a70971f5390fb96072226107764ff3",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/manifests/pool-linux-arm64.files.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/manifests__pool-linux-arm64.files.json"
+      ]
+    },
+    {
+      "path": "manifests/stack-linux-amd64.files.json",
+      "group": "software",
+      "bytes": 17162,
+      "sha256": "5d564e4ad1cf9d92a93de9ed15d8354e5fef98945576ca9120e8e2a5d3457b1f",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/manifests/stack-linux-amd64.files.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/manifests__stack-linux-amd64.files.json"
+      ]
+    },
+    {
+      "path": "manifests/stack-linux-arm64.files.json",
+      "group": "software",
+      "bytes": 17162,
+      "sha256": "093d98ed75c462e76871e44f603701ebf533329132f8aa7cf335758cc5e80ec2",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/manifests/stack-linux-arm64.files.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/manifests__stack-linux-arm64.files.json"
+      ]
+    },
+    {
+      "path": "release-tuple.json",
+      "group": "software",
+      "bytes": 599,
+      "sha256": "d5d1734ec2a70466f904f97fea43c9468b4c28b24c60b19e8c75516e084d9b6f",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/release-tuple.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/release-tuple.json"
+      ]
+    },
+    {
+      "path": "releases/corechain-2.1.0-rc.2.json",
+      "group": "software",
+      "bytes": 1071,
+      "sha256": "0944c24f1e24364e1f1dd13886072896cf51319a21f237130501f4a314be4c03",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/releases/corechain-2.1.0-rc.2.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/releases__corechain-2.1.0-rc.2.json"
+      ]
+    },
+    {
+      "path": "releases/dashboard-2.1.0-rc.2.json",
+      "group": "software",
+      "bytes": 1129,
+      "sha256": "9f44e9417cb656e01bef5de92af287038e1817ec1af3776fb625310534d6ed7b",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/releases/dashboard-2.1.0-rc.2.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/releases__dashboard-2.1.0-rc.2.json"
+      ]
+    },
+    {
+      "path": "releases/pool-2.1.0-rc.2.json",
+      "group": "software",
+      "bytes": 1079,
+      "sha256": "b5b30600cda9bfd91a2a5d8ca363bb4b94e8e955da9efbcac651d5cfc103a0f3",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/releases/pool-2.1.0-rc.2.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/releases__pool-2.1.0-rc.2.json"
+      ]
+    },
+    {
+      "path": "releases/stack-2.1.0-rc.2.json",
+      "group": "software",
+      "bytes": 1094,
+      "sha256": "9d2bc757e58f745644b127118ee471ad06eb8b804176798b4fc6a1dc2ed630ab",
+      "ipfs": "/ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq/releases/stack-2.1.0-rc.2.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/releases__stack-2.1.0-rc.2.json"
+      ]
+    },
+    {
+      "path": "blockdag-chain1404-order20821036-20260907.bdsnap",
+      "group": "dataset",
+      "bytes": 13931299738,
+      "sha256": "8f7b093b73a7fe390d53d275f5d4b7d69d32aea96220b19a3e2cc54804a5d608",
+      "ipfs": "/ipfs/bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u/blockdag-chain1404-order20821036-20260907.bdsnap",
+      "urls": [],
+      "parts": [
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-001",
+          "bytes": 1073741824,
+          "sha256": "0ccd40053bb38cd02769b592c4dbef8ff7ba55f04a55641d596ec10e14b3c33a",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-001"
+          ]
+        },
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-002",
+          "bytes": 1073741824,
+          "sha256": "fbe1a6a4166b440bb43facecae06a6c678e5d6012104e49fec16955086f69c08",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-002"
+          ]
+        },
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-003",
+          "bytes": 1073741824,
+          "sha256": "b71cfc5d970df651a92008a591b468ef3ffc45dd105382e125ef8083b39780fd",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-003"
+          ]
+        },
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-004",
+          "bytes": 1073741824,
+          "sha256": "7e25e41914634c8b17a792588a076b8f8f2975d649d16748162d04879dc9062c",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-004"
+          ]
+        },
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-005",
+          "bytes": 1073741824,
+          "sha256": "82d72d3473bd2b2d5303bb84a994577c153f2d277c2243a8734029cc18cd1b6d",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-005"
+          ]
+        },
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-006",
+          "bytes": 1073741824,
+          "sha256": "8dca12e7cff62740d62fb2cd474003d672b96580b01a552f1b5ab8ee75d5633a",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-006"
+          ]
+        },
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-007",
+          "bytes": 1073741824,
+          "sha256": "66eec9ee59c980285981bd500faad3403e11336806cf9ca65d04806eefaf33cc",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-007"
+          ]
+        },
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-008",
+          "bytes": 1073741824,
+          "sha256": "4166c8e5b0752fee79056f439b333f2862614b12b2a1ec6de9e3ae1bf34e9eeb",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-008"
+          ]
+        },
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-009",
+          "bytes": 1073741824,
+          "sha256": "dbf57410eaf06c6c828dabb51855fe5e67b3bf40280b7ec1da5c1c0b4dd90176",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-009"
+          ]
+        },
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-010",
+          "bytes": 1073741824,
+          "sha256": "c9905d0e4191c7a0f481ad8e5cdc73b06c3abc89c743fbafc7acf228afa7fbb9",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-010"
+          ]
+        },
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-011",
+          "bytes": 1073741824,
+          "sha256": "5c29dec055b5999bea0a36c4ea3cdcc269c74524c76c4b53eb96194bbb2c8dfd",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-011"
+          ]
+        },
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-012",
+          "bytes": 1073741824,
+          "sha256": "cb30157d8c02ecae56ca84b07dd7a767260e6bdfb88371c90be77d16dfaf2af4",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-012"
+          ]
+        },
+        {
+          "name": "blockdag-chain1404-order20821036-20260907.bdsnap.part-013",
+          "bytes": 1046397850,
+          "sha256": "499c5df4ff99487a9b32fb0e9a02095627e096a4f2cf8301c106c92bd3ad714d",
+          "urls": [
+            "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/blockdag-chain1404-order20821036-20260907.bdsnap.part-013"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "dataset-records/DATASET-ACCEPTANCE.json",
+      "group": "dataset",
+      "bytes": 3033,
+      "sha256": "046d87a3c47bc78a1b557515f44c92d605fe77f7dec5c49af45fbc1c1cc01835",
+      "ipfs": "/ipfs/bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u/DATASET-ACCEPTANCE.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/dataset__DATASET-ACCEPTANCE.json"
+      ]
+    },
+    {
+      "path": "dataset-records/README.md",
+      "group": "dataset",
+      "bytes": 1870,
+      "sha256": "6426840bd884c5288ac4a317d304e276d329c624eec6471da678c821ca578dc7",
+      "ipfs": "/ipfs/bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u/README.md",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/dataset__README.md"
+      ]
+    },
+    {
+      "path": "dataset-records/SHA256SUMS",
+      "group": "dataset",
+      "bytes": 504,
+      "sha256": "8a3d3dfef2ed3b5a270e0be5c4224db92db6c055da328012baedfd8ed2ca2fcc",
+      "ipfs": "/ipfs/bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u/SHA256SUMS",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/dataset__SHA256SUMS"
+      ]
+    },
+    {
+      "path": "dataset-records/blockdag-chain1404-order20821036-20260907.bdsnap.manifest.json",
+      "group": "dataset",
+      "bytes": 829020,
+      "sha256": "e478034a7758d43fb3e97ec22965a9205228032d294697c6f24f4b95102d5778",
+      "ipfs": "/ipfs/bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u/blockdag-chain1404-order20821036-20260907.bdsnap.manifest.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/dataset__blockdag-chain1404-order20821036-20260907.bdsnap.manifest.json"
+      ]
+    },
+    {
+      "path": "dataset-records/chain-dataset-manifest.json",
+      "group": "dataset",
+      "bytes": 845,
+      "sha256": "eb668d4d93f7ed5d1a6f9dbf516bf00d33dc4103cfbb660790621f4e06a980a4",
+      "ipfs": "/ipfs/bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u/chain-dataset-manifest.json",
+      "urls": [
+        "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/dataset__chain-dataset-manifest.json"
+      ]
+    }
+  ]
+}

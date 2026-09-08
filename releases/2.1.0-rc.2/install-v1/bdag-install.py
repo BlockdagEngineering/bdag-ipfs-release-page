@@ -10,17 +10,20 @@ Compose build context; the generated files are private target-local state.
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import os
 import platform
 import re
+import runpy
 import secrets
 import shutil
 import stat
 import subprocess
 import sys
 import urllib.parse
+import urllib.request
 import zipfile
 from pathlib import Path
 from typing import Any, Iterable
@@ -50,7 +53,7 @@ class InstallError(RuntimeError):
 
 
 def canonical(value: Any) -> bytes:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8") + b"\n"
 
 
 def write_json(path: Path, value: Any, mode: int = 0o600) -> None:
@@ -447,9 +450,9 @@ def invoke_stack(target: Path, operation: str, mode: str, record_root: Path, tup
         assert plan_path is not None
         command += ["--output", str(plan_path)]
     elif operation == "install":
-        command += ["--stage-root", str(target / "stage"), "--plan", str(plan_path)]
+        command += ["--stage-root", str(target.with_name(target.name + ".v2-stage")), "--plan", str(plan_path)]
     elif operation == "apply":
-        command += ["--stage-root", str(target / "stage"), "--target-root", str(target),
+        command += ["--stage-root", str(target.with_name(target.name + ".v2-stage")), "--target-root", str(target),
                     "--plan", str(plan_path), "--config", str(target / "target-local-config.v2"),
                     "--service-runner", str(target / "service-runner.py"), "--lock-output", str(lock)]
     elif operation == "boot":
@@ -460,13 +463,23 @@ def invoke_stack(target: Path, operation: str, mode: str, record_root: Path, tup
     proc_env["BDAG_INSTALL_PIN"] = str(target / "install-pin.json")
     for key in parse_env(target / ".env"):
         proc_env.pop(key, None)
+    if operation == "boot" and endpoint is not None:
+        # The frozen v2 validator has no credential CLI. Supply transport auth
+        # to its exact identity request without modifying its source/checks.
+        command = [sys.executable, str(Path(__file__).resolve()), "_authenticated-v2",
+                   str(stack), str(target / ".env"), endpoint, *command[2:]]
     try:
         completed = subprocess.run(command, env=proc_env, cwd=str(target), stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE, check=False, timeout=300)
     except (OSError, subprocess.TimeoutExpired) as exc:
         raise InstallError(f"shipped bdag-stack {operation} could not be executed") from exc
+    diagnostic = target / f".v2-{operation}.log"
+    descriptor = os.open(diagnostic, os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW, 0o600)
+    with os.fdopen(descriptor, "wb") as log:
+        log.write(completed.stdout)
+        log.write(completed.stderr)
     if completed.returncode != 0:
-        raise InstallError(f"shipped bdag-stack {operation} failed")
+        raise InstallError(f"shipped bdag-stack {operation} failed; private diagnostic: {diagnostic}")
 
 
 def prepare(args: argparse.Namespace) -> dict[str, Any]:
@@ -474,6 +487,9 @@ def prepare(args: argparse.Namespace) -> dict[str, Any]:
     record_path = regular(Path(args.release_record), "release record")
     target = directory(Path(args.target), "target", must_exist=False)
     owner = parse_env(Path(args.owner_env))
+    # Validate owner inputs BEFORE combining template defaults. Example payout
+    # addresses and passwords must never satisfy an owner-authority requirement.
+    validate_owner_config(owner, args.mode)
     record = load_release(record_path)
     mode = args.mode
     plat = platform_name(args.platform)
@@ -498,7 +514,7 @@ def prepare(args: argparse.Namespace) -> dict[str, Any]:
                         for component in MODE_COMPONENTS[mode]},
     }
     write_json(target / "target-local-config.v2", config)
-    (target / "stage").mkdir(mode=0o700)
+    target.with_name(target.name + ".v2-stage").mkdir(mode=0o700)
     plan = target / "plan.json"
     catalog = record_root / "component-catalog.json"
     tuple_path = record_root / "release-tuple.json"
@@ -634,8 +650,46 @@ def parser() -> argparse.ArgumentParser:
     return p
 
 
+class IdentityAuth(urllib.request.BaseHandler):
+    """Credentials apply only to the exact owner-selected identity request."""
+    handler_order = 100
+
+    def __init__(self, endpoint: str, user: str, password: str):
+        self.endpoint = endpoint
+        self.authorization = "Basic " + base64.b64encode((user + ":" + password).encode()).decode()
+
+    def http_request(self, request):
+        if request.full_url != self.endpoint or request.get_method() != "POST":
+            raise InstallError("unexpected request in identity-only transport")
+        if json.loads(request.data or b"null") != {"jsonrpc": "2.0", "id": 1, "method": "getChainIdentity", "params": []}:
+            raise InstallError("unexpected method in identity-only transport")
+        request.add_unredirected_header("Authorization", self.authorization)
+        return request
+
+    https_request = http_request
+
+
+class NoIdentityRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, *args, **kwargs):
+        raise InstallError("Core identity redirects are not permitted")
+
+
+def authenticated_v2(arguments: list[str]) -> int:
+    script, env_path, endpoint, *stack_args = arguments
+    values = parse_env(Path(env_path))
+    require_values(values, ("NODE_RPC_USER", "NODE_RPC_PASS"), "Core identity")
+    urllib.request.install_opener(urllib.request.build_opener(
+        IdentityAuth(endpoint, values["NODE_RPC_USER"], values["NODE_RPC_PASS"]), NoIdentityRedirect()))
+    sys.path.insert(0, str(Path(script).parent))
+    sys.argv = [script, *stack_args]
+    runpy.run_path(script, run_name="__main__")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     try:
+        if (argv if argv is not None else sys.argv[1:])[:1] == ["_authenticated-v2"]:
+            return authenticated_v2((argv if argv is not None else sys.argv[1:])[1:])
         args = parser().parse_args(argv)
         result = {"prepare": prepare, "start": start, "stop": stop, "status": status}[args.command](args)
         print(json.dumps(result, sort_keys=True))

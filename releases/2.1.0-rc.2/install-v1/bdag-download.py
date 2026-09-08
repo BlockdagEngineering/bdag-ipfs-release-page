@@ -12,6 +12,7 @@ from pathlib import Path, PurePosixPath
 import re
 import selectors
 import shutil
+import stat
 import subprocess
 import time
 from urllib.error import HTTPError, URLError
@@ -24,7 +25,7 @@ MAX_PART = 1024 * 1024 * 1024
 RETRIES = 4
 HTTP_TIMEOUT = 20
 IPFS_TOTAL_TIMEOUT = 14400
-IPFS_INACTIVITY_TIMEOUT = 20
+IPFS_INACTIVITY_TIMEOUT = 120
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 CID = re.compile(r"^b[a-z2-7]{20,}$")
 SAFE_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._+-]*$")
@@ -197,8 +198,13 @@ def _lock(path: Path):
     try:
         flags = os.O_RDWR | os.O_CREAT | getattr(os, "O_NOFOLLOW", 0)
         fd = os.open(lock, flags, 0o600)
+        if not stat.S_ISREG(os.fstat(fd).st_mode):
+            os.close(fd)
+            raise DownloadError("lock is not a regular file")
         fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except (BlockingIOError, FileExistsError) as exc:
+        if 'fd' in locals():
+            os.close(fd)
         raise DownloadError(f"download already in progress: {path.name}") from exc
     except OSError as exc:
         raise DownloadError(f"cannot open lock: {path.name}") from exc
@@ -277,6 +283,8 @@ def _stream_http(urls: list[str], partial: Path, expected: int) -> None:
     failures = 0
     while failures < RETRIES:
         offset = partial.stat().st_size if partial.exists() else 0
+        if offset == expected:
+            return  # A completed interrupted transfer still needs the full SHA check.
         if offset > expected:
             partial.unlink()
             offset = 0
@@ -383,7 +391,7 @@ def download_ipfs_file(entry: dict, destination: Path) -> bool:
                             break
                         process.kill(); process.wait()
                         raise DownloadError("IPFS download exceeded inactivity timeout")
-                    chunk = process.stdout.read(CHUNK)
+                    chunk = os.read(process.stdout.fileno(), CHUNK)
                     if not chunk:
                         selector.unregister(process.stdout)
                         break
@@ -399,6 +407,10 @@ def download_ipfs_file(entry: dict, destination: Path) -> bool:
             except OSError as exc:
                 partial.unlink(missing_ok=True)
                 raise DownloadError("IPFS download failed") from exc
+            finally:
+                if 'process' in locals() and process.poll() is None:
+                    process.kill()
+                    process.wait()
         _verify_and_replace(partial, destination, entry)
         return True
     finally:

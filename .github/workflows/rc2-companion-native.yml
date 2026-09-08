@@ -1,0 +1,62 @@
+name: RC2 companion native installation
+on:
+  push:
+    branches:
+      - jeremy/docs/rc2-download-install-20260908
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-companion-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  install:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 50
+    steps:
+      - name: Checkout exact public candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init .
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "$GITHUB_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Deterministic helper and immutable binding tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/rc2-community-page.test.mjs tests/rc2-distribution.test.mjs
+          python3 -m unittest discover -s tests -p 'test_rc2_*.py'
+      - name: Download exact software anonymously
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 1200 python3 releases/2.1.0-rc.2/install-v1/bdag-download.py \
+            --manifest releases/2.1.0-rc.2/install-v1/downloads.json \
+            --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
+            --output-dir "$RUNNER_TEMP/rc2-software" --select software --transport http
+      - name: Four real roles on fresh data, native architecture
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 2100 bash tests/rc2-native-install.sh \
+            "$RUNNER_TEMP/rc2-software" "$RUNNER_TEMP/rc2-native" \
+            "$GITHUB_WORKSPACE/releases/2.1.0-rc.2/install-v1"
+      - name: Record bounded claim
+        if: always()
+        shell: bash
+        run: |
+          printf '%s\n' 'Native install/boot and fresh-chain sync gating only. No mining readiness, ASIC, payout progression, full dataset, reboot or soak claim.' >> "$GITHUB_STEP_SUMMARY"
+          printf 'Source: %s\nRunner: %s\nArchitecture: %s\n' "$GITHUB_SHA" '${{ matrix.runner }}' "$(uname -m)" >> "$GITHUB_STEP_SUMMARY"
+          if test -d "$RUNNER_TEMP/rc2-native/receipts"; then
+            for receipt in "$RUNNER_TEMP/rc2-native/receipts/"*.json; do
+              test -f "$receipt" || continue
+              sed -n '1,240p' "$receipt"
+            done
+          fi

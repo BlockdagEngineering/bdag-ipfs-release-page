@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import hashlib
+import base64
 import json
 import os
 import subprocess
@@ -114,12 +115,13 @@ def _readiness_log(target: Path, message: str) -> None:
     os.chmod(path, 0o600)
 
 
-def _core_identity_request(endpoint: str) -> dict:
+def _core_identity_request(endpoint: str, authorization: str) -> dict:
     request_body = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "getChainIdentity", "params": []},
                               sort_keys=True, separators=(",", ":")).encode("utf-8")
     request = urllib.request.Request(endpoint, data=request_body,
                                      headers={"Accept": "application/json", "Content-Type": "application/json"},
                                      method="POST")
+    request.add_unredirected_header("Authorization", authorization)
     try:
         with urllib.request.urlopen(request, timeout=3.0) as response:
             if response.status != 200:
@@ -156,12 +158,21 @@ def wait_for_core_identity(target: Path, endpoint: str, *, timeout_seconds: floa
     if not isinstance(expected, dict):
         _readiness_log(target, "pinned Core identity is invalid")
         raise RunnerError("pinned Core identity is invalid")
+    values = {}
+    regular(target / ".env", "owner environment")
+    for line in (target / ".env").read_text().splitlines():
+        if "=" in line:
+            key, value = line.split("=", 1)
+            values[key] = value
+    if not values.get("NODE_RPC_USER") or not values.get("NODE_RPC_PASS"):
+        raise RunnerError("Core identity needs owner-local primary RPC credentials")
+    authorization = "Basic " + base64.b64encode((values["NODE_RPC_USER"] + ":" + values["NODE_RPC_PASS"]).encode()).decode()
     deadline = time.monotonic() + timeout_seconds
     attempts = 0
     while True:
         attempts += 1
         try:
-            actual = _core_identity_request(endpoint)
+            actual = _core_identity_request(endpoint, authorization)
         except RunnerError as exc:
             if str(exc) != "Core identity RPC is not ready" or time.monotonic() >= deadline:
                 _readiness_log(target, f"Core identity readiness failed after {attempts} attempt(s): {exc}")
