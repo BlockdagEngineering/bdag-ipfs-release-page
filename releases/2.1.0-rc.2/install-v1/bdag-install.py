@@ -102,9 +102,13 @@ def parse_env(path: Path) -> dict[str, str]:
             raise InstallError(f"owner env line {number} has an invalid key")
         if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
             quote = value[0]
-            value = value[1:-1]
             if quote == "'":
-                value = value.replace("\\'", "'")
+                value = value[1:-1].replace("\\'", "'")
+            else:
+                try:
+                    value = json.loads(value.replace("\\$", "$"))
+                except json.JSONDecodeError as exc:
+                    raise InstallError(f"owner env line {number} has invalid quoted escapes") from exc
         if "\x00" in value or "\n" in value or "\r" in value:
             raise InstallError(f"owner env line {number} contains an invalid value")
         result[key] = value
@@ -123,9 +127,10 @@ def write_env(path: Path, values: dict[str, str]) -> None:
         value = values[key]
         if "\n" in value or "\r" in value or "\x00" in value:
             raise InstallError(f"generated env value for {key} is not single-line")
-        # Single-quoted Compose dotenv values are literal: no $ expansion,
-        # comment parsing, or backslash processing.
-        lines.append(f"{key}='{value.replace(chr(39), chr(92) + chr(39))}'")
+        # Compose double quotes support escaped dollars and backslashes. This
+        # also represents trailing backslashes, unlike single-quoted dotenv.
+        encoded = json.dumps(value, ensure_ascii=False).replace("$", "\\$")
+        lines.append(f"{key}={encoded}")
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     os.chmod(path, 0o600)
 

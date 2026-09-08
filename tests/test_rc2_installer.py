@@ -212,6 +212,20 @@ class InstallerTests(unittest.TestCase):
             INSTALL.write_env(path, values)
             self.assertEqual(RUNNER.parse_env(path), values)
 
+    def test_trailing_backslash_and_quoted_literal_roundtrip(self):
+        for value in ["ends\\", "slash\\'quote", "a\\\\b", " $HOME # spaced ", "pass${HOME}\\", 'a"quote', "café"]:
+            with self.subTest(value=value), tempfile.TemporaryDirectory() as raw:
+                target = Path(raw)
+                context = target / "compose-context"
+                context.mkdir()
+                values = {"NODE_RPC_PASS": value, "COMPOSE_PROJECT_NAME": "rc2-literal-edge-test"}
+                INSTALL.write_env(target / ".env", values)
+                self.assertEqual(INSTALL.parse_env(target / ".env"), values)
+                self.assertEqual(RUNNER.parse_env(target / ".env"), values)
+                (context / "docker-compose.yml").write_text("services:\n  node:\n    image: scratch\n    environment:\n      NODE_RPC_PASS: ${NODE_RPC_PASS}\n")
+                rendered = INSTALL.render_compose(target, "node", values)
+                self.assertEqual(rendered["services"]["node"]["environment"]["NODE_RPC_PASS"], value.replace("$", "$$"))
+
     def test_node_start_waits_for_delayed_pinned_identity_with_owner_auth(self):
         expected = {"schema": "bdag.chain-identity.v1", "network": "mainnet", "native_network_magic": "0xb4c3dce8",
                     "native_genesis_hash": "0xnative", "evm_chain_id": "1404", "evm_genesis_hash": "0xevm"}

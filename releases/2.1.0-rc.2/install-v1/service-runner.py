@@ -67,9 +67,13 @@ def parse_env(path: Path) -> dict[str, str]:
             raise RunnerError(f"environment line {number} has an invalid key")
         if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
             quote = value[0]
-            value = value[1:-1]
             if quote == "'":
-                value = value.replace("\\'", "'")
+                value = value[1:-1].replace("\\'", "'")
+            else:
+                try:
+                    value = json.loads(value.replace("\\$", "$"))
+                except json.JSONDecodeError as exc:
+                    raise RunnerError(f"environment line {number} has invalid quoted escapes") from exc
         if "\x00" in value or "\n" in value or "\r" in value:
             raise RunnerError(f"environment line {number} has an invalid value")
         values[key] = value
