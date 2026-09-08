@@ -3,35 +3,31 @@
 from __future__ import annotations
 
 import argparse
+import fcntl
 import hashlib
 import http.client
 import json
 import os
 from pathlib import Path, PurePosixPath
 import re
+import selectors
 import shutil
 import subprocess
 import time
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 
 CHUNK = 1024 * 1024
 MAX_PART = 1024 * 1024 * 1024
 RETRIES = 4
-TIMEOUT = 20
+HTTP_TIMEOUT = 20
+IPFS_TOTAL_TIMEOUT = 14400
+IPFS_INACTIVITY_TIMEOUT = 20
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 CID = re.compile(r"^b[a-z2-7]{20,}$")
 SAFE_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._+-]*$")
-
-
-class NoRedirect(HTTPRedirectHandler):
-    def redirect_request(self, *_args, **_kwargs):
-        return None
-
-
-HTTP_OPENER = build_opener(NoRedirect())
 
 
 class DownloadError(RuntimeError):
@@ -82,7 +78,7 @@ def _validate_http_url(value: str) -> None:
         raise DownloadError("URL must be a string")
     parsed = urlparse(value)
     if parsed.scheme not in {"https", "http"} or not parsed.netloc or parsed.username or parsed.password:
-        raise DownloadError(f"unsafe download URL: {value!r}")
+        raise DownloadError("unsafe download URL")
     if parsed.scheme == "http":
         host = (parsed.hostname or "").lower().rstrip(".")
         if host not in {"127.0.0.1", "localhost", "::1"}:
@@ -92,8 +88,11 @@ def _validate_http_url(value: str) -> None:
 def _validate_path(value: str, label: str = "path") -> None:
     if not isinstance(value, str) or not value or "\x00" in value or "\\" in value:
         raise DownloadError(f"unsafe {label}")
+    raw_parts = value.split("/")
+    if value.startswith("/") or value.endswith("/") or any(part in {"", ".", ".."} for part in raw_parts):
+        raise DownloadError(f"unsafe {label}: noncanonical path")
     path = PurePosixPath(value)
-    if value.startswith("/") or path.is_absolute() or any(part in {"", ".", ".."} for part in path.parts):
+    if path.is_absolute() or any(part in {"", ".", ".."} for part in path.parts):
         raise DownloadError(f"unsafe {label}: {value!r}")
 
 
@@ -140,11 +139,6 @@ def validate_manifest(manifest: dict) -> None:
         if not ipfs_match:
             raise DownloadError(f"invalid IPFS path: {path}")
         _validate_path(ipfs_match.group(2), "IPFS path")
-        urls = entry.get("urls")
-        if not isinstance(urls, list) or not urls:
-            raise DownloadError(f"file has no URLs: {path}")
-        for url in urls:
-            _validate_http_url(url)
         parts = entry.get("parts")
         if parts is not None:
             if entry["group"] != "dataset" or not isinstance(parts, list) or not parts:
@@ -159,8 +153,11 @@ def validate_manifest(manifest: dict) -> None:
                 total += part["bytes"]
             if total != entry["bytes"]:
                 raise DownloadError(f"part sizes do not equal file size: {path}")
-        elif entry["group"] == "dataset":
-            raise DownloadError(f"HTTP dataset entry must contain ordered parts: {path}")
+        urls = entry.get("urls")
+        if not isinstance(urls, list) or (not urls and parts is None):
+            raise DownloadError(f"file has no URLs: {path}")
+        for url in urls:
+            _validate_http_url(url)
 
 
 def _safe_output_root(path: Path) -> Path:
@@ -195,30 +192,58 @@ def _already_verified(destination: Path, entry: dict) -> bool:
 
 def _lock(path: Path):
     lock = Path(str(path) + ".lock")
+    if lock.is_symlink():
+        raise DownloadError(f"unsafe lock path: {path.name}")
     try:
-        fd = os.open(lock, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-    except FileExistsError as exc:
+        flags = os.O_RDWR | os.O_CREAT | getattr(os, "O_NOFOLLOW", 0)
+        fd = os.open(lock, flags, 0o600)
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except (BlockingIOError, FileExistsError) as exc:
         raise DownloadError(f"download already in progress: {path.name}") from exc
+    except OSError as exc:
+        raise DownloadError(f"cannot open lock: {path.name}") from exc
     return fd, lock
 
 
 def _close_lock(fd: int, path: Path) -> None:
+    fcntl.flock(fd, fcntl.LOCK_UN)
     os.close(fd)
-    try:
-        path.unlink()
-    except FileNotFoundError:
-        pass
 
 
 def _response_headers(response):
     return {key.lower(): value for key, value in response.headers.items()}
 
 
+class SafeRedirect(HTTPRedirectHandler):
+    def __init__(self):
+        super().__init__()
+        self.redirects = 0
+
+    def redirect_request(self, request, _fp, code, _message, headers, newurl):
+        if self.redirects >= 5:
+            raise DownloadError("too many HTTPS redirects")
+        location = headers.get("Location") or newurl
+        if not location:
+            raise DownloadError("redirect has no Location")
+        target = urlparse(urljoin(request.full_url, location))
+        source = urlparse(request.full_url)
+        if target.scheme not in {"https", "http"} or not target.netloc or target.username or target.password:
+            raise DownloadError("unsafe redirect")
+        if source.scheme == "https" and target.scheme != "https":
+            raise DownloadError("HTTPS redirect downgrade")
+        if target.scheme == "http" and (target.hostname or "").lower().rstrip(".") not in {"127.0.0.1", "localhost", "::1"}:
+            raise DownloadError("redirect to non-loopback HTTP")
+        self.redirects += 1
+        headers = {key: value for key, value in request.header_items() if key.lower() not in {"host", "content-length", "authorization"}}
+        return Request(target.geturl(), headers=headers, method=request.get_method())
+
+
 def _open_http(url: str, offset: int):
     headers = {"User-Agent": "bdag-rc2-downloader/1", "Accept": "application/octet-stream"}
     if offset:
         headers["Range"] = f"bytes={offset}-"
-    return HTTP_OPENER.open(Request(url, headers=headers), timeout=TIMEOUT)
+    opener = build_opener(SafeRedirect())
+    return opener.open(Request(url, headers=headers), timeout=HTTP_TIMEOUT)
 
 
 def _validate_response(response, offset: int, expected: int) -> tuple[int, int]:
@@ -327,19 +352,53 @@ def download_ipfs_file(entry: dict, destination: Path) -> bool:
     try:
         if partial.is_symlink() or (partial.exists() and not partial.is_file()):
             raise DownloadError(f"unsafe partial path: {entry['path']}")
-        partial.unlink(missing_ok=True)
-        with partial.open("wb") as output:
+        offset = partial.stat().st_size if partial.exists() else 0
+        if offset > entry["bytes"]:
+            partial.unlink()
+            offset = 0
+        if offset == entry["bytes"]:
             try:
-                process = subprocess.Popen(["ipfs", "cat", entry["ipfs"]], stdout=output, stderr=subprocess.PIPE)
-                _, stderr = process.communicate(timeout=TIMEOUT)
-            except (OSError, subprocess.TimeoutExpired) as exc:
-                if isinstance(exc, subprocess.TimeoutExpired):
-                    process.kill(); process.wait()
+                _verify_and_replace(partial, destination, entry)
+                return True
+            except DownloadError:
                 partial.unlink(missing_ok=True)
-                raise DownloadError(f"IPFS download failed: {exc}") from exc
-        if process.returncode != 0:
-            partial.unlink(missing_ok=True)
-            raise DownloadError(f"IPFS cat failed: {stderr[-200:].decode(errors='replace')}")
+                offset = 0
+        mode = "ab" if offset else "wb"
+        with partial.open(mode) as output:
+            try:
+                command = ["ipfs", "cat"] + (["--offset", str(offset)] if offset else []) + [entry["ipfs"]]
+                process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+                selector = selectors.DefaultSelector()
+                selector.register(process.stdout, selectors.EVENT_READ)
+                received = offset
+                deadline = time.monotonic() + IPFS_TOTAL_TIMEOUT
+                while True:
+                    remaining = deadline - time.monotonic()
+                    if remaining <= 0:
+                        process.kill(); process.wait()
+                        raise DownloadError("IPFS download exceeded total timeout")
+                    events = selector.select(min(IPFS_INACTIVITY_TIMEOUT, remaining))
+                    if not events:
+                        if process.poll() is not None:
+                            break
+                        process.kill(); process.wait()
+                        raise DownloadError("IPFS download exceeded inactivity timeout")
+                    chunk = process.stdout.read(CHUNK)
+                    if not chunk:
+                        selector.unregister(process.stdout)
+                        break
+                    received += len(chunk)
+                    if received > entry["bytes"]:
+                        process.kill(); process.wait()
+                        raise DownloadError("IPFS body exceeds manifest size")
+                    output.write(chunk)
+                selector.close()
+                process.wait(timeout=5)
+                if process.returncode != 0:
+                    raise DownloadError("IPFS cat failed")
+            except OSError as exc:
+                partial.unlink(missing_ok=True)
+                raise DownloadError("IPFS download failed") from exc
         _verify_and_replace(partial, destination, entry)
         return True
     finally:
@@ -405,7 +464,7 @@ def run(args) -> int:
     changed = 0
     for entry in entries:
         destination = _safe_destination(output, entry["path"])
-        if args.transport == "http" and entry["group"] == "dataset":
+        if args.transport == "http" and entry.get("parts") is not None:
             changed += int(download_dataset_parts(entry, destination))
         elif args.transport == "http":
             changed += int(download_http_file(entry, destination))

@@ -1,5 +1,6 @@
 import hashlib
 import http.server
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -196,6 +197,39 @@ class DownloaderTests(unittest.TestCase):
             manifest, expected = write_manifest(temporary, [entry("sub/safe.bin", "software", body, server.base + route)])
             output = Path(temporary) / "out"; output.mkdir(); outside = Path(temporary) / "outside"; outside.mkdir(); (output / "sub").symlink_to(outside, target_is_directory=True)
             self.assertNotEqual(run_cli(manifest, expected, output).returncode, 0)
+
+    def test_https_redirect_validation_preserves_range_and_rejects_downgrade(self):
+        spec = importlib.util.spec_from_file_location("bdag_download", SCRIPT)
+        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+
+        class RequestFixture:
+            full_url = "https://github.com/example/file"
+            def header_items(self):
+                return [("Host", "github.com"), ("Range", "bytes=12-"), ("User-agent", "test")]
+            def get_method(self):
+                return "GET"
+
+        handler = module.SafeRedirect()
+        redirected = handler.redirect_request(RequestFixture(), None, 302, "Found", {"Location": "https://release-assets.githubusercontent.com/file?sig=opaque"}, "https://release-assets.githubusercontent.com/file?sig=opaque")
+        self.assertEqual(redirected.get_header("Range"), "bytes=12-")
+        self.assertIsNone(redirected.get_header("Host"))
+        with self.assertRaises(module.DownloadError):
+            handler.redirect_request(RequestFixture(), None, 302, "Found", {"Location": "http://example.test/file"}, "http://example.test/file")
+
+    def test_flock_blocks_concurrent_download_without_stale_lock_deletion(self):
+        body = b"locked"; lock_fd = None
+        with Server() as server, tempfile.TemporaryDirectory() as temporary:
+            route = "/locked"; FixtureHandler.payloads[route] = body
+            manifest, expected = write_manifest(temporary, [entry("locked.bin", "software", body, server.base + route)])
+            output = Path(temporary) / "out"; output.mkdir(); target = output / "locked.bin"; lock = Path(str(target) + ".lock")
+            lock_fd = os.open(lock, os.O_RDWR | os.O_CREAT, 0o600)
+            import fcntl
+            fcntl.flock(lock_fd, fcntl.LOCK_EX)
+            result = run_cli(manifest, expected, output)
+            self.assertNotEqual(result.returncode, 0)
+            fcntl.flock(lock_fd, fcntl.LOCK_UN); os.close(lock_fd); lock_fd = None
+            self.assertEqual(run_cli(manifest, expected, output).returncode, 0)
+            self.assertTrue(lock.is_file())
 
     def test_skip_existing_correct_output_and_refuse_mismatch(self):
         body = b"already-correct"
