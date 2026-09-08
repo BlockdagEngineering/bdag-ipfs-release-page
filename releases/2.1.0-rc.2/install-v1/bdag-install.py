@@ -44,6 +44,7 @@ MODE_SERVICES = {
     "redis-dash": ("dashboard",),
     "all-in-one": ("node", "pool", "postgres", "dashboard"),
 }
+DOCKER_PLATFORMS = {"linux-amd64": "linux/amd64", "linux-arm64": "linux/arm64"}
 SAFE_NAME = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 HEX_ADDRESS = re.compile(r"^0x[0-9a-fA-F]{40}$")
 
@@ -336,7 +337,7 @@ def compose_environment(record_root: Path, target: Path, mode: str, owner_env: d
     if not Path(merged["NODE_DATA_DIR"]).is_absolute():
         merged["NODE_DATA_DIR"] = str((target / merged["NODE_DATA_DIR"]).resolve())
     merged["SNAPSHOT_HOST_PATH"] = str(context / "docker" / "no-snapshot.marker")
-    merged["DOCKER_PLATFORM"] = platform_id
+    merged["DOCKER_PLATFORM"] = DOCKER_PLATFORMS[platform_id]
     merged["BDAG_STACK_RELEASE_TAG"] = merged.get("BDAG_STACK_RELEASE_TAG") or "stack-dev-v2.1.0-rc.2"
     merged["BDAG_RELEASE_VERSION"] = VERSION
     # Compose's profile is removed from the rendered JSON, but setting this

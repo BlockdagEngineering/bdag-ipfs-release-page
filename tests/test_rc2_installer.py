@@ -86,10 +86,15 @@ class InstallerTests(unittest.TestCase):
             values = INSTALL.compose_environment(target, target, "pool", owner, "linux-amd64")
             self.assertEqual(values["NODE_RPC_URLS"], owner["NODE_RPC_URL"])
             self.assertEqual(values["POOL_SUBMIT_RPC_URLS"], owner["NODE_RPC_URL"])
+            self.assertEqual(values["DOCKER_PLATFORM"], "linux/amd64")
             explicit = {**owner, "NODE_RPC_URLS": "http://one:38131/,http://two:38131/", "POOL_SUBMIT_RPC_URLS": "http://submit:38131/"}
             values = INSTALL.compose_environment(target, target, "pool", explicit, "linux-amd64")
             self.assertEqual(values["NODE_RPC_URLS"], explicit["NODE_RPC_URLS"])
             self.assertEqual(values["POOL_SUBMIT_RPC_URLS"], explicit["POOL_SUBMIT_RPC_URLS"])
+
+    def test_compose_platform_uses_docker_syntax_not_artifact_id(self):
+        self.assertEqual(INSTALL.DOCKER_PLATFORMS["linux-amd64"], "linux/amd64")
+        self.assertEqual(INSTALL.DOCKER_PLATFORMS["linux-arm64"], "linux/arm64")
 
     def test_parse_write_env_preserves_literal_owner_values(self):
         values = {
@@ -172,6 +177,7 @@ class InstallerTests(unittest.TestCase):
             "NODE_RPC_USER": "owner name",
             "NODE_RPC_PASS": "pa$ $ # \\slash ' quote",
             "NODE_RPC_URLS": "http://remote-core:38131/",
+            "DOCKER_PLATFORM": "linux/amd64",
         }
         with tempfile.TemporaryDirectory() as raw:
             target = Path(raw)
@@ -180,7 +186,7 @@ class InstallerTests(unittest.TestCase):
             (context / "docker-compose.yml").write_text(
                 "services:\n  node:\n    image: alpine:latest\n    environment:\n"
                 "      NODE_RPC_USER: ${NODE_RPC_USER}\n      NODE_RPC_PASS: ${NODE_RPC_PASS}\n"
-                "      NODE_RPC_URLS: ${NODE_RPC_URLS}\n"
+                "      NODE_RPC_URLS: ${NODE_RPC_URLS}\n    platform: ${DOCKER_PLATFORM}\n"
             )
             INSTALL.write_env(target / ".env", values)
             rendered = INSTALL.render_compose(target, "node", values)
@@ -190,6 +196,7 @@ class InstallerTests(unittest.TestCase):
             # JSON remains safe for a later Compose interpolation pass.
             self.assertEqual(env["NODE_RPC_PASS"], values["NODE_RPC_PASS"].replace("$", "$$"))
             self.assertEqual(env["NODE_RPC_URLS"], values["NODE_RPC_URLS"])
+            self.assertEqual(rendered["services"]["node"]["platform"], "linux/amd64")
             environment = INSTALL.subprocess.run(
                 ["docker", "compose", "--project-directory", str(context), "--project-name", values["COMPOSE_PROJECT_NAME"],
                  "--env-file", str(target / ".env"), "-f", str(target / "compose.json"), "config", "--environment"],
@@ -225,6 +232,15 @@ class InstallerTests(unittest.TestCase):
                 (context / "docker-compose.yml").write_text("services:\n  node:\n    image: scratch\n    environment:\n      NODE_RPC_PASS: ${NODE_RPC_PASS}\n")
                 rendered = INSTALL.render_compose(target, "node", values)
                 self.assertEqual(rendered["services"]["node"]["environment"]["NODE_RPC_PASS"], value.replace("$", "$$"))
+
+    def test_runner_preserves_bounded_private_compose_failure(self):
+        with tempfile.TemporaryDirectory() as raw:
+            target = Path(raw)
+            completed = mock.Mock(stdout=b"stdout bytes", stderr=b"stderr bytes")
+            path = RUNNER.write_compose_failure(target, completed)
+            self.assertRegex(path.name, r"^\.compose-failure-[0-9]+-[0-9]+\.log$")
+            self.assertEqual(path.stat().st_mode & 0o777, 0o600)
+            self.assertEqual(path.read_bytes(), b"stdout bytes\nstderr bytes")
 
     def test_node_start_waits_for_delayed_pinned_identity_with_owner_auth(self):
         expected = {"schema": "bdag.chain-identity.v1", "network": "mainnet", "native_network_magic": "0xb4c3dce8",

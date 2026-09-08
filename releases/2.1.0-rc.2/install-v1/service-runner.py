@@ -145,6 +145,21 @@ def _readiness_log(target: Path, message: str) -> None:
     os.chmod(path, 0o600)
 
 
+def write_compose_failure(target: Path, completed: subprocess.CompletedProcess[bytes]) -> Path:
+    raw = (completed.stdout or b"") + b"\n" + (completed.stderr or b"")
+    raw = raw[-(1024 * 1024):]
+    for _ in range(4):
+        path = target / f".compose-failure-{os.getpid()}-{time.time_ns()}.log"
+        try:
+            descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+        except FileExistsError:
+            continue
+        with os.fdopen(descriptor, "wb") as output:
+            output.write(raw)
+        return path
+    raise RunnerError("could not create private Compose failure diagnostic")
+
+
 def _core_identity_request(endpoint: str, authorization: str) -> dict:
     request_body = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "getChainIdentity", "params": []},
                               sort_keys=True, separators=(",", ":")).encode("utf-8")
@@ -254,7 +269,8 @@ def execute(action: str, services: list[str]) -> int:
     except (OSError, subprocess.TimeoutExpired) as exc:
         raise RunnerError("docker compose invocation failed") from exc
     if completed.returncode != 0:
-        raise RunnerError("docker compose returned a failure")
+        diagnostic = write_compose_failure(target, completed)
+        raise RunnerError(f"docker compose returned a failure; private diagnostic: {diagnostic}")
     if action == "start" and "node" in selected and os.environ.get("BDAG_CORE_ENDPOINT"):
         wait_for_core_identity(target, os.environ["BDAG_CORE_ENDPOINT"])
     if action == "status":
