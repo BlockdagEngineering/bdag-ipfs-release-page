@@ -101,7 +101,7 @@ class InstallerTests(unittest.TestCase):
             INSTALL.write_env(path, values)
             self.assertEqual(INSTALL.parse_env(path), values)
             text = path.read_text()
-            self.assertIn("NODE_RPC_PASS='", text)
+            self.assertIn('NODE_RPC_PASS="', text)
 
     def test_safe_extract_rejects_existing_target_and_traversal(self):
         with tempfile.TemporaryDirectory() as raw:
