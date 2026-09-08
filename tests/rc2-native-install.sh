@@ -59,6 +59,31 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
+failure_diagnostics() {
+  python3 - "$installer" "$current_target" <<'PY'
+import base64, importlib.util, json, re, sys
+from pathlib import Path
+spec=importlib.util.spec_from_file_location("companion", sys.argv[1])
+module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+target=Path(sys.argv[2]); secrets=[]
+try:
+    values=module.parse_env(target / ".env")
+    secrets=[v for k,v in values.items() if v and re.search(r"PASS|SECRET|TOKEN|KEY|USER", k)]
+    for prefix in ("NODE_RPC", "NODE_RPC_LIMIT"):
+        if values.get(prefix+"_USER") and values.get(prefix+"_PASS"):
+            secrets.append(base64.b64encode((values[prefix+"_USER"]+":"+values[prefix+"_PASS"]).encode()).decode())
+except Exception:
+    print('{"diagnostic":"private configuration unreadable; raw logs withheld"}')
+    raise SystemExit(0)
+for file in sorted([*target.glob(".v2-*.log"), *target.glob(".compose-failure-*.log")]):
+    if file.is_symlink() or not file.is_file(): continue
+    text=file.read_text(errors="replace")
+    for value in sorted(secrets,key=len,reverse=True): text=text.replace(value,"[REDACTED]")
+    text=re.sub(r"(https?://)[^/\s]*@", r"\1[REDACTED]@", text)
+    print(json.dumps({"diagnostic_file":file.name,"redacted_tail":"\n".join(text.splitlines()[-35:])}))
+PY
+}
+
 write_receipt() {
   local mode=$1 status=$2 detail=$3
   MODE="$mode" STATUS="$status" DETAIL="$detail" ARCH="$arch" \
@@ -85,6 +110,9 @@ value = {"schema":"bdag.rc2.native-install-receipt.v1", "mode":os.environ["MODE"
          "architecture_match":os.environ["ARCHITECTURE_MATCH"] == "true"}
 Path(os.environ["OUT"]).write_text(json.dumps(value, sort_keys=True) + "\n")
 PY
+  if [[ "$status" == *FAILED ]]; then
+    failure_diagnostics || true
+  fi
 }
 
 for mode in node pool redis-dash all-in-one; do
