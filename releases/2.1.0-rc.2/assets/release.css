@@ -165,6 +165,16 @@ pre { max-width: 100%; min-height: 18rem; overflow: auto; margin: 1rem 0; border
 .artifact-card dd { min-width: 0; margin: 0; text-align: right; }
 .artifact-card code { color: #dbc9ea; font-size: .73rem; }
 .artifact-card dd code { display: block; white-space: normal; overflow-wrap: anywhere; }
+#dataset-parts a, #dataset-parts code { overflow-wrap: anywhere; word-break: break-word; }
+#dataset-parts li { margin: .9rem 0; }
+.guide { max-width: 1060px; }
+.guide article { padding: clamp(1rem, 4vw, 3rem); min-width: 0; overflow-wrap: anywhere; }
+.guide h1 { font-size: clamp(2rem, 4vw, 3rem); }
+.guide h2 { margin-top: 2.5rem; }
+.guide p, .guide li { color: var(--muted); }
+.guide pre { min-height: 0; }
+.guide table { display: block; overflow-x: auto; border-collapse: collapse; font-size: .9rem; }
+.guide th, .guide td { padding: .7rem; border: 1px solid #30243f; text-align: left; }
 .command-header > div { min-width: 0; }
 .command-header .eyebrow { overflow-wrap: anywhere; }
 

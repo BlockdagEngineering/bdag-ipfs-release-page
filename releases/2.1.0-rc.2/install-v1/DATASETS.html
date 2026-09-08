@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>Choosing and checking chain data</title><link rel="stylesheet" href="../assets/release.css"></head><body><a class="skip-link" href="#main">Skip to guide</a><header class="site-header"><nav class="nav shell" aria-label="Guide navigation"><a class="brand" href="index.html"><img src="../assets/bdag-community-logo.svg" alt="" width="42" height="42"><span><strong>BlockDAG RC2</strong><small>Installation companion v1</small></span></a><div class="nav-links"><a href="INSTALL.html">Install</a><a href="DOWNLOADS.html">Download</a><a href="DATASETS.html">Datasets</a><a href="AGENTS.md">AI agents</a></div></nav></header><main id="main" class="section shell guide"><article class="glass"><h1 id="choosing-and-checking-chain-data">Choosing and checking chain data</h1>
+<p>The software and chain data are separate. Choose one of these data paths:</p>
+<ol>
+<li><strong>Keep existing valid data.</strong> A normal reinstall does not require a new
+   dataset. Keep target-local configuration and a compatible rollback.</li>
+<li><strong>Start empty and synchronize from peers.</strong> No dataset download is mandatory.</li>
+<li><strong>Import this optional bootstrap or use your own valid copy.</strong> The owner
+   selects the expected hash/checkpoint. No publisher signature, official path,
+   special <code>scratch</code> name, source identity or matching numeric UID makes copied
+   bytes more or less authoritative. Actual read/write access and locking matter.</li>
+</ol>
+<p>These data choices are distinct from the three service roles: node, pool and
+dashboard. Pool-only and dashboard-only need remote service endpoints, not a
+private copy of the blockchain database.</p>
+<h2 id="what-this-published-snapshot-contains">What this published snapshot contains</h2>
+<p><code>blockdag-chain1404-order20821036-20260907.bdsnap</code> is a format-4 full-bootstrap
+snapshot containing <strong>native chain plus EVM state</strong> for mainnet, Chain ID 1404.
+It is not a database of pool accounting, keys, workers or ASIC configuration,
+and it is not a promise of complete historical archive state. This release does
+not provide a second compact or archive variant. Older archive choices in
+unchanged packaged documents refer to other releases and do not apply here.</p>
+<ul>
+<li>Size: 13,931,299,738 bytes.</li>
+<li>SHA-256: <code>8f7b093b73a7fe390d53d275f5d4b7d69d32aea96220b19a3e2cc54804a5d608</code>.</li>
+<li>Native order: 20,821,036; hash: <code>0x5b1ba629a19da29e2a192fc59adc9a6d11d42f9dade40ae575f524988dc12209</code>.</li>
+<li>Native state root: <code>0x3026c846e8e7d4cfebbc35102ac0fc50231c3669d2d53281ae29d01aabc2db7f</code>.</li>
+<li>EVM number: 20,374,135; hash: <code>0x4845e973c4d5b7e3e8898d392e68bcef9e0f7cd6b6ed896be28f7e7d15a250cf</code>.</li>
+<li>EVM root: <code>0xbf50546f039605788b0fdeb1800aad765ae6da64e43afb313505a527770c7fdb</code>.</li>
+</ul>
+<p>The snapshot is frozen at that boundary. Ordinary compatible-peer catch-up is
+still required before mining. Advertised bootstrap peers are dated observations,
+not consensus authority or an uptime guarantee. Preserve owner-configured peers,
+normal discovery and all Chain ID/genesis and mining payout checks.</p>
+<h2 id="safe-import-and-semantic-verification">Safe import and semantic verification</h2>
+<p>First follow <a href="DOWNLOADS.html">DOWNLOADS.html</a> and verify the complete archive SHA-256.
+Select <code>CORE_BIN</code> from the verified Core/full-ZIP payload for your architecture.
+Set <code>SNAP</code> to the downloaded snapshot and <code>CANDIDATE</code> to a <strong>new empty writable
+network directory</strong>. Quote paths, including paths with spaces. Never run import
+against a directory opened by a node or an existing ledger.</p>
+<pre><code class="language-sh">&quot;$CORE_BIN&quot; snap verify --path &quot;$SNAP&quot;
+&quot;$CORE_BIN&quot; snap import --datadir &quot;$CANDIDATE&quot; --path &quot;$SNAP&quot; --batch-size 16777216
+&quot;$CORE_BIN&quot; dataset inspect --datadir &quot;$CANDIDATE&quot;
+&quot;$CORE_BIN&quot; dataset manifest create --datadir &quot;$CANDIDATE&quot; --include-current-checkpoint
+&quot;$CORE_BIN&quot; dataset verify --datadir &quot;$CANDIDATE&quot;
+</code></pre>
+<p>Use <strong><code>snap</code></strong>, not the different legacy <code>snapshot</code> command. Do not use
+<code>--skip-evm</code>, <code>--no-network-check</code>, or weakened semantic checks. Compare the
+reported chain/genesis and full native/EVM boundary with the owner-selected
+record. Hashes alone do not establish that databases form a coherent chain.</p>
+<p><code>CANDIDATE</code> contains <code>BdagChain</code> and <code>bdageth/chaindata</code> directly after import.
+Check the node's configured appdata/network-directory relationship before
+mounting it; do not accidentally add a second <code>mainnet</code> directory. The CLI path
+itself need not contain that name. Import is not an atomic live-node switch.
+The companion's fresh-install path does not activate an existing dataset or
+perform arbitrary ledger migrations.</p>
+<p>If verification fails, keep the source and failed candidate separate. Report
+the exact classification, expected/observed hashes and non-secret paths. Do not
+erase markers, invent missing state, change Chain ID/genesis or weaken mining
+gates to get a green status. Activation remains prohibited until applicable
+interrupted operations and native/EVM mismatches are resolved.</p>
+<p>An owner-selected existing copy may be verified using its own manifest and
+trusted checkpoint instead of this published snapshot. Publisher provenance
+is useful information, not mandatory permission. Two writers must never open
+one dataset. Pool payout, PostgreSQL accounting, RPC authority, node identity
+and ASIC ownership remain local to the receiving operator.</p></article></main><footer><div class="shell"><a href="../index.html">Community release page</a> · <a href="DATASETS.md">Plain-text source</a></div></footer></body></html>

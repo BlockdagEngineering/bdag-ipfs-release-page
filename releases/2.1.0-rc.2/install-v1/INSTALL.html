@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>RC2 independent installation companion v1</title><link rel="stylesheet" href="../assets/release.css"></head><body><a class="skip-link" href="#main">Skip to guide</a><header class="site-header"><nav class="nav shell" aria-label="Guide navigation"><a class="brand" href="index.html"><img src="../assets/bdag-community-logo.svg" alt="" width="42" height="42"><span><strong>BlockDAG RC2</strong><small>Installation companion v1</small></span></a><div class="nav-links"><a href="INSTALL.html">Install</a><a href="DOWNLOADS.html">Download</a><a href="DATASETS.html">Datasets</a><a href="AGENTS.md">AI agents</a></div></nav></header><main id="main" class="section shell guide"><article class="glass"><h1 id="rc2-independent-installation-companion-v1">RC2 independent installation companion v1</h1>
+<p>This guide supersedes older installation instructions inside the unchanged RC2
+archives. It supplies a real service runner for the shipped v2 lifecycle. No
+mandatory publisher signature, signing key, GitHub account or central approval
+is required. SHA-256 and chain identity checks are still required.</p>
+<h2 id="scope-and-prerequisites">Scope and prerequisites</h2>
+<p>Use a native Linux AMD64/x86-64 or ARM64/AArch64 host with Python 3, Docker
+Engine, the Docker Compose v2 plugin, and <code>sha256sum</code>. The operator needs access
+to Docker; do not expose its socket to the dashboard. Runtime image assembly
+uses the verified prebuilt RC2 binaries and the unchanged release Dockerfile,
+not a source rebuild. Docker base images/OS packages require network access.</p>
+<p>This helper is for a <strong>fresh target directory and fresh role-specific storage</strong>.
+It is not an arbitrary older-pool-ledger migration, an in-place updater or an
+automatic dataset activation tool. Existing systems keep their effective local
+settings, data, accounting and rollback; do not delete them to satisfy a fresh
+install check. Stop and plan an explicit compatible migration if needed.</p>
+<p>The three independent modes are:</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Services started</th>
+<th>Owner supplies</th>
+<th>Chain dataset needed here?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>node</code></td>
+<td>Core + nodeworker</td>
+<td>Private RPC credentials; local node/network settings</td>
+<td>Yes: start empty, keep a valid local copy, or import a bootstrap</td>
+</tr>
+<tr>
+<td><code>pool</code></td>
+<td>Pool + PostgreSQL</td>
+<td>Compatible Core endpoint, private RPC credentials, payout and new local accounting settings</td>
+<td>No: use the selected node's RPC</td>
+</tr>
+<tr>
+<td><code>redis-dash</code></td>
+<td>Dashboard + managed Redis</td>
+<td>Read-only node/pool/EVM monitoring endpoints and limited RPC credentials</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>all-in-one</code></td>
+<td>Node, Pool, PostgreSQL, Dashboard/Redis</td>
+<td>All applicable owner-local settings</td>
+<td>Only for the node</td>
+</tr>
+</tbody>
+</table>
+<p>Dashboard-only does not start a local node or acquire node lifecycle authority.
+Pool-only does not silently deploy a node. Neither copies a remote pool's
+accounting, identity or ASIC assignments.</p>
+<h2 id="1-get-the-companion-and-exact-software">1. Get the companion and exact software</h2>
+<p>The following commands only download and check files. Review the expected
+checksums through a channel you trust, and inspect scripts before executing them.</p>
+<pre><code class="language-sh">mkdir rc2-tools
+cd rc2-tools
+BASE='https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2'
+for name in bdag-download.py bdag-install.py service-runner.py downloads.json COMPANION-SHA256SUMS; do
+  curl --fail --location --proto '=https' &quot;$BASE/install-v1/$name&quot; --output &quot;$name&quot;
+done
+curl --fail --location --proto '=https' &quot;$BASE/records/release.json&quot; --output release.json
+printf '%s  %s\n' '468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2' release.json | sha256sum -c -
+sha256sum -c COMPANION-SHA256SUMS --ignore-missing
+python3 bdag-download.py \
+  --manifest downloads.json \
+  --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
+  --output-dir rc2-software --select software --transport http
+</code></pre>
+<p>Native IPFS is an independent alternative; see <a href="DOWNLOADS.html">DOWNLOADS.html</a>.
+The full ZIP supplies binaries and build templates even when only one service
+role will run. The helper selects your native architecture automatically and
+checks exact archive identity before extraction.</p>
+<h2 id="2-write-your-private-owner-settings">2. Write your private owner settings</h2>
+<p>Create a private plain <code>KEY=value</code> environment file, readable only by you
+(<code>chmod 600 owner.env</code>). Do not execute/source a downloaded environment file.
+Replace values with your own credentials/endpoints; do not paste secrets into
+issues, chats, CI or the community page. Use a unique target directory/project
+and unoccupied local ports. Default native RPC is loopback port 38131; nodeworker
+uses 6061. Multiple local nodes need an explicit port plan outside this helper's
+default fresh-install path.</p>
+<p>Node-only requires your own <code>NODE_RPC_USER</code> and <code>NODE_RPC_PASS</code>. It does not
+require PostgreSQL, a wallet key or a payout address. New empty data can begin
+normal peer synchronization. Optional copied data is a separate reviewed path
+in <a href="DATASETS.html">DATASETS.html</a>.</p>
+<p>Pool-only additionally requires an explicit <code>NODE_RPC_URL</code>, <code>POSTGRES_USER</code>,
+<code>POSTGRES_PASSWORD</code>, <code>POSTGRES_DB</code>, and your non-zero <code>POOL_COINBASE_ADDRESS</code>
+(or matching <code>MINING_POOL_ADDRESS</code>). Set <code>POOL_FEE_PERCENTAGE</code> intentionally;
+never inherit someone else's fee or payout by accident. Set the same intended
+Core backend for <code>NODE_RPC_URLS</code>, <code>POOL_SUBMIT_RPC_URLS</code> and related backend
+selection. Set your matching EVM endpoint as <code>WALLET_RPC_URL</code> when needed.
+Only a compatible, current, correctly identified Core can supply mining work.</p>
+<p>Dashboard-only requires <code>BDAG_NODE_RPC_URL</code>, <code>NODE_RPC_LIMIT_USER</code> and
+<code>NODE_RPC_LIMIT_PASS</code> for read-only observation. Set <code>BDAG_EVM_HTTP_URL</code>,
+<code>BDAG_POOL_METRICS_URL</code>, <code>BDAG_POOL_URL</code> and <code>DASHBOARD_LISTEN</code> for the services
+you actually observe. It does not receive a Core lifecycle endpoint or Docker
+socket. Keep observer polling bounded and do not give it RPC admin credentials.</p>
+<p>All-in-one requires both the node/pool owner settings and limited dashboard RPC
+credentials. The node starts first; the other selected services follow. Keep
+RPC listeners private and allow miner access only through your intended network
+policy. No host firewall or ASIC controller is automatically reconfigured.</p>
+<p>No example payout or credentials are embedded here. Existing owner peer choices
+remain authoritative configuration; dated bootstrap observations are only
+discovery hints. Mining still needs current native/EVM state, compatible fresh
+peers, template/submission readiness and the exact intended payout contract.</p>
+<h2 id="3-prepare-then-start-your-selected-role">3. Prepare, then start your selected role</h2>
+<p>Choose one <code>MODE</code>: <code>node</code>, <code>pool</code>, <code>redis-dash</code>, or <code>all-in-one</code>. Select a new
+target path; paths with spaces must remain quoted. Set <code>OWNER_ENV</code> to your private
+file. <code>prepare</code> verifies, plans, stages and selects files; it does <strong>not</strong> mean
+the node is running or synchronized.</p>
+<pre><code class="language-sh">MODE=node
+TARGET=&quot;$PWD/rc2-node&quot;
+OWNER_ENV=&quot;$PWD/owner.env&quot;
+python3 bdag-install.py prepare \
+  --mode &quot;$MODE&quot; --record-root &quot;$PWD/rc2-software&quot; \
+  --release-record &quot;$PWD/release.json&quot; \
+  --target &quot;$TARGET&quot; --owner-env &quot;$OWNER_ENV&quot;
+
+python3 bdag-install.py start \
+  --record-root &quot;$PWD/rc2-software&quot; --release-record &quot;$PWD/release.json&quot; \
+  --target &quot;$TARGET&quot;
+python3 bdag-install.py status --target &quot;$TARGET&quot;
+</code></pre>
+<p>For another independent role, change <code>MODE</code> and choose a <strong>different fresh</strong>
+<code>TARGET</code> and suitable owner settings. Do not run competing services on the same
+ports. Pool-only needs a real existing Core endpoint; dashboard-only needs
+real observer endpoints. This is not permission to point at someone else's
+private RPC service or pool.</p>
+<p>The generated runner uses shipped v2 <code>verify</code>, <code>plan</code>, <code>install</code>, <code>apply</code> and
+<code>boot</code>, maps logical PostgreSQL to the actual service, and excludes unselected
+services. It pins the selected archives and generated configuration. It does
+not add dashboard-api, watch/repair automation or a Docker control socket to the
+dashboard. Do not bypass a pin mismatch by editing the receipt.</p>
+<h2 id="4-read-the-real-state-and-retain-rollback">4. Read the real state and retain rollback</h2>
+<p>Installed, running, syncing and mining-ready are different states. Fresh Core
+starts at genesis or the imported boundary and catches up. The pool supervisor
+may correctly wait for Core readiness. A running container or healthy dashboard
+does not prove accepted shares, accepted blocks or accounting progression.</p>
+<p>Before directing physical miners at a pool, independently verify current
+compatible peers, native/EVM currentness, template/submission readiness, exact
+payout and fee, then advancing accepted shares, block submissions and accounting.
+The companion does not automatically assign ASICs or erase their existing setup.</p>
+<pre><code class="language-sh">python3 bdag-install.py status --target &quot;$TARGET&quot;
+python3 bdag-install.py stop --target &quot;$TARGET&quot;
+</code></pre>
+<p>Stop preserves containers and volumes; it does not run <code>down -v</code>, erase a chain
+or delete PostgreSQL. Retain the predecessor until your own activation and
+rollback test passes. Original TesterD physical-mining evidence remains a
+separate 120-second AMD64 receipt, not a promise that your fresh node is already
+synced. Native VM service tests do not claim a reboot, six-hour soak or ARM ASIC
+qualification.</p></article></main><footer><div class="shell"><a href="../index.html">Community release page</a> · <a href="INSTALL.md">Plain-text source</a></div></footer></body></html>

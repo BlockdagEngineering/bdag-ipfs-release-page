@@ -8,7 +8,7 @@ the four source repositories to `main`.
 ## Using the community page
 
 Start with the [versioned installation companion](install-v1/index.html),
-[operator commands](install-v1/INSTALL.md), [download guide](install-v1/DOWNLOADS.md)
+[operator commands](install-v1/INSTALL.html), [download guide](install-v1/DOWNLOADS.html)
 or [AI-agent instructions](install-v1/AGENTS.md). These later instructions
 supersede legacy signature/v1 and older dataset choices in the unchanged ZIP.
 The three independent roles are **node-only**, **pool-only** (with its own
@@ -19,7 +19,8 @@ Choose **Existing node** for the full runtime package, **New node** for optional
 bootstrap data, or **One component** for a focused download. Match AMD64 or
 ARM64 to your Linux machine. The generated commands require a native IPFS
 command-line client and `sha256sum`; they download and check files only.
-The browser gateway buttons are optional, best-effort alternatives.
+The anonymous HTTP mirror and resumable downloader provide another independent
+transport. Public IPFS gateway buttons are optional, best-effort alternatives.
 
 This page retains RC65's community design while using the unchanged RC2
 software and dataset records. Its own IPFS page CID changes when the

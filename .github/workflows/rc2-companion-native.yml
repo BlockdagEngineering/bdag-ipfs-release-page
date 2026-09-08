@@ -3,6 +3,13 @@ on:
   push:
     branches:
       - jeremy/docs/rc2-download-install-20260908
+    paths:
+      - 'releases/2.1.0-rc.2/install-v1/*.py'
+      - 'releases/2.1.0-rc.2/install-v1/downloads.json'
+      - 'tests/test_rc2_*.py'
+      - 'tests/rc2-native-install.sh'
+      - 'tests/rc2-public-http.py'
+      - '.github/workflows/rc2-companion-native.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -10,6 +17,21 @@ concurrency:
   group: rc2-companion-${{ github.ref }}
   cancel-in-progress: false
 jobs:
+  public-bytes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - name: Checkout exact public candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init .
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "$GITHUB_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Stream every anonymous HTTP asset and complete dataset SHA
+        run: timeout 3660 python3 tests/rc2-public-http.py
   install:
     strategy:
       fail-fast: false
