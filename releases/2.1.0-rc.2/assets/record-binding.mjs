@@ -1,0 +1,1 @@
+export const RECORD_SHA256 = '468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2';

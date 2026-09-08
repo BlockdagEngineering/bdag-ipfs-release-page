@@ -1,0 +1,48 @@
+{
+  "schema": "blockdag-bootstrap-observations/v1",
+  "observed_at": "2026-09-08T09:51:27.052000Z",
+  "tcp_checked_at": "2026-09-08T09:53:21.697891724Z",
+  "network": "mainnet",
+  "chain_id": 1404,
+  "genesis": "0xd62590d28f5c32b6d46839075b3173c3d4c178482f8cd1b0e424bd3feeaed11c",
+  "protocol": 46,
+  "purpose": "Advisory initial discovery, not chain authority or an exclusive allowlist",
+  "claim_ceiling": "Observed connection duration and fresh matching P2P checkpoint evidence; not a future uptime guarantee or proof of independent operators",
+  "peers": [
+    {
+      "multiaddr": "/ip4/178.105.243.227/tcp/8150/p2p/16Uiu2HAkw7fJpiYy3t3F1ucp9hvLcuUmgx6NVKRHEUq3MNo2XtQ6",
+      "observed_connection_seconds": 53332,
+      "fork_status": "same_main_chain",
+      "commitment_status": "checkpoint_valid",
+      "tcp_reachable_at_observation": true
+    },
+    {
+      "multiaddr": "/ip4/199.229.220.118/tcp/8150/p2p/16Uiu2HAm18oYF65vW9VXWkkKBUsC6ySoqxqeGEABCTy4cFgtB7L4",
+      "observed_connection_seconds": 43418,
+      "fork_status": "same_main_chain",
+      "commitment_status": "checkpoint_valid",
+      "tcp_reachable_at_observation": true
+    },
+    {
+      "multiaddr": "/ip4/54.93.111.32/tcp/8150/p2p/16Uiu2HAmLY8gXKKx9K1mGaCDK8oCejAXbbF6aE8ZCbxjKgQEzkSj",
+      "observed_connection_seconds": 46981,
+      "fork_status": "same_main_chain",
+      "commitment_status": "checkpoint_valid",
+      "tcp_reachable_at_observation": true
+    },
+    {
+      "multiaddr": "/ip4/102.182.77.16/tcp/8150/p2p/16Uiu2HAmJ7Gwq2eNsbVzpQKmD6Xje1QVdxWqxebUt7hLuJbKVwC5",
+      "observed_connection_seconds": 31616,
+      "fork_status": "same_main_chain",
+      "commitment_status": "checkpoint_valid",
+      "tcp_reachable_at_observation": true
+    },
+    {
+      "multiaddr": "/ip4/162.35.167.159/tcp/8150/p2p/16Uiu2HAm6JwnzFrNdyF4x9wDx35V5fR1NEPzwYaAMExPcdVdT9F4",
+      "observed_connection_seconds": 48854,
+      "fork_status": "same_main_chain",
+      "commitment_status": "checkpoint_valid",
+      "tcp_reachable_at_observation": true
+    }
+  ]
+}

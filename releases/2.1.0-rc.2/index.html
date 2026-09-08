@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BlockDAG consolidated develop prerelease: independently downloadable components and a verified Chain 1404 bootstrap dataset.">
+  <title>BlockDAG 2.1.0-rc.2 — consolidated develop prerelease</title>
+  <link rel="icon" href="assets/bdag-community-logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/release.css">
+  <script type="module" src="assets/release.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to release content</a>
+  <header class="shell"><nav><a href="#main">BlockDAG Community</a> · <a href="#downloads">Downloads</a> · <a href="#dataset">Chain data</a> · <a href="README.md">Installation notes</a></nav></header>
+  <main id="main">
+    <section class="section shell">
+      <p class="eyebrow">Consolidated develop prerelease · Chain ID 1404</p>
+      <h1>BlockDAG 2.1.0-rc.2</h1>
+      <p>Node, mining pool, dashboard and stack automation, assembled from the consolidated Jeremy work and integrated into <code>develop</code>. This is not a promotion to <code>main</code>.</p>
+      <p id="record-status" role="status">Checking the exact release record…</p>
+      <p id="qualification-status">AMD64 passed a nominal 120-second mining test on TesterD with three physical ASICs, advancing shares, accepted blocks, preserved accounting and an independent canonical witness. ARM64 hardware, additional fleet, reboot and six-hour-soak qualification are not claimed. See the hash-bound qualification record below.</p>
+    </section>
+    <section class="section shell" aria-labelledby="changes-heading">
+      <h2 id="changes-heading">What is consolidated</h2>
+      <ul>
+        <li>Canonical native/EVM mining readiness, reserved block-submission RPC capacity and bounded recovery/backpressure.</li>
+        <li>Exact-candidate retention and retries, consistent job-health observations, clean-job repair and per-ASIC recovery.</li>
+        <li>Bounded dashboard/telemetry work and mining-aware automation. Obsolete <code>dashboard-api</code> is not a release component.</li>
+        <li>Owner-selected portable dataset verification, SHA-256 manifests and dataset-relative recovery checks.</li>
+        <li>Independently versioned components, fresh Pool53 database initialization and recently observed public bootstrap peers. Existing owner peers and ordinary discovery are preserved.</li>
+      </ul>
+    </section>
+    <section id="downloads" class="section shell">
+      <h2>Software downloads</h2>
+      <p>The full runtime ZIP includes the four components. Component archives are also available independently. IPFS CIDs and SHA-256 identify the exact bytes; no binary mirror is published.</p>
+      <p id="gateway-note"></p>
+      <div style="overflow:auto"><table><thead><tr><th>Payload</th><th>Platform</th><th>Size</th><th>Download</th><th>SHA-256</th></tr></thead><tbody id="software-downloads"></tbody></table></div>
+      <p><a href="records/software-SHA256SUMS">Software checksums</a> · <a href="records/release.json">Release record</a> · <a href="records/bootstrap-peers.json">Advisory bootstrap peers</a></p>
+      <h3>Download and verify with an IPFS client</h3>
+      <p>This uses the public peer network directly and does not require a gateway account. Review downloaded scripts before running them.</p>
+      <pre><code id="software-command">Waiting for the exact release record.</code></pre>
+      <h3>Choose the deployment</h3>
+      <ul>
+        <li><strong>All-in-one:</strong> node, pool, PostgreSQL and dashboard, with your own payout and ASIC configuration.</li>
+        <li><strong>Node:</strong> Core plus Stack, with no pool, PostgreSQL, dashboard or ASIC requirement.</li>
+        <li><strong>Pool:</strong> Pool plus Stack, connected to your explicitly configured compatible Core endpoint.</li>
+        <li><strong>Dashboard:</strong> Dashboard plus Stack; monitoring is not authority for accepting blocks.</li>
+      </ul>
+      <p>The explicit v2 CLI supports <code>--mode all-in-one|node|pool|redis-dash</code>. It needs owner-local configuration and service hooks; a component archive alone does not provision PostgreSQL or migrate an existing ledger.</p>
+    </section>
+    <section id="dataset" class="section shell">
+      <h2>Separate bootstrap dataset</h2>
+      <p id="dataset-status">Dataset qualification has not been loaded.</p>
+      <div id="dataset-download"></div>
+      <pre><code id="dataset-command">No dataset command is enabled until its exact acceptance record is available.</code></pre>
+      <p>Use a new empty destination. Never import over a running node's database, copy another pool's identity/accounting, or open one dataset with two writers. Existing valid data does not need to be replaced.</p>
+      <p>This is a full native+EVM <code>.bdsnap</code> bootstrap at the stated boundary, not a claim of complete historical EVM state. Ordinary peer catch-up is required after import.</p>
+    </section>
+    <section class="section shell">
+      <h2>Trust and upgrade boundaries</h2>
+      <p>Owner-selected hashes establish byte integrity; native/EVM checks establish database coherence. A signature can identify a publisher, but no central signature, account, path name or numeric UID authorizes blockchain validity.</p>
+      <p>Pool53 is qualified here for a fresh empty database or an unchanged Pool53 reinstall against an independently verified compatible V2 database. Generic older-ledger upgrades and old-schema downgrades are not qualified. Preserve identity, payout, PostgreSQL history and your compatible rollback.</p>
+      <p>Historical documentation mentioning mandatory signatures or <code>--allow-unsigned-catalog</code> does not describe the explicit v2 deployment path. Do not use that obsolete flag.</p>
+      <p><a href="https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.0.0-community-rescue-rc.65-page-v2/index.html">Preserved RC65 release page</a> · <a href="README.md">Installation and verification notes</a></p>
+    </section>
+  </main>
+  <noscript><p>Download and verification details remain available in <a href="README.md">the installation notes</a> and <a href="records/release.json">the release record</a>.</p></noscript>
+</body>
+</html>
