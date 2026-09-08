@@ -21,6 +21,16 @@ if [[ -z "$arch" ]]; then
     *) echo "unsupported native architecture" >&2; exit 2 ;;
   esac
 fi
+case "$arch" in
+  linux-amd64) expected_image_arch=linux/amd64; native_machine_re='^(x86_64|amd64)$' ;;
+  linux-arm64) expected_image_arch=linux/arm64; native_machine_re='^(aarch64|arm64)$' ;;
+  *) echo "unsupported native platform label" >&2; exit 2 ;;
+esac
+native_machine=$(uname -m)
+if [[ ! "$native_machine" =~ $native_machine_re ]]; then
+  echo "native uname architecture does not match selected platform" >&2
+  exit 2
+fi
 
 [[ -d "$record_root" && -f "$release_record" && -d "$companion_dir" ]] || {
   echo "record root, release record, and companion directory are required" >&2
@@ -56,6 +66,9 @@ write_receipt() {
     POOL_GATE_TEMPLATE_READY="${POOL_GATE_TEMPLATE_READY:-false}" \
     POOL_GATE_MINEABLE="${POOL_GATE_MINEABLE:-false}" \
     POOL_GATE_LOG_SEEN="${POOL_GATE_LOG_SEEN:-false}" \
+    NATIVE_MACHINE="$native_machine" \
+    IMAGE_ARCHES_JSON="${IMAGE_ARCHES_JSON:-[]}" \
+    ARCHITECTURE_MATCH="${ARCHITECTURE_MATCH:-false}" \
     OUT="$output_root/receipts/${mode}-${arch}.json" \
     python3 - <<'PY'
 import json, os
@@ -66,7 +79,10 @@ value = {"schema":"bdag.rc2.native-install-receipt.v1", "mode":os.environ["MODE"
          "pool_gate_template_probed":os.environ["POOL_GATE_TEMPLATE_PROBED"] == "true",
          "pool_gate_template_ready":os.environ["POOL_GATE_TEMPLATE_READY"] == "true",
          "pool_gate_mineable":os.environ["POOL_GATE_MINEABLE"] == "true",
-         "pool_gate_log_seen":os.environ["POOL_GATE_LOG_SEEN"] == "true"}
+         "pool_gate_log_seen":os.environ["POOL_GATE_LOG_SEEN"] == "true",
+         "native_uname_machine":os.environ["NATIVE_MACHINE"],
+         "running_image_architectures":json.loads(os.environ["IMAGE_ARCHES_JSON"]),
+         "architecture_match":os.environ["ARCHITECTURE_MATCH"] == "true"}
 Path(os.environ["OUT"]).write_text(json.dumps(value, sort_keys=True) + "\n")
 PY
 }
@@ -149,6 +165,7 @@ for mode in node pool redis-dash all-in-one; do
     exit 1
   fi
   printf '%s\n' "$status_json" >"$output_root/receipts/${mode}-${arch}.status.json"
+  project=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["project"])' "$target/runner-config.json")
   # Running services prove lifecycle execution only.  Health may legitimately
   # remain pending while a fresh Core catches up; retain that distinction.
   readiness=$(STATUS_JSON="$status_json" python3 - <<'PY'
@@ -166,6 +183,85 @@ PY
   )
   if [[ "$readiness" == NOT_RUNNING || "$readiness" == STATUS_UNPARSEABLE ]]; then
     write_receipt "$mode" "READINESS_FAILED" "selected services did not reach running state; private log retained at $log"
+    timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
+    exit 1
+  fi
+  # Read the actual image architecture from the running containers selected by
+  # this unique Compose project.  Status labels alone do not prove that the
+  # native image matches the host architecture.
+  case "$mode" in
+    node) compose_services=(node) ;;
+    pool) compose_services=(pool pool-db) ;;
+    redis-dash) compose_services=(dashboard) ;;
+    all-in-one) compose_services=(node pool pool-db dashboard) ;;
+  esac
+  architecture_probe=$(mktemp "$output_root/receipts/.${mode}-${arch}.architecture.XXXXXX")
+  if ! timeout --foreground 60 docker compose --project-directory "$target/compose-context" \
+      --project-name "$project" --env-file "$target/.env" -f "$target/compose.json" \
+      ps -q "${compose_services[@]}" >"$architecture_probe" 2>>"$log"; then
+    rm -f "$architecture_probe"
+    write_receipt "$mode" "ARCHITECTURE_PROBE_FAILED" "running container architecture probe failed; private log retained at $log"
+    timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
+    exit 1
+  fi
+  mapfile -t container_ids <"$architecture_probe"
+  rm -f "$architecture_probe"
+  if (( ${#container_ids[@]} == 0 )); then
+    write_receipt "$mode" "ARCHITECTURE_PROBE_FAILED" "selected Compose project returned no running container IDs; private log retained at $log"
+    timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
+    exit 1
+  fi
+  for container_id in "${container_ids[@]}"; do
+    if [[ ! "$container_id" =~ ^[0-9a-fA-F]{12,64}$ ]]; then
+      write_receipt "$mode" "ARCHITECTURE_PROBE_FAILED" "Compose returned an invalid container identifier; private log retained at $log"
+      timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
+      exit 1
+    fi
+  done
+  image_ids_file=$(mktemp "$output_root/receipts/.${mode}-${arch}.images.XXXXXX")
+  if ! timeout --foreground 60 docker inspect --format '{{.Image}}' "${container_ids[@]}" >"$image_ids_file" 2>>"$log"; then
+    rm -f "$image_ids_file"
+    write_receipt "$mode" "ARCHITECTURE_PROBE_FAILED" "container image readback failed; private log retained at $log"
+    timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
+    exit 1
+  fi
+  mapfile -t image_ids < <(sort -u "$image_ids_file")
+  rm -f "$image_ids_file"
+  if (( ${#image_ids[@]} == 0 )); then
+    write_receipt "$mode" "ARCHITECTURE_PROBE_FAILED" "running containers returned no image identifiers; private log retained at $log"
+    timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
+    exit 1
+  fi
+  for image_id in "${image_ids[@]}"; do
+    if [[ ! "$image_id" =~ ^sha256:[0-9a-fA-F]{64}$ ]]; then
+      write_receipt "$mode" "ARCHITECTURE_PROBE_FAILED" "Docker returned an invalid image identifier; private log retained at $log"
+      timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
+      exit 1
+    fi
+  done
+  image_arches_file=$(mktemp "$output_root/receipts/.${mode}-${arch}.image-arches.XXXXXX")
+  if ! timeout --foreground 60 docker image inspect --format '{{.Os}}/{{.Architecture}}' "${image_ids[@]}" >"$image_arches_file" 2>>"$log"; then
+    rm -f "$image_arches_file"
+    write_receipt "$mode" "ARCHITECTURE_PROBE_FAILED" "Docker image architecture readback failed; private log retained at $log"
+    timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
+    exit 1
+  fi
+  image_arches_json=$(python3 - "$image_arches_file" <<'PY'
+import json, sys
+values=sorted(set(line.strip() for line in open(sys.argv[1], encoding="utf-8") if line.strip()))
+print(json.dumps(values, separators=(",", ":")))
+PY
+  )
+  architecture_match=$(EXPECTED_IMAGE_ARCH="$expected_image_arch" ARCHES_FILE="$image_arches_file" python3 - <<'PY'
+import os
+values={line.strip() for line in open(os.environ["ARCHES_FILE"], encoding="utf-8") if line.strip()}
+print("true" if values == {os.environ["EXPECTED_IMAGE_ARCH"]} else "false")
+PY
+  )
+  rm -f "$image_arches_file"
+  IMAGE_ARCHES_JSON="$image_arches_json" ARCHITECTURE_MATCH="$architecture_match"
+  if [[ "$architecture_match" != true ]]; then
+    write_receipt "$mode" "ARCHITECTURE_MISMATCH" "running image architecture did not match native host; private log retained at $log"
     timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
     exit 1
   fi
@@ -204,7 +300,6 @@ PY
     exit 1
   fi
   if [[ "$mode" == pool || "$mode" == all-in-one ]]; then
-    project=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["project"])' "$target/runner-config.json")
     # The fresh Core is expected to be syncing.  Probe the typed template
     # health result directly and require both readiness signals to be false;
     # a merely unreachable node would not prove the pool's closed start gate.
