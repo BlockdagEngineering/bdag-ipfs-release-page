@@ -54,6 +54,55 @@ class InstallerTests(unittest.TestCase):
         with self.assertRaises(INSTALL.InstallError):
             INSTALL.validate_owner_config({**observer, "BDAG_NODE_RPC_URL": "http://u:p@observer/"}, "redis-dash")
 
+    def test_partial_rpc_pairs_are_rejected_and_distinct_payouts_survive(self):
+        with self.assertRaises(INSTALL.InstallError):
+            INSTALL.validate_owner_config({"NODE_RPC_USER": "owner"}, "node")
+        with self.assertRaises(INSTALL.InstallError):
+            INSTALL.validate_owner_config({"NODE_RPC_LIMIT_PASS": "limited", "BDAG_NODE_RPC_URL": "http://observer:38131/"}, "redis-dash")
+        env = {
+            "NODE_RPC_USER": "owner", "NODE_RPC_PASS": "primary",
+            "NODE_RPC_LIMIT_USER": "limited", "NODE_RPC_LIMIT_PASS": "secret",
+            "POSTGRES_USER": "db", "POSTGRES_PASSWORD": "db-pass", "POSTGRES_DB": "pool",
+            "NODE_RPC_URL": "http://core.example:38131/",
+            "MINING_POOL_ADDRESS": "0x1111111111111111111111111111111111111111",
+            "POOL_COINBASE_ADDRESS": "0x2222222222222222222222222222222222222222",
+        }
+        INSTALL.validate_owner_config(env, "pool")
+        self.assertEqual(env["MINING_POOL_ADDRESS"], "0x1111111111111111111111111111111111111111")
+        self.assertEqual(env["POOL_COINBASE_ADDRESS"], "0x2222222222222222222222222222222222222222")
+
+    def test_pool_rpc_url_defaults_override_template_loopback_only(self):
+        with tempfile.TemporaryDirectory() as raw:
+            target = Path(raw)
+            context = target / "compose-context"
+            context.mkdir()
+            (context / ".env.example").write_text("NODE_RPC_URLS=http://127.0.0.1:38131/\nPOOL_SUBMIT_RPC_URLS=http://127.0.0.1:38131/\n")
+            owner = {
+                "NODE_RPC_USER": "owner", "NODE_RPC_PASS": "primary",
+                "NODE_RPC_URL": "http://remote-core:38131/",
+                "POSTGRES_USER": "db", "POSTGRES_PASSWORD": "db-pass", "POSTGRES_DB": "pool",
+                "MINING_POOL_ADDRESS": "0x1111111111111111111111111111111111111111",
+            }
+            values = INSTALL.compose_environment(target, target, "pool", owner, "linux-amd64")
+            self.assertEqual(values["NODE_RPC_URLS"], owner["NODE_RPC_URL"])
+            self.assertEqual(values["POOL_SUBMIT_RPC_URLS"], owner["NODE_RPC_URL"])
+            explicit = {**owner, "NODE_RPC_URLS": "http://one:38131/,http://two:38131/", "POOL_SUBMIT_RPC_URLS": "http://submit:38131/"}
+            values = INSTALL.compose_environment(target, target, "pool", explicit, "linux-amd64")
+            self.assertEqual(values["NODE_RPC_URLS"], explicit["NODE_RPC_URLS"])
+            self.assertEqual(values["POOL_SUBMIT_RPC_URLS"], explicit["POOL_SUBMIT_RPC_URLS"])
+
+    def test_parse_write_env_preserves_literal_owner_values(self):
+        values = {
+            "NODE_RPC_USER": "owner name",
+            "NODE_RPC_PASS": "pa$ $ # \\slash ' quote",
+        }
+        with tempfile.TemporaryDirectory() as raw:
+            path = Path(raw) / ".env"
+            INSTALL.write_env(path, values)
+            self.assertEqual(INSTALL.parse_env(path), values)
+            text = path.read_text()
+            self.assertIn("NODE_RPC_PASS='", text)
+
     def test_safe_extract_rejects_existing_target_and_traversal(self):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
@@ -87,8 +136,13 @@ class InstallerTests(unittest.TestCase):
                 },
                 "volumes": {"postgres-data": {"name": "postgres-data"}, "unused": {"name": "unused"}},
             }
-            fake = mock.Mock(returncode=0, stdout=json.dumps(document).encode(), stderr=b"")
-            with mock.patch.object(INSTALL.subprocess, "run", return_value=fake):
+            narrowed = {"services": {"pool": {"volumes": [{"type": "volume", "source": "postgres-data", "target": "/var/lib/postgresql/data"}],
+                                                "depends_on": {"pool-db": {"condition": "service_healthy"}}},
+                                      "pool-db": {"volumes": [{"type": "volume", "source": "postgres-data", "target": "/var/lib/postgresql/data"}]}},
+                        "volumes": {"postgres-data": {"name": "bdag-test_postgres-data"}}}
+            fake = [mock.Mock(returncode=0, stdout=json.dumps(document).encode(), stderr=b""),
+                    mock.Mock(returncode=0, stdout=json.dumps(narrowed).encode(), stderr=b"")]
+            with mock.patch.object(INSTALL.subprocess, "run", side_effect=fake):
                 rendered = INSTALL.render_compose(target, "pool", {"COMPOSE_PROJECT_NAME": "bdag-test"})
             self.assertEqual(set(rendered["services"]), {"pool", "pool-db"})
             self.assertNotIn("container_name", rendered["services"]["pool-db"])
@@ -104,17 +158,59 @@ class InstallerTests(unittest.TestCase):
             (target / "compose-context/docker-compose.yml").write_text("services: {}")
             (target / ".env").write_text("NODE_RPC_LIMIT_USER=u\n")
             document = {"services": {"dashboard": {"depends_on": {"node": {"condition": "service_started"}, "pool": {"required": False}}, "volumes": []}, "node": {"volumes": []}}}
-            fake = mock.Mock(returncode=0, stdout=json.dumps(document).encode(), stderr=b"")
-            with mock.patch.object(INSTALL.subprocess, "run", return_value=fake):
+            narrowed = {"services": {"dashboard": {"volumes": []}}}
+            fake = [mock.Mock(returncode=0, stdout=json.dumps(document).encode(), stderr=b""),
+                    mock.Mock(returncode=0, stdout=json.dumps(narrowed).encode(), stderr=b"")]
+            with mock.patch.object(INSTALL.subprocess, "run", side_effect=fake):
                 rendered = INSTALL.render_compose(target, "redis-dash", {"COMPOSE_PROJECT_NAME": "bdag-test"})
             self.assertEqual(set(rendered["services"]), {"dashboard"})
             self.assertNotIn("depends_on", rendered["services"]["dashboard"])
+
+    def test_real_compose_roundtrip_preserves_literal_credentials(self):
+        values = {
+            "COMPOSE_PROJECT_NAME": "bdag-literal-test",
+            "NODE_RPC_USER": "owner name",
+            "NODE_RPC_PASS": "pa$ $ # \\slash ' quote",
+            "NODE_RPC_URLS": "http://remote-core:38131/",
+        }
+        with tempfile.TemporaryDirectory() as raw:
+            target = Path(raw)
+            context = target / "compose-context"
+            context.mkdir()
+            (context / "docker-compose.yml").write_text(
+                "services:\n  node:\n    image: alpine:latest\n    environment:\n"
+                "      NODE_RPC_USER: ${NODE_RPC_USER}\n      NODE_RPC_PASS: ${NODE_RPC_PASS}\n"
+                "      NODE_RPC_URLS: ${NODE_RPC_URLS}\n"
+            )
+            INSTALL.write_env(target / ".env", values)
+            rendered = INSTALL.render_compose(target, "node", values)
+            env = rendered["services"]["node"]["environment"]
+            self.assertEqual(env["NODE_RPC_USER"], values["NODE_RPC_USER"])
+            # Compose config serializes literal dollars as $$ so the rendered
+            # JSON remains safe for a later Compose interpolation pass.
+            self.assertEqual(env["NODE_RPC_PASS"], values["NODE_RPC_PASS"].replace("$", "$$"))
+            self.assertEqual(env["NODE_RPC_URLS"], values["NODE_RPC_URLS"])
+            environment = INSTALL.subprocess.run(
+                ["docker", "compose", "--project-directory", str(context), "--project-name", values["COMPOSE_PROJECT_NAME"],
+                 "--env-file", str(target / ".env"), "-f", str(target / "compose.json"), "config", "--environment"],
+                stdout=INSTALL.subprocess.PIPE, stderr=INSTALL.subprocess.PIPE, check=False, timeout=120,
+            )
+            self.assertEqual(environment.returncode, 0, environment.stderr.decode())
+            parsed_environment = dict(line.split("=", 1) for line in environment.stdout.decode().splitlines() if "=" in line)
+            self.assertEqual(parsed_environment["NODE_RPC_PASS"], values["NODE_RPC_PASS"])
 
     def test_service_runner_maps_postgres_without_shell_hooks(self):
         source = RUNNER_SCRIPT.read_text()
         self.assertIn('ALIASES = {"postgres": "pool-db"}', source)
         self.assertIn('"--build", "--pull", "never", "--no-recreate"', source)
         self.assertNotIn("shell=True", source)
+
+    def test_runner_env_decoder_matches_installer_literal_values(self):
+        values = {"NODE_RPC_USER": "owner name", "NODE_RPC_PASS": "pa$ # \\slash ' quote"}
+        with tempfile.TemporaryDirectory() as raw:
+            path = Path(raw) / ".env"
+            INSTALL.write_env(path, values)
+            self.assertEqual(RUNNER.parse_env(path), values)
 
     def test_node_start_waits_for_delayed_pinned_identity_with_owner_auth(self):
         expected = {"schema": "bdag.chain-identity.v1", "network": "mainnet", "native_network_magic": "0xb4c3dce8",

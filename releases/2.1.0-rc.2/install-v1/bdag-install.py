@@ -89,20 +89,22 @@ def parse_env(path: Path) -> dict[str, str]:
     regular(path, "owner env")
     result: dict[str, str] = {}
     for number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
-        line = raw.strip()
-        if not line or line.startswith("#"):
+        line = raw
+        if not line.strip() or line.lstrip().startswith("#"):
             continue
-        if line.startswith("export "):
-            line = line[7:].lstrip()
+        if line.lstrip().startswith("export "):
+            line = line.lstrip()[7:]
         if "=" not in line:
             raise InstallError(f"owner env line {number} is not KEY=VALUE")
         key, value = line.split("=", 1)
         key = key.strip()
         if not SAFE_NAME.fullmatch(key):
             raise InstallError(f"owner env line {number} has an invalid key")
-        value = value.strip()
         if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+            quote = value[0]
             value = value[1:-1]
+            if quote == "'":
+                value = value.replace("\\'", "'")
         if "\x00" in value or "\n" in value or "\r" in value:
             raise InstallError(f"owner env line {number} contains an invalid value")
         result[key] = value
@@ -121,7 +123,9 @@ def write_env(path: Path, values: dict[str, str]) -> None:
         value = values[key]
         if "\n" in value or "\r" in value or "\x00" in value:
             raise InstallError(f"generated env value for {key} is not single-line")
-        lines.append(f"{key}={value}")
+        # Single-quoted Compose dotenv values are literal: no $ expansion,
+        # comment parsing, or backslash processing.
+        lines.append(f"{key}='{value.replace(chr(39), chr(92) + chr(39))}'")
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     os.chmod(path, 0o600)
 
@@ -265,9 +269,24 @@ def require_values(env: dict[str, str], keys: Iterable[str], mode: str) -> None:
         raise InstallError(f"{mode} owner env is missing required values: {', '.join(missing)}")
 
 
-def validate_owner_config(env: dict[str, str], mode: str) -> str | None:
+def require_complete_pair(env: dict[str, str], user_key: str, pass_key: str, label: str) -> None:
+    user_set = bool(env.get(user_key))
+    pass_set = bool(env.get(pass_key))
+    if user_set != pass_set:
+        raise InstallError(f"{label} credentials must be provided as a complete pair")
+
+
+def validate_credential_pairs(env: dict[str, str], mode: str) -> None:
+    require_complete_pair(env, "NODE_RPC_USER", "NODE_RPC_PASS", "primary RPC")
+    require_complete_pair(env, "NODE_RPC_LIMIT_USER", "NODE_RPC_LIMIT_PASS", "limited RPC")
     if mode in {"node", "all-in-one", "pool"}:
         require_values(env, ("NODE_RPC_USER", "NODE_RPC_PASS"), mode)
+    if mode == "redis-dash":
+        require_values(env, ("NODE_RPC_LIMIT_USER", "NODE_RPC_LIMIT_PASS"), mode)
+
+
+def validate_owner_config(env: dict[str, str], mode: str) -> str | None:
+    validate_credential_pairs(env, mode)
     if mode in {"pool", "all-in-one"}:
         require_values(env, ("POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_DB"), mode)
         payout = nonzero_payout(env)
@@ -298,6 +317,7 @@ def compose_environment(record_root: Path, target: Path, mode: str, owner_env: d
     context = target / "compose-context"
     defaults = parse_defaults(context / ".env.example")
     merged = {**defaults, **owner_env}
+    validate_credential_pairs(merged, mode)
     if mode != "redis-dash":
         # Compose parses every service while rendering, including the
         # dashboard's limited observer fields.  These are fresh target-local
@@ -318,8 +338,11 @@ def compose_environment(record_root: Path, target: Path, mode: str, owner_env: d
     # makes the initial config command include pool services when needed.
     merged["COMPOSE_PROJECT_NAME"] = f"bdag-rc2-{hashlib.sha256(str(target).encode()).hexdigest()[:12]}"
     if mode == "pool":
-        merged["NODE_RPC_URLS"] = merged.get("NODE_RPC_URLS") or endpoint or ""
-        merged["POOL_SUBMIT_RPC_URLS"] = merged.get("POOL_SUBMIT_RPC_URLS") or endpoint or ""
+        # Template loopback defaults must not silently redirect a remote pool.
+        # An explicitly supplied owner list remains authoritative.
+        for key in ("NODE_RPC_URLS", "POOL_SUBMIT_RPC_URLS"):
+            if not owner_env.get(key):
+                merged[key] = endpoint or ""
     if mode in {"node", "all-in-one"}:
         node_conf = context / "node.conf"
         source = context / "node.conf.example"
@@ -362,24 +385,27 @@ def render_compose(target: Path, mode: str, env_values: dict[str, str]) -> dict[
     proc_env = os.environ.copy()
     for key in env_values:
         proc_env.pop(key, None)
-    command = [
-        "docker", "compose", "--project-directory", str(context),
-        "--project-name", project, "--env-file", str(target / ".env"), "-f", str(source),
-    ]
-    if mode in {"pool", "all-in-one"}:
-        command += ["--profile", "pool"]
-    command += ["config", "--format", "json"]
-    try:
-        completed = subprocess.run(command, env=proc_env, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                   check=False, timeout=120)
-    except (OSError, subprocess.TimeoutExpired) as exc:
-        raise InstallError("docker compose config could not be executed") from exc
-    if completed.returncode != 0:
-        raise InstallError("docker compose config rejected the owner configuration")
-    try:
-        document = json.loads(completed.stdout)
-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise InstallError("docker compose config did not return JSON") from exc
+    def config_document(compose_file: Path, *, profile: bool) -> dict[str, Any]:
+        command = [
+            "docker", "compose", "--project-directory", str(context),
+            "--project-name", project, "--env-file", str(target / ".env"), "-f", str(compose_file),
+        ]
+        if profile and mode in {"pool", "all-in-one"}:
+            command += ["--profile", "pool"]
+        command += ["config", "--format", "json"]
+        try:
+            completed = subprocess.run(command, env=proc_env, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                       check=False, timeout=120)
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            raise InstallError("docker compose config could not be executed") from exc
+        if completed.returncode != 0:
+            raise InstallError("docker compose config rejected the owner configuration")
+        try:
+            return json.loads(completed.stdout)
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise InstallError("docker compose config did not return JSON") from exc
+
+    document = config_document(source, profile=True)
     services = document.get("services")
     if not isinstance(services, dict):
         raise InstallError("docker compose config has no services object")
@@ -425,7 +451,13 @@ def render_compose(target: Path, mode: str, env_values: dict[str, str]) -> dict[
                 values["name"] = f"{project}_{name}"
     compose_path = target / "compose.json"
     write_json(compose_path, document, 0o600)
-    return document
+    # Re-read generated Compose JSON through the real parser. This catches
+    # dotenv interpolation/quoting changes before the runner uses compose.json.
+    reread = config_document(compose_path, profile=False)
+    if not isinstance(reread.get("services"), dict) or not wanted.issubset(reread["services"]):
+        raise InstallError("docker compose re-read lacks a selected service")
+    write_json(compose_path, reread, 0o600)
+    return reread
 
 
 def invoke_stack(target: Path, operation: str, mode: str, record_root: Path, tuple_path: Path,

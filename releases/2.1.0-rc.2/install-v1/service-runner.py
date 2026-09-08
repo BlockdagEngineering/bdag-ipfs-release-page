@@ -44,10 +44,36 @@ def env_keys(path: Path) -> set[str]:
     keys = set()
     regular(path, "environment file")
     for raw in path.read_text(encoding="utf-8").splitlines():
-        line = raw.strip()
-        if line and not line.startswith("#") and "=" in line:
+        line = raw
+        if line.strip() and not line.lstrip().startswith("#") and "=" in line:
             keys.add(line.split("=", 1)[0].strip())
     return keys
+
+
+def parse_env(path: Path) -> dict[str, str]:
+    regular(path, "environment file")
+    values: dict[str, str] = {}
+    for number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        line = raw
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        if line.lstrip().startswith("export "):
+            line = line.lstrip()[7:]
+        if "=" not in line:
+            raise RunnerError(f"environment line {number} is not KEY=VALUE")
+        key, value = line.split("=", 1)
+        key = key.strip()
+        if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", key):
+            raise RunnerError(f"environment line {number} has an invalid key")
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+            quote = value[0]
+            value = value[1:-1]
+            if quote == "'":
+                value = value.replace("\\'", "'")
+        if "\x00" in value or "\n" in value or "\r" in value:
+            raise RunnerError(f"environment line {number} has an invalid value")
+        values[key] = value
+    return values
 
 
 def load() -> tuple[Path, dict, dict]:
@@ -158,12 +184,7 @@ def wait_for_core_identity(target: Path, endpoint: str, *, timeout_seconds: floa
     if not isinstance(expected, dict):
         _readiness_log(target, "pinned Core identity is invalid")
         raise RunnerError("pinned Core identity is invalid")
-    values = {}
-    regular(target / ".env", "owner environment")
-    for line in (target / ".env").read_text().splitlines():
-        if "=" in line:
-            key, value = line.split("=", 1)
-            values[key] = value
+    values = parse_env(target / ".env")
     if not values.get("NODE_RPC_USER") or not values.get("NODE_RPC_PASS"):
         raise RunnerError("Core identity needs owner-local primary RPC credentials")
     authorization = "Basic " + base64.b64encode((values["NODE_RPC_USER"] + ":" + values["NODE_RPC_PASS"]).encode()).decode()
