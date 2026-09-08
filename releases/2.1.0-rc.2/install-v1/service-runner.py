@@ -8,6 +8,9 @@ import json
 import os
 import subprocess
 import sys
+import time
+import urllib.error
+import urllib.request
 from pathlib import Path
 import re
 
@@ -103,6 +106,75 @@ def verify_v2_context(target: Path, pin: dict) -> None:
             raise RunnerError("V2 component selection context differs from the pin")
 
 
+def _readiness_log(target: Path, message: str) -> None:
+    # Keep diagnostics target-private and deliberately omit endpoint, headers,
+    # credentials, response bodies, and Docker output.
+    path = target / ".core-readiness.log"
+    path.write_text(message + "\n", encoding="utf-8")
+    os.chmod(path, 0o600)
+
+
+def _core_identity_request(endpoint: str) -> dict:
+    request_body = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "getChainIdentity", "params": []},
+                              sort_keys=True, separators=(",", ":")).encode("utf-8")
+    request = urllib.request.Request(endpoint, data=request_body,
+                                     headers={"Accept": "application/json", "Content-Type": "application/json"},
+                                     method="POST")
+    try:
+        with urllib.request.urlopen(request, timeout=3.0) as response:
+            if response.status != 200:
+                raise RunnerError("Core identity RPC returned a non-200 status")
+            content_type = response.headers.get("Content-Type", "").split(";", 1)[0].strip().lower()
+            if content_type != "application/json":
+                raise RunnerError("Core identity RPC returned a non-JSON content type")
+            body = response.read(65537)
+    except RunnerError:
+        raise
+    except (OSError, urllib.error.URLError, urllib.error.HTTPError) as exc:
+        raise RunnerError("Core identity RPC is not ready") from exc
+    if len(body) > 65536:
+        raise RunnerError("Core identity RPC response is too large")
+    try:
+        value = json.loads(body)
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise RunnerError("Core identity RPC returned invalid JSON") from exc
+    if not isinstance(value, dict) or set(value) != {"jsonrpc", "id", "result"} or value["jsonrpc"] != "2.0" or value["id"] != 1:
+        raise RunnerError("Core identity RPC envelope is invalid")
+    if not isinstance(value["result"], dict):
+        raise RunnerError("Core identity RPC result is invalid")
+    return value["result"]
+
+
+def wait_for_core_identity(target: Path, endpoint: str, *, timeout_seconds: float = 120.0) -> None:
+    expected_path = target / "core-identity.json"
+    regular(expected_path, "pinned Core identity")
+    try:
+        expected = json.loads(expected_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        _readiness_log(target, "pinned Core identity could not be read")
+        raise RunnerError("pinned Core identity could not be read") from exc
+    if not isinstance(expected, dict):
+        _readiness_log(target, "pinned Core identity is invalid")
+        raise RunnerError("pinned Core identity is invalid")
+    deadline = time.monotonic() + timeout_seconds
+    attempts = 0
+    while True:
+        attempts += 1
+        try:
+            actual = _core_identity_request(endpoint)
+        except RunnerError as exc:
+            if str(exc) != "Core identity RPC is not ready" or time.monotonic() >= deadline:
+                _readiness_log(target, f"Core identity readiness failed after {attempts} attempt(s): {exc}")
+                raise
+            time.sleep(min(1.0, max(0.0, deadline - time.monotonic())))
+            continue
+        if actual != expected:
+            _readiness_log(target, f"Core identity mismatch after {attempts} attempt(s)")
+            raise RunnerError("Core getChainIdentity differs from pinned target")
+        _readiness_log(target, f"Core identity ready after {attempts} attempt(s)")
+        return
+
+
 def compose_command(target: Path, config: dict) -> list[str]:
     compose = Path(config["compose"])
     env_file = Path(config["env_file"])
@@ -147,6 +219,8 @@ def execute(action: str, services: list[str]) -> int:
         raise RunnerError("docker compose invocation failed") from exc
     if completed.returncode != 0:
         raise RunnerError("docker compose returned a failure")
+    if action == "start" and "node" in selected and os.environ.get("BDAG_CORE_ENDPOINT"):
+        wait_for_core_identity(target, os.environ["BDAG_CORE_ENDPOINT"])
     if action == "status":
         rows = []
         output = completed.stdout.decode("utf-8", "strict").strip()

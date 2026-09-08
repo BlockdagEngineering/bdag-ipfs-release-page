@@ -9,6 +9,7 @@ import os
 import tempfile
 import unittest
 import zipfile
+import urllib.error
 from pathlib import Path
 from unittest import mock
 
@@ -18,6 +19,11 @@ SPEC = importlib.util.spec_from_file_location("bdag_install_rc2", SCRIPT)
 assert SPEC and SPEC.loader
 INSTALL = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(INSTALL)
+RUNNER_SCRIPT = SCRIPT.with_name("service-runner.py")
+RUNNER_SPEC = importlib.util.spec_from_file_location("bdag_service_runner_rc2", RUNNER_SCRIPT)
+assert RUNNER_SPEC and RUNNER_SPEC.loader
+RUNNER = importlib.util.module_from_spec(RUNNER_SPEC)
+RUNNER_SPEC.loader.exec_module(RUNNER)
 
 
 class InstallerTests(unittest.TestCase):
@@ -105,11 +111,74 @@ class InstallerTests(unittest.TestCase):
             self.assertNotIn("depends_on", rendered["services"]["dashboard"])
 
     def test_service_runner_maps_postgres_without_shell_hooks(self):
-        runner = SCRIPT.with_name("service-runner.py")
-        source = runner.read_text()
+        source = RUNNER_SCRIPT.read_text()
         self.assertIn('ALIASES = {"postgres": "pool-db"}', source)
         self.assertIn('"--build", "--pull", "never", "--no-recreate"', source)
         self.assertNotIn("shell=True", source)
+
+    def test_node_start_waits_for_delayed_pinned_identity_without_auth_guess(self):
+        expected = {"schema": "bdag.chain-identity.v1", "network": "mainnet", "native_network_magic": "0xb4c3dce8",
+                    "native_genesis_hash": "0xnative", "evm_chain_id": "1404", "evm_genesis_hash": "0xevm"}
+
+        class Response:
+            status = 200
+            headers = {"Content-Type": "application/json"}
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_):
+                return False
+
+            def read(self, _limit):
+                return json.dumps({"jsonrpc": "2.0", "id": 1, "result": expected}).encode()
+
+        requests = []
+        calls = {"count": 0}
+
+        def delayed(request, timeout):
+            requests.append(request)
+            calls["count"] += 1
+            if calls["count"] < 3:
+                raise urllib.error.URLError("not ready")
+            return Response()
+
+        with tempfile.TemporaryDirectory() as raw:
+            target = Path(raw)
+            (target / "core-identity.json").write_bytes(INSTALL.canonical(expected))
+            with mock.patch.object(RUNNER.urllib.request, "urlopen", side_effect=delayed), \
+                 mock.patch.object(RUNNER.time, "sleep", return_value=None):
+                RUNNER.wait_for_core_identity(target, "http://127.0.0.1:38131/", timeout_seconds=1)
+            self.assertEqual(calls["count"], 3)
+            self.assertNotIn("Authorization", requests[-1].headers)
+            self.assertIn("ready after 3", (target / ".core-readiness.log").read_text())
+
+    def test_wrong_identity_fails_closed_and_writes_private_diagnostic(self):
+        expected = {"schema": "bdag.chain-identity.v1", "network": "mainnet"}
+        wrong = {"schema": "bdag.chain-identity.v1", "network": "other"}
+
+        class Response:
+            status = 200
+            headers = {"Content-Type": "application/json"}
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_):
+                return False
+
+            def read(self, _limit):
+                return json.dumps({"jsonrpc": "2.0", "id": 1, "result": wrong}).encode()
+
+        with tempfile.TemporaryDirectory() as raw:
+            target = Path(raw)
+            (target / "core-identity.json").write_bytes(INSTALL.canonical(expected))
+            with mock.patch.object(RUNNER.urllib.request, "urlopen", return_value=Response()):
+                with self.assertRaises(RUNNER.RunnerError):
+                    RUNNER.wait_for_core_identity(target, "http://127.0.0.1:38131/", timeout_seconds=1)
+            diagnostic = target / ".core-readiness.log"
+            self.assertEqual(diagnostic.stat().st_mode & 0o777, 0o600)
+            self.assertIn("mismatch", diagnostic.read_text())
 
 
 if __name__ == "__main__":
