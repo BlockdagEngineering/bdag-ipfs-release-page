@@ -51,18 +51,31 @@ trap cleanup EXIT INT TERM
 
 write_receipt() {
   local mode=$1 status=$2 detail=$3
-  MODE="$mode" STATUS="$status" DETAIL="$detail" ARCH="$arch" OUT="$output_root/receipts/${mode}-${arch}.json" \
+  MODE="$mode" STATUS="$status" DETAIL="$detail" ARCH="$arch" \
+    POOL_GATE_TEMPLATE_PROBED="${POOL_GATE_TEMPLATE_PROBED:-false}" \
+    POOL_GATE_TEMPLATE_READY="${POOL_GATE_TEMPLATE_READY:-false}" \
+    POOL_GATE_MINEABLE="${POOL_GATE_MINEABLE:-false}" \
+    POOL_GATE_LOG_SEEN="${POOL_GATE_LOG_SEEN:-false}" \
+    OUT="$output_root/receipts/${mode}-${arch}.json" \
     python3 - <<'PY'
 import json, os
 from pathlib import Path
 value = {"schema":"bdag.rc2.native-install-receipt.v1", "mode":os.environ["MODE"],
          "platform":os.environ["ARCH"], "status":os.environ["STATUS"],
-         "detail":os.environ["DETAIL"]}
+         "detail":os.environ["DETAIL"],
+         "pool_gate_template_probed":os.environ["POOL_GATE_TEMPLATE_PROBED"] == "true",
+         "pool_gate_template_ready":os.environ["POOL_GATE_TEMPLATE_READY"] == "true",
+         "pool_gate_mineable":os.environ["POOL_GATE_MINEABLE"] == "true",
+         "pool_gate_log_seen":os.environ["POOL_GATE_LOG_SEEN"] == "true"}
 Path(os.environ["OUT"]).write_text(json.dumps(value, sort_keys=True) + "\n")
 PY
 }
 
 for mode in node pool redis-dash all-in-one; do
+  POOL_GATE_TEMPLATE_PROBED=false
+  POOL_GATE_TEMPLATE_READY=false
+  POOL_GATE_MINEABLE=false
+  POOL_GATE_LOG_SEEN=false
   if [[ "$mode" == all-in-one && -n "$fixture_target" ]]; then
     timeout --foreground 120 python3 "$installer" stop --target "$fixture_target" >/dev/null
     fixture_target=""
@@ -192,6 +205,72 @@ PY
   fi
   if [[ "$mode" == pool || "$mode" == all-in-one ]]; then
     project=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["project"])' "$target/runner-config.json")
+    # The fresh Core is expected to be syncing.  Probe the typed template
+    # health result directly and require both readiness signals to be false;
+    # a merely unreachable node would not prove the pool's closed start gate.
+    template_probe="$output_root/receipts/.${mode}-${arch}.template-health"
+    if ! MODE="$mode" CORE_URL="$core_url" CORE_USER="$core_user" CORE_PASS="$core_pass" \
+        python3 - >"$template_probe" 2>>"$log" <<'PY'
+import base64, json, os, urllib.request
+body=json.dumps({"jsonrpc":"2.0","id":1,"method":"getTemplateHealth","params":[]}, separators=(",", ":")).encode()
+request=urllib.request.Request(os.environ["CORE_URL"], data=body, headers={"Content-Type":"application/json"})
+token=base64.b64encode((os.environ["CORE_USER"]+":"+os.environ["CORE_PASS"]).encode()).decode()
+request.add_header("Authorization", "Basic "+token)
+with urllib.request.urlopen(request, timeout=5) as response:
+    value=json.loads(response.read(65536))
+if value.get("error") is not None or not isinstance(value.get("result"), dict):
+    raise SystemExit("typed getTemplateHealth result missing")
+result=value["result"]
+ready=result.get("get_block_template_ready")
+mineable=result.get("mineable_now")
+if not isinstance(ready, bool) or not isinstance(mineable, bool):
+    raise SystemExit("typed getTemplateHealth booleans missing")
+print(("true" if ready else "false")+" "+("true" if mineable else "false"))
+PY
+    then
+      rm -f "$template_probe"
+      write_receipt "$mode" "TEMPLATE_HEALTH_FAILED" "typed syncing Core template-health probe failed; private log retained at $log"
+      timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
+      exit 1
+    fi
+    read -r gate_template_ready gate_mineable <"$template_probe" || true
+    rm -f "$template_probe"
+    gate_template_ready=${gate_template_ready:-invalid}
+    gate_mineable=${gate_mineable:-invalid}
+    POOL_GATE_TEMPLATE_PROBED=true
+    POOL_GATE_TEMPLATE_READY="$gate_template_ready"
+    POOL_GATE_MINEABLE="$gate_mineable"
+    if [[ "$gate_template_ready" != false || "$gate_mineable" != false ]]; then
+      write_receipt "$mode" "TEMPLATE_HEALTH_NOT_SYNCING" "fresh Core template-health was not the expected closed gate; private log retained at $log"
+      timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
+      exit 1
+    fi
+    # Poll only the selected pool service, bounded by a finite deadline.  The
+    # exact supervisor line proves it is waiting on a typed syncing response,
+    # rather than simply failing because the node cannot be reached.
+    gate_logs=$(mktemp "$output_root/receipts/.${mode}-${arch}.pool-gate.XXXXXX")
+    gate_deadline=$((SECONDS + ${BDAG_NATIVE_POOL_GATE_TIMEOUT_SECONDS:-120}))
+    gate_seen=false
+    while (( SECONDS < gate_deadline )); do
+      : >"$gate_logs"
+      timeout --foreground 15 docker compose --project-directory "$target/compose-context" \
+        --project-name "$project" --env-file "$target/.env" -f "$target/compose.json" \
+        logs --no-color --tail 200 pool >"$gate_logs" 2>>"$log" || true
+      if grep -Eq '\[poolworker\] start gate: waiting on node: template_ready=false mineable=false reason_code=[^[:space:]]+ reason=.+$' "$gate_logs"; then
+        gate_seen=true
+        break
+      fi
+      sleep 2
+    done
+    rm -f "$gate_logs"
+    if [[ "$gate_seen" != true ]]; then
+      write_receipt "$mode" "POOL_START_GATE_FAILED" "poolworker sync start-gate log was not observed before the bounded deadline; private log retained at $log"
+      timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
+      exit 1
+    fi
+    POOL_GATE_LOG_SEEN=true
+  fi
+  if [[ "$mode" == pool || "$mode" == all-in-one ]]; then
     if ! timeout --foreground 60 docker compose --project-directory "$target/compose-context" --project-name "$project" --env-file "$target/.env" -f "$target/compose.json" exec -T pool-db pg_isready >>"$log" 2>&1; then
       write_receipt "$mode" "POSTGRES_READINESS_FAILED" "PostgreSQL readiness probe failed; private log retained at $log"
       timeout --foreground 120 python3 "$installer" stop --target "$target" >>"$log" 2>&1 || true
