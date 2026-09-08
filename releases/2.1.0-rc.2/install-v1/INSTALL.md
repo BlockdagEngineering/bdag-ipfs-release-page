@@ -3,7 +3,8 @@
 This guide supersedes older installation instructions inside the unchanged RC2
 archives. It supplies a real service runner for the shipped v2 lifecycle. No
 mandatory publisher signature, signing key, GitHub account or central approval
-is required. SHA-256 and chain identity checks are still required.
+is required. SHA-256 and chain identity checks are still required. Transaction
+and consensus signatures are unchanged.
 
 ## Scope and prerequisites
 
@@ -75,10 +76,11 @@ in [DATASETS.md](DATASETS.md).
 
 Pool-only additionally requires an explicit `NODE_RPC_URL`, `POSTGRES_USER`,
 `POSTGRES_PASSWORD`, `POSTGRES_DB`, and your non-zero `POOL_COINBASE_ADDRESS`
-(or matching `MINING_POOL_ADDRESS`). Set `POOL_FEE_PERCENTAGE` intentionally;
+(or use `MINING_POOL_ADDRESS` as its default). Set `POOL_FEE_PERCENTAGE` intentionally;
 never inherit someone else's fee or payout by accident. Set the same intended
-Core backend for `NODE_RPC_URLS`, `POOL_SUBMIT_RPC_URLS` and related backend
-selection. Set your matching EVM endpoint as `WALLET_RPC_URL` when needed.
+Core backend for any explicit `NODE_RPC_URLS`, `POOL_SUBMIT_RPC_URLS` and related
+backend selection; omitted lists default to your selected `NODE_RPC_URL`, not a
+different local node. Set your matching EVM endpoint as `WALLET_RPC_URL` when needed.
 Only a compatible, current, correctly identified Core can supply mining work.
 
 Dashboard-only requires `BDAG_NODE_RPC_URL`, `NODE_RPC_LIMIT_USER` and

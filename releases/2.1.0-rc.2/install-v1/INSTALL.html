@@ -3,7 +3,8 @@
 <p>This guide supersedes older installation instructions inside the unchanged RC2
 archives. It supplies a real service runner for the shipped v2 lifecycle. No
 mandatory publisher signature, signing key, GitHub account or central approval
-is required. SHA-256 and chain identity checks are still required.</p>
+is required. SHA-256 and chain identity checks are still required. Transaction
+and consensus signatures are unchanged.</p>
 <h2 id="scope-and-prerequisites">Scope and prerequisites</h2>
 <p>Use a native Linux AMD64/x86-64 or ARM64/AArch64 host with Python 3, Docker
 Engine, the Docker Compose v2 plugin, and <code>sha256sum</code>. The operator needs access
@@ -90,10 +91,11 @@ normal peer synchronization. Optional copied data is a separate reviewed path
 in <a href="DATASETS.html">DATASETS.html</a>.</p>
 <p>Pool-only additionally requires an explicit <code>NODE_RPC_URL</code>, <code>POSTGRES_USER</code>,
 <code>POSTGRES_PASSWORD</code>, <code>POSTGRES_DB</code>, and your non-zero <code>POOL_COINBASE_ADDRESS</code>
-(or matching <code>MINING_POOL_ADDRESS</code>). Set <code>POOL_FEE_PERCENTAGE</code> intentionally;
+(or use <code>MINING_POOL_ADDRESS</code> as its default). Set <code>POOL_FEE_PERCENTAGE</code> intentionally;
 never inherit someone else's fee or payout by accident. Set the same intended
-Core backend for <code>NODE_RPC_URLS</code>, <code>POOL_SUBMIT_RPC_URLS</code> and related backend
-selection. Set your matching EVM endpoint as <code>WALLET_RPC_URL</code> when needed.
+Core backend for any explicit <code>NODE_RPC_URLS</code>, <code>POOL_SUBMIT_RPC_URLS</code> and related
+backend selection; omitted lists default to your selected <code>NODE_RPC_URL</code>, not a
+different local node. Set your matching EVM endpoint as <code>WALLET_RPC_URL</code> when needed.
 Only a compatible, current, correctly identified Core can supply mining work.</p>
 <p>Dashboard-only requires <code>BDAG_NODE_RPC_URL</code>, <code>NODE_RPC_LIMIT_USER</code> and
 <code>NODE_RPC_LIMIT_PASS</code> for read-only observation. Set <code>BDAG_EVM_HTTP_URL</code>,
