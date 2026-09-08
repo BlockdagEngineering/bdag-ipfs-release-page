@@ -116,6 +116,8 @@ PY
 }
 
 for mode in node pool redis-dash all-in-one; do
+  IMAGE_ARCHES_JSON='[]'
+  ARCHITECTURE_MATCH=false
   POOL_GATE_TEMPLATE_PROBED=false
   POOL_GATE_TEMPLATE_READY=false
   POOL_GATE_MINEABLE=false
