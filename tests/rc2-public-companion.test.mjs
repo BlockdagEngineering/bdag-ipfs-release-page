@@ -64,6 +64,7 @@ test('bootstrap examples pin only fetched execution inputs and page wiring keeps
     assert.doesNotMatch(text, /< COMPANION-SHA256SUMS/);
     assert.match(text, /57580591bb62ef724f66fddca0f050c9610843103c724d1c09cc2f6357099174/);
     assert.match(text, /54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c/);
+    assert.match(text, /if \[ -e \"\$name\" \] \|\| \[ -L \"\$name\" \]/);
     assert.match(text, /mv -n/);
   }
   const page = read('index.html');

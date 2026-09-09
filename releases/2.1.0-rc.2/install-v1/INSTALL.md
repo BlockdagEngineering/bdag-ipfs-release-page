@@ -39,20 +39,25 @@ The following commands only download and check files. Review the expected
 checksums through a channel you trust, and inspect scripts before executing them.
 
 ```sh
-mkdir rc2-tools
 (
   set -eu
+  mkdir rc2-tools
   cd rc2-tools
   BASE='https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2'
   fetch() {
     name=$1; expected_bytes=$2; expected_sha=$3; url=$4
-    test ! -e "$name" && test ! -L "$name"
-    test ! -e "$name.partial" && test ! -L "$name.partial"
+    if [ -e "$name" ] || [ -L "$name" ] || [ -e "$name.partial" ] || [ -L "$name.partial" ]; then
+      printf 'Refusing existing destination or partial: %s\n' "$name" >&2
+      return 2
+    fi
     curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --max-filesize "$expected_bytes" --output "$name.partial" "$url"
     test "$(wc -c < "$name.partial" | tr -d '[:space:]')" = "$expected_bytes"
     printf '%s  %s\n' "$expected_sha" "$name.partial" | sha256sum -c -
     mv -n -- "$name.partial" "$name"
-    test ! -e "$name.partial" && test ! -L "$name.partial"
+    if [ -e "$name.partial" ] || [ -L "$name.partial" ]; then
+      printf 'Partial remained after rename: %s\n' "$name.partial" >&2
+      return 2
+    fi
   }
   fetch bdag-download.py 23973 57580591bb62ef724f66fddca0f050c9610843103c724d1c09cc2f6357099174 "$BASE/install-v1/bdag-download.py"
   fetch bdag-install.py 37462 aee626023ed2e41ddf8a2abb0eb936ae6e98de0477d49014c45c7a26e3a1b0e5 "$BASE/install-v1/bdag-install.py"
@@ -60,14 +65,44 @@ mkdir rc2-tools
   fetch downloads.json 23024 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c "$BASE/install-v1/downloads.json"
   fetch release.json 6456 468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2 "$BASE/records/release.json"
 )
-cd rc2-tools
-python3 bdag-download.py \
-  --manifest downloads.json \
-  --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
-  --output-dir rc2-software --select software --transport http
 ```
 
-Native IPFS is an independent alternative; see [DOWNLOADS.md](DOWNLOADS.md).
+After the fetch block succeeds, inspect the files and run the helper in a new
+bounded shell. The rechecks below bind execution to the pinned helper,
+installer, runner, manifest and release record:
+
+```sh
+(
+  set -eu
+  cd rc2-tools
+  verify() {
+    name=$1; expected_sha=$2
+    if [ ! -f "$name" ] || [ -L "$name" ]; then return 2; fi
+    printf '%s  %s\n' "$expected_sha" "$name" | sha256sum -c -
+  }
+  verify bdag-download.py 57580591bb62ef724f66fddca0f050c9610843103c724d1c09cc2f6357099174
+  verify bdag-install.py aee626023ed2e41ddf8a2abb0eb936ae6e98de0477d49014c45c7a26e3a1b0e5
+  verify service-runner.py 9c53d41f7f06ec833442350d444822f598217c61c2772a77891ffaa08962efc6
+  verify downloads.json 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c
+  verify release.json 468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2
+  python3 bdag-download.py \
+    --manifest downloads.json \
+    --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
+    --output-dir rc2-software --select software --transport http
+  cd rc2-software
+  sha256sum -c SHA256SUMS
+)
+```
+
+After the guarded download, review and helper block succeeds, enter the tool
+directory before continuing with the owner settings and prepare commands:
+
+```sh
+cd rc2-tools
+```
+
+HTTPS IPFS is the primary browser presentation; native `ipfs://` retrieval is
+the separately labeled client transport. See [DOWNLOADS.md](DOWNLOADS.md).
 Ordinary browser links are convenience links and cannot force HTTP/1.1. Use the
 explicit commands above or the helper for the guaranteed request policy.
 The full ZIP supplies binaries and build templates even when only one service

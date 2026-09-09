@@ -7,7 +7,14 @@ check complete bytes; they do not establish publisher identity or migration
 compatibility. See [publisher attribution](PUBLISHER.md) and the prominently
 **NOT QUALIFIED** [RC65 migration guide](MIGRATION.md).
 
-## Primary: native IPFS
+## HTTPS IPFS first
+
+Open the HTTPS IPFS/IPNS release page first:
+`https://dweb.link/ipns/k51qzi5uqu5di3hhaj5p3etixlote527k0yqvxyq83j3yyo0anf8tan8e462tn/index.html`.
+Its browser convenience links cannot force an HTTP version; use the explicit
+HTTP/1.1 command or helper below when the request protocol must be controlled.
+
+## Native IPFS: separate client transport
 
 Use an installed Kubo/IPFS command-line client with a running daemon. This is a
 separate transport from HTTPS and requires an IPFS client:
@@ -25,7 +32,7 @@ requests. A gateway error does not mean the CID changed.
 
 ## Fallback: direct HTTPS mirror with forced HTTP/1.1
 
-The page's direct HTTPS mirror is a labelled fallback to the native IPFS path.
+The page's direct HTTPS mirror is a labelled fallback to the HTTPS IPFS page.
 The mirror URL and expected hash must come from the separately validated
 `downloads.json`; do not invent a release URL. Ordinary browser links are only
 convenience links and cannot force an HTTP version. Every `curl` example below
@@ -38,38 +45,64 @@ Bootstrap the helper and manifest from the visible HTTPS IPFS/mirror page, then
 inspect the helper before running it:
 
 ```sh
-mkdir rc2-tools
 (
   set -eu
+  mkdir rc2-tools
   cd rc2-tools
   BASE='https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2/install-v1'
   fetch() {
     name=$1; expected_bytes=$2; expected_sha=$3
-    test ! -e "$name" && test ! -L "$name"
-    test ! -e "$name.partial" && test ! -L "$name.partial"
+    if [ -e "$name" ] || [ -L "$name" ] || [ -e "$name.partial" ] || [ -L "$name.partial" ]; then
+      printf 'Refusing existing destination or partial: %s\n' "$name" >&2
+      return 2
+    fi
     curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --max-filesize "$expected_bytes" --output "$name.partial" "$BASE/$name"
     test "$(wc -c < "$name.partial" | tr -d '[:space:]')" = "$expected_bytes"
     printf '%s  %s\n' "$expected_sha" "$name.partial" | sha256sum -c -
     mv -n -- "$name.partial" "$name"
-    test ! -e "$name.partial" && test ! -L "$name.partial"
+    if [ -e "$name.partial" ] || [ -L "$name.partial" ]; then
+      printf 'Partial remained after rename: %s\n' "$name.partial" >&2
+      return 2
+    fi
   }
   fetch bdag-download.py 23973 57580591bb62ef724f66fddca0f050c9610843103c724d1c09cc2f6357099174
   fetch downloads.json 23024 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c
 )
-cd rc2-tools
+```
+
+After reviewing the fetched files, execute the helper in a separate bounded
+shell with both pinned inputs rechecked:
+
+```sh
+(
+  set -eu
+  cd rc2-tools
+  if [ ! -f bdag-download.py ] || [ -L bdag-download.py ] || [ ! -f downloads.json ] || [ -L downloads.json ]; then
+    printf '%s\n' 'Missing or unsafe helper/manifest' >&2
+    exit 2
+  fi
+  printf '%s  %s\n' '57580591bb62ef724f66fddca0f050c9610843103c724d1c09cc2f6357099174' bdag-download.py | sha256sum -c -
+  printf '%s  %s\n' '54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c' downloads.json | sha256sum -c -
+  python3 bdag-download.py \
+    --manifest downloads.json \
+    --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
+    --output-dir rc2-software --select software --transport http
+  cd rc2-software
+  sha256sum -c SHA256SUMS
+)
 ```
 
 The manifest's software and dataset URLs are the exact GitHub Release assets.
 The pinned manifest SHA-256 is
-`54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c`:
+`54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c`; the
+bounded execution block above runs the helper and checks the resulting
+`SHA256SUMS`.
+
+After the guarded review/execution block succeeds, enter the tool directory
+before running the later helper or dataset examples:
 
 ```sh
-python3 bdag-download.py \
-  --manifest downloads.json \
-  --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
-  --output-dir rc2-software --select software --transport http
-cd rc2-software
-sha256sum -c SHA256SUMS
+cd rc2-tools
 ```
 
 The helper explicitly issues HTTP/1.1 for HTTP and HTTPS, limits HTTPS ALPN to
@@ -87,12 +120,18 @@ that manifest; never copy a browser URL by hand):
 (
   set -eu
   name='corechain-2.1.0-rc.2-linux-amd64.tar.gz'; partial="$name.partial"; expected_bytes=67154971
-  test ! -e "$name" && test ! -L "$name" && test ! -e "$partial" && test ! -L "$partial"
+  if [ -e "$name" ] || [ -L "$name" ] || [ -e "$partial" ] || [ -L "$partial" ]; then
+    printf 'Refusing existing destination or partial: %s\n' "$name" >&2
+    exit 2
+  fi
   curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 14400 --retry 4 --max-filesize "$expected_bytes" --output "$partial" 'https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__corechain-2.1.0-rc.2-linux-amd64.tar.gz'
   test "$(wc -c < "$partial" | tr -d '[:space:]')" = "$expected_bytes"
   printf '%s  %s\n' '3f0e50181c5d45c6ff8d4e0ad8892db930a08e26484f6949fe6cec3e2e011c0d' "$partial" | sha256sum -c -
   mv -n -- "$partial" "$name"
-  test ! -e "$partial" && test ! -L "$partial"
+  if [ -e "$partial" ] || [ -L "$partial" ]; then
+    printf 'Partial remained after rename: %s\n' "$partial" >&2
+    exit 2
+  fi
 )
 ```
 
@@ -105,10 +144,22 @@ tree and for resumable transfers.
 ## Optional dataset: one snapshot in thirteen ordered parts
 
 ```sh
-python3 bdag-download.py \
-  --manifest downloads.json \
-  --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
-  --output-dir rc2-dataset --select dataset --transport http
+(
+  set -eu
+  if [ ! -f bdag-download.py ] || [ -L bdag-download.py ] || [ ! -f downloads.json ] || [ -L downloads.json ]; then
+    printf '%s\n' 'Missing or unsafe helper/manifest' >&2
+    exit 2
+  fi
+  printf '%s  %s\n' '57580591bb62ef724f66fddca0f050c9610843103c724d1c09cc2f6357099174' bdag-download.py | sha256sum -c -
+  printf '%s  %s\n' '54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c' downloads.json | sha256sum -c -
+  python3 bdag-download.py \
+    --manifest downloads.json \
+    --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
+    --output-dir rc2-dataset --select dataset --transport http
+  SNAP='rc2-dataset/blockdag-chain1404-order20821036-20260907.bdsnap'
+  test "$(wc -c < "$SNAP" | tr -d '[:space:]')" = 13931299738
+  printf '%s  %s\n' '8f7b093b73a7fe390d53d275f5d4b7d69d32aea96220b19a3e2cc54804a5d608' "$SNAP" | sha256sum -c -
+)
 ```
 
 There is **one accepted bootstrap dataset**, not thirteen datasets. The pieces
