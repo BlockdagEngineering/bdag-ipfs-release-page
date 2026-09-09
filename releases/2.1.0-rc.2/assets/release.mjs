@@ -114,6 +114,7 @@ function render(record) {
     else {
       component.value = pathButton.dataset.path === 'component' ? 'corechain' : 'full-stack';
       update();
+      component.dispatchEvent(new Event('change'));
       document.getElementById('download').scrollIntoView({behavior: 'smooth'});
     }
   });
@@ -124,7 +125,7 @@ function render(record) {
   const datasetActionAllowed = (button) => !button.disabled && current && selectArtifact(record, arch.value, component.value) === current;
   dom('native-dataset').addEventListener('click', (event) => { if (datasetActionAllowed(event.currentTarget)) openUrl(nativeDatasetUrl(record, data.name)); });
   dom('gateway-dataset').addEventListener('click', (event) => { if (datasetActionAllowed(event.currentTarget)) openUrl(gatewayDatasetUrl(record, data.name)); });
-  dom('dataset-command').textContent = `curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --output 'downloads.json.partial' 'https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2/install-v1/downloads.json'\nprintf '%s  %s\\n' '54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c' 'downloads.json.partial' | sha256sum -c -\ntest ! -e 'downloads.json' && mv -n -- 'downloads.json.partial' 'downloads.json'\npython3 bdag-download.py --manifest downloads.json --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c --output-dir rc2-dataset --select dataset --transport http\n# Native IPFS: ipfs get /ipfs/${data.cid}/${data.name} -o ${data.name}\n# Use a NEW EMPTY destination, then read DATASETS.md for the reviewed workflow.`;
+  dom('dataset-command').textContent = `# Prerequisite: review DOWNLOADS.md and bootstrap bdag-download.py/downloads.json with curl --http1.1; the helper enforces HTTP/1.1 for retrieval.\n( set -eu\n  test -f bdag-download.py && test ! -L bdag-download.py\n  test -f downloads.json && test ! -L downloads.json\n  python3 bdag-download.py --manifest downloads.json --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c --output-dir rc2-dataset --select dataset --transport http\n  SNAP=\"rc2-dataset/${data.name}\"\n  test \"$(wc -c < \"$SNAP\" | tr -d '[:space:]')\" = '${data.bytes}'\n  printf '%s  %s\\n' '${data.sha256}' \"$SNAP\" | sha256sum -c -\n)\n# Native IPFS (separate transport): ipfs get /ipfs/${data.cid}/${data.name} -o ${data.name}`;
   dom('record-digest').textContent = `Bound SHA-256: ${RECORD_SHA256}`;
   dom('record-status').textContent = record.status === 'published' ? 'Release record verified' : 'Prepared release record verified'; dom('trust-detail').textContent = 'This release record matches its expected SHA-256. Choose a download below, then use the checksum command to check your downloaded files.';
   dom('trust-dot').className = 'status-dot ready'; dom('qualification-status').textContent = record.status === 'published' && record.qualification.mining_completion_claimed === true
@@ -134,7 +135,7 @@ function render(record) {
   enableDistribution(record, () => selectArtifact(record, arch.value, component.value), (value) => {
     command.textContent = value;
     copy.dataset.command = value;
-    copy.disabled = !value.startsWith('curl --http1.1 ');
+    copy.disabled = !value.includes('curl --http1.1');
   });
 }
 

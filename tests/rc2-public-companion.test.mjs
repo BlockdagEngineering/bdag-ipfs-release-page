@@ -15,8 +15,10 @@ test('generated software commands are explicit HTTP/1.1 and non-clobbering for a
     const artifact = selectArtifact(release, architecture, component);
     const file = distribution.files.find((entry) => entry.path === artifact.path && entry.sha256 === artifact.sha256);
     const command = buildMirrorCommand(file);
+    assert.match(command, /\( set -eu/);
     assert.match(command, /curl --http1\.1 --fail --location --proto '=https' --proto-redir '=https'/);
-    assert.match(command, /--output '[^']+\.partial'/);
+    assert.match(command, /--max-filesize \d+ --output "\$partial"/);
+    assert.match(command, /wc -c/);
     assert.match(command, /sha256sum -c/);
     assert.match(command, /mv -n/);
     assert.match(command, new RegExp(artifact.sha256));
@@ -53,4 +55,27 @@ test('guides disclose protocol limits, trust separation and unqualified migratio
   assert.match(ai, /NOT QUALIFIED/);
   assert.match(page, /MIGRATION\.html/);
   assert.match(page, /MIGRATION-AGENTS\.html/);
+});
+
+test('bootstrap examples pin only fetched execution inputs and page wiring keeps browser controls distinct', () => {
+  const install = read('install-v1/INSTALL.md');
+  const downloads = read('install-v1/DOWNLOADS.md');
+  for (const text of [install, downloads]) {
+    assert.doesNotMatch(text, /< COMPANION-SHA256SUMS/);
+    assert.match(text, /57580591bb62ef724f66fddca0f050c9610843103c724d1c09cc2f6357099174/);
+    assert.match(text, /54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c/);
+    assert.match(text, /mv -n/);
+  }
+  const page = read('index.html');
+  const js = read('assets/release.mjs');
+  const companion = read('install-v1/index.html');
+  const downloadsHtml = read('install-v1/DOWNLOADS.html');
+  assert.match(page, /Primary HTTPS IPFS browser convenience/);
+  assert.match(page, /Native IPFS link \(IPFS client\)/);
+  assert.match(companion, /DOWNLOADS\.html#optional-dataset-one-snapshot-in-thirteen-ordered-parts/);
+  assert.match(downloadsHtml, /id="optional-dataset-one-snapshot-in-thirteen-ordered-parts"/);
+  assert.doesNotMatch(companion, /optional-dataset-resumable-in-13-parts/);
+  assert.match(js, /component\.dispatchEvent\(new Event\('change'\)\)/);
+  assert.match(js, /value\.includes\('curl --http1\.1'\)/);
+  assert.ok(js.includes('wc -c < \\"$SNAP\\"'));
 });

@@ -39,13 +39,24 @@ inspect the helper before running it:
 
 ```sh
 mkdir rc2-tools
+(
+  set -eu
+  cd rc2-tools
+  BASE='https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2/install-v1'
+  fetch() {
+    name=$1; expected_bytes=$2; expected_sha=$3
+    test ! -e "$name" && test ! -L "$name"
+    test ! -e "$name.partial" && test ! -L "$name.partial"
+    curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --max-filesize "$expected_bytes" --output "$name.partial" "$BASE/$name"
+    test "$(wc -c < "$name.partial" | tr -d '[:space:]')" = "$expected_bytes"
+    printf '%s  %s\n' "$expected_sha" "$name.partial" | sha256sum -c -
+    mv -n -- "$name.partial" "$name"
+    test ! -e "$name.partial" && test ! -L "$name.partial"
+  }
+  fetch bdag-download.py 23973 57580591bb62ef724f66fddca0f050c9610843103c724d1c09cc2f6357099174
+  fetch downloads.json 23024 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c
+)
 cd rc2-tools
-BASE='https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2/install-v1'
-for name in bdag-download.py downloads.json COMPANION-SHA256SUMS; do
-  test ! -e "$name" && test ! -e "$name.partial" && curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --output "$name.partial" "$BASE/$name"
-done
-while read -r hash name; do test -z "$name" || printf '%s  %s\n' "$hash" "$name.partial" | sha256sum -c -; done < COMPANION-SHA256SUMS
-for name in bdag-download.py downloads.json COMPANION-SHA256SUMS; do test ! -e "$name" && mv -n -- "$name.partial" "$name"; done
 ```
 
 The manifest's software and dataset URLs are the exact GitHub Release assets.
@@ -73,10 +84,16 @@ manifest URL and this shape (replace the URL, filename, size and hash only from
 that manifest; never copy a browser URL by hand):
 
 ```sh
-test ! -e 'corechain-2.1.0-rc.2-linux-amd64.tar.gz' && test ! -e 'corechain-2.1.0-rc.2-linux-amd64.tar.gz.partial'
-curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 14400 --retry 4 --output 'corechain-2.1.0-rc.2-linux-amd64.tar.gz.partial' 'https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__corechain-2.1.0-rc.2-linux-amd64.tar.gz'
-printf '%s  %s\n' '3f0e50181c5d45c6ff8d4e0ad8892db930a08e26484f6949fe6cec3e2e011c0d' 'corechain-2.1.0-rc.2-linux-amd64.tar.gz.partial' | sha256sum -c -
-test ! -e 'corechain-2.1.0-rc.2-linux-amd64.tar.gz' && mv -n -- 'corechain-2.1.0-rc.2-linux-amd64.tar.gz.partial' 'corechain-2.1.0-rc.2-linux-amd64.tar.gz'
+(
+  set -eu
+  name='corechain-2.1.0-rc.2-linux-amd64.tar.gz'; partial="$name.partial"; expected_bytes=67154971
+  test ! -e "$name" && test ! -L "$name" && test ! -e "$partial" && test ! -L "$partial"
+  curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 14400 --retry 4 --max-filesize "$expected_bytes" --output "$partial" 'https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__corechain-2.1.0-rc.2-linux-amd64.tar.gz'
+  test "$(wc -c < "$partial" | tr -d '[:space:]')" = "$expected_bytes"
+  printf '%s  %s\n' '3f0e50181c5d45c6ff8d4e0ad8892db930a08e26484f6949fe6cec3e2e011c0d' "$partial" | sha256sum -c -
+  mv -n -- "$partial" "$name"
+  test ! -e "$partial" && test ! -L "$partial"
+)
 ```
 
 The page generates the same safe form for all ten architecture/component
@@ -99,8 +116,9 @@ are numbered in order; twelve are 1 GiB and the last is 1,046,397,850 bytes.
 The helper verifies each piece, retains it for resume, assembles one `.bdsnap`,
 then checks the original full SHA-256. It also downloads separate dataset
 records. Do not import an individual part or concatenate files in wildcard
-order. The generated page's dataset copy guidance uses the same explicit curl
-shape for each manifest-bound part when a direct part is selected.
+order. The generated page provides the helper invocation and final exact
+snapshot size/SHA check; it does not pretend to provide a one-file per-part
+browser command.
 
 Native IPFS supplies the same snapshot as one file:
 

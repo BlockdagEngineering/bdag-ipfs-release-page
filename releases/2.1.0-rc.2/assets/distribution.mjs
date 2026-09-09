@@ -16,11 +16,18 @@ export function buildMirrorCommand(file) {
   const partial = `${name}.partial`;
   const qName = shellQuote(name);
   const qPartial = shellQuote(partial);
+  const bytes = Number.isSafeInteger(file.bytes) && file.bytes > 0 ? file.bytes : 0;
+  if (!bytes) return '';
   return [
-    `test ! -e ${qName} && test ! -e ${qPartial}`,
-    `curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 14400 --retry 4 --output ${qPartial} ${shellQuote(file.urls[0])}`,
-    `printf '%s  %s\\n' '${file.sha256}' ${qPartial} | sha256sum -c -`,
-    `test ! -e ${qName} && mv -n -- ${qPartial} ${qName}`,
+    '( set -eu',
+    `  name=${qName}; partial=${qPartial}; expected_bytes=${bytes}`,
+    '  if [ -e "$name" ] || [ -L "$name" ] || [ -e "$partial" ] || [ -L "$partial" ]; then exit 2; fi',
+    `  curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 14400 --retry 4 --max-filesize ${bytes} --output "$partial" ${shellQuote(file.urls[0])}`,
+    '  test "$(wc -c < "$partial" | tr -d \'[:space:]\')" = "$expected_bytes"',
+    `  printf '%s  %s\\n' '${file.sha256}' "$partial" | sha256sum -c -`,
+    '  mv -n -- "$partial" "$name"',
+    '  test ! -e "$partial" && test ! -L "$partial"',
+    ')',
   ].join('\n');
 }
 

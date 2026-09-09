@@ -60,15 +60,27 @@ accounting, identity or ASIC assignments.</p>
 <p>The following commands only download and check files. Review the expected
 checksums through a channel you trust, and inspect scripts before executing them.</p>
 <pre><code class="language-sh">mkdir rc2-tools
+(
+  set -eu
+  cd rc2-tools
+  BASE='https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2'
+  fetch() {
+    name=$1; expected_bytes=$2; expected_sha=$3; url=$4
+    test ! -e &quot;$name&quot; &amp;&amp; test ! -L &quot;$name&quot;
+    test ! -e &quot;$name.partial&quot; &amp;&amp; test ! -L &quot;$name.partial&quot;
+    curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --max-filesize &quot;$expected_bytes&quot; --output &quot;$name.partial&quot; &quot;$url&quot;
+    test &quot;$(wc -c &lt; &quot;$name.partial&quot; | tr -d '[:space:]')&quot; = &quot;$expected_bytes&quot;
+    printf '%s  %s\n' &quot;$expected_sha&quot; &quot;$name.partial&quot; | sha256sum -c -
+    mv -n -- &quot;$name.partial&quot; &quot;$name&quot;
+    test ! -e &quot;$name.partial&quot; &amp;&amp; test ! -L &quot;$name.partial&quot;
+  }
+  fetch bdag-download.py 23973 57580591bb62ef724f66fddca0f050c9610843103c724d1c09cc2f6357099174 &quot;$BASE/install-v1/bdag-download.py&quot;
+  fetch bdag-install.py 37462 aee626023ed2e41ddf8a2abb0eb936ae6e98de0477d49014c45c7a26e3a1b0e5 &quot;$BASE/install-v1/bdag-install.py&quot;
+  fetch service-runner.py 14102 9c53d41f7f06ec833442350d444822f598217c61c2772a77891ffaa08962efc6 &quot;$BASE/install-v1/service-runner.py&quot;
+  fetch downloads.json 23024 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c &quot;$BASE/install-v1/downloads.json&quot;
+  fetch release.json 6456 468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2 &quot;$BASE/records/release.json&quot;
+)
 cd rc2-tools
-BASE='https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2'
-for name in bdag-download.py bdag-install.py service-runner.py downloads.json COMPANION-SHA256SUMS; do
-  test ! -e &quot;$name&quot; &amp;&amp; curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --output &quot;$name.partial&quot; &quot;$BASE/install-v1/$name&quot;
-done
-curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --output release.json.partial &quot;$BASE/records/release.json&quot;
-printf '%s  %s\n' '468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2' release.json.partial | sha256sum -c -
-while read -r hash name; do test -z &quot;$name&quot; || printf '%s  %s\n' &quot;$hash&quot; &quot;$name.partial&quot; | sha256sum -c -; done &lt; COMPANION-SHA256SUMS
-for name in bdag-download.py bdag-install.py service-runner.py downloads.json COMPANION-SHA256SUMS release.json; do test ! -e &quot;$name&quot; &amp;&amp; mv -n -- &quot;$name.partial&quot; &quot;$name&quot;; done
 python3 bdag-download.py \
   --manifest downloads.json \
   --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
