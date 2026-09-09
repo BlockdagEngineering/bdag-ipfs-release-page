@@ -1,13 +1,16 @@
-# RC2 downloads: native IPFS or anonymous HTTP
+# RC2 downloads: HTTPS IPFS first, explicit HTTP/1.1 mirror fallback
 
 This companion describes the unchanged **2.1.0-rc.2** release. You do not need
 a GitHub account, publisher signing key, signed manifest or central approval.
 You do need an expected SHA-256 obtained through a channel you trust. Hashes
-check bytes; they do not tell you whether a publisher deserves your trust.
+check complete bytes; they do not establish publisher identity or migration
+compatibility. See [publisher attribution](PUBLISHER.md) and the prominently
+**NOT QUALIFIED** [RC65 migration guide](MIGRATION.md).
 
-## Native IPFS
+## Primary: native IPFS
 
-Use an installed Kubo/IPFS command-line client with a running daemon:
+Use an installed Kubo/IPFS command-line client with a running daemon. This is a
+separate transport from HTTPS and requires an IPFS client:
 
 ```sh
 ipfs get /ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq -o rc2-software
@@ -16,19 +19,40 @@ printf '%s  %s\n' '233ac434c70efa6f928ddb1ceb21bb4862cba73ef1bd27ca918ea17370620
 sha256sum -c SHA256SUMS
 ```
 
-The page's native links also work in IPFS-capable browsers. Ordinary HTTP IPFS
-gateways are optional and may throttle or challenge requests. A gateway error
-does not mean the CID has changed. Use another transport, not a different hash.
+The companion page's native `ipfs://` buttons remain the immutable-object path.
+The HTTPS gateway convenience link is optional and may throttle or challenge
+requests. A gateway error does not mean the CID changed.
 
-## HTTP software mirror with resume
+## Fallback: direct HTTPS mirror with forced HTTP/1.1
 
-Download `bdag-download.py`, `downloads.json` and `COMPANION-SHA256SUMS` from this
-directory. Inspect the small helper before running it. Check the helper against
-the companion checksums and select the published manifest hash below. Python 3
-on Linux is sufficient; no package manager or login is needed for downloads.
+The page's direct HTTPS mirror is a labelled fallback to the native IPFS path.
+The mirror URL and expected hash must come from the separately validated
+`downloads.json`; do not invent a release URL. Ordinary browser links are only
+convenience links and cannot force an HTTP version. Every `curl` example below
+uses explicit HTTP/1.1, HTTPS-only redirects, bounded time/retries, a fresh
+`.partial` destination, complete size/hash verification, and a non-clobbering
+final rename. A HTTP 200 page, service-worker shell or same-size wrong payload
+fails the expected full-byte check.
+
+Bootstrap the helper and manifest from the visible HTTPS IPFS/mirror page, then
+inspect the helper before running it:
 
 ```sh
-sha256sum -c COMPANION-SHA256SUMS --ignore-missing
+mkdir rc2-tools
+cd rc2-tools
+BASE='https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2/install-v1'
+for name in bdag-download.py downloads.json COMPANION-SHA256SUMS; do
+  test ! -e "$name" && test ! -e "$name.partial" && curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --output "$name.partial" "$BASE/$name"
+done
+while read -r hash name; do test -z "$name" || printf '%s  %s\n' "$hash" "$name.partial" | sha256sum -c -; done < COMPANION-SHA256SUMS
+for name in bdag-download.py downloads.json COMPANION-SHA256SUMS; do test ! -e "$name" && mv -n -- "$name.partial" "$name"; done
+```
+
+The manifest's software and dataset URLs are the exact GitHub Release assets.
+The pinned manifest SHA-256 is
+`54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c`:
+
+```sh
 python3 bdag-download.py \
   --manifest downloads.json \
   --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
@@ -37,26 +61,31 @@ cd rc2-software
 sha256sum -c SHA256SUMS
 ```
 
-This fetches the complete 26-file software tree, including all ten archives,
-both architectures and their release metadata. Re-running resumes partial
-transfers and skips already verified complete files. A mismatched existing
-destination is reported, never silently overwritten. Preserve it as evidence
-or choose a fresh output directory.
+The helper explicitly issues HTTP/1.1 for HTTP and HTTPS, limits HTTPS ALPN to
+`http/1.1`, validates certificates, rejects HTTPS-to-HTTP redirects, resumes
+only a valid range, checks the complete expected size and SHA-256, and refuses
+to overwrite an existing mismatched file. It downloads the complete 26-file
+software tree, including all ten archives and both architectures. Dataset
+selection and all thirteen pieces use the same bounded HTTP/1.1 helper.
 
-To fetch just one file, add `--file artifacts/NAME_FROM_THE_MANIFEST`. For
-installation, use the complete metadata tree and your architecture's full ZIP,
-not just a component tarball. AMD64 means x86-64; ARM64 means AArch64. The helper
-can also use `--transport ipfs` with the same pinned manifest and expected bytes.
+For a single software selection, the generated page command uses the validated
+manifest URL and this shape (replace the URL, filename, size and hash only from
+that manifest; never copy a browser URL by hand):
 
-Direct browser mirror downloads have an `artifacts__` filename prefix because
-GitHub Release assets are a flat directory. Rename a browser-downloaded archive
-to the original name displayed on the page before using a name-based checksum
-command. The helper restores the correct filenames and directories automatically.
+```sh
+test ! -e 'corechain-2.1.0-rc.2-linux-amd64.tar.gz' && test ! -e 'corechain-2.1.0-rc.2-linux-amd64.tar.gz.partial'
+curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 14400 --retry 4 --output 'corechain-2.1.0-rc.2-linux-amd64.tar.gz.partial' 'https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__corechain-2.1.0-rc.2-linux-amd64.tar.gz'
+printf '%s  %s\n' '3f0e50181c5d45c6ff8d4e0ad8892db930a08e26484f6949fe6cec3e2e011c0d' 'corechain-2.1.0-rc.2-linux-amd64.tar.gz.partial' | sha256sum -c -
+test ! -e 'corechain-2.1.0-rc.2-linux-amd64.tar.gz' && mv -n -- 'corechain-2.1.0-rc.2-linux-amd64.tar.gz.partial' 'corechain-2.1.0-rc.2-linux-amd64.tar.gz'
+```
 
-The HTTP mirror is a free public GitHub Release asset store. It is not GitHub
-Packages, Git LFS or a mandatory trust service. Native IPFS remains independent.
+The page generates the same safe form for all ten architecture/component
+selections and displays the original filename and expected SHA-256. A browser
+download may use a flat `artifacts__` name; the explicit command restores the
+manifest filename before checksum use. The helper is preferred for the complete
+tree and for resumable transfers.
 
-## Optional dataset, resumable in 13 parts
+## Optional dataset: one snapshot in thirteen ordered parts
 
 ```sh
 python3 bdag-download.py \
@@ -66,10 +95,12 @@ python3 bdag-download.py \
 ```
 
 There is **one accepted bootstrap dataset**, not thirteen datasets. The pieces
-are numbered in order; twelve are 1 GiB and the last is 1,046,397,850 bytes. The
-helper verifies each piece, retains it for resume, assembles one `.bdsnap`, then
-checks the original full SHA-256. It also downloads the separate dataset records.
-Do not import an individual part or merely concatenate files in wildcard order.
+are numbered in order; twelve are 1 GiB and the last is 1,046,397,850 bytes.
+The helper verifies each piece, retains it for resume, assembles one `.bdsnap`,
+then checks the original full SHA-256. It also downloads separate dataset
+records. Do not import an individual part or concatenate files in wildcard
+order. The generated page's dataset copy guidance uses the same explicit curl
+shape for each manifest-bound part when a direct part is selected.
 
 Native IPFS supplies the same snapshot as one file:
 
@@ -82,8 +113,10 @@ Allow about 28 GB for HTTP parts plus the assembled archive. Import needs
 additional working space: the snapshot records contain about 45.7 GB of
 uncompressed key/value data; database compression, compaction and subsequent
 chain growth change the final disk requirement. Budget at least 90 GB free for
-download/import workspace **in addition to** your filesystem reserve and any
-retained rollback. This is an estimate, not an upper bound for future chain growth.
+download/import workspace in addition to filesystem reserve and retained
+rollback. This is an estimate, not an upper bound for future growth.
 
-Continue with [dataset validation](DATASETS.md). Downloading is not installation,
-activation, peer synchronization or permission to overwrite existing data.
+Continue with [dataset validation](DATASETS.md). Downloading is not
+installation, activation, peer synchronization or permission to overwrite
+existing data. For role-specific installation see [INSTALL.md](INSTALL.md),
+and for AI planning see [MIGRATION-AGENTS.md](MIGRATION-AGENTS.md).

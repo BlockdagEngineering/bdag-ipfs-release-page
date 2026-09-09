@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>RC2 independent installation companion v1</title><link rel="stylesheet" href="../assets/release.css"></head><body><a class="skip-link" href="#main">Skip to guide</a><header class="site-header"><nav class="nav shell" aria-label="Guide navigation"><a class="brand" href="index.html"><img src="../assets/bdag-community-logo.svg" alt="" width="42" height="42"><span><strong>BlockDAG RC2</strong><small>Installation companion v1</small></span></a><div class="nav-links"><a href="INSTALL.html">Install</a><a href="DOWNLOADS.html">Download</a><a href="DATASETS.html">Datasets</a><a href="AGENTS.md">AI agents</a></div></nav></header><main id="main" class="section shell guide"><article class="glass"><h1 id="rc2-independent-installation-companion-v1">RC2 independent installation companion v1</h1>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>RC2 independent installation companion v1</title><link rel="stylesheet" href="../assets/release.css"></head><body><a class="skip-link" href="#main">Skip to guide</a><header class="site-header"><nav class="nav shell" aria-label="Guide navigation"><a class="brand" href="index.html"><img src="../assets/bdag-community-logo.svg" alt="" width="42" height="42"><span><strong>BlockDAG RC2</strong><small>Installation companion v1</small></span></a><div class="nav-links"><a href="INSTALL.html">Install</a><a href="DOWNLOADS.html">Download</a><a href="DATASETS.html">Datasets</a><a href="MIGRATION.html">Migration</a><a href="PUBLISHER.html">Publisher</a><a href="AGENTS.md">AI agents</a></div></nav></header><main id="main" class="section shell guide"><article class="glass"><h1 id="rc2-independent-installation-companion-v1">RC2 independent installation companion v1</h1>
 <p>This guide supersedes older installation instructions inside the unchanged RC2
 archives. It supplies a real service runner for the shipped v2 lifecycle. No
 mandatory publisher signature, signing key, GitHub account or central approval
@@ -63,17 +63,20 @@ checksums through a channel you trust, and inspect scripts before executing them
 cd rc2-tools
 BASE='https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2'
 for name in bdag-download.py bdag-install.py service-runner.py downloads.json COMPANION-SHA256SUMS; do
-  curl --fail --location --proto '=https' &quot;$BASE/install-v1/$name&quot; --output &quot;$name&quot;
+  test ! -e &quot;$name&quot; &amp;&amp; curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --output &quot;$name.partial&quot; &quot;$BASE/install-v1/$name&quot;
 done
-curl --fail --location --proto '=https' &quot;$BASE/records/release.json&quot; --output release.json
-printf '%s  %s\n' '468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2' release.json | sha256sum -c -
-sha256sum -c COMPANION-SHA256SUMS --ignore-missing
+curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --output release.json.partial &quot;$BASE/records/release.json&quot;
+printf '%s  %s\n' '468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2' release.json.partial | sha256sum -c -
+while read -r hash name; do test -z &quot;$name&quot; || printf '%s  %s\n' &quot;$hash&quot; &quot;$name.partial&quot; | sha256sum -c -; done &lt; COMPANION-SHA256SUMS
+for name in bdag-download.py bdag-install.py service-runner.py downloads.json COMPANION-SHA256SUMS release.json; do test ! -e &quot;$name&quot; &amp;&amp; mv -n -- &quot;$name.partial&quot; &quot;$name&quot;; done
 python3 bdag-download.py \
   --manifest downloads.json \
   --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
   --output-dir rc2-software --select software --transport http
 </code></pre>
 <p>Native IPFS is an independent alternative; see <a href="DOWNLOADS.html">DOWNLOADS.html</a>.
+Ordinary browser links are convenience links and cannot force HTTP/1.1. Use the
+explicit commands above or the helper for the guaranteed request policy.
 The full ZIP supplies binaries and build templates even when only one service
 role will run. The helper selects your native architecture automatically and
 checks exact archive identity before extraction.</p>
@@ -147,6 +150,12 @@ does not prove accepted shares, accepted blocks or accounting progression.</p>
 compatible peers, native/EVM currentness, template/submission readiness, exact
 payout and fee, then advancing accepted shares, block submissions and accounting.
 The companion does not automatically assign ASICs or erase their existing setup.</p>
+<h2 id="rc65-migration-boundary">RC65 migration boundary</h2>
+<p>RC65 to RC2 migration is prominently <strong>NOT QUALIFIED</strong>. Maintainer migration
+testing was not performed. Read <a href="MIGRATION.html">MIGRATION.html</a> before considering
+any owner-authorized investigation; <a href="MIGRATION-AGENTS.html">MIGRATION-AGENTS.html</a>
+is a read-only AI planning guide. Staying on RC65 or making a separate fresh
+RC2 installation are the supported alternatives in this companion.</p>
 <pre><code class="language-sh">python3 bdag-install.py status --target &quot;$TARGET&quot;
 python3 bdag-install.py stop --target &quot;$TARGET&quot;
 </code></pre>

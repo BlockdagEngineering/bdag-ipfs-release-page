@@ -12,12 +12,13 @@ from pathlib import Path, PurePosixPath
 import re
 import selectors
 import shutil
+import ssl
 import stat
 import subprocess
 import time
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
-from urllib.request import HTTPRedirectHandler, Request, build_opener
+from urllib.request import HTTPHandler, HTTPRedirectHandler, HTTPSHandler, Request, build_opener
 
 
 CHUNK = 1024 * 1024
@@ -29,10 +30,57 @@ IPFS_INACTIVITY_TIMEOUT = 120
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 CID = re.compile(r"^b[a-z2-7]{20,}$")
 SAFE_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._+-]*$")
+HTTP11_ALPN = ("http/1.1",)
+_DEFAULT_TIMEOUT = object()
 
 
 class DownloadError(RuntimeError):
     pass
+
+
+class HTTP11Connection(http.client.HTTPConnection):
+    """Connection scoped to HTTP/1.1; do not mutate process-global clients."""
+
+    _http_vsn = 11
+    _http_vsn_str = "HTTP/1.1"
+
+
+class HTTP11HTTPSConnection(http.client.HTTPSConnection):
+    """TLS connection scoped to HTTP/1.1 with normal certificate checks."""
+
+    _http_vsn = 11
+    _http_vsn_str = "HTTP/1.1"
+
+    def __init__(self, host, timeout=_DEFAULT_TIMEOUT, **kwargs):
+        # Keeping context construction here makes ALPN policy local to this
+        # downloader's HTTPS handler.  Ignore an ambient context supplied by a
+        # caller: the handler owns the protocol policy and certificate checks.
+        kwargs.pop("context", None)
+        if timeout is _DEFAULT_TIMEOUT:
+            super().__init__(host, context=_http11_tls_context(), **kwargs)
+        else:
+            super().__init__(host, timeout=timeout, context=_http11_tls_context(), **kwargs)
+
+
+def _http11_tls_context() -> ssl.SSLContext:
+    context = ssl.create_default_context()
+    context.set_alpn_protocols(list(HTTP11_ALPN))
+    return context
+
+
+class HTTP11Handler(HTTPHandler):
+    def http_open(self, request):
+        return self.do_open(HTTP11Connection, request)
+
+
+class HTTPS11Handler(HTTPSHandler):
+    def __init__(self):
+        # The connection owns the TLS context so each request gets one scoped
+        # certificate/ALPN policy without retaining a mutable handler context.
+        HTTPHandler.__init__(self)
+
+    def https_open(self, request):
+        return self.do_open(HTTP11HTTPSConnection, request)
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -248,7 +296,7 @@ def _open_http(url: str, offset: int):
     headers = {"User-Agent": "bdag-rc2-downloader/1", "Accept": "application/octet-stream"}
     if offset:
         headers["Range"] = f"bytes={offset}-"
-    opener = build_opener(SafeRedirect())
+    opener = build_opener(HTTP11Handler(), HTTPS11Handler(), SafeRedirect())
     return opener.open(Request(url, headers=headers), timeout=HTTP_TIMEOUT)
 
 

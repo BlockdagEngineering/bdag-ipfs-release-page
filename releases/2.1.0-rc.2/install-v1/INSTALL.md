@@ -43,11 +43,12 @@ mkdir rc2-tools
 cd rc2-tools
 BASE='https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2'
 for name in bdag-download.py bdag-install.py service-runner.py downloads.json COMPANION-SHA256SUMS; do
-  curl --fail --location --proto '=https' "$BASE/install-v1/$name" --output "$name"
+  test ! -e "$name" && curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --output "$name.partial" "$BASE/install-v1/$name"
 done
-curl --fail --location --proto '=https' "$BASE/records/release.json" --output release.json
-printf '%s  %s\n' '468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2' release.json | sha256sum -c -
-sha256sum -c COMPANION-SHA256SUMS --ignore-missing
+curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --output release.json.partial "$BASE/records/release.json"
+printf '%s  %s\n' '468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2' release.json.partial | sha256sum -c -
+while read -r hash name; do test -z "$name" || printf '%s  %s\n' "$hash" "$name.partial" | sha256sum -c -; done < COMPANION-SHA256SUMS
+for name in bdag-download.py bdag-install.py service-runner.py downloads.json COMPANION-SHA256SUMS release.json; do test ! -e "$name" && mv -n -- "$name.partial" "$name"; done
 python3 bdag-download.py \
   --manifest downloads.json \
   --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
@@ -55,6 +56,8 @@ python3 bdag-download.py \
 ```
 
 Native IPFS is an independent alternative; see [DOWNLOADS.md](DOWNLOADS.md).
+Ordinary browser links are convenience links and cannot force HTTP/1.1. Use the
+explicit commands above or the helper for the guaranteed request policy.
 The full ZIP supplies binaries and build templates even when only one service
 role will run. The helper selects your native architecture automatically and
 checks exact archive identity before extraction.
@@ -144,6 +147,14 @@ Before directing physical miners at a pool, independently verify current
 compatible peers, native/EVM currentness, template/submission readiness, exact
 payout and fee, then advancing accepted shares, block submissions and accounting.
 The companion does not automatically assign ASICs or erase their existing setup.
+
+## RC65 migration boundary
+
+RC65 to RC2 migration is prominently **NOT QUALIFIED**. Maintainer migration
+testing was not performed. Read [MIGRATION.md](MIGRATION.md) before considering
+any owner-authorized investigation; [MIGRATION-AGENTS.md](MIGRATION-AGENTS.md)
+is a read-only AI planning guide. Staying on RC65 or making a separate fresh
+RC2 installation are the supported alternatives in this companion.
 
 ```sh
 python3 bdag-install.py status --target "$TARGET"

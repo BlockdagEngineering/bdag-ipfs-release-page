@@ -99,13 +99,13 @@ function render(record) {
     if (!current) { clearSelection('That selection is not in the verified release record. Choose another payload.'); return false; }
     selectedName.textContent = current.name; selectedSize.textContent = formatBytes(current.bytes); selectedSha.textContent = current.sha256; selectedPath.textContent = current.path;
     command.textContent = buildVerifyCommand(record, current); copy.dataset.command = command.textContent;
-    selectionNotice.textContent = `${current.platform} · ${current.component} · verify the displayed SHA-256 before unpacking.`; setArtifactActionsEnabled(true); return true;
+    selectionNotice.textContent = `${current.platform} · ${current.component} · verify the displayed SHA-256 before unpacking.`; setArtifactActionsEnabled(true); copy.disabled = true; return true;
   };
   arch.addEventListener('change', update); component.addEventListener('change', update);
   dom('native-download').addEventListener('click', () => { if (!current || selectArtifact(record, arch.value, component.value) !== current) return clearSelection('Selection changed; choose the verified artifact again.'); openUrl(nativeIpfsUrl(record, current.path)); });
   dom('gateway-download').addEventListener('click', () => { if (!current || selectArtifact(record, arch.value, component.value) !== current) return clearSelection('Selection changed; choose the verified artifact again.'); openUrl(gatewayUrl(record, current.path)); });
   copy.addEventListener('click', async () => {
-    if (!current || selectArtifact(record, arch.value, component.value) !== current || copy.dataset.command !== buildVerifyCommand(record, current)) { clearSelection('Selection changed; choose the verified artifact again.'); return; }
+    if (!current || selectArtifact(record, arch.value, component.value) !== current || copy.dataset.command !== command.textContent) { clearSelection('Selection changed; choose the verified artifact again.'); return; }
     const ok = await copyText(copy.dataset.command);
     copyStatus.textContent = ok ? 'Command copied. Review it before running.' : 'Clipboard unavailable or denied; select the command manually.';
   });
@@ -124,14 +124,18 @@ function render(record) {
   const datasetActionAllowed = (button) => !button.disabled && current && selectArtifact(record, arch.value, component.value) === current;
   dom('native-dataset').addEventListener('click', (event) => { if (datasetActionAllowed(event.currentTarget)) openUrl(nativeDatasetUrl(record, data.name)); });
   dom('gateway-dataset').addEventListener('click', (event) => { if (datasetActionAllowed(event.currentTarget)) openUrl(gatewayDatasetUrl(record, data.name)); });
-  dom('dataset-command').textContent = `ipfs get /ipfs/${data.cid}/${data.name} -o ${data.name}\nprintf '%s  %s\\n' '${data.sha256}' '${data.name}' | sha256sum -c -\n# Use a NEW EMPTY destination, then read README.md for the reviewed dataset workflow.`;
+  dom('dataset-command').textContent = `curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --output 'downloads.json.partial' 'https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2/install-v1/downloads.json'\nprintf '%s  %s\\n' '54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c' 'downloads.json.partial' | sha256sum -c -\ntest ! -e 'downloads.json' && mv -n -- 'downloads.json.partial' 'downloads.json'\npython3 bdag-download.py --manifest downloads.json --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c --output-dir rc2-dataset --select dataset --transport http\n# Native IPFS: ipfs get /ipfs/${data.cid}/${data.name} -o ${data.name}\n# Use a NEW EMPTY destination, then read DATASETS.md for the reviewed workflow.`;
   dom('record-digest').textContent = `Bound SHA-256: ${RECORD_SHA256}`;
   dom('record-status').textContent = record.status === 'published' ? 'Release record verified' : 'Prepared release record verified'; dom('trust-detail').textContent = 'This release record matches its expected SHA-256. Choose a download below, then use the checksum command to check your downloaded files.';
   dom('trust-dot').className = 'status-dot ready'; dom('qualification-status').textContent = record.status === 'published' && record.qualification.mining_completion_claimed === true
     ? 'Tested on AMD64 with three physical ASICs: shares and accepted blocks increased during a 120-second check, with accounting preserved. ARM64 hardware, reboot and long-run testing are not covered.'
     : 'AMD64 physical-mining/accounting qualification remains pending a detached 120-second receipt. ARM64 hardware, main promotion, reboot and long-soak qualification are not claimed.';
   setActionsEnabled(true); update();
-  enableDistribution(record, () => selectArtifact(record, arch.value, component.value));
+  enableDistribution(record, () => selectArtifact(record, arch.value, component.value), (value) => {
+    command.textContent = value;
+    copy.dataset.command = value;
+    copy.disabled = !value.startsWith('curl --http1.1 ');
+  });
 }
 
 function fail(error) {

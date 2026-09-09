@@ -5,6 +5,12 @@ supersedes legacy v1/catalog-signature instructions and older dataset choices
 inside the immutable RC2 archives. Do not modify the original archives to make
 their historical documentation agree with this later companion.
 
+The companion also includes [publisher attribution](PUBLISHER.md) and
+[RC65 migration guidance](MIGRATION-AGENTS.md). The migration status is
+**NOT QUALIFIED**: perform read-only discovery only unless an owner separately
+authorizes a contained investigation with matching backups, and never treat
+this guide or another agent's PASS as migration acceptance.
+
 1. Ask which role is intended only if unclear: `node`, `pool`, `redis-dash` or
    `all-in-one`. These are lifecycle modes, not interchangeable tarballs.
 2. Verify native architecture, exact downloaded manifest SHA, every selected

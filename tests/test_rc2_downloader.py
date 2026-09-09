@@ -9,6 +9,7 @@ import subprocess
 import tempfile
 import threading
 import unittest
+from unittest import mock
 from urllib.parse import urlparse
 
 
@@ -22,10 +23,14 @@ class FixtureHandler(http.server.BaseHTTPRequestHandler):
     ignored_ranges = set()
     corrupt = set()
     interrupted = set()
+    truncated = set()
+    overlong = set()
     counts = {}
+    request_versions = {}
 
     def do_GET(self):  # noqa: N802
         FixtureHandler.counts[self.path] = FixtureHandler.counts.get(self.path, 0) + 1
+        FixtureHandler.request_versions.setdefault(self.path, []).append(self.request_version)
         if self.path not in self.payloads:
             self.send_error(404)
             return
@@ -38,6 +43,10 @@ class FixtureHandler(http.server.BaseHTTPRequestHandler):
         response = body[start:]
         if self.path in self.corrupt:
             response = bytes([response[0] ^ 1]) + response[1:] if response else response
+        if self.path in self.truncated:
+            response = response[: max(1, len(response) // 2)]
+        if self.path in self.overlong:
+            response = response + b"wrapper-overlong"
         self.send_response(status)
         self.send_header("Content-Length", str(len(response)))
         if status == 206:
@@ -48,7 +57,11 @@ class FixtureHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.flush()
             self.connection.shutdown(1)
             return
-        self.wfile.write(response)
+        try:
+            self.wfile.write(response)
+        except ConnectionResetError:
+            # The client deliberately closes after rejecting an overlong body.
+            pass
 
     def log_message(self, *_args):
         return
@@ -111,7 +124,10 @@ class DownloaderTests(unittest.TestCase):
         FixtureHandler.ignored_ranges = set()
         FixtureHandler.corrupt = set()
         FixtureHandler.interrupted = set()
+        FixtureHandler.truncated = set()
+        FixtureHandler.overlong = set()
         FixtureHandler.counts = {}
+        FixtureHandler.request_versions = {}
 
     def test_http_resume_with_valid_content_range(self):
         body = b"software-body-" * 90000
@@ -147,6 +163,19 @@ class DownloaderTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual((output / "interrupted.bin").read_bytes(), body)
             self.assertGreaterEqual(FixtureHandler.counts[route], 2)
+            self.assertTrue(all(version == "HTTP/1.1" for version in FixtureHandler.request_versions[route]))
+
+    def test_http_200_wrapper_truncated_and_overlong_bodies_fail_closed(self):
+        body = b"valid-object" * 5000
+        for mode in ("truncated", "overlong"):
+            with self.subTest(mode=mode), Server() as server, tempfile.TemporaryDirectory() as temporary:
+                route = f"/{mode}.bin"; FixtureHandler.payloads[route] = body
+                getattr(FixtureHandler, mode).add(route)
+                files = [entry(f"{mode}.bin", "software", body, server.base + route)]
+                manifest, expected = write_manifest(temporary, files); output = Path(temporary) / "out"; output.mkdir()
+                result = run_cli(manifest, expected, output)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertFalse((output / f"{mode}.bin").exists())
 
     def test_dataset_parts_assemble_and_retain_verified_pieces(self):
         first = b"first-part" * 50000; second = b"second-part" * 60000; body = first + second
@@ -215,6 +244,17 @@ class DownloaderTests(unittest.TestCase):
         self.assertIsNone(redirected.get_header("Host"))
         with self.assertRaises(module.DownloadError):
             handler.redirect_request(RequestFixture(), None, 302, "Found", {"Location": "http://example.test/file"}, "http://example.test/file")
+
+    def test_http11_connection_and_tls_policy_are_scoped(self):
+        spec = importlib.util.spec_from_file_location("bdag_download_tls", SCRIPT)
+        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+        self.assertEqual(module.HTTP11Connection._http_vsn_str, "HTTP/1.1")
+        self.assertEqual(module.HTTP11HTTPSConnection._http_vsn_str, "HTTP/1.1")
+        with mock.patch.object(module.ssl.SSLContext, "set_alpn_protocols", autospec=True) as set_alpn:
+            context = module._http11_tls_context()
+        set_alpn.assert_called_once_with(context, ["http/1.1"])
+        self.assertTrue(context.check_hostname)
+        self.assertEqual(context.verify_mode, module.ssl.CERT_REQUIRED)
 
     def test_flock_blocks_concurrent_download_without_stale_lock_deletion(self):
         body = b"locked"; lock_fd = None

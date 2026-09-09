@@ -1,58 +1,84 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>RC2 downloads: native IPFS or anonymous HTTP</title><link rel="stylesheet" href="../assets/release.css"></head><body><a class="skip-link" href="#main">Skip to guide</a><header class="site-header"><nav class="nav shell" aria-label="Guide navigation"><a class="brand" href="index.html"><img src="../assets/bdag-community-logo.svg" alt="" width="42" height="42"><span><strong>BlockDAG RC2</strong><small>Installation companion v1</small></span></a><div class="nav-links"><a href="INSTALL.html">Install</a><a href="DOWNLOADS.html">Download</a><a href="DATASETS.html">Datasets</a><a href="AGENTS.md">AI agents</a></div></nav></header><main id="main" class="section shell guide"><article class="glass"><h1 id="rc2-downloads-native-ipfs-or-anonymous-http">RC2 downloads: native IPFS or anonymous HTTP</h1>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>RC2 downloads: HTTPS IPFS first, explicit HTTP/1.1 mirror fallback</title><link rel="stylesheet" href="../assets/release.css"></head><body><a class="skip-link" href="#main">Skip to guide</a><header class="site-header"><nav class="nav shell" aria-label="Guide navigation"><a class="brand" href="index.html"><img src="../assets/bdag-community-logo.svg" alt="" width="42" height="42"><span><strong>BlockDAG RC2</strong><small>Installation companion v1</small></span></a><div class="nav-links"><a href="INSTALL.html">Install</a><a href="DOWNLOADS.html">Download</a><a href="DATASETS.html">Datasets</a><a href="MIGRATION.html">Migration</a><a href="PUBLISHER.html">Publisher</a><a href="AGENTS.md">AI agents</a></div></nav></header><main id="main" class="section shell guide"><article class="glass"><h1 id="rc2-downloads-https-ipfs-first-explicit-http11-mirror-fallback">RC2 downloads: HTTPS IPFS first, explicit HTTP/1.1 mirror fallback</h1>
 <p>This companion describes the unchanged <strong>2.1.0-rc.2</strong> release. You do not need
 a GitHub account, publisher signing key, signed manifest or central approval.
 You do need an expected SHA-256 obtained through a channel you trust. Hashes
-check bytes; they do not tell you whether a publisher deserves your trust.</p>
-<h2 id="native-ipfs">Native IPFS</h2>
-<p>Use an installed Kubo/IPFS command-line client with a running daemon:</p>
+check complete bytes; they do not establish publisher identity or migration
+compatibility. See <a href="PUBLISHER.html">publisher attribution</a> and the prominently
+<strong>NOT QUALIFIED</strong> <a href="MIGRATION.html">RC65 migration guide</a>.</p>
+<h2 id="primary-native-ipfs">Primary: native IPFS</h2>
+<p>Use an installed Kubo/IPFS command-line client with a running daemon. This is a
+separate transport from HTTPS and requires an IPFS client:</p>
 <pre><code class="language-sh">ipfs get /ipfs/bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq -o rc2-software
 cd rc2-software
 printf '%s  %s\n' '233ac434c70efa6f928ddb1ceb21bb4862cba73ef1bd27ca918ea17370620c3b' SHA256SUMS | sha256sum -c -
 sha256sum -c SHA256SUMS
 </code></pre>
-<p>The page's native links also work in IPFS-capable browsers. Ordinary HTTP IPFS
-gateways are optional and may throttle or challenge requests. A gateway error
-does not mean the CID has changed. Use another transport, not a different hash.</p>
-<h2 id="http-software-mirror-with-resume">HTTP software mirror with resume</h2>
-<p>Download <code>bdag-download.py</code>, <code>downloads.json</code> and <code>COMPANION-SHA256SUMS</code> from this
-directory. Inspect the small helper before running it. Check the helper against
-the companion checksums and select the published manifest hash below. Python 3
-on Linux is sufficient; no package manager or login is needed for downloads.</p>
-<pre><code class="language-sh">sha256sum -c COMPANION-SHA256SUMS --ignore-missing
-python3 bdag-download.py \
+<p>The companion page's native <code>ipfs://</code> buttons remain the immutable-object path.
+The HTTPS gateway convenience link is optional and may throttle or challenge
+requests. A gateway error does not mean the CID changed.</p>
+<h2 id="fallback-direct-https-mirror-with-forced-http11">Fallback: direct HTTPS mirror with forced HTTP/1.1</h2>
+<p>The page's direct HTTPS mirror is a labelled fallback to the native IPFS path.
+The mirror URL and expected hash must come from the separately validated
+<code>downloads.json</code>; do not invent a release URL. Ordinary browser links are only
+convenience links and cannot force an HTTP version. Every <code>curl</code> example below
+uses explicit HTTP/1.1, HTTPS-only redirects, bounded time/retries, a fresh
+<code>.partial</code> destination, complete size/hash verification, and a non-clobbering
+final rename. A HTTP 200 page, service-worker shell or same-size wrong payload
+fails the expected full-byte check.</p>
+<p>Bootstrap the helper and manifest from the visible HTTPS IPFS/mirror page, then
+inspect the helper before running it:</p>
+<pre><code class="language-sh">mkdir rc2-tools
+cd rc2-tools
+BASE='https://blockdagengineering.github.io/bdag-ipfs-release-page/releases/2.1.0-rc.2/install-v1'
+for name in bdag-download.py downloads.json COMPANION-SHA256SUMS; do
+  test ! -e &quot;$name&quot; &amp;&amp; test ! -e &quot;$name.partial&quot; &amp;&amp; curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 120 --retry 2 --output &quot;$name.partial&quot; &quot;$BASE/$name&quot;
+done
+while read -r hash name; do test -z &quot;$name&quot; || printf '%s  %s\n' &quot;$hash&quot; &quot;$name.partial&quot; | sha256sum -c -; done &lt; COMPANION-SHA256SUMS
+for name in bdag-download.py downloads.json COMPANION-SHA256SUMS; do test ! -e &quot;$name&quot; &amp;&amp; mv -n -- &quot;$name.partial&quot; &quot;$name&quot;; done
+</code></pre>
+<p>The manifest's software and dataset URLs are the exact GitHub Release assets.
+The pinned manifest SHA-256 is
+<code>54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c</code>:</p>
+<pre><code class="language-sh">python3 bdag-download.py \
   --manifest downloads.json \
   --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
   --output-dir rc2-software --select software --transport http
 cd rc2-software
 sha256sum -c SHA256SUMS
 </code></pre>
-<p>This fetches the complete 26-file software tree, including all ten archives,
-both architectures and their release metadata. Re-running resumes partial
-transfers and skips already verified complete files. A mismatched existing
-destination is reported, never silently overwritten. Preserve it as evidence
-or choose a fresh output directory.</p>
-<p>To fetch just one file, add <code>--file artifacts/NAME_FROM_THE_MANIFEST</code>. For
-installation, use the complete metadata tree and your architecture's full ZIP,
-not just a component tarball. AMD64 means x86-64; ARM64 means AArch64. The helper
-can also use <code>--transport ipfs</code> with the same pinned manifest and expected bytes.</p>
-<p>Direct browser mirror downloads have an <code>artifacts__</code> filename prefix because
-GitHub Release assets are a flat directory. Rename a browser-downloaded archive
-to the original name displayed on the page before using a name-based checksum
-command. The helper restores the correct filenames and directories automatically.</p>
-<p>The HTTP mirror is a free public GitHub Release asset store. It is not GitHub
-Packages, Git LFS or a mandatory trust service. Native IPFS remains independent.</p>
-<h2 id="optional-dataset-resumable-in-13-parts">Optional dataset, resumable in 13 parts</h2>
+<p>The helper explicitly issues HTTP/1.1 for HTTP and HTTPS, limits HTTPS ALPN to
+<code>http/1.1</code>, validates certificates, rejects HTTPS-to-HTTP redirects, resumes
+only a valid range, checks the complete expected size and SHA-256, and refuses
+to overwrite an existing mismatched file. It downloads the complete 26-file
+software tree, including all ten archives and both architectures. Dataset
+selection and all thirteen pieces use the same bounded HTTP/1.1 helper.</p>
+<p>For a single software selection, the generated page command uses the validated
+manifest URL and this shape (replace the URL, filename, size and hash only from
+that manifest; never copy a browser URL by hand):</p>
+<pre><code class="language-sh">test ! -e 'corechain-2.1.0-rc.2-linux-amd64.tar.gz' &amp;&amp; test ! -e 'corechain-2.1.0-rc.2-linux-amd64.tar.gz.partial'
+curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 14400 --retry 4 --output 'corechain-2.1.0-rc.2-linux-amd64.tar.gz.partial' 'https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/artifacts__corechain-2.1.0-rc.2-linux-amd64.tar.gz'
+printf '%s  %s\n' '3f0e50181c5d45c6ff8d4e0ad8892db930a08e26484f6949fe6cec3e2e011c0d' 'corechain-2.1.0-rc.2-linux-amd64.tar.gz.partial' | sha256sum -c -
+test ! -e 'corechain-2.1.0-rc.2-linux-amd64.tar.gz' &amp;&amp; mv -n -- 'corechain-2.1.0-rc.2-linux-amd64.tar.gz.partial' 'corechain-2.1.0-rc.2-linux-amd64.tar.gz'
+</code></pre>
+<p>The page generates the same safe form for all ten architecture/component
+selections and displays the original filename and expected SHA-256. A browser
+download may use a flat <code>artifacts__</code> name; the explicit command restores the
+manifest filename before checksum use. The helper is preferred for the complete
+tree and for resumable transfers.</p>
+<h2 id="optional-dataset-one-snapshot-in-thirteen-ordered-parts">Optional dataset: one snapshot in thirteen ordered parts</h2>
 <pre><code class="language-sh">python3 bdag-download.py \
   --manifest downloads.json \
   --expect-manifest-sha256 54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c \
   --output-dir rc2-dataset --select dataset --transport http
 </code></pre>
 <p>There is <strong>one accepted bootstrap dataset</strong>, not thirteen datasets. The pieces
-are numbered in order; twelve are 1 GiB and the last is 1,046,397,850 bytes. The
-helper verifies each piece, retains it for resume, assembles one <code>.bdsnap</code>, then
-checks the original full SHA-256. It also downloads the separate dataset records.
-Do not import an individual part or merely concatenate files in wildcard order.</p>
+are numbered in order; twelve are 1 GiB and the last is 1,046,397,850 bytes.
+The helper verifies each piece, retains it for resume, assembles one <code>.bdsnap</code>,
+then checks the original full SHA-256. It also downloads separate dataset
+records. Do not import an individual part or concatenate files in wildcard
+order. The generated page's dataset copy guidance uses the same explicit curl
+shape for each manifest-bound part when a direct part is selected.</p>
 <p>Native IPFS supplies the same snapshot as one file:</p>
 <pre><code class="language-sh">ipfs get /ipfs/bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u/blockdag-chain1404-order20821036-20260907.bdsnap -o blockdag-chain1404-order20821036-20260907.bdsnap
 printf '%s  %s\n' '8f7b093b73a7fe390d53d275f5d4b7d69d32aea96220b19a3e2cc54804a5d608' blockdag-chain1404-order20821036-20260907.bdsnap | sha256sum -c -
@@ -61,7 +87,9 @@ printf '%s  %s\n' '8f7b093b73a7fe390d53d275f5d4b7d69d32aea96220b19a3e2cc54804a5d
 additional working space: the snapshot records contain about 45.7 GB of
 uncompressed key/value data; database compression, compaction and subsequent
 chain growth change the final disk requirement. Budget at least 90 GB free for
-download/import workspace <strong>in addition to</strong> your filesystem reserve and any
-retained rollback. This is an estimate, not an upper bound for future chain growth.</p>
-<p>Continue with <a href="DATASETS.html">dataset validation</a>. Downloading is not installation,
-activation, peer synchronization or permission to overwrite existing data.</p></article></main><footer><div class="shell"><a href="../index.html">Community release page</a> · <a href="DOWNLOADS.md">Plain-text source</a></div></footer></body></html>
+download/import workspace in addition to filesystem reserve and retained
+rollback. This is an estimate, not an upper bound for future growth.</p>
+<p>Continue with <a href="DATASETS.html">dataset validation</a>. Downloading is not
+installation, activation, peer synchronization or permission to overwrite
+existing data. For role-specific installation see <a href="INSTALL.html">INSTALL.html</a>,
+and for AI planning see <a href="MIGRATION-AGENTS.html">MIGRATION-AGENTS.html</a>.</p></article></main><footer><div class="shell"><a href="../index.html">Community release page</a> · <a href="DOWNLOADS.md">Plain-text source</a></div></footer></body></html>

@@ -1,0 +1,45 @@
+{
+  "schema": "blockdag.rc2.publisher/v1",
+  "release": "2.1.0-rc.2",
+  "publication": {
+    "channel": "https://github.com/BlockdagEngineering/bdag-ipfs-release-page",
+    "maintainer_account": "https://github.com/jeremyharkness",
+    "authenticated_statement_issue": "https://github.com/BlockdagEngineering/bdag-ipfs-release-page/issues/9",
+    "statement_type": "authenticated GitHub account publication statement",
+    "signature_status": "absent/optional",
+    "cryptographic_signature": false,
+    "mandatory_account_or_approval": false,
+    "identity_claim": "The named GitHub account is attributed to publication; no independently verified natural-person identity or project-wide endorsement is inferred.",
+    "independent_reproducible_build": false
+  },
+  "bindings": {
+    "software_cid": "bafybeicem6wyor5s4xq7436nnhfr2uj7ydh357tfdh3nzbziw7lx5v2taq",
+    "dataset_cid": "bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u",
+    "original_release_record_sha256": "468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2",
+    "original_records": {
+      "records/bootstrap-peers.json": "c5c6c63412156ef03380c4a926bf8b5139dc0791957351255e0b6a30e75c0166",
+      "records/dataset-acceptance.json": "235135c30a111b62b9b7115e84499c06620052917810e19c83b64e4b1f8a1852",
+      "records/mining-acceptance.json": "d29cc56572a4ce1598c82222a9da22fed7ab10ed87fee21ea6ebedd88d91f05b",
+      "records/release.json": "468b9390d209cda3c12453c81642daa6f2e4de1d2ec6e8e8295e23f8b588b0c2",
+      "records/software-SHA256SUMS": "233ac434c70efa6f928ddb1ceb21bb4862cba73ef1bd27ca918ea17370620c3b"
+    },
+    "distribution_manifest_sha256": "54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c",
+    "dataset_manifest_sha256": "eb668d4d93f7ed5d1a6f9dbf516bf00d33dc4103cfbb660790621f4e06a980a4",
+    "dataset_sha256": "8f7b093b73a7fe390d53d275f5d4b7d69d32aea96220b19a3e2cc54804a5d608",
+    "dataset_bytes": 13931299738,
+    "source_commits": {
+      "corechain": {"repository": "BlockdagEngineering/blockdag-corechain", "commit": "504b617c5becf7961ed1c23667d7c9ac9db4920b"},
+      "pool": {"repository": "BlockdagEngineering/pool", "commit": "53ccde3c1c2de14b591fcae47dddffa7b4b68884"},
+      "dashboard": {"repository": "BlockdagEngineering/redis-dash", "commit": "97ecbfa19365c6f7ac46787a9726d0ac7df0e64e"},
+      "stack": {"repository": "BlockdagEngineering/stack", "commit": "25368020b3499969eb04b36ffc290c612d218b4e"}
+    }
+  },
+  "policy": {
+    "http": {"cli": "curl --http1.1", "https_only_redirects": true, "complete_size_and_sha256_required": true, "non_clobbering": true},
+    "browser_links": "convenience only; cannot force HTTP version",
+    "native_ipfs": "separate transport requiring an IPFS client",
+    "rc65_migration": "not_qualified",
+    "migration_testing": "not performed",
+    "self_reference": "excluded; final page CID, reviewed source commit, publisher.json SHA-256 and companion checksum SHA-256 are bound by the authenticated issue statement after publication"
+  }
+}

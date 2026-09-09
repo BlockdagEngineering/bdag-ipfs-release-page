@@ -2,7 +2,27 @@ import {RECORD_SHA256} from './record-binding.mjs';
 
 export const DOWNLOADS_SHA256 = '54295bdbffb45d39af214c37ed627372ded3c039366a85138643ab75fbcf504c';
 const ROOT = 'https://github.com/BlockdagEngineering/bdag-ipfs-release-page/releases/download/jeremy%2Fdistribution%2F2.1.0-rc.2-install-v1/';
+export const MIRROR_ROOT = ROOT;
 const hex = bytes => [...new Uint8Array(bytes)].map(n => n.toString(16).padStart(2, '0')).join('');
+
+const shellQuote = value => `'${String(value).replaceAll("'", "'\\''")}'`;
+
+export function buildMirrorCommand(file) {
+  if (!file || !file.urls?.length || !/^[0-9a-f]{64}$/.test(file.sha256)) return '';
+  let url;
+  try { url = new URL(file.urls[0]); } catch { return ''; }
+  if (url.protocol !== 'https:' || url.search || url.hash || !url.href.startsWith(ROOT) || url.href.slice(ROOT.length).includes('/')) return '';
+  const name = file.path.split('/').at(-1);
+  const partial = `${name}.partial`;
+  const qName = shellQuote(name);
+  const qPartial = shellQuote(partial);
+  return [
+    `test ! -e ${qName} && test ! -e ${qPartial}`,
+    `curl --http1.1 --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 14400 --retry 4 --output ${qPartial} ${shellQuote(file.urls[0])}`,
+    `printf '%s  %s\\n' '${file.sha256}' ${qPartial} | sha256sum -c -`,
+    `test ! -e ${qName} && mv -n -- ${qPartial} ${qName}`,
+  ].join('\n');
+}
 
 export function assertDistribution(value, release) {
   if (value?.schema !== 'blockdag.downloads/v1' || value.version !== release.version ||
@@ -33,7 +53,7 @@ export function assertDistribution(value, release) {
   return value;
 }
 
-export async function enableDistribution(release, getArtifact) {
+export async function enableDistribution(release, getArtifact, setCommand = () => {}) {
   const status = document.getElementById('distribution-status');
   const button = document.getElementById('mirror-download');
   try {
@@ -43,7 +63,13 @@ export async function enableDistribution(release, getArtifact) {
     if (hex(await crypto.subtle.digest('SHA-256', bytes)) !== DOWNLOADS_SHA256) throw new Error('Manifest SHA-256 mismatch');
     const manifest = assertDistribution(JSON.parse(new TextDecoder().decode(bytes)), release);
     button.disabled = false;
-    for (const id of ['architecture', 'component']) document.getElementById(id).addEventListener('change', () => { button.disabled = !getArtifact(); });
+    const updateCommand = () => {
+      const current = getArtifact();
+      const file = current && manifest.files.find(f => f.path === current.path && f.sha256 === current.sha256);
+      setCommand(file ? buildMirrorCommand(file) : 'Commands remain locked until a verified artifact is selected.');
+    };
+    for (const id of ['architecture', 'component']) document.getElementById(id).addEventListener('change', () => { button.disabled = !getArtifact(); updateCommand(); });
+    updateCommand();
     button.addEventListener('click', () => {
       const current = getArtifact();
       const file = current && manifest.files.find(f => f.path === current.path && f.sha256 === current.sha256);
