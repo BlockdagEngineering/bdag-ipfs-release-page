@@ -10,6 +10,15 @@ const read = (relative) => fs.readFileSync(new URL(relative, root), 'utf8');
 const release = JSON.parse(read('records/release.json'));
 const distribution = JSON.parse(read('install-v1/downloads.json'));
 
+test('public HTTPS IPNS entry points use the exact owner name and HTML path', () => {
+  const expected = 'https://dweb.link/ipns/k51qzi5uqu5di3hhaj5p3etixlote527k0yqvxyq83j3yyo0anf8tan8e462tn/index.html';
+  for (const path of ['index.html', 'install-v1/DOWNLOADS.md', 'install-v1/DOWNLOADS.html']) {
+    const links = read(path).match(/https:\/\/dweb\.link\/ipns\/[^\s"`<>]+/g);
+    assert(links?.length, path + ' missing HTTPS IPNS entry');
+    for (const link of links) assert.equal(link, expected, path);
+  }
+});
+
 test('generated software commands are explicit HTTP/1.1 and non-clobbering for all selections', () => {
   for (const architecture of ARCHITECTURES) for (const component of COMPONENTS) {
     const artifact = selectArtifact(release, architecture, component);
