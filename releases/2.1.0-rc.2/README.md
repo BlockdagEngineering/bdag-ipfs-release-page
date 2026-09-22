@@ -42,6 +42,20 @@ fresh independent import and semantic reinspection. This is a bootstrap dataset,
 not a claim of complete historical archive state; ordinary catch-up remains
 necessary.
 
+## RC2 full archive
+
+The full archive is published separately from the software and bootstrap
+dataset. The latest verified generation is `20260922T151629Z-30f5c0b6`.
+
+- Dataset CID: `bafybeidvwvoumzeqva5fmkhxgnzbjd6alfdtedd2vmib67gdxx3puvxypm`
+- Publication CID: `bafybeihbqvosweft7u4efdlwuegnenlg4wk67owrbpxhfqp23ou5p726tq`
+- IPNS: `k51qzi5uqu5dk34tmn07pm0kiew7jtupqhrngaqk5117fpohmok058y1xup5gq`
+
+See the [IPNS publication record](https://ipfs.io/ipns/k51qzi5uqu5dk34tmn07pm0kiew7jtup5gq)
+or the [immutable publication record](https://ipfs.io/ipfs/bafybeihbqvosweft7u4efdlwuegnenlg4wk67owrbpxhfqp23ou5p726tq).
+Treat the dataset and publication CIDs as immutable and IPNS only as the
+current pointer; verify the publication record and manifest before import.
+
 ## Download software
 
 Use the software directory CID in the release record:
