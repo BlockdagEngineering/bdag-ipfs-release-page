@@ -89,3 +89,33 @@ test('bootstrap examples pin only fetched execution inputs and page wiring keeps
   assert.match(js, /value\.includes\('curl --http1\.1'\)/);
   assert.ok(js.includes('wc -c < \\"$SNAP\\"'));
 });
+
+test('RC2 page clearly separates the normal bootstrap dataset from the full archive', () => {
+  const page = read('index.html');
+  const readme = read('README.md');
+  const datasets = read('install-v1/DATASETS.md');
+  const downloads = read('install-v1/DOWNLOADS.md');
+  const normalCid = 'bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u';
+  const normalName = 'blockdag-chain1404-order20821036-20260907.bdsnap';
+  const fullCid = 'bafybeidvwvoumzeqva5fmkhxgnzbjd6alfdtedd2vmib67gdxx3puvxypm';
+  const publicationCid = 'bafybeihbqvosweft7u4efdlwuegnenlg4wk67owrbpxhfqp23ou5p726tq';
+  const fullIpns = 'k51qzi5uqu5dk34tmn07pm0kiew7jtupqhrngaqk5117fpohmok058y1xup5gq';
+  assert.match(page, /Choose your chain data/);
+  assert.match(page, /Normal RC2 bootstrap dataset/);
+  assert.match(page, new RegExp(normalCid));
+  assert.match(page, new RegExp(normalName));
+  assert.match(page, new RegExp(`ipfs://${normalCid}/${normalName}`));
+  assert.match(page, /RC2 full archive/);
+  assert.match(page, new RegExp(fullCid));
+  assert.match(page, new RegExp(publicationCid));
+  assert.match(page, new RegExp(fullIpns));
+  assert.match(page, /approximately 379 GiB/);
+  assert.match(readme, new RegExp(normalCid));
+  assert.match(readme, new RegExp(fullIpns));
+  assert.match(datasets, /Separate full archive for archive operators/);
+  assert.match(downloads, /Separate full archive: IPFS only/);
+  for (const text of [page, readme, datasets, downloads]) {
+    assert.doesNotMatch(text, /does not provide a second compact or archive variant/i);
+    assert.doesNotMatch(text, /PENDING_PUBLICATION/);
+  }
+});

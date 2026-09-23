@@ -19,9 +19,9 @@ private copy of the blockchain database.
 `blockdag-chain1404-order20821036-20260907.bdsnap` is a format-4 full-bootstrap
 snapshot containing **native chain plus EVM state** for mainnet, Chain ID 1404.
 It is not a database of pool accounting, keys, workers or ASIC configuration,
-and it is not a promise of complete historical archive state. This release does
-not provide a second compact or archive variant. Older archive choices in
-unchanged packaged documents refer to other releases and do not apply here.
+and it is not a promise of complete historical archive state. The separate RC2
+full archive below is an operator-maintained IPFS publication, not a second
+bootstrap snapshot or a replacement for this accepted normal dataset.
 
 - Size: 13,931,299,738 bytes.
 - SHA-256: `8f7b093b73a7fe390d53d275f5d4b7d69d32aea96220b19a3e2cc54804a5d608`.
@@ -34,6 +34,23 @@ The snapshot is frozen at that boundary. Ordinary compatible-peer catch-up is
 still required before mining. Advertised bootstrap peers are dated observations,
 not consensus authority or an uptime guarantee. Preserve owner-configured peers,
 normal discovery and all Chain ID/genesis and mining payout checks.
+
+## Separate full archive for archive operators
+
+The full archive is approximately 379 GiB for the current generation and is for
+historical access, archive queries, and archive-node recovery. It is not needed
+for an ordinary node, pool-only deployment, or dashboard-only deployment. Do
+not import it over a running node or over this normal bootstrap dataset.
+
+- Dataset CID: `bafybeidvwvoumzeqva5fmkhxgnzbjd6alfdtedd2vmib67gdxx3puvxypm`.
+- Current publication: `k51qzi5uqu5dk34tmn07pm0kiew7jtupqhrngaqk5117fpohmok058y1xup5gq`.
+- Generation: `20260922T151629Z-30f5c0b6`.
+- [Open the publication record](https://ipfs.io/ipns/k51qzi5uqu5dk34tmn07pm0kiew7jtup5gq).
+- [Open the full archive CID](ipfs://bafybeidvwvoumzeqva5fmkhxgnzbjd6alfdtedd2vmib67gdxx3puvxypm).
+
+Read and verify the publication record and manifest before retrieving or
+importing the archive. IPNS is the current mutable pointer; the dataset CID is
+the immutable content identity.
 
 ## Safe import and semantic verification
 

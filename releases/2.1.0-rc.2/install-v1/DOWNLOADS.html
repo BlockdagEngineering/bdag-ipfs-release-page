@@ -152,6 +152,20 @@ uncompressed key/value data; database compression, compaction and subsequent
 chain growth change the final disk requirement. Budget at least 90 GB free for
 download/import workspace in addition to filesystem reserve and retained
 rollback. This is an estimate, not an upper bound for future growth.</p>
+<h2 id="separate-full-archive-ipfs-only">Separate full archive: IPFS only</h2>
+<p>The normal bootstrap above is the currently released dataset for ordinary new
+nodes. The separate full archive is approximately 379 GiB and is intended for
+archive operators, historical queries, and archive-node recovery. It is not one
+of the thirteen bootstrap parts and must not be imported over a running node.</p>
+<ul>
+<li>Dataset CID: <code>bafybeidvwvoumzeqva5fmkhxgnzbjd6alfdtedd2vmib67gdxx3puvxypm</code>.</li>
+<li>Current IPNS publication: <code>https://ipfs.io/ipns/k51qzi5uqu5dk34tmn07pm0kiew7jtupqhrngaqk5117fpohmok058y1xup5gq</code>.</li>
+</ul>
+<p>Use the publication record to verify the current dataset CID and manifest before
+retrieving the full archive with a native IPFS client:</p>
+<pre><code class="language-sh">ipfs name resolve k51qzi5uqu5dk34tmn07pm0kiew7jtupqhrngaqk5117fpohmok058y1xup5gq
+ipfs get /ipfs/bafybeidvwvoumzeqva5fmkhxgnzbjd6alfdtedd2vmib67gdxx3puvxypm -o rc2-full-archive
+</code></pre>
 <p>Continue with <a href="DATASETS.html">dataset validation</a>. Downloading is not
 installation, activation, peer synchronization or permission to overwrite
 existing data. For role-specific installation see <a href="INSTALL.html">INSTALL.html</a>,

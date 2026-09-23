@@ -42,10 +42,27 @@ fresh independent import and semantic reinspection. This is a bootstrap dataset,
 not a claim of complete historical archive state; ordinary catch-up remains
 necessary.
 
+## Dataset choices
+
+The normal RC2 dataset is the accepted Chain 1404 bootstrap snapshot for new or
+ordinary nodes. It is one 13,931,299,738-byte file assembled from thirteen
+ordered download parts, with SHA-256
+`8f7b093b73a7fe390d53d275f5d4b7d69d32aea96220b19a3e2cc54804a5d608`.
+
+- Normal dataset CID: `bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u`
+- [Native normal dataset](ipfs://bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u/blockdag-chain1404-order20821036-20260907.bdsnap)
+- [HTTPS normal dataset gateway](https://dweb.link/ipfs/bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u/blockdag-chain1404-order20821036-20260907.bdsnap)
+
+This bootstrap is not a complete historical archive. Ordinary compatible-peer
+catch-up remains necessary.
+
 ## RC2 full archive
 
-The full archive is published separately from the software and bootstrap
-dataset. The latest verified generation is `20260922T151629Z-30f5c0b6`.
+The full archive is published separately from the software and normal bootstrap
+dataset. It is approximately 379 GiB for the current generation and is intended
+for historical access, archive queries, and archive-node recovery. Import it
+only into a stopped, new, or separately recovered archive destination.
+The latest verified generation is `20260922T151629Z-30f5c0b6`.
 
 - Dataset CID: `bafybeidvwvoumzeqva5fmkhxgnzbjd6alfdtedd2vmib67gdxx3puvxypm`
 - Publication CID: `bafybeihbqvosweft7u4efdlwuegnenlg4wk67owrbpxhfqp23ou5p726tq`
@@ -53,6 +70,9 @@ dataset. The latest verified generation is `20260922T151629Z-30f5c0b6`.
 
 See the [IPNS publication record](https://ipfs.io/ipns/k51qzi5uqu5dk34tmn07pm0kiew7jtup5gq)
 or the [immutable publication record](https://ipfs.io/ipfs/bafybeihbqvosweft7u4efdlwuegnenlg4wk67owrbpxhfqp23ou5p726tq).
+Use the [native full archive CID](ipfs://bafybeidvwvoumzeqva5fmkhxgnzbjd6alfdtedd2vmib67gdxx3puvxypm)
+or its [HTTPS gateway](https://ipfs.io/ipfs/bafybeidvwvoumzeqva5fmkhxgnzbjd6alfdtedd2vmib67gdxx3puvxypm)
+after verifying the publication record.
 Treat the dataset and publication CIDs as immutable and IPNS only as the
 current pointer; verify the publication record and manifest before import.
 

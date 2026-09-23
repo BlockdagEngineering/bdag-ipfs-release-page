@@ -185,6 +185,24 @@ chain growth change the final disk requirement. Budget at least 90 GB free for
 download/import workspace in addition to filesystem reserve and retained
 rollback. This is an estimate, not an upper bound for future growth.
 
+## Separate full archive: IPFS only
+
+The normal bootstrap above is the currently released dataset for ordinary new
+nodes. The separate full archive is approximately 379 GiB and is intended for
+archive operators, historical queries, and archive-node recovery. It is not one
+of the thirteen bootstrap parts and must not be imported over a running node.
+
+- Dataset CID: `bafybeidvwvoumzeqva5fmkhxgnzbjd6alfdtedd2vmib67gdxx3puvxypm`.
+- Current IPNS publication: `https://ipfs.io/ipns/k51qzi5uqu5dk34tmn07pm0kiew7jtupqhrngaqk5117fpohmok058y1xup5gq`.
+
+Use the publication record to verify the current dataset CID and manifest before
+retrieving the full archive with a native IPFS client:
+
+```sh
+ipfs name resolve k51qzi5uqu5dk34tmn07pm0kiew7jtupqhrngaqk5117fpohmok058y1xup5gq
+ipfs get /ipfs/bafybeidvwvoumzeqva5fmkhxgnzbjd6alfdtedd2vmib67gdxx3puvxypm -o rc2-full-archive
+```
+
 Continue with [dataset validation](DATASETS.md). Downloading is not
 installation, activation, peer synchronization or permission to overwrite
 existing data. For role-specific installation see [INSTALL.md](INSTALL.md),
