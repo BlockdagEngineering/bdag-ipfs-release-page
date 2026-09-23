@@ -11,7 +11,7 @@ const release = JSON.parse(read('records/release.json'));
 const distribution = JSON.parse(read('install-v1/downloads.json'));
 
 test('public HTTPS IPNS entry points use the exact owner name and HTML path', () => {
-  const expected = 'https://dweb.link/ipns/k51qzi5uqu5di3hhaj5p3etixlote527k0yqvxyq83j3yyo0anf8tan8e462tn/index.html';
+  const expected = 'https://dweb.link/ipns/k51qzi5uqu5djsk2c19b9zn2x84iq42r6onvw23pa6rbuym8fob22o5f72t264/index.html';
   for (const path of ['index.html', 'install-v1/DOWNLOADS.md', 'install-v1/DOWNLOADS.html']) {
     const links = read(path).match(/https:\/\/dweb\.link\/ipns\/[^\s"`<>]+/g);
     assert(links?.length, path + ' missing HTTPS IPNS entry');

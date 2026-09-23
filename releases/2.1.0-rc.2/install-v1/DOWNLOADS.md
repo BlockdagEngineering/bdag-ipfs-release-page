@@ -10,7 +10,7 @@ compatibility. See [publisher attribution](PUBLISHER.md) and the prominently
 ## HTTPS IPFS first
 
 Open the HTTPS IPFS/IPNS release page first:
-`https://dweb.link/ipns/k51qzi5uqu5di3hhaj5p3etixlote527k0yqvxyq83j3yyo0anf8tan8e462tn/index.html`.
+`https://dweb.link/ipns/k51qzi5uqu5djsk2c19b9zn2x84iq42r6onvw23pa6rbuym8fob22o5f72t264/index.html`.
 Its browser convenience links cannot force an HTTP version; use the explicit
 HTTP/1.1 command or helper below when the request protocol must be controlled.
 
