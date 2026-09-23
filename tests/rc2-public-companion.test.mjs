@@ -12,10 +12,12 @@ const distribution = JSON.parse(read('install-v1/downloads.json'));
 
 test('public HTTPS IPNS entry points use the exact owner name and HTML path', () => {
   const expected = 'https://dweb.link/ipns/k51qzi5uqu5djsk2c19b9zn2x84iq42r6onvw23pa6rbuym8fob22o5f72t264/index.html';
+  const archiveRecord = 'https://dweb.link/ipns/k51qzi5uqu5dk34tmn07pm0kiew7jtupqhrngaqk5117fpohmok058y1xup5gq/publication.json';
   for (const path of ['index.html', 'install-v1/DOWNLOADS.md', 'install-v1/DOWNLOADS.html']) {
     const links = read(path).match(/https:\/\/dweb\.link\/ipns\/[^\s"`<>]+/g);
     assert(links?.length, path + ' missing HTTPS IPNS entry');
-    for (const link of links) assert.equal(link, expected, path);
+    assert(links.includes(expected), path + ' missing community entry');
+    for (const link of links) assert.ok(link === expected || (path === 'index.html' && link === archiveRecord), path + ': ' + link);
   }
 });
 
@@ -97,8 +99,8 @@ test('RC2 page clearly separates the normal bootstrap dataset from the full arch
   const downloads = read('install-v1/DOWNLOADS.md');
   const normalCid = 'bafybeigui73pb3fnbwee5jeww3bi2c2nzkjvk4ifzafky5yyjqwilpvw2u';
   const normalName = 'blockdag-chain1404-order20821036-20260907.bdsnap';
-  const fullCid = 'bafybeidvwvoumzeqva5fmkhxgnzbjd6alfdtedd2vmib67gdxx3puvxypm';
-  const publicationCid = 'bafybeihbqvosweft7u4efdlwuegnenlg4wk67owrbpxhfqp23ou5p726tq';
+  const fullCid = 'bafybeifrdwvhj5lm5wggjgr6qu6leb2xblhlophvm73dnl5u76c3bbwgpe';
+  const publicationCid = 'bafybeihn3w3tzhsr5lxedl5jhfrsaurav2ndozxlir77xvzhh2jpxatkpe';
   const fullIpns = 'k51qzi5uqu5dk34tmn07pm0kiew7jtupqhrngaqk5117fpohmok058y1xup5gq';
   assert.match(page, /Choose your chain data/);
   assert.match(page, /Normal RC2 bootstrap dataset/);
@@ -109,7 +111,12 @@ test('RC2 page clearly separates the normal bootstrap dataset from the full arch
   assert.match(page, new RegExp(fullCid));
   assert.match(page, new RegExp(publicationCid));
   assert.match(page, new RegExp(fullIpns));
-  assert.match(page, /approximately 379 GiB/);
+  assert.match(page, /approximately 382 GiB/);
+  assert.ok(page.includes(`https://ipfs.io/ipns/${fullIpns}/publication.json`));
+  assert.ok(page.includes(`https://dweb.link/ipns/${fullIpns}/publication.json`));
+  assert.doesNotMatch(page, /k51qzi5uqu5dk34tmn07pm0kiew7jtup5gq/);
+  assert.match(page, /Do not assume the fixed snapshot shown here is the newest/);
+  assert.match(page, /independent restore qualification are not yet verified/);
   assert.match(readme, new RegExp(normalCid));
   assert.match(readme, new RegExp(fullIpns));
   assert.match(datasets, /Separate full archive for archive operators/);
